@@ -5,8 +5,8 @@ export const colors = {
     default: 'white',
     white: '#ffffff',
     black: '#131313',
+    ash: "#27282C",
     danger: "D52121",
     muted: "#818181",
     yellow: "#FFD601"
 }
-  

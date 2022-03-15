@@ -7,6 +7,13 @@ export const Button = {
         }, 
         color: '#fff',
         bg: "primary",
+      },
+      outline:{
+        color: "#fff",
+        _hover: {
+          color: '#fff',
+          bg: "ash"
+        }, 
       }
   }
 }

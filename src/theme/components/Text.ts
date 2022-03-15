@@ -6,6 +6,7 @@ export const Text = {
         cursor: "pointer"
       },
       color: '#fffff',
+      fontSize: "14"
     },
     title:{
       fontWeight: 'semibold',
