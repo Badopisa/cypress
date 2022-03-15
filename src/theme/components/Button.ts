@@ -6,9 +6,8 @@ export const Button = {
           bg: "primary"
         }, 
         color: '#fff',
-        bg: "primary"       
-        },
-
+        bg: "primary",
+      }
   }
 }
   
