@@ -1,10 +1,12 @@
 import { NextPage } from 'next'
-import { Stack, Flex, Button, Text, VStack, Img, Box, Heading, Image } from '@chakra-ui/react';
+import { Stack, Flex, SimpleGrid, Text, VStack, Img, Box, Heading, Image } from '@chakra-ui/react';
 import Hero from '@/components/Layout/Hero/Hero'
+import Banner from '@/components/Layout/Banner/Banner';
+import FeatureCard from '@/components/Elements/FeaturesCard/FeatureCard';
 
 const Home: NextPage = () => {
   return (
-      <Box w='full'>
+      <Box w='full' bg="black">
         <Hero 
           image='/images/image/hero-bg.jpg' 
           heading='Get Real Time Soccer Analysis' 
@@ -19,7 +21,7 @@ const Home: NextPage = () => {
                 <Flex w={{base:'100%',md:'30%'}} mt={0}>
                 <Heading as='h1'><Text as='span' color='yellow'>WHO </Text>WE ARE</Heading>
                 </Flex>
-                <Flex w={{base:'100%',md:'80%'}}>
+                <Flex w={{base:'100%',md:'90%'}}>
                     <Text>
                         Sonalysis is our aim at providing/delivering in real time detailed analytics of a soccer game to users right from their comfort in Africa and beyond.
                         We hope to distribute information to both technical and non-technical users by making our application user friendly and easily accessible.
@@ -28,6 +30,20 @@ const Home: NextPage = () => {
                 </Flex>
             </VStack>
           </Stack>
+        </Flex>
+        <Banner 
+            heading='Start Your Analysis' 
+            subHeading='Experience Now'
+            content='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor, nullam id aliquam.'
+        />
+        <Flex mt={{base: 10, md:0}} bg='black' color='white' h={{base:'auto', md:'100vh'}}>
+            <Flex backgroundImage='/images/image/hero-bg.jpg' w='full' h={{base:'80%',md:'80vh'}} px={{base: 4, md: 32 }} py={{base: 4, md: 24 }}>
+                <SimpleGrid columns={{base:1, md:3}} w='full' spacing={20} >
+                    <FeatureCard image='/images/image/coach.jpg' heading='A COACH' title='GET STARTED AS' />
+                    <FeatureCard image='/images/image/player.jpg' heading='A PLAYER' title='GET STARTED AS' />
+                    <FeatureCard image='/images/image/analyst.jpg' heading='CLUB ADMIN' title='GET STARTED AS'/>
+                </SimpleGrid>
+            </Flex>
         </Flex>
       </Box>
   )
