@@ -5,13 +5,10 @@ import { NAV_ITEMS } from '@/data/NavItemData'
 import Link from '@/components/Elements/Link/Link'
 
 const DesktopNav = () => {
-  const router = useRouter()
-  const [visibleMenu, setVisibleMenu] = useState<number | null>(null)
-
   return (
-    <HStack spacing={10} onMouseLeave={() => setVisibleMenu(null)}>
-      {NAV_ITEMS.map(navItem => (
-        <Link href={navItem.href}>
+    <HStack spacing={10}>
+      {NAV_ITEMS.map((navItem, index) => (
+        <Link key={index}  href={navItem.href}>
           {
             navItem.isButton? 
             <Button variant="outline">
