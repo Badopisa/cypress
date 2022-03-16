@@ -7,7 +7,6 @@ import DesktopNav from './DesktopNav'
 
 const NavBar = () => {
     const [isHamburgerOpen, setHamburger] = useState<boolean>(false)
-
   return (
     <Box
       boxShadow="sm"
@@ -18,7 +17,6 @@ const NavBar = () => {
       bgColor="ash"
       px={{ base: "20" }}
       py={{base: 5}}
-      borderBottomWidth={1}
     >
         <Flex mx="auto" align="center">
             <Box>
