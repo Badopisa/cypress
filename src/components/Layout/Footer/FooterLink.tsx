@@ -7,7 +7,7 @@ const FooterLink = () => {
 
     <SimpleGrid
         px={{base: 4, md: 12 }}
-        py={{base: 4, md: 12 }}
+        py={{base: 20, md: 24 }}
         columns={{base: 1, md: 4}}
         spacing={10}
     >

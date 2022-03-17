@@ -4,6 +4,7 @@ import Hero from '@/components/Layout/Hero/Hero'
 import Banner from '@/components/Layout/Banner/Banner';
 import FeatureCard from '@/components/Elements/Card/FeatureCard';
 import OfferCard from '@/components/Elements/Card/OfferCard';
+import FooterHero from "@/components/Layout/Footer/FooterHero"
 
 const Home: NextPage = () => {
   return (
@@ -59,6 +60,7 @@ const Home: NextPage = () => {
                 <OfferCard image="images/image/analysis.jpg" title='Highlight Reels' subTitle='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor, nullam id aliquam.'/>
             </SimpleGrid>
         </VStack>
+        <FooterHero/>
       </Box>
   )
 }
