@@ -9,7 +9,7 @@ type ChakraLinkAndNextProps = ChakraLinkProps & LinkProps
 
 const Link = ({ href, children, ...props }: ChakraLinkAndNextProps) => (
   <NextLink href={href} passHref>
-    <ChakraLink {...props}>{children}</ChakraLink>
+    <ChakraLink _hover={{textDecoration: "none"}} {...props}>{children}</ChakraLink>
   </NextLink>
 )
 
