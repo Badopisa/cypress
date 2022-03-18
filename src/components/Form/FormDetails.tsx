@@ -45,7 +45,7 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
                 {
                     hasFormFooter && <Stack>
                     <Text align={'center'}>
-                         <Link href="/reset-password"> <Text fontWeight="semibold">Forgot Password</Text></Link>
+                         <Link href="/forgot-password"> <Text fontWeight="semibold">Forgot Password</Text></Link>
                     </Text>
                 </Stack>
                 }
