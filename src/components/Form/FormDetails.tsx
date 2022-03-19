@@ -11,12 +11,13 @@ type FormDetailsType = {
     hasFormFooter?: boolean,
     hasAccount?: boolean,
     tW?: string
+    mt?: string
 }
 
-const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFormFooter=false, hasAccount=false, tW="90%"}: FormDetailsType) => {
+const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFormFooter=false, hasAccount=false, tW="90%", mt="20"}: FormDetailsType) => {
   return (
         <VStack bgColor="black" color="white" w="full" h="full"  p={{base: 20, sm: 20}}  spacing={10} alignItems="flex-start">
-            <VStack mt="20" spacing={1} alignItems="flex-start">
+            <VStack mt={mt} spacing={1} alignItems="flex-start">
                 <Text fontSize="3xl" fontWeight="semibold">
                     <chakra.span color="yellow">
                         {coloredTitle}&nbsp;
@@ -25,7 +26,7 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
                 </Text>
                 <Text w={tW}>{subTitle}</Text>
             </VStack>
-            <SimpleGrid columns={1}  rowGap={10} w="80%">
+            <SimpleGrid columns={1}  rowGap={5} w="80%">
                 {children}
                 <GridItem colSpan={1}>
                     <Button variant="action" size="lg" w="full">{buttonText}</Button>

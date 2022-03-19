@@ -10,5 +10,6 @@ export const colors = {
     muted: "#818181",
     yellow: "#FFD601",
     dark:"#000000",
-    divider: "#262626"
+    divider: "#262626",
+    blue: "#5597FF"
 }
