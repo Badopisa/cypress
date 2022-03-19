@@ -30,21 +30,15 @@ const SuccessModal = ({isOpen, onClose}: {isOpen: boolean, onClose: () => void})
                 <Text mb={10} textAlign="center">You can cancel this plan anytime</Text>
                 <PlanCard hasFooter={false} title='BASIC' benefits={yearly.basic.benefits}  price={yearly.basic.price} time='month'/>
             </ModalBody>
-
             <ModalFooter w="full">
-
                 <VStack spacing={6} w="full">
-
                     <Button bg="primary" _hover={{ bg: 'primary' }} w="full" onClick={onClose}>
                         GO TO CLUB MANAGEMENT
                     </Button>
 
                 </VStack>
-
             </ModalFooter>
-
         </ModalContent>
-
     </Modal>
     )
 }
