@@ -2,9 +2,11 @@ import React, { ReactNode } from 'react';
 import {
   Flex,
   Icon,
-  Link,
   FlexProps,
 } from '@chakra-ui/react';
+
+import Link from '@/components/Elements/Link/Link'
+
 
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
@@ -12,10 +14,11 @@ import { ReactText } from 'react';
 interface NavItemProps extends FlexProps {
     icon: IconType;
     children: ReactText;
+    link: string
 }
-const DashboardNavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const DashboardNavItem = ({ icon, children,link, ...rest }: NavItemProps) => {
     return (
-      <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+      <Link href={link} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
         <Flex
           align="center"
           p="8"

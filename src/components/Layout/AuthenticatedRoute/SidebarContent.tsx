@@ -33,7 +33,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Flex>
         <Divider mb="5" color="divider"/>
         {LinkItems.map((link) => (
-          <DashboardNavItem key={link.name} icon={link.icon}>
+          <DashboardNavItem link={link.link} key={link.name} icon={link.icon}>
             {link.name}
           </DashboardNavItem>
         ))}

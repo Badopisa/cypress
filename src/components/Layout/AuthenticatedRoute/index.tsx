@@ -37,7 +37,7 @@ export const authenticatedRoute = <P extends object>(
             </DrawerContent>
           </Drawer>
           <MobileNav onOpen={onOpen} />
-          <Box ml={{ base: 0, md: 60 }} px="12">
+          <Box ml={{ base: 0, md: 60 }} px={{ base: 4, md: 20 }}>
             <WrappedComponent {...props} />
           </Box>
         </Box>

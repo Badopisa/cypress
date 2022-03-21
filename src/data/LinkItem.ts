@@ -11,13 +11,14 @@ import {
 type LinkItemProps  = {
     name: string;
     icon: IconType;
+    link: string
 }
 
 export const LinkItems: Array<LinkItemProps> = [
-{ name: 'Dashboard', icon: FaHome },
-{ name: 'Analytics', icon: FaChartPie },
-{ name: 'Messages', icon: FaCommentDots },
-{ name: 'Recruitment', icon: FaUserAlt },
-{ name: 'Club Management', icon: FaUserTie },
-{ name: 'Logout', icon: FaSignOutAlt },
+{ name: 'Dashboard', icon: FaHome, link: "/dashboard" },
+{ name: 'Analytics', icon: FaChartPie, link: "/dashboard"  },
+{ name: 'Messages', icon: FaCommentDots, link: "/dashboard"  },
+{ name: 'Recruitment', icon: FaUserAlt, link: "/dashboard"  },
+{ name: 'Club Management', icon: FaUserTie, link: "/dashboard/club-management"  },
+{ name: 'Logout', icon: FaSignOutAlt, link: "/dashboard"  },
 ];
