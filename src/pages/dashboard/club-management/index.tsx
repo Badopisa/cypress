@@ -22,6 +22,7 @@ import {
 } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
+import { useRouter } from 'next/router';
 
 const boxStyles = {
     display: 'flex',
@@ -39,6 +40,12 @@ const TabSelectedStyle = {
 }
 
 const ClubManagement = () =>  {
+
+    const router = useRouter()
+
+    const handleCreateTeam = () => {
+        router.push('/dashboard/club-management/create-team')
+    }
     
   return (
     <>
@@ -85,6 +92,7 @@ const ClubManagement = () =>  {
                                     fontWeight="semibold"
                                     variant="outline"
                                     _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
+                                    onClick={handleCreateTeam}
                                 >
                                     CREATE A TEAM
                                 </Button>

@@ -8,19 +8,24 @@ import {
   VStack,
   useColorModeValue,
   Text,
-  FlexProps,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
+  Button
 } from '@chakra-ui/react';
+
 import {
   FiBell,
   FiChevronDown,
 } from 'react-icons/fi';
 
-const DashboardDesktopNav = ({  ...rest }) => {
+import {
+  FaArrowLeft
+} from 'react-icons/fa';
+
+const DashboardDesktopNav = ({hasArrow = false,  ...rest }: {hasArrow?: boolean}) => {
     return (
         <Flex
         py={6}
@@ -29,14 +34,26 @@ const DashboardDesktopNav = ({  ...rest }) => {
         justifyContent={{ base: 'space-between' }}
         {...rest}>
         <Box>
-          <VStack color="white" align="start">
-            <Text>
-                Hi Jim,
-            </Text>
-            <Text>
-                Welcome 👋
-            </Text>
-          </VStack>
+          {
+            !hasArrow ?
+            <VStack color="white" align="start">
+              <Text>
+                  Hi Jim,
+              </Text>
+              <Text>
+                  Welcome 👋
+              </Text>
+            </VStack>
+            :
+            <Button
+              size="md"
+              bg="black"
+              color="white"
+              _hover={{ border: '1px solid #131313' }}
+              leftIcon={<FaArrowLeft color="white" size="20px" />}>
+              Back
+            </Button>
+          }
         </Box>
 
         <HStack spacing={{ base: '0', md: '6' }}>
