@@ -1,22 +1,19 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
-import chakraTheme from '../theme'
-import Layout from '@/components/Layout'
-import { Provider } from 'react-redux'
-import { store } from '@/store'
-
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
+import chakraTheme from '../theme';
+import Layout from '@/components/Layout';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ChakraProvider resetCSS theme={chakraTheme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Component {...pageProps} />
       </ChakraProvider>
     </Provider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

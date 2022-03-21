@@ -8,5 +8,7 @@ export const colors = {
     ash: "#27282C",
     danger: "D52121",
     muted: "#818181",
-    yellow: "#FFD601"
+    yellow: "#FFD601",
+    lightAsh: '#474344',
+    purple: '#811aff',
 }
