@@ -18,7 +18,7 @@ export const authenticatedRoute = <P extends object>(
     const { isOpen, onOpen, onClose } = useDisclosure();
 
       return(
-        <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+        <Box minH="100vh" bg="black">
           <SidebarContent
             onClose={() => onClose}
             display={{ base: 'none', md: 'block' }}
@@ -30,15 +30,16 @@ export const authenticatedRoute = <P extends object>(
             onClose={onClose}
             returnFocusOnClose={false}
             onOverlayClick={onClose}
-            size="full">
+            size="full"
+            >
             <DrawerContent>
               <SidebarContent onClose={onClose} />
             </DrawerContent>
           </Drawer>
           <MobileNav onOpen={onOpen} />
-            <Box ml={{ base: 0, md: 60 }} p="4">
-              <WrappedComponent {...props} />
-            </Box>
+          <Box ml={{ base: 0, md: 60 }} px="12">
+            <WrappedComponent {...props} />
+          </Box>
         </Box>
          
         )

@@ -1,10 +1,11 @@
 import {
-    FiHome,
-    FiTrendingUp,
-    FiCompass,
-    FiStar,
-    FiSettings,
-  } from 'react-icons/fi';
+    FaUserAlt,
+    FaUserTie,
+    FaHome,
+    FaChartPie,
+    FaCommentDots,
+    FaSignOutAlt
+  } from 'react-icons/fa';
   import { IconType } from 'react-icons';
 
 type LinkItemProps  = {
@@ -13,9 +14,10 @@ type LinkItemProps  = {
 }
 
 export const LinkItems: Array<LinkItemProps> = [
-{ name: 'Home', icon: FiHome },
-{ name: 'Trending', icon: FiTrendingUp },
-{ name: 'Explore', icon: FiCompass },
-{ name: 'Favourites', icon: FiStar },
-{ name: 'Settings', icon: FiSettings },
+{ name: 'Dashboard', icon: FaHome },
+{ name: 'Analytics', icon: FaChartPie },
+{ name: 'Messages', icon: FaCommentDots },
+{ name: 'Recruitment', icon: FaUserAlt },
+{ name: 'Club Management', icon: FaUserTie },
+{ name: 'Logout', icon: FaSignOutAlt },
 ];

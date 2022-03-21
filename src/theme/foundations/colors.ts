@@ -12,6 +12,6 @@ export const colors = {
     dark:"#000000",
     divider: "#262626",
     blue: "#5597FF",
-    grey: "#242424"
+    grey: "#242424",
+    active:"#A257FF"
 }
-

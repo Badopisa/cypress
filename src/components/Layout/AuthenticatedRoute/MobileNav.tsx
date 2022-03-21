@@ -20,6 +20,7 @@ import {
   FiBell,
   FiChevronDown,
 } from 'react-icons/fi';
+import Logo from '@/components/Elements/Logo/Logo';
 
 interface MobileProps extends FlexProps {
 onOpen: () => void;
@@ -28,15 +29,25 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     return (
         <Flex
         ml={{ base: 0, md: 60 }}
-        px={{ base: 4, md: 4 }}
-        height="20"
+        px={{ base: 4, md: 12 }}
+        py={10}
+        // height="35"
         alignItems="center"
-        bg={useColorModeValue('white', 'gray.900')}
-        borderBottomWidth="1px"
-        borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-        justifyContent={{ base: 'space-between', md: 'flex-end' }}
+        bg="black"
+
+        justifyContent={{ base: 'space-between' }}
         {...rest}>
-        
+        <Box>
+          <VStack color="white" align="start">
+            <Text>
+                Hi Jim,
+            </Text>
+            <Text>
+                Welcome 👋
+            </Text>
+          </VStack>
+        </Box>
+        <Box>
         <IconButton
           display={{ base: 'flex', md: 'none' }}
           onClick={onOpen}
@@ -50,20 +61,20 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           fontSize="2xl"
           fontFamily="monospace"
           fontWeight="bold">
-          Logo
+          <Logo/>
         </Text>
+        
   
         <HStack spacing={{ base: '0', md: '6' }}>
           <IconButton
-            size="lg"
-            variant="ghost"
+            _hover={{bg:"black"}}
+            bg="black"
             aria-label="open menu"
-            icon={<FiBell />}
+            icon={<FiBell size="25" color="#818181"/>}
           />
           <Flex alignItems={'center'}>
             <Menu>
               <MenuButton
-                py={2}
                 transition="all 0.3s"
                 _focus={{ boxShadow: 'none' }}>
                 <HStack>
@@ -77,10 +88,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     display={{ base: 'none', md: 'flex' }}
                     alignItems="flex-start"
                     spacing="1px"
-                    ml="2">
-                    <Text fontSize="sm">Justina Clark</Text>
+                    ml="2"
+                    color="white"
+                  >
+                    <Text fontSize="sm">Drebakare</Text>
                     <Text fontSize="xs" color="gray.600">
-                      Admin
+                      Club Admin
                     </Text>
                   </VStack>
                   <Box display={{ base: 'none', md: 'flex' }}>
@@ -93,13 +106,14 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 borderColor={useColorModeValue('gray.200', 'gray.700')}>
                 <MenuItem>Profile</MenuItem>
                 <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign out</MenuItem>
+                <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
         </HStack>
+        </Box>
+        
       </Flex>
     );
   };

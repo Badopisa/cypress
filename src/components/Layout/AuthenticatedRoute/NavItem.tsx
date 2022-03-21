@@ -18,20 +18,19 @@ const DashboardNavItem = ({ icon, children, ...rest }: NavItemProps) => {
       <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
         <Flex
           align="center"
-          p="4"
-          mx="4"
-          borderRadius="lg"
+          p="8"
           role="group"
           cursor="pointer"
           _hover={{
-            bg: 'cyan.400',
+            bg: 'active',
             color: 'white',
           }}
+          color="white"
           {...rest}>
           {icon && (
             <Icon
               mr="4"
-              fontSize="16"
+              fontSize="20"
               _groupHover={{
                 color: 'white',
               }}
