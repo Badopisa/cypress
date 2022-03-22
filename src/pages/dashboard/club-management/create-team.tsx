@@ -39,6 +39,10 @@ const CreateTeam = () =>  {
 
     const router = useRouter()
 
+    const handleNext = () => {
+        router.push("/dashboard/club-management/add-team")
+    }
+
   return (
     <>
         <DashboardDesktopNav hasArrow/>
@@ -90,7 +94,7 @@ const CreateTeam = () =>  {
                             <FormErrorMessage>Location is required.</FormErrorMessage>
                         </FormControl>
                     </GridItem>
-                    <Button variant='action' w='full' fontSize='sm' fontWeight='normal' >NEXT</Button>
+                    <Button onClick={handleNext} variant='action' w='full' fontSize='sm' fontWeight='normal' >NEXT</Button>
                 </VStack>
                 </Stack>
         </Box>
