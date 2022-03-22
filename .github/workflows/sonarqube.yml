@@ -1,0 +1,48 @@
+name: Build
+on: 
+  pull_request: 
+    types: 
+      - opened
+      - synchronize
+      - reopened
+  push: 
+    branches: 
+      - dev
+jobs: 
+  build: 
+    name: Build
+    runs-on: ubuntu-latest
+    steps: 
+      - 
+        uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0
+      
+      - name: Setup Nodejs14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Install Test/Coverage Dependencies
+        run: |
+          yarn install
+      
+      - name: Test with jest
+        env:
+          NEXT_PUBLIC_API_URL: "${{ secrets.NEXT_PUBLIC_API_URL }}"
+        run: |
+          yarn test
+      - 
+        env: 
+          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          args: >
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.verbose=true
+      - 
+        env: 
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+        timeout-minutes: 240
+        uses: sonarsource/sonarqube-quality-gate-action@master
