@@ -20,22 +20,24 @@ type ExistingPlayerType = {
 	onClose: (value: boolean)=> void,
 	jersyPng: string,
 	setSelected:(value: boolean)=>void,
+	title?: string,
+	buttonTitle?: string
 }
-const ExistingPlayer = ({isOpen, onClose, jersyPng, setSelected}: ExistingPlayerType) => {
+const ExistingPlayer = ({isOpen, onClose, jersyPng, setSelected, title ="Add Existing Players", buttonTitle="ADD PLAYER"}: ExistingPlayerType) => {
 	const handleSelect = ()=>{
         setSelected(true)
     }
     return (
         <Modal isOpen={isOpen} onClose={()=>onClose(false)}>
 				<ModalOverlay />
-				<ModalContent w="auto" h="auto" bg="grey" color="white" borderRadius="18px">
+				<ModalContent w="xl" px={8} h="auto" bg="grey" color="white" borderRadius="18px">
 					<ModalHeader p="24px 24px 4px" textAlign="center" fontSize="18px" fontWeight="600">
-						Add Existing Players
+						{title}
 					</ModalHeader>
 					<ModalBody mt={5}>
 						<VStack spacing={4}>
 							<Flex direction="row" w="100%">
-								<Input id="search" name="search" type="text" placeholder="Search for your team" />
+								<Input id="search" name="search" type="text" placeholder="Search for your member" />
 								<Button leftIcon={<BsSearch />} bg="#3E3E3E" ml={3} variant="solid" />
 							</Flex>
 						</VStack>
@@ -54,7 +56,7 @@ const ExistingPlayer = ({isOpen, onClose, jersyPng, setSelected}: ExistingPlayer
 					<ModalFooter w="full" py={{base:4, md:8}}>
 						<VStack spacing={4} w="full" >
 							<Button variant='action' w="full">
-								ADD PLAYER
+								{buttonTitle}
 							</Button>
 							<Button
 								variant='outline'

@@ -113,6 +113,7 @@ const AddTeam = () =>  {
                 isOpen={select} 
                 onClose={setSelected} 
                 playerName='Kareem Benzema'
+                title="Striker"
             />
 
         </Box>

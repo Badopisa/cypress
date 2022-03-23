@@ -13,21 +13,25 @@ import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopN
 import { useRouter } from 'next/router';
 import Steps from '@/components/Team/Steps';
 import BlankTeam from '@/components/Team/BlankTeam';
-import NewPlayer from '@/components/Team/Modal/NewPlayer';
 import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
+import NewStaff from '@/components/Team/Modal/NewStaff';
 
 const AddStaff = () =>  {
     const [ create, setCreate ] = useState<boolean>(false);
 	const [ existing, setExisting ] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false)
+    const [finish, setFinish] = useState<boolean>(false)
 	const handleCreate = () => {
 		setCreate(true);
 	};
 	const handleExist = () => {
 		setExisting(true);
 	};
+    const handleFinish = () => {
+        setFinish(true)
+    }
     const router = useRouter()
 
   return (
@@ -41,7 +45,7 @@ const AddStaff = () =>  {
         </Box>
         <Box px={{base:8, md:8}} color="white">
             <Text fontSize="md" fontWeight="medium">
-                Create or add existing players
+                Create or add existing Staffs
             </Text>
             <Stack  direction={{ base: 'column', md: 'row' }} py={{base:8, md:8}} w="80%" spacing={{base:1, md:4}}>
                 <Button
@@ -84,8 +88,9 @@ const AddStaff = () =>  {
                         fontSize="sm"
                         variant='action'
                         px={{base:'80%', md:'50%'}}
+                        onClick={handleFinish}
                     >
-                        NEXT
+                        Finish Team Creation
                     </Button>
                     <Text
                         fontSize="sm"
@@ -95,16 +100,26 @@ const AddStaff = () =>  {
                 </VStack>
             </Center>
 
-            <ExistingPlayer isOpen={existing} onClose={setExisting}  jersyPng='/images/image/jersy.png' setSelected={setSelected}/>
+            <ExistingPlayer title="Add Existing Staff" buttonTitle="Add Staff" isOpen={existing} onClose={setExisting}  jersyPng='/images/image/jersy.png' setSelected={setSelected}/>
 
-            <NewPlayer isOpen={create} onClose={setCreate} />
+            <NewStaff  isOpen={create} onClose={setCreate} />
 
             <Confirmation
                 jersyPng='/images/image/jersy.png' 
                 isOpen={select} 
                 onClose={setSelected} 
                 playerName='Kareem Benzema'
+                title="Striker"
             />
+
+            <Confirmation
+                jersyPng='/images/image/confirmation.png' 
+                isOpen={finish} 
+                onClose={setFinish} 
+                playerName='Team Created!'
+                body='Sonalysis will notify those that you have newly invited via email'
+                buttonTitle="GO TO TEAM LIST"
+            />  
 
         </Box>
        
