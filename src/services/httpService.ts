@@ -1,0 +1,74 @@
+import axios from "axios";
+
+class HttpService {
+  token: string
+  baseUrl: string|undefined
+
+  constructor () {
+
+    this.token = "xxxxxx";
+
+    this.baseUrl = process.env.REACT_APP_BASE_API_URL;
+    
+  }
+
+  postData = async (payload: any ,url: string ,secure: boolean) => {
+
+    // if(secure){
+
+    //     verifyToken(this.token);
+
+    // }
+
+    const AuthStr = 'Bearer '.concat(this.token);
+
+    return axios.post(this.baseUrl + url, payload, { headers: { Authorization: AuthStr }})
+
+  };
+
+  getData = async (url: string ,secure: boolean) => {
+
+    // if(secure){
+
+    //   verifyToken(this.token);
+
+    // }
+
+    const AuthStr = 'Bearer '.concat(this.token); 
+
+    return axios.get(this.baseUrl + url, { headers: { Authorization: AuthStr } })
+
+  };
+
+
+  putData = async (formData: any,url: string, secure: boolean ) => {
+
+    // if(secure){
+
+    //   verifyToken(this.token);
+
+    // }
+
+    const AuthStr = 'Bearer '.concat(this.token); 
+
+    return axios.put(this.baseUrl + url, formData, { headers: { Authorization: AuthStr } })
+
+  };
+
+  deleteData = async (url: string, secure: boolean) => {
+
+    // if(secure){
+
+    //   verifyToken(this.token);
+
+    // }
+
+    const AuthStr = 'Bearer '.concat(this.token); 
+
+    return axios.delete(this.baseUrl + url, { headers: { Authorization: AuthStr } })
+
+  };
+  
+}
+
+export default HttpService;
