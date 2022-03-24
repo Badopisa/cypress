@@ -1,12 +1,14 @@
+import { retrieveAccessToken } from "@/utils/locaStorageActions";
+import { verifyToken } from "@/utils/verifyToken";
 import axios from "axios";
 
 class HttpService {
-  token: string
+  token: string 
   baseUrl: string|undefined
 
   constructor () {
 
-    this.token = "xxxxxx";
+    this.token = retrieveAccessToken();
 
     this.baseUrl = process.env.REACT_APP_BASE_API_URL;
     
@@ -14,11 +16,11 @@ class HttpService {
 
   postData = async (payload: any ,url: string ,secure: boolean) => {
 
-    // if(secure){
+    if(secure){
 
-    //     verifyToken(this.token);
+        verifyToken(this.token);
 
-    // }
+    }
 
     const AuthStr = 'Bearer '.concat(this.token);
 
@@ -28,11 +30,11 @@ class HttpService {
 
   getData = async (url: string ,secure: boolean) => {
 
-    // if(secure){
+    if(secure){
 
-    //   verifyToken(this.token);
+      verifyToken(this.token);
 
-    // }
+    }
 
     const AuthStr = 'Bearer '.concat(this.token); 
 
@@ -43,11 +45,11 @@ class HttpService {
 
   putData = async (formData: any,url: string, secure: boolean ) => {
 
-    // if(secure){
+    if(secure){
 
-    //   verifyToken(this.token);
+      verifyToken(this.token);
 
-    // }
+    }
 
     const AuthStr = 'Bearer '.concat(this.token); 
 
@@ -57,11 +59,11 @@ class HttpService {
 
   deleteData = async (url: string, secure: boolean) => {
 
-    // if(secure){
+    if(secure){
 
-    //   verifyToken(this.token);
+      verifyToken(this.token);
 
-    // }
+    }
 
     const AuthStr = 'Bearer '.concat(this.token); 
 
