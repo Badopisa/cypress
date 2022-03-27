@@ -44,7 +44,7 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
 
                     <>
                         <GridItem colSpan={1}>
-                            <Button variant="action" size="lg" w="full">{buttonText}</Button>
+                            <Button type="submit" variant="action" size="lg" w="full">{buttonText}</Button>
                         </GridItem>
                         <Stack >
                             {

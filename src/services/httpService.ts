@@ -10,7 +10,7 @@ class HttpService {
 
     this.token = retrieveAccessToken();
 
-    this.baseUrl = process.env.REACT_APP_BASE_API_URL;
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL;
     
   }
 
