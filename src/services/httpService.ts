@@ -3,7 +3,9 @@ import { verifyToken } from "@/utils/verifyToken";
 import axios from "axios";
 
 class HttpService {
+
   token: string 
+  
   baseUrl: string|undefined
 
   constructor () {

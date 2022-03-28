@@ -11,6 +11,7 @@ export const updateAlertMsg = (toast: any, message: MsgDataType) => {
 }
 
 export const updateIsLoading = (data: boolean) => {
+    
     return {
   
         type: actionTypes.UPDATE_LOADING_STATE,
