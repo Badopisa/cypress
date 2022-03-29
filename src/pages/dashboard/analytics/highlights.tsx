@@ -1,0 +1,237 @@
+import AllEvents from '@/components/Analytics/AllEvents';
+import LineUp from '@/components/Analytics/LineUp';
+import MatchStats from '@/components/Analytics/MatchStats';
+import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
+import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
+import {
+  allEventsData,
+  chatData,
+  matchAnalyticsType,
+  uploadedVideosData,
+} from '@/data/AnalyticsData';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  FormControl,
+  Grid,
+  GridItem,
+  HStack,
+  Img,
+  Select,
+  Spacer,
+  Stack,
+  Tab,
+  TabList,
+  Tabs,
+  Text,
+  VStack,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import analytics from '.';
+
+const TabSelectedStyle = {
+  color: 'white',
+  bg: 'primary',
+  rounded: '5px',
+};
+
+const Highlights = () => {
+  const [tab, setTab] = useState(1);
+  return (
+    <>
+      <DashboardDesktopNav hasArrow />
+      <Text color='white'>Video Analytics</Text>
+
+      <Grid
+        templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)' }}
+        gap={4}
+        color='white'
+      >
+        <GridItem colSpan={{ md: 2, base: 1 }}>
+          <VStack
+            alignItems='left'
+            w={{ base: '100%', md: '100%' }}
+            spacing={4}
+          >
+            <Tabs
+              variant='unstyled'
+              mt={{ base: 8, md: 4 }}
+              alignContent='center'
+              w={{ base: '100%', md: '100%' }}
+            >
+              <TabList
+                bg='dark'
+                color='white'
+                w={{ base: '100%', md: '100%' }}
+                rounded={5}
+                p={{ base: '0', md: '8px 16px' }}
+              >
+                <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
+                  Highlights
+                </Tab>
+                <Spacer />
+                <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
+                  Match Stats
+                </Tab>
+                <Spacer />
+                <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
+                  Line Up
+                </Tab>
+              </TabList>
+            </Tabs>
+            {tab === 1 && (
+              <>
+                <FormControl w='50%'>
+                  <Select bg='ash' outline='none' placeholder=''>
+                    <option value='option1' selected>
+                      {' '}
+                      Manchester United vs{' '}
+                    </option>
+                    <option value='option2'>Option 2</option>
+                    <option value='option3'>Option 3</option>
+                  </Select>
+                </FormControl>
+                <Wrap spacing={2} w='100%'>
+                  {matchAnalyticsType.map((data, key) => (
+                    <WrapItem key={key}>
+                      <Button variant='actionOutline' fontSize='xs'>
+                        {data}
+                      </Button>
+                    </WrapItem>
+                  ))}
+                </Wrap>
+                <Box objectFit='cover'>
+                  <Img src='/images/imgs/football-match.svg' />
+                </Box>
+
+                <Text
+                  bg='dark'
+                  p={2}
+                  borderRadius='lg'
+                  w={{ base: '100%', md: '50%' }}
+                >
+                  <span color='black'> Teams:</span>Manchester vs Chelsea
+                </Text>
+
+                <Text
+                  bg='dark'
+                  p={2}
+                  borderRadius='lg'
+                  w={{ base: '100%', md: '50%' }}
+                >
+                  Competion: Premier League
+                </Text>
+
+                <Spacer />
+
+                <AllEvents />
+                <Text fontSize={'xl'}>Mini map Birds Eye View</Text>
+                <Box>
+                  <Img src='/images/imgs/mini-map.svg' w='100%' />
+                </Box>
+              </>
+            )}
+            {tab === 2 && <MatchStats />}
+            {tab === 3 && <LineUp />}
+          </VStack>
+        </GridItem>
+        {/* @nd flex */}
+
+        <GridItem>
+          <VStack spacing={8} w={'100%'}>
+            <Box bg='dark' borderRadius='lg' w={'100%'} p={8}>
+              <VStack alignItems='left'>
+                <Text fontSize='xl'>Other analyzed videos</Text>
+                <Button
+                  variant='actionOutline'
+                  fontSize={'xs'}
+                  p={0}
+                  alignSelf='left'
+                >
+                  Upload & Analyse Videos
+                </Button>
+
+                {uploadedVideosData.map((data, key) => (
+                  <>
+                    <HStack key={key} w={{ sm: '100%', md: '100%' }} py={4}>
+                      <Flex flex={1}>
+                        <Img
+                          objectFit='cover'
+                          boxSize='100px'
+                          src={data.file}
+                          alt='football match'
+                        />
+                      </Flex>
+                      <Stack flex={1} flexDirection='column'>
+                        <Text fontSize={'sm'} fontFamily={'body'}>
+                          {data.players}
+                        </Text>
+
+                        <Text>{data.time}</Text>
+                        <Button variant='outline' fontSize={'xs'}>
+                          VIEW ANALYTICS
+                        </Button>
+                      </Stack>
+                    </HStack>
+                    <Divider />
+                  </>
+                ))}
+              </VStack>
+            </Box>
+
+            <Box bg='dark' borderRadius='lg' w={'100%'} p={3}>
+              <Text fontSize={'xl'}>Recent Chats</Text>
+
+              {chatData.map((data, index) => (
+                <>
+                  <HStack key={index} py={4}>
+                    <Box>
+                      {' '}
+                      <Avatar src='/images/imgs/avatar.svg' />
+                    </Box>
+                    <Box w='100%'>
+                      <VStack w='100%' alignItems='left'>
+                        <Flex>
+                          {' '}
+                          <Box>
+                            <VStack align='left'>
+                              <Text>{data.userName} </Text>
+                              <Text>{data.message}</Text>
+                            </VStack>
+                          </Box>
+                          <Spacer />
+                          <Box>
+                            <VStack>
+                              <Text>{data.status} </Text>
+                              <Text
+                                borderRadius='50%'
+                                w='20px'
+                                h='20px'
+                                bg='primary'
+                                align='center'
+                              >
+                                {data.noOfUnreadChats}
+                              </Text>
+                            </VStack>
+                          </Box>{' '}
+                        </Flex>
+                        <Divider />
+                      </VStack>
+                    </Box>
+                  </HStack>
+                </>
+              ))}
+            </Box>
+          </VStack>
+        </GridItem>
+      </Grid>
+    </>
+  );
+};
+
+export default authenticatedRoute(Highlights);

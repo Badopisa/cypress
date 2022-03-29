@@ -10,5 +10,10 @@ export const colors = {
     muted: "#818181",
     yellow: "#FFD601",
     lightAsh: '#474344',
-    purple: '#811aff',
+    dark: "#000000",
+    divider: "#262626",
+    blue: "#5597FF",
+    grey: "#242424",
+    active: "#A257FF",
+    offWhite: "#C0C0C0",
 }

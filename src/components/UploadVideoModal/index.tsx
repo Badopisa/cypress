@@ -52,6 +52,7 @@ const UploadVideoModal = ({
             textAlign='center'
             placeContent='center'
             border={'2px dashed'}
+            borderColor={'primary'}
             borderRadius='lg'
             p='2rem'
           >
