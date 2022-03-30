@@ -1,7 +1,7 @@
 import HttpService from '@/services/httpService'
-import { AdminRegFormData } from '@/types/AuthDataType';
+import { AdminRegFormData, LoginFormDataType } from '@/types/AuthDataType';
 
-export const clubAdminRegistration = (payload:AdminRegFormData) => {
+export const ClubAdminRegistration = (payload:AdminRegFormData) => {
   
   const http = new HttpService();
 
@@ -11,12 +11,12 @@ export const clubAdminRegistration = (payload:AdminRegFormData) => {
   
 }
 
-export const login = () => {
+export const ClubAdminLogin = (payload: LoginFormDataType) => {
 
   const http = new HttpService();
 
-  const url = "/users/login";
+  const url = "users/login";
 
-  return http.postData({}, url, false)
+  return http.postData(payload, url, false)
 
 }

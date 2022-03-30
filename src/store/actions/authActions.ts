@@ -1,6 +1,6 @@
 import * as Redux from 'redux';
-import { AdminRegFormData, UserDataType } from "@/types/AuthDataType";
-import {clubAdminRegistration} from "@/services/clubAdminService"
+import { AdminRegFormData, LoginFormDataType, UserDataType } from "@/types/AuthDataType";
+import {ClubAdminLogin, ClubAdminRegistration} from "@/services/clubAdminService"
 import * as actionTypes from "./actionTypes"
 import { updateAlertMsg, updateIsLoading } from './msgAction';
 import { saveAccessToken } from '@/utils/locaStorageActions';
@@ -14,7 +14,7 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
 
       dispatch(updateIsLoading(true))
 
-      clubAdminRegistration(payload)
+      ClubAdminRegistration(payload)
 
         .then(async (result) => {
 
@@ -29,6 +29,42 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
             dispatch(updateIsLoading(false))
 
             router.push('/admin/subscription')
+          
+        })
+        
+        .catch((err) => {
+
+            updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+
+            dispatch(updateIsLoading(false))
+
+        });
+
+    };
+
+}
+
+export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) => {
+
+    return async (dispatch:Dispatch) => {
+
+      dispatch(updateIsLoading(true))
+
+      ClubAdminLogin(payload)
+
+        .then(async (result) => {
+
+            const {data} = result
+
+            dispatch(saveAdminData(data.data.user))
+
+            updateAlertMsg(toast, {type: "success", message:"Congratulations, Login Successful"})
+
+            saveAccessToken(data.data.auth_token)
+
+            dispatch(updateIsLoading(false))
+
+            router.push('/dashboard/club-management')
           
         })
         

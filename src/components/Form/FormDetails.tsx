@@ -61,6 +61,7 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
                                 </Text>
                             }
                         </Stack>
+                    
                         
                         {
                             hasFormFooter && <Stack>
@@ -71,6 +72,7 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
                         }
                     </>
                 }
+                
             </SimpleGrid>
 
             

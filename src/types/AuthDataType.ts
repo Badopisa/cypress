@@ -26,3 +26,8 @@ export type AdminRegFormData = {
     last_name: string,
     country: string
 }
+
+export type LoginFormDataType = {
+    email: string,
+    password: string
+}
