@@ -5,7 +5,7 @@ export const updateAlertMsg = (toast: any, message: MsgDataType) => {
     toast({
         description: message.message,
         status: message.type,
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
     })
 }
