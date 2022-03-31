@@ -4,8 +4,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import chakraTheme from '../theme'
 import Layout from '@/components/Layout'
 import { Provider } from 'react-redux'
-import { store } from '@/store'
-
+import {createWrapper} from 'next-redux-wrapper'
+import store from '@/store'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -19,4 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+const makeStore = () => store;
+
+const wrapper = createWrapper(makeStore);
+
+export default wrapper.withRedux(MyApp);
+

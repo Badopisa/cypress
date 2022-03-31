@@ -13,7 +13,6 @@ const PlayerExistingCard = ({name, position, image, click}:{name:string, positio
                             {position}
                         </Text>
                     </Flex>
-
                 </Flex>
             <Spacer />
             <Button variant="outline" _hover={{ bg: '#811AFF' }} onClick={click}>SELECT</Button>

@@ -15,27 +15,14 @@ import {Text,
     Button,
     Link,
 	} from '@chakra-ui/react'
-import { AiFillPicture } from 'react-icons/ai';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { useRouter } from 'next/router';
 import Steps from '@/components/Team/Steps';
-
-const boxStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    color: 'white',
-    textShadow: '0 0 120px black',
-    px: 4,
-    background: `url("/images/image/coach.jpg") center/cover no-repeat`
-};
-
-const TabSelectedStyle = {
-     color: 'white', bg: 'primary', rounded: '5px' 
-}
+import ImageUpload from '@/components/Elements/ImageUpload';
 
 const CreateTeam = () =>  {
+
+    const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
 
     const router = useRouter()
 
@@ -55,7 +42,14 @@ const CreateTeam = () =>  {
         <Box color="white" px={{base:4, md:8}}>
             <Stack spacing={24} direction={{base:'column', md:'row'}} >
                 <VStack>
-                    <Avatar bg='dark' boxSize='7.5rem' icon={<AiFillPicture size='3.75rem' color='white' />} />
+                    <ImageUpload
+                        defaultImage="/images/image/default-user-avatar.png"
+                        w="100px"
+                        h="100px"
+                        rounded="full"
+                        setSelectedImage={setProfilePicture}
+                        selectedImage={profilePicture}
+                    />
                     <Link fontSize='sm' fontWeight='medium' color='blue'>
                         Upload Your Logo
                     </Link>

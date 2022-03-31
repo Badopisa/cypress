@@ -1,3 +1,4 @@
+import ImageUpload from '@/components/Elements/ImageUpload';
 import {
 	Button,
 	Center,
@@ -18,7 +19,7 @@ import {
 	FormControl,
     Text,
 } from '@chakra-ui/react';
-import { AiFillPicture } from 'react-icons/ai';
+import React from 'react'
 
 type NewPlayerType = {
 	isOpen: boolean,
@@ -26,7 +27,7 @@ type NewPlayerType = {
 }
 
 const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
-
+	const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
 	return (
         <Modal isOpen={isOpen} onClose={()=>onClose(false)}>
 				<ModalOverlay />
@@ -40,7 +41,14 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
 					<ModalBody>
 						<Center>
 							<VStack mb={6} mt={2}>
-								<Avatar bg="black" boxSize="80px" icon={<AiFillPicture size="30px" color="white" />} />
+							<ImageUpload
+								defaultImage="/images/image/default-user-avatar.png"
+								w="100px"
+								h="100px"
+								rounded="full"
+								setSelectedImage={setProfilePicture}
+								selectedImage={profilePicture}
+							/>
 								<Text fontSize="sm" fontWeight="bold" color="blue">
 									Upload Image
 								</Text>

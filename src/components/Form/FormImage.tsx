@@ -2,7 +2,7 @@ import React from 'react';
 import {  VStack, Stack, Text, Container, Heading} from '@chakra-ui/react';
 
 
-const FormImage = ({image, title, body, isAdmin}: {image: string, title: string, body: string, isAdmin?: boolean}) => {
+const FormImage = ({image, title, body, isAdmin, hasRole, role}: {image: string, title: string, body: string, isAdmin?: boolean, hasRole?: boolean, role?: string}) => {
 
   return(
         <VStack bgRepeat="no-repeat" backgroundSize="cover" bgImage={image} w="full" alignItems="flex-start">
@@ -32,6 +32,12 @@ const FormImage = ({image, title, body, isAdmin}: {image: string, title: string,
                     <Text fontSize="25" fontWeight="light">
                       {title}
                     </Text>
+                    {
+                      hasRole && 
+                      <Text fontSize="4xl" fontWeight="black">
+                        {role}
+                      </Text>
+                    }
                     <Text variant="title">
                       {body}
                     </Text>

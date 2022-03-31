@@ -1,8 +1,10 @@
 import React from 'react'
 import { Heading, Flex, VStack, Button, Box, Text, SimpleGrid, Center} from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 
 const FooterHero = () => {
+    const router = useRouter()
   return (
         <Center color="white">
             <Flex 
@@ -21,7 +23,7 @@ const FooterHero = () => {
                     </Text>
                 </VStack>
                 <Box py={{base: 0, md: 14}} px={{base: 0, md: 40}}>
-                    <Button variant="action" >GET STARTED</Button>
+                    <Button onClick={()=>router.push('/admin/registration')} variant="action" >GET STARTED</Button>
                 </Box>
             </SimpleGrid>
         
