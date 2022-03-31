@@ -93,11 +93,14 @@ const AddTeam = () =>  {
                         fontSize="sm"
                         variant='action'
                         px={{base:'80%', md:'50%'}}
+                        onClick={()=>router.push('/dashboard/club-management/add-staff')}
                     >
                         NEXT
                     </Button>
                     <Text
                         fontSize="sm"
+                        onClick={()=>router.back()}
+                        cursor="pointer"
                     >
                         PREVIOUS STEP
                     </Text>

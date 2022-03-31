@@ -25,14 +25,14 @@ const FooterLink = () => {
                 PRODUCT
             </Heading>
             <Text variant="linkText" align="start" fontWeight="medium" cursor="pointer"> Request a Demo </Text>
-            <Text variant="linkText"  align="start" fontWeight="medium"> Login </Text>
+            <Link href="/login"><Text variant="linkText"  align="start" fontWeight="medium"> Login </Text></Link>
             <Text variant="linkText"  align="start" fontWeight="medium"> Pricing </Text>
         </Stack>
         <Stack align={{ base: 'center', lg: 'flex-start' }}>
             <Heading size="sm" py={2}>
                 HELP
             </Heading>
-            <Text variant="linkText"  align="start" fontWeight="medium"> Getting started </Text>
+            <Link href="/admin/registration"><Text variant="linkText"  align="start" fontWeight="medium"> Getting started </Text></Link>
             <Text variant="linkText"  align="start" fontWeight="medium"> FAQs </Text>
         </Stack>
         <VStack spacing={4} color='grey' align={{ base: 'center', lg: 'flex-start' }}>

@@ -64,14 +64,14 @@ const Login = () => {
                                     required: "Password is required",
                                     minLength: { value: 4, message: "Password is Required" }
                                 })} id="password"  type="password" placeholder="At least 8+ characters"/>
-                                <InputRightElement children={<AiFillEyeInvisible color='green.500' />} />
+                                <InputRightElement><AiFillEyeInvisible color='green.500' /></InputRightElement>
                             </InputGroup>
                             <FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
                         </FormControl>
                         <Button isLoading={isLoading} type="submit" variant="action" size="lg" w="full">LOGIN</Button>
                     </form>  
                     <Text align={'center'}>
-                        Don't Have an Account? <Link href="/registration" fontWeight="semibold">Get Started</Link>
+                        Don't Have an Account? <Link href="/admin/registration" fontWeight="semibold">Get Started</Link>
                     </Text>  
                     <Text align={'center'}>
                         <Link href="/forgot-password"> <Text fontWeight="semibold">Forgot Password</Text></Link>

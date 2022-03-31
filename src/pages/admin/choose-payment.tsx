@@ -4,20 +4,21 @@ import SuccessModal from '@/components/Elements/Modal/SuccessModal';
 import {
 	Flex,
 	HStack,
-	Button,
 	useRadioGroup,
 	useDisclosure
 } from '@chakra-ui/react';
 import { FormImage, FormDetails } from '../../components/Form/index';
-
-// import SuccessfullCard from '../../components/Payment/Success';
+import {useState} from 'react'
+import { useRouter } from 'next/router';
 
 
 
 
 const PaymentMethod = () => {
 	
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [paymentLoading, setPaymentIsLoading]= useState<boolean>(false);
+    const [paymentSuccess, setPaymentSuccess]= useState<boolean>(false);
+	const router = useRouter()
 
 	const options = [
 		{
@@ -44,6 +45,20 @@ const PaymentMethod = () => {
 		onChange: console.log
 	});
 
+	const handleButtonClick = () => {
+		setPaymentIsLoading(true)
+
+		setTimeout(()=>{
+			setPaymentIsLoading(false)
+			setPaymentSuccess(true)
+		}, 2000)
+	}
+
+	const handleRedirection = () => {
+		setPaymentSuccess(false)
+		router.push('/dashboard/club-management')
+	}
+
 	return (
 		<Flex h="100vh" direction={{ base: 'column-reverse', md: 'row' }}>
 
@@ -60,8 +75,10 @@ const PaymentMethod = () => {
 				title="Payment method"
 				subTitle="Please fill in the following details to bring your dream to life"
                 hasArror={true}
+				hasOtherLinks={false}
+				handleButtonClick={handleButtonClick}
 			>
-				<HStack spacing="24px" mb="32px">
+				<HStack spacing="24px" mb="32px" >
 					{option.map((value, index) => {
 						const radio = getRadioProps({ value });
 						return (
@@ -70,8 +87,8 @@ const PaymentMethod = () => {
 					})}
 				</HStack>
 			</FormDetails>
-            <PaymentModal isOpen={false} onClose={onClose}/>
-            <SuccessModal isOpen={true} onClose={onClose}/>
+            <PaymentModal isOpen={paymentLoading} onClose={()=>setPaymentIsLoading(false)}/>
+            <SuccessModal isOpen={paymentSuccess} onClose={handleRedirection}/>
 
 		</Flex>
 	);

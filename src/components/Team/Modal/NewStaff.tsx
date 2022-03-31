@@ -1,3 +1,4 @@
+import ImageUpload from '@/components/Elements/ImageUpload';
 import {
 	Button,
 	Center,
@@ -18,7 +19,7 @@ import {
 	FormControl,
     Text,
 } from '@chakra-ui/react';
-import { AiFillPicture } from 'react-icons/ai';
+import React from 'react';
 
 type NewStaffType = {
 	isOpen: boolean,
@@ -26,6 +27,7 @@ type NewStaffType = {
 }
 
 const NewStaff = ({isOpen, onClose}: NewStaffType) => {
+	const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
 
 	return (
         <Modal isOpen={isOpen} onClose={()=>onClose(false)}>
@@ -34,13 +36,20 @@ const NewStaff = ({isOpen, onClose}: NewStaffType) => {
 					<ModalHeader py={8} textAlign="center" fontSize="lg" fontWeight="bold">
 						Invite a New Staff
 						<Text fontSize="sm" fontWeight="light">
-							Fill in a staff's details and send an invite
+							Fill in a staff details and send an invite
 						</Text>
 					</ModalHeader>
 					<ModalBody>
 						<Center>
 							<VStack mb={6} mt={2}>
-								<Avatar bg="black" boxSize="80px" icon={<AiFillPicture size="30px" color="white" />} />
+							<ImageUpload
+								defaultImage="/images/image/default-user-avatar.png"
+								w="100px"
+								h="100px"
+								rounded="full"
+								setSelectedImage={setProfilePicture}
+								selectedImage={profilePicture}
+							/>
 								<Text fontSize="sm" fontWeight="bold" color="blue">
 									Upload Image
 								</Text>

@@ -94,6 +94,8 @@ const AddStaff = () =>  {
                     </Button>
                     <Text
                         fontSize="sm"
+                        onClick={()=>router.back()}
+                        cursor="pointer"
                     >
                         PREVIOUS STEP
                     </Text>

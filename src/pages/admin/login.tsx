@@ -29,7 +29,9 @@ const Login = () => {
               <FormLabel htmlFor="password">Password</FormLabel>
               <InputGroup>
                     <Input id="password"  type="password" placeholder="At least 8+ characters"/>
-                    <InputRightElement children={<AiFillEyeInvisible color='green.500' />} />
+                    <InputRightElement>
+                      <AiFillEyeInvisible color='green.500' />
+                    </InputRightElement>
                 </InputGroup>
               <FormErrorMessage>Password is required.</FormErrorMessage>
             </FormControl>

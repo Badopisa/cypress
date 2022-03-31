@@ -111,7 +111,7 @@ const ClubManagement = () =>  {
                 <Spacer />
                 <Flex direction="row" mt={6}>
                     <InputGroup w="279px">
-                        <InputLeftElement pointerEvents="none" children={<BsSearch color="grey" />} />
+                        <InputLeftElement pointerEvents="none" ><BsSearch color="grey" /></InputLeftElement>
                         <Input type="tel" placeholder="Search for your team" />
                     </InputGroup>
                     <Button bg="grey" _hover={{color: "white"}} color="white" fontSize="sm" ml="8px">

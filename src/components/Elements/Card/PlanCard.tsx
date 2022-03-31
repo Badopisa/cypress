@@ -7,9 +7,10 @@ type PlanCardType = {
     price: number,
     time: string
     benefits: string[],
-    hasFooter?: boolean
+    hasFooter?: boolean,
+    handleSubscription?: (title:string, time:string)=>void
 }
-const PlanCard = ({title, price, time, benefits, hasFooter=true }: PlanCardType) => {
+const PlanCard = ({title, price, time, benefits, hasFooter=true, handleSubscription }: PlanCardType) => {
   return (
     <Box
       mb={4}
@@ -41,7 +42,7 @@ const PlanCard = ({title, price, time, benefits, hasFooter=true }: PlanCardType)
                 {
                     hasFooter && 
                     <Box w="80%" pt={7}>
-                        <Button w="full" variant="action">
+                        <Button onClick={()=>handleSubscription ? handleSubscription(title, time): null} w="full" variant="action">
                             CHOOSE PLAN
                         </Button>
                     </Box>
