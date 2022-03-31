@@ -14,9 +14,9 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
 
       dispatch(updateIsLoading(true))
 
-      ClubAdminRegistration(payload)
+      const result = ClubAdminRegistration(payload)
 
-        .then(async (result) => {
+        //.then(async (result) => {
 
             const {data} = result
 
@@ -30,15 +30,15 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
 
             router.push('/admin/subscription')
           
-        })
+        // })
         
-        .catch((err) => {
+        // .catch((err) => {
 
-            updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+        //     updateAlertMsg(toast, {type: "error", message: err.response.data.message})
 
-            dispatch(updateIsLoading(false))
+        //     dispatch(updateIsLoading(false))
 
-        });
+        // });
 
     };
 
@@ -50,9 +50,9 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
 
       dispatch(updateIsLoading(true))
 
-      ClubAdminLogin(payload)
+     const result =  ClubAdminLogin(payload)
 
-        .then(async (result) => {
+        //.then(async (result) => {
 
             const {data} = result
 
@@ -66,15 +66,15 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
 
             router.push('/dashboard/club-management')
           
-        })
+        // })
         
-        .catch((err) => {
+        // .catch((err) => {
 
-            updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+        //     updateAlertMsg(toast, {type: "error", message: err.response.data.message})
 
-            dispatch(updateIsLoading(false))
+        //     dispatch(updateIsLoading(false))
 
-        });
+        // });
 
     };
 
