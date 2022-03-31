@@ -19,12 +19,12 @@ export const NAV_ITEMS: NavItem[] = [
   {
     id: 3,
     label: 'BlOG',
-    href: '/blog',
+    href: '#',
   },
   {
     id: 4,
     label: 'CONTACT US',
-    href: '/contact',
+    href: '#',
   },
   {
     id: 5,

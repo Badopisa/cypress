@@ -14,7 +14,15 @@ export const Button = {
           color: '#fff',
           bg: "ash"
         }, 
-      }
+      },
+      actionWhite: {
+        _hover: {
+          color: '#fff',
+          bg: "primary"
+        }, 
+        color: 'dark',
+        bg: "white",
+      },
   }
 }
   

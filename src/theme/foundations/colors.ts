@@ -8,5 +8,10 @@ export const colors = {
     ash: "#27282C",
     danger: "D52121",
     muted: "#818181",
-    yellow: "#FFD601"
+    yellow: "#FFD601",
+    dark:"#000000",
+    divider: "#262626",
+    blue: "#5597FF",
+    grey: "#242424",
+    active:"#A257FF"
 }
