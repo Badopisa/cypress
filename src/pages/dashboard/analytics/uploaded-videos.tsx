@@ -1,3 +1,4 @@
+import Video from '@/components/Analytics/Video';
 import { uploadedVideosData } from '@/data/AnalyticsData';
 import {
   AspectRatio,
@@ -36,17 +37,7 @@ const UploadedVideos = () => {
                   cursor={'pointer'}
                 >
                   <Td border={'none'} w={'12%'}>
-                    <Box objectFit='cover' width={'100%'}>
-                      <AspectRatio ratio={1}>
-                        <ReactPlayer
-                          className='react-player'
-                          controls
-                          url={data.file}
-                          width='100%'
-                          height='100%'
-                        />
-                      </AspectRatio>
-                    </Box>
+                    <Video data={data} />
                   </Td>
                   <Td border={'none'} fontSize={'xs'}>
                     {data.players}

@@ -37,7 +37,6 @@ const AllEvents = () => {
               key={key}
             >
               <Flex flex={1} w='40%'>
-                {/* <Img objectFit='cover' src={data.file} alt='football match' /> */}
                 <Video data={data} />
               </Flex>
               <Stack flex={1} flexDirection='column' p={1} pt={2}>

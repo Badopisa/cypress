@@ -23,6 +23,7 @@ import {
 import { BsSearch } from 'react-icons/bs';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { useRouter } from 'next/router';
+import BlankTeam from '@/components/Team/BlankTeam';
 
 const boxStyles = {
     display: 'flex',
@@ -110,7 +111,7 @@ const ClubManagement = () =>  {
                 <Spacer />
                 <Flex direction="row" mt={6}>
                     <InputGroup w="279px">
-                        <InputLeftElement pointerEvents="none" children={<BsSearch color="grey" />} />
+                        <InputLeftElement pointerEvents="none" ><BsSearch color="grey" /></InputLeftElement>
                         <Input type="tel" placeholder="Search for your team" />
                     </InputGroup>
                     <Button bg="grey" _hover={{color: "white"}} color="white" fontSize="sm" ml="8px">
@@ -118,21 +119,7 @@ const ClubManagement = () =>  {
                     </Button>
                 </Flex>
             </Flex>
-            <Box mt={6} w="100%" bg="dark" borderRadius="10px" p="18px" mb={12}>
-                <Flex textAlign="center" mt="auto" direction="column">
-                    <Center mt="24px" mb="24px">
-                        <Image src="/images/image/jersy.png" alt="jersy" w="91px" h="66px" />
-                    </Center>
-                    <Text fontSize="18px" fontWeight="500" mb={4}>
-                        No team created yet
-                    </Text>
-                    <Center>
-                        <Text fontSize="14px" fontWeight="400" mb={8} w={{base:'100%',md:"30%"}}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor, nullam id aliquam.
-                        </Text>
-                    </Center>
-                </Flex>
-            </Box>
+            <BlankTeam image="/images/image/jersy.png" title="No team created yet"/>
         </Box>
     </>
   )

@@ -121,7 +121,7 @@ const Highlights = () => {
                       {' '}
                       <ReactPlayer
                         className='react-player'
-                        url='/sample.mp4'
+                        url='/manu-match.mp4'
                         width='100%'
                         height='100%'
                         playing={isPlaying}

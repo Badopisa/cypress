@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { VStack, chakra,Text, SimpleGrid, GridItem, Button, Stack, HStack } from '@chakra-ui/react';
 import Link from "@/components/Elements/Link/Link"
 import {BiArrowBack} from 'react-icons/bi'
+import { useRouter } from 'next/router';
 
 type FormDetailsType = {
     children: ReactElement,
@@ -14,16 +15,19 @@ type FormDetailsType = {
     tW?: string,
     mt?: string,
     hasArror?: boolean,
-    hasFooter?: boolean
+    hasFooter?: boolean,
+    hasOtherLinks?: boolean
+    handleButtonClick?: ()=>void
 }
 
-const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFormFooter=false, hasAccount=false, tW="90%", mt="20", hasArror, hasFooter=true}: FormDetailsType) => {
+const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFormFooter=false, hasAccount=false, tW="90%", mt="20", hasArror, hasFooter=true, hasOtherLinks=true, handleButtonClick}: FormDetailsType) => {
+    const router = useRouter()
   return (
         <VStack bgColor="black" color="white" w="full" h="full"  p={{base: 20, sm: 20}}  spacing={10} alignItems="flex-start">
             {
                 hasArror &&
-                <HStack spacing={6} py={{base:2, md:4}}>
-                    <BiArrowBack size='1.25rem'/>
+                <HStack cursor="pointer" onClick={()=>router.back()} spacing={6} py={{base:2, md:4}}>
+                    <BiArrowBack size='1.7rem'/>
                     <Text >Back</Text>
                 </HStack>
             }
@@ -44,9 +48,11 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
 
                     <>
                         <GridItem colSpan={1}>
-                            <Button variant="action" size="lg" w="full">{buttonText}</Button>
+                            <Button onClick={()=> handleButtonClick ? handleButtonClick() : null}  variant="action" size="lg" w="full">{buttonText}</Button>
                         </GridItem>
-                        <Stack >
+
+                        {
+                            hasOtherLinks && <Stack>
                             {
                                 hasAccount ?
 
@@ -57,10 +63,12 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
                                 :
 
                                 <Text align={'center'}>
-                                    Don't Have an Account? <Link href="/registration" fontWeight="semibold">Get Started</Link>
+                                    Don't Have an Account? <Link href="/admin/registration" fontWeight="semibold">Get Started</Link>
                                 </Text>
                             }
                         </Stack>
+                        }
+                    
                         
                         {
                             hasFormFooter && <Stack>
@@ -71,6 +79,7 @@ const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFor
                         }
                     </>
                 }
+                
             </SimpleGrid>
 
             

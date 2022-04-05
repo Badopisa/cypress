@@ -26,7 +26,7 @@ const Steps = ({current}: {current: number}) => {
             <Text color={current > 2 ? '#00BB4C':'#FFC300'} fontSize='lg' fontWeight='medium'>Add Your Players</Text>
         </HStack>
         <HStack mt={{base:'0.5rem'}}>
-            <CircularProgress value={100} color={current !== 3 ?'#fff': '#FFC300'}>
+            <CircularProgress value={100} color={current !== 3 ?'white': '#FFC300'}>
             <CircularProgressLabel boxSize={current > 3 ? '5rem':''}>{current > 3 ? <Image src={imageUrl} alt='checked' mt='2.5px'/>:'3'}</CircularProgressLabel>
             </CircularProgress>
             <Text color={current > 3 ? '#00BB4C':'#FFC300'} fontSize='lg' fontWeight='medium'>Backroom Staff</Text>

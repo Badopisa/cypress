@@ -24,8 +24,10 @@ import {
 import {
   FaArrowLeft
 } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 const DashboardDesktopNav = ({hasArrow = false,  ...rest }: {hasArrow?: boolean}) => {
+    const router = useRouter()
     return (
         <Flex
         py={6}
@@ -49,6 +51,7 @@ const DashboardDesktopNav = ({hasArrow = false,  ...rest }: {hasArrow?: boolean}
               size="md"
               bg="black"
               color="white"
+              onClick={()=> router.back()}
               _hover={{ border: '1px solid #131313' }}
               leftIcon={<FaArrowLeft color="white" size="20px" />}>
               Back

@@ -9,8 +9,11 @@ import {
     Image
   } from '@chakra-ui/react';
 
+import { useRouter } from 'next/router';
+
 const Hero = ({image,heading, subHeading, mouseImage}: {image: string, heading: string, subHeading: string, mouseImage: string}) => {
-return (
+    const router = useRouter()
+    return (
     <Flex
         w='full'
         h='100vh'
@@ -42,7 +45,7 @@ return (
                 >
                     {subHeading}
                 </Text>
-                <Button variant="action">
+                <Button onClick={() => router.push('/admin/registration') } variant="action">
                     Get Started
                 </Button>
                 <Link href="#about">
