@@ -1,6 +1,7 @@
 import AllEvents from '@/components/Analytics/AllEvents';
 import LineUp from '@/components/Analytics/LineUp';
 import MatchStats from '@/components/Analytics/MatchStats';
+import Video from '@/components/Analytics/Video';
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import {
@@ -10,6 +11,7 @@ import {
   uploadedVideosData,
 } from '@/data/AnalyticsData';
 import {
+  AspectRatio,
   Avatar,
   Box,
   Button,
@@ -32,6 +34,7 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import ReactPlayer from 'react-player';
 import analytics from '.';
 
 const TabSelectedStyle = {
@@ -41,7 +44,10 @@ const TabSelectedStyle = {
 };
 
 const Highlights = () => {
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState<number>(1);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [showControl, setShowControl] = useState<boolean>(false);
+
   return (
     <>
       <DashboardDesktopNav hasArrow />
@@ -105,8 +111,40 @@ const Highlights = () => {
                     </WrapItem>
                   ))}
                 </Wrap>
-                <Box objectFit='cover'>
-                  <Img src='/images/imgs/football-match.svg' />
+                <Box objectFit='cover' position={'relative'}>
+                  <AspectRatio
+                    maxW='560px'
+                    ratio={3 / 2}
+                    onMouseEnter={() => setShowControl(!showControl)}
+                  >
+                    <>
+                      {' '}
+                      <ReactPlayer
+                        className='react-player'
+                        url='/sample.mp4'
+                        width='100%'
+                        height='100%'
+                        playing={isPlaying}
+                      />
+                      <Box
+                        position={'absolute'}
+                        top={0}
+                        bottom={0}
+                        right={0}
+                        left={0}
+                        visibility={showControl ? 'visible' : 'hidden'}
+                      >
+                        {' '}
+                        <Button
+                          bg={'transparent'}
+                          _hover={{ bg: 'transparent', border: 'none' }}
+                          onClick={() => setIsPlaying(!isPlaying)}
+                        >
+                          <Img src={'/icons/play.svg'} alt={'play button'} />
+                        </Button>
+                      </Box>
+                    </>
+                  </AspectRatio>
                 </Box>
 
                 <Text
@@ -160,12 +198,7 @@ const Highlights = () => {
                   <>
                     <HStack key={key} w={{ sm: '100%', md: '100%' }} py={4}>
                       <Flex flex={1}>
-                        <Img
-                          objectFit='cover'
-                          boxSize='100px'
-                          src={data.file}
-                          alt='football match'
-                        />
+                        <Video data={data} />
                       </Flex>
                       <Stack flex={1} flexDirection='column'>
                         <Text fontSize={'sm'} fontFamily={'body'}>

@@ -33,6 +33,7 @@ import UploadVideoModal from '@/components/UploadVideoModal';
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import UploadedVideos from './uploaded-videos';
+import { spacing } from '@/theme/foundations/spacing';
 
 const TabSelectedStyle = {
   color: 'white',

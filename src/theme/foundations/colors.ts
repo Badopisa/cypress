@@ -16,4 +16,5 @@ export const colors = {
     grey: "#242424",
     active: "#A257FF",
     offWhite: "#C0C0C0",
+    deepAsh: '#515151',
 }

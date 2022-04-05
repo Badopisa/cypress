@@ -21,8 +21,11 @@ import {
   Wrap,
 } from '@chakra-ui/react';
 import React from 'react';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const PlayerDetails = () => {
+  const percentage = 65;
   return (
     <>
       <DashboardDesktopNav hasArrow />
@@ -30,8 +33,8 @@ const PlayerDetails = () => {
         <Stack spacing={20}>
           <Flex justify='space-between'>
             {' '}
-            <Avatar src='/images/imgs/degea.svg' />
-            <Stack>
+            <Avatar src='/images/imgs/player.svg' size={'2xl'} />
+            <Stack spacing={4}>
               <Button variant='action'>Send Message</Button>
               <Button variant='actionOutline'>Share Stats</Button>
             </Stack>
@@ -92,50 +95,48 @@ const PlayerDetails = () => {
             </SimpleGrid>
             <Flex mt='3rem' gap={6}>
               <Stack>
-                <Box
-                  bgImage="url('/icons/graph-pie.svg')"
-                  bgSize='cover'
-                  bgRepeat='no-repeat'
-                  bgPosition='cover'
-                  h='100px'
-                  w='100px'
-                >
-                  {' '}
-                  <Center>
-                    <Text p={10}>65%</Text>
-                  </Center>
+                <Box>
+                  <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                    strokeWidth={10}
+                    styles={buildStyles({
+                      textSize: '20px',
+                      textColor: '#fff',
+                      pathColor: '#47DC40',
+                    })}
+                  />
                 </Box>
                 <Text>Ball Possession</Text>
               </Stack>
               <Stack>
-                <Box
-                  bgImage="url('/icons/graph-pie.svg')"
-                  bgSize='cover'
-                  bgRepeat='no-repeat'
-                  bgPosition='cover'
-                  h='100px'
-                  w='100px'
-                >
-                  {' '}
-                  <Center>
-                    <Text p={10}>65%</Text>
-                  </Center>
+                <Box>
+                  <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                    strokeWidth={10}
+                    styles={buildStyles({
+                      textSize: '20px',
+                      textColor: '#fff',
+                      pathColor: '#47DC40',
+                    })}
+                  />
                 </Box>
                 <Text>Long Pass Acc</Text>
               </Stack>
               <Stack>
-                <Box
-                  bgImage="url('/icons/graph-pie.svg')"
-                  bgSize='cover'
-                  bgRepeat='no-repeat'
-                  bgPosition='cover'
-                  h='100px'
-                  w='100px'
-                >
+                <Box>
                   {' '}
-                  <Center>
-                    <Text p={10}>65%</Text>
-                  </Center>
+                  <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                    strokeWidth={10}
+                    styles={buildStyles({
+                      textSize: '20px',
+                      textColor: '#fff',
+                      pathColor: '#47DC40',
+                    })}
+                  />
                 </Box>
                 <Text>Short Pass Acc</Text>
               </Stack>

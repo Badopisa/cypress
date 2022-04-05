@@ -1,6 +1,7 @@
 
 interface UploadedType {
     file: string,
+    competition: string,
     players: string,
     time: string,
 }
@@ -28,6 +29,12 @@ interface matchStatsType {
     team1Stats: number,
     team2Stats: number,
 }
+interface playerStatsType {
+
+    statsType: string,
+    player1Stats: number,
+    player2Stats: number,
+}
 
 export const matchAnalyticsType: string[] = ['Full Match', 'Goals', 'Shot Attempts', 'Free Kicks', 'Penalties', 'Overtime', 'Long passes', 'Short passes'];
 
@@ -35,22 +42,81 @@ export const matchAnalyticsType: string[] = ['Full Match', 'Goals', 'Shot Attemp
 
 export const uploadedVideosData: UploadedType[] = [
     {
-        file: '/images/icons/empty-file.svg',
+        file: '/manu-match.mp4',
+        competition: 'Premier League',
+
         players: 'Manchester vs Chelsea',
         time: 'Just now',
     },
     {
-        file: '/images/icons/empty-file.svg',
+        file: '/manu-match.mp4',
+        competition: 'Premier League',
         players: 'Manchester vs Chelsea',
         time: '1 hour ago',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
+        competition: 'Premier League',
         players: 'Manchester vs Chelsea',
         time: '13/4/2021',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Premier League',
+        players: 'Manchester vs Chelsea',
+        time: '12/5/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
+        players: 'Manchester vs Chelsea',
+        time: '12/4/2021',
+    },
+    {
+        file: '/manu-match.mp4',
+        competition: 'Champions League',
         players: 'Manchester vs Chelsea',
         time: '12/4/2021',
     },
@@ -60,7 +126,7 @@ export const uploadedVideosData: UploadedType[] = [
 
 export const allEventsData: AllEventType[] = [
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Edsion cavani',
         playerPosition: 'Striker',
         eventType: 'Goal',
@@ -69,7 +135,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Premier League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Dame Tomes',
         playerPosition: 'Forward',
         eventType: 'Penalties',
@@ -78,7 +144,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Champions League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Paul Pogba',
         playerPosition: 'Midfielder',
         eventType: 'Pass',
@@ -87,7 +153,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Premier League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Lionel Messi',
         playerPosition: 'Forward',
         eventType: 'Free Kicks',
@@ -97,7 +163,7 @@ export const allEventsData: AllEventType[] = [
 
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Edsion cavani',
         playerPosition: 'Striker',
         eventType: 'Goal',
@@ -106,7 +172,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Premier League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Dame Tomes',
         playerPosition: 'Forward',
         eventType: 'Penalties',
@@ -115,7 +181,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Champions League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Paul Pogba',
         playerPosition: 'Midfielder',
         eventType: 'Pass',
@@ -124,7 +190,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Premier League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Lionel Messi',
         playerPosition: 'Forward',
         eventType: 'Free Kicks',
@@ -134,7 +200,7 @@ export const allEventsData: AllEventType[] = [
 
     },
     {
-        file: '/images/imgs/harry.svg',
+        file: '/manu-match.mp4',
         playerName: 'Harry Maguire',
         playerPosition: 'Striker',
         eventType: 'Goal',
@@ -143,7 +209,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Premier League',
     },
     {
-        file: '/images/imgs/degea.svg',
+        file: '/manu-match.mp4',
         playerName: 'De Gea',
         playerPosition: 'Forward',
         eventType: 'Penalties',
@@ -152,7 +218,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Champions League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Paul Pogba',
         playerPosition: 'Midfielder',
         eventType: 'Pass',
@@ -161,7 +227,7 @@ export const allEventsData: AllEventType[] = [
         competition: 'Premier League',
     },
     {
-        file: '/images/imgs/game.svg',
+        file: '/manu-match.mp4',
         playerName: 'Lionel Messi',
         playerPosition: 'Forward',
         eventType: 'Free Kicks',
@@ -251,4 +317,29 @@ export const matchStatsData: matchStatsType[] = [
         team1Stats: 0,
         team2Stats: 1,
     },
+]
+
+export const playerStatsData: playerStatsType[] = [
+    {
+        statsType: 'Ball Possession',
+        player1Stats: 60,
+        player2Stats: 40,
+    },
+    {
+        statsType: 'Long Pass Acc',
+        player1Stats: 95,
+        player2Stats: 95,
+    },
+    {
+        statsType: 'Short Pass Acc',
+        player1Stats: 85,
+        player2Stats: 80,
+    },
+
+    {
+        statsType: 'Speed',
+        player1Stats: 85,
+        player2Stats: 75,
+    },
+
 ]

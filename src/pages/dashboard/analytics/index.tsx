@@ -22,10 +22,14 @@ const Analytics = () => {
   const handleOpenAllVideos = () => {
     router.push('/dashboard/analytics/all-videos');
   };
+
+  const handleOpenPlayerComparison = () => {
+    router.push('/dashboard/analytics/player-comparison');
+  };
   return (
     <>
       <DashboardDesktopNav />
-      <Box h='100vh'>
+      <Box w={'100%'}>
         <Flex
           color='white'
           align='center'
@@ -33,13 +37,13 @@ const Analytics = () => {
           direction={{ base: 'column', md: 'row' }}
         >
           <Flex
-            w='420px'
+            w={{ base: '100%', md: '45%' }}
             h='581px'
             bgImage="url('/images/imgs/data-analytics.svg')"
             bgSize='cover'
             bgRepeat='no-repeat'
             borderRadius='lg'
-            opacity='1'
+            opacity='0.8'
             alignItems='center'
           >
             <VStack spacing={6}>
@@ -50,9 +54,15 @@ const Analytics = () => {
                 nullam id aliquam.
               </Text>
               <Spacer />
+              <Spacer />
+              <Spacer />
+              <Spacer />
+              <Spacer />
               <Button
                 bg='lightAsh'
                 variant='action'
+                px={12}
+                fontSize={'xl'}
                 onClick={handleOpenAllVideos}
               >
                 OPEN
@@ -61,24 +71,35 @@ const Analytics = () => {
           </Flex>
 
           <Flex
-            w='420px'
+            // w='420px'
+            w={{ base: '100%', md: '45%' }}
             h='581px'
             bgImage="url('/images/imgs/comparison.svg')"
             bgSize='cover'
             bgRepeat='no-repeat'
             borderRadius='lg'
-            opacity='1'
+            opacity='0.8'
             alignItems='center'
           >
-            <VStack>
-              <Text>PLAYERS</Text>
-              <Heading>Comparison</Heading>
+            <VStack spacing={6}>
+              <Text>VIDEO</Text>
+              <Heading>Analytics</Heading>
               <Text textAlign='center'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor,
                 nullam id aliquam.
               </Text>
               <Spacer />
-              <Button bg='lightAsh' variant='action'>
+              <Spacer />
+              <Spacer />
+              <Spacer />
+              <Spacer />
+              <Button
+                bg='lightAsh'
+                variant='action'
+                px={12}
+                fontSize={'xl'}
+                onClick={handleOpenPlayerComparison}
+              >
                 OPEN
               </Button>
             </VStack>

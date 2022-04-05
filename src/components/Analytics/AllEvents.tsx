@@ -1,5 +1,7 @@
 import { allEventsData, matchAnalyticsType } from '@/data/AnalyticsData';
 import {
+  AspectRatio,
+  Box,
   Button,
   Center,
   Divider,
@@ -14,7 +16,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import ReactPlayer from 'react-player';
+import Video from './Video';
 
 const AllEvents = () => {
   return (
@@ -25,7 +29,7 @@ const AllEvents = () => {
           .map((data, key) => (
             <Stack
               borderRadius='lg'
-              w={{ sm: '100%', md: '20rem' }}
+              w={{ sm: '100%', md: '19rem' }}
               h={{ sm: '10rem', md: '10rem' }}
               direction={{ base: 'row', md: 'row' }}
               bg='dark'
@@ -33,7 +37,8 @@ const AllEvents = () => {
               key={key}
             >
               <Flex flex={1} w='40%'>
-                <Img objectFit='cover' src={data.file} alt='football match' />
+                {/* <Img objectFit='cover' src={data.file} alt='football match' /> */}
+                <Video data={data} />
               </Flex>
               <Stack flex={1} flexDirection='column' p={1} pt={2}>
                 <Text fontSize={'md'} fontFamily={'body'}>
@@ -52,7 +57,7 @@ const AllEvents = () => {
                 </Stack>
                 <Stack direction={'row'} spacing={2} fontSize={'sm'}>
                   <Text>36</Text>
-                  <Flex gap={1}>
+                  <Flex gap={1} cursor={'pointer'}>
                     {' '}
                     <Img src='/icons/share.svg' alt='share' w='3' />
                     <Text>Share</Text>
@@ -63,8 +68,11 @@ const AllEvents = () => {
           ))
           .slice(0, 4)}
       </SimpleGrid>
+
       <Center>
-        <Text borderBottom='1px solid white'>Load More Events</Text>
+        <Text borderBottom='1px solid white' cursor={'pointer'}>
+          Load More Events
+        </Text>
       </Center>
     </>
   );
