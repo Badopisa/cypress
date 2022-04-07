@@ -12,7 +12,7 @@ const initialState: TeamReducerData  = {
 
 type IAction =  {
   type: string;
-  payload?: TeamDataType[]|null|string;
+  payload?: any;
 }
 
 export const teamReducer = (state = initialState, action: IAction) => {
@@ -22,7 +22,17 @@ export const teamReducer = (state = initialState, action: IAction) => {
         ...state,
         teams: action.payload,
         filteredData: action.payload
-    }
+      }
+    case types.SAVE_NEW_TEAM:
+       if(action.payload){
+         const updatedTeam = [...state.teams, action.payload]
+        return {
+          ...state,
+          teams: updatedTeam,
+          filteredData: updatedTeam
+        }
+       }
+       return state
     case types.FILTER_TEAM_DETAILS:
         if(!action.payload) {
             return {
@@ -39,7 +49,7 @@ export const teamReducer = (state = initialState, action: IAction) => {
 
         return {
             ...state,
-            filteredData
+            filteredData,
         }
     default: return state
   }

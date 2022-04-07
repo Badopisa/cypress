@@ -29,6 +29,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { fetchTeams, filterTeam } from '@/store/actions/teamActions';
 import { TeamDataType } from '@/types/TeamDataType';
 import PlayerCard from '@/components/Team/PlayerCard';
+import { UserDataType } from '@/types/AuthDataType';
 
 const boxStyles = {
     display: 'flex',
@@ -47,6 +48,7 @@ const TabSelectedStyle = {
 
 const ClubManagement = () =>  {
     const {filteredData}: {filteredData: TeamDataType[] | []} = useSelector((state: RootStateOrAny)=> state.team )
+    const {user}: {user: UserDataType} = useSelector((state: RootStateOrAny)=> state.auth )
     const {isLoading} = useSelector((state: RootStateOrAny)=> state.msg )
     const [searchText, setSearchText] = useState('')
     const dispatch = useDispatch()
@@ -58,7 +60,7 @@ const ClubManagement = () =>  {
 
     useEffect(()=> {
         if(filteredData.length < 1){
-            dispatch(fetchTeams())
+            dispatch(fetchTeams(user.clubs[0].id))
         }
     }, [])
 
@@ -148,10 +150,13 @@ const ClubManagement = () =>  {
                     </Center>
                 :
                 filteredData.length > 0 ?
-                    <SimpleGrid minChildWidth={{base:'100%',md:'166px'}} spacing={{base:'14px', md:'40px'}} mt={8} mb={8}>
-                    {filteredData.map((team, index)=> (
-                        <PlayerCard  image='/images/image/jersy.png' key={index} name={team.name} status="active"/>
-                    ))}
+                    <SimpleGrid 
+                    columns={{ base: 1, sm: 2, lg: 4 }}
+                    width="min(90%, 1200px)"
+                    spacing={{base:'14px', md:'40px'}} mt={8} mb={8}>
+                        {filteredData.map((team, index)=> (
+                            <PlayerCard  image='/images/image/jersy.png' key={index} name={team.name} status="active"/>
+                        ))}
                     </SimpleGrid>
                 :
                 <BlankTeam image="/images/image/jersy.png" title="No team created yet"/>

@@ -1,5 +1,5 @@
-import { FetchTeamDetails } from '@/services/teamManagementService';
-import { TeamDataType } from '@/types/TeamDataType';
+import { CreateTeam, FetchTeamDetails } from '@/services/teamManagementService';
+import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
 import * as Redux from 'redux';
 import * as actionTypes from "./actionTypes"
 import { updateAlertMsg, updateIsLoading } from './msgAction';
@@ -7,34 +7,65 @@ import { updateAlertMsg, updateIsLoading } from './msgAction';
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const fetchTeams = () => {
+export const fetchTeams = (clubId: string) => {
 
     return async (dispatch:Dispatch) => {
 
       dispatch(updateIsLoading(true))
 
-      const result = FetchTeamDetails()
+      FetchTeamDetails(clubId)
 
-        //.then(async (result) => {
+        .then(async (result) => {
 
             const {data} = result
 
-            dispatch(saveTeamData(data))
+            dispatch(saveTeamData(data.data))
 
             dispatch(updateIsLoading(false))
           
-        // })
+        })
         
-        // .catch((err) => {
+        .catch((err) => {
 
-        //     updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+            dispatch(updateIsLoading(false))
 
-        //     dispatch(updateIsLoading(false))
-
-        // });
+        });
 
     };
 
+}
+
+export const createTeam = (payload:TeamFormType, toast: any, router: any) => {
+
+    return async (dispatch:Dispatch) => {
+
+        dispatch(updateIsLoading(true))
+  
+        CreateTeam(payload)
+  
+          .then( (result) => {
+  
+              const {data} = result
+  
+              dispatch(saveNewTeamData(data.data))
+  
+              updateAlertMsg(toast, {type: "success", message:"Congratulations, Team successfully created"})
+    
+              dispatch(updateIsLoading(false))
+  
+              router.push('/dashboard/club-management/add-team')
+            
+          })
+          
+          .catch((err) => {
+  
+              updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+  
+              dispatch(updateIsLoading(false))
+  
+          });
+  
+      };
 }
 
 export const filterTeam = (text: string) => {
@@ -67,6 +98,18 @@ const filterTeamData = (data: string) => {
     return {
   
         type: actionTypes.FILTER_TEAM_DETAILS,
+   
+        payload: data
+   
+    }
+
+}
+
+const saveNewTeamData = (data: TeamDataType) => {
+
+    return {
+  
+        type: actionTypes.SAVE_NEW_TEAM,
    
         payload: data
    
