@@ -1,9 +1,9 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Text,
 	Box,
-	Image,
+	SimpleGrid,
 	HStack,
 	VStack,
 	Flex,
@@ -18,12 +18,18 @@ import {
 	TabPanels,
 	InputGroup,
 	InputLeftElement,
-	Input
+	Input,
+    Spinner
 } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { useRouter } from 'next/router';
 import BlankTeam from '@/components/Team/BlankTeam';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { fetchTeams, filterTeam } from '@/store/actions/teamActions';
+import { TeamDataType } from '@/types/TeamDataType';
+import PlayerCard from '@/components/Team/PlayerCard';
+import { UserDataType } from '@/types/AuthDataType';
 
 const boxStyles = {
     display: 'flex',
@@ -41,11 +47,29 @@ const TabSelectedStyle = {
 }
 
 const ClubManagement = () =>  {
-
+    const {filteredData}: {filteredData: TeamDataType[] | []} = useSelector((state: RootStateOrAny)=> state.team )
+    const {user}: {user: UserDataType} = useSelector((state: RootStateOrAny)=> state.auth )
+    const {isLoading} = useSelector((state: RootStateOrAny)=> state.msg )
+    const [searchText, setSearchText] = useState('')
+    const dispatch = useDispatch()
     const router = useRouter()
 
     const handleCreateTeam = () => {
         router.push('/dashboard/club-management/create-team')
+    }
+
+    useEffect(()=> {
+        if(filteredData.length < 1){
+            dispatch(fetchTeams(user.clubs[0].id))
+        }
+    }, [])
+
+    const handleTeamSearch = (e: React.FormEvent<HTMLInputElement>) => {
+        const text = e.currentTarget.value
+        setSearchText(text)
+        if(text.length < 1 || text.length> 2){
+            dispatch(filterTeam(text))
+        }
     }
     
   return (
@@ -112,14 +136,32 @@ const ClubManagement = () =>  {
                 <Flex direction="row" mt={6}>
                     <InputGroup w="279px">
                         <InputLeftElement pointerEvents="none" ><BsSearch color="grey" /></InputLeftElement>
-                        <Input type="tel" placeholder="Search for your team" />
+                        <Input type="tel" placeholder="Search for your team" value={searchText} onChange={handleTeamSearch}/>
                     </InputGroup>
                     <Button bg="grey" _hover={{color: "white"}} color="white" fontSize="sm" ml="8px">
                         Search
                     </Button>
                 </Flex>
             </Flex>
-            <BlankTeam image="/images/image/jersy.png" title="No team created yet"/>
+            {
+                isLoading ?
+                    <Center my="16">
+                        <Spinner size='xl'/>
+                    </Center>
+                :
+                filteredData.length > 0 ?
+                    <SimpleGrid 
+                    columns={{ base: 1, sm: 2, lg: 4 }}
+                    width="min(90%, 1200px)"
+                    spacing={{base:'14px', md:'40px'}} mt={8} mb={8}>
+                        {filteredData.map((team, index)=> (
+                            <PlayerCard  image='/images/image/jersy.png' key={index} name={team.name} status="active"/>
+                        ))}
+                    </SimpleGrid>
+                :
+                <BlankTeam image="/images/image/jersy.png" title="No team created yet"/>
+                
+            }
         </Box>
     </>
   )
