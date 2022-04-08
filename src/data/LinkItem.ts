@@ -20,5 +20,5 @@ export const LinkItems: Array<LinkItemProps> = [
 { name: 'Messages', icon: FaCommentDots, link: "/dashboard"  },
 { name: 'Recruitment', icon: FaUserAlt, link: "/dashboard"  },
 { name: 'Club Management', icon: FaUserTie, link: "/dashboard/club-management"  },
-{ name: 'Logout', icon: FaSignOutAlt, link: "/dashboard"  },
+{ name: 'Logout', icon: FaSignOutAlt, link: "/login"  },
 ];

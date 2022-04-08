@@ -1,3 +1,4 @@
+import { logout } from '@/store/actions/authActions';
 import jwt_decode from 'jwt-decode';
 import { TOKEN_TIME } from './constants';
 
@@ -17,13 +18,13 @@ export const verifyToken = (token:string) => {
   
       if (Date.now() >= expirationTime) {
 
-        window.location.href = process.env.appBaseUrl + '/logout';
+        logout()
 
       }
 
     } catch (error) {
 
-      window.location.href = process.env.appBaseUrl + '/logout';
+      logout()
 
     }
 
