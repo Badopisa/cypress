@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   useColorModeValue,
@@ -9,13 +9,21 @@ import {
 } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 import MobileNav from './MobileNav';
+import { retrieveAccessToken } from '@/utils/locaStorageActions';
+import { logout } from '@/store/actions/authActions';
 
 export const authenticatedRoute = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
 ) => {
   const AuthenticatedRoute = (props: P) => {
-    const router = useRouter()
+    // const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const token = retrieveAccessToken()
+    useEffect(()=> {
+        if(!token){
+            logout()
+        }
+    }, [])
 
       return(
         <Box minH="100vh" bg="black">

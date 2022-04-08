@@ -1,5 +1,5 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Text,
 	Box,
 	HStack,
@@ -24,6 +24,8 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector,RootStateOrAny } from 'react-redux';
 import { createTeam } from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
+import { CategoryDataType } from '@/types/CategoryDataType';
+import { fetchCategories } from '@/store/actions/ categoryAction';
 
 
 
@@ -31,6 +33,7 @@ const CreateTeam = () =>  {
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
     const {isLoading}= useSelector((state: RootStateOrAny) => state.msg)
     const {user}: {user: UserDataType} = useSelector((state: RootStateOrAny)=> state.auth )
+    const {category}: {category: CategoryDataType[]} = useSelector((state: RootStateOrAny)=> state.category )
     const dispatch = useDispatch()
     const toast = useToast()
 
@@ -42,11 +45,16 @@ const CreateTeam = () =>  {
 
     const router = useRouter()
 
+    useEffect(()=> {
+        if(category.length < 1){
+            dispatch(fetchCategories())
+        }
+    }, [])
+
     const onSubmit = async (values: any) => {
-        const club_id = user.clubs[0].id
-        const category_id = "6ce44aff-d86f-4f78-b073-dedb0ffa7e2a"
+        const club_id = user?.clubs[0]?.id
         const payload = {
-            club_id, category_id, name: values.name
+            club_id, category_id:values.category, name: values.name
         }
         dispatch(createTeam(payload, toast, router))
      }
@@ -106,20 +114,23 @@ const CreateTeam = () =>  {
                         </GridItem>
                     </HStack>
                     <GridItem colSpan={2} w='full'>
-                        <FormControl  mb={5} isInvalid={errors.country}>
-                            <FormLabel htmlFor="country">
-                                Location
+                        <FormControl  mb={5} isInvalid={errors.category}>
+                            <FormLabel htmlFor="category">
+                                Category
                             </FormLabel>
                             <Select 
-                                {...register("country", {
-                                    required: "Country is required",
-                                    minLength: { value: 5, message: "Country is Required" }
-                                })} variant='outline' placeholder='Select Country'>
-                                <option value='option1'>Option 1</option>
-                                <option value='option2'>Option 2</option>
-                                <option value='option3'>Option 3</option>
+                                {...register("category", {
+                                    required: "Category is required",
+                                    minLength: { value: 5, message: "Category is Required" }
+                                })} variant='outline' placeholder='Select Category'>
+                                {
+                                    category.map((cat => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    )))
+                                }
+                                
                             </Select>
-                            <FormErrorMessage>{errors.country && errors.country.message}</FormErrorMessage>
+                            <FormErrorMessage>{errors.category && errors.category.message}</FormErrorMessage>
                         </FormControl>
                     </GridItem>
                     <Button type="submit" isLoading={isLoading} variant='action' w='full' fontSize='sm' fontWeight='normal' >NEXT</Button>

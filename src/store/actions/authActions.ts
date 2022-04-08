@@ -3,7 +3,7 @@ import { AdminRegFormData, LoginFormDataType, UserDataType } from "@/types/AuthD
 import {ClubAdminLogin, ClubAdminRegistration} from "@/services/clubAdminService"
 import * as actionTypes from "./actionTypes"
 import { updateAlertMsg, updateIsLoading } from './msgAction';
-import { saveAccessToken } from '@/utils/locaStorageActions';
+import { clearLocalStorage, saveAccessToken } from '@/utils/locaStorageActions';
 
 
 type Dispatch = Redux.Dispatch<any>;
@@ -79,6 +79,17 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
     };
 
 }
+
+export const logout = () => {
+
+
+        clearLocalStorage()
+
+        window.location.href = process.env.NEXT_PUBLIC_APP_BASE_URL + 'login';
+          
+}
+
+
 
 const saveAdminData = (data: UserDataType) => {
 

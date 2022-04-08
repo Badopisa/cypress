@@ -15,10 +15,10 @@ type LinkItemProps = {
 }
 
 export const LinkItems: Array<LinkItemProps> = [
-  { name: 'Dashboard', icon: FaHome, link: "/dashboard" },
-  { name: 'Analytics', icon: FaChartPie, link: "/dashboard/analytics" },
-  { name: 'Messages', icon: FaCommentDots, link: "/dashboard" },
-  { name: 'Recruitment', icon: FaUserAlt, link: "/dashboard" },
-  { name: 'Club Management', icon: FaUserTie, link: "/dashboard/club-management" },
-  { name: 'Logout', icon: FaSignOutAlt, link: "/dashboard" },
+{ name: 'Dashboard', icon: FaHome, link: "/dashboard" },
+{ name: 'Analytics', icon: FaChartPie, link: "/dashboard"  },
+{ name: 'Messages', icon: FaCommentDots, link: "/dashboard"  },
+{ name: 'Recruitment', icon: FaUserAlt, link: "/dashboard"  },
+{ name: 'Club Management', icon: FaUserTie, link: "/dashboard/club-management"  },
+{ name: 'Logout', icon: FaSignOutAlt, link: "/login"  },
 ];
