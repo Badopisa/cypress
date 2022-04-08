@@ -6,7 +6,7 @@ import {
 
 } from '@chakra-ui/react';
 
-const PlayerCard = ({name, position, status, image}: {name: string, position: string, status: string, image: string}) => {
+const PlayerCard = ({name, position, status, image}: {name: string, position?: string, status: string, image: string}) => {
     return (
        <Flex gap={3} direction='column' align='center' bg="dark"  rounded={10} py={{base:6, md:6}}>
            <Center>
