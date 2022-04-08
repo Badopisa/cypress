@@ -14,4 +14,9 @@ export const saveAccessToken = (token: string) => {
  
 }
 
+export const clearLocalStorage = () => {
+    localStorage.removeItem(ACCESS_TOKEN)
+    localStorage.removeItem(TOKEN_TIME)
+}
+
  

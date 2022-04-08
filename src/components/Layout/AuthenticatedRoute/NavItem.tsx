@@ -7,9 +7,9 @@ import {
 
 import Link from '@/components/Elements/Link/Link'
 
-
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
+import { logout } from '@/store/actions/authActions';
 
 interface NavItemProps extends FlexProps {
     icon: IconType;
@@ -17,8 +17,14 @@ interface NavItemProps extends FlexProps {
     link: string
 }
 const DashboardNavItem = ({ icon, children,link, ...rest }: NavItemProps) => {
+    const handleNav = (e: React.FormEvent<HTMLAnchorElement>) => {
+       if(children === "Logout"){
+         e.preventDefault()
+         logout()
+       }
+    }
     return (
-      <Link href={link} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+      <Link href={link} onClick={handleNav} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
         <Flex
           align="center"
           p="8"
