@@ -18,8 +18,9 @@ export const authenticatedRoute = <P extends object>(
   const AuthenticatedRoute = (props: P) => {
     // const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const token = retrieveAccessToken()
+
     useEffect(()=> {
+        const token = retrieveAccessToken()
         if(!token){
             logout()
         }
