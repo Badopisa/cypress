@@ -48,7 +48,7 @@ const Analytics = () => {
           >
             <VStack spacing={6}>
               <Text>VIDEO</Text>
-              <Heading>Analytics</Heading>
+              <Heading data-testid='heading'>Analytics</Heading>
               <Text textAlign='center'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor,
                 nullam id aliquam.
@@ -64,6 +64,7 @@ const Analytics = () => {
                 px={12}
                 fontSize={'xl'}
                 onClick={handleOpenAllVideos}
+                data-testid='open-video-analytics'
               >
                 OPEN
               </Button>
@@ -99,6 +100,7 @@ const Analytics = () => {
                 px={12}
                 fontSize={'xl'}
                 onClick={handleOpenPlayerComparison}
+                data-testid='open-player-analytics'
               >
                 OPEN
               </Button>

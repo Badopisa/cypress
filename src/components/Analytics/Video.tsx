@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player';
 const Video = (data: any) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [showControl, setShowControl] = useState<boolean>(false);
-  console.log('data is', data);
+  // console.log('data is', data);
   return (
     <Box objectFit='cover' width={'100%'}>
       <AspectRatio ratio={1} onMouseEnter={() => setShowControl(!showControl)}>

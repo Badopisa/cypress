@@ -190,6 +190,7 @@ const Highlights = () => {
                   fontSize={'xs'}
                   p={0}
                   alignSelf='left'
+                  data-testid='upload-and-analyze'
                 >
                   Upload & Analyse Videos
                 </Button>
