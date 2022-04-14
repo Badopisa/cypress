@@ -22,7 +22,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
-import ModalLayout from '../modal';
+import ModalLayout from '../../modal';
 import ChangingProgressProvider from './ChangingProgressProvider';
 import {
   CircularProgressbar,
