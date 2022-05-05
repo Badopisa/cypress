@@ -103,8 +103,8 @@ const Highlights = () => {
                   </Select>
                 </FormControl>
                 <Wrap spacing={2} w='100%'>
-                  {matchAnalyticsType.map((data, key) => (
-                    <WrapItem key={key}>
+                  {matchAnalyticsType.map((data, index) => (
+                    <WrapItem key={index}>
                       <Button variant='actionOutline' fontSize='xs'>
                         {data}
                       </Button>
@@ -190,13 +190,14 @@ const Highlights = () => {
                   fontSize={'xs'}
                   p={0}
                   alignSelf='left'
+                  data-testid='upload-and-analyze'
                 >
                   Upload & Analyse Videos
                 </Button>
 
-                {uploadedVideosData.map((data, key) => (
+                {uploadedVideosData.map((data, index) => (
                   <>
-                    <HStack key={key} w={{ sm: '100%', md: '100%' }} py={4}>
+                    <HStack key={index} w={{ sm: '100%', md: '100%' }} py={4}>
                       <Flex flex={1}>
                         <Video data={data} />
                       </Flex>

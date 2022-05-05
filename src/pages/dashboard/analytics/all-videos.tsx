@@ -29,11 +29,10 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import UploadVideoModal from '@/components/UploadVideoModal';
+import UploadVideoModal from '@/components/Analytics/UploadVideoModal';
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import UploadedVideos from './uploaded-videos';
-import { spacing } from '@/theme/foundations/spacing';
 
 const TabSelectedStyle = {
   color: 'white',
