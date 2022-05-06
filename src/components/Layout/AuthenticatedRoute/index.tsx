@@ -19,12 +19,12 @@ export const authenticatedRoute = <P extends object>(
     // const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    // useEffect(()=> {
-    //     const token = retrieveAccessToken()
-    //     if(!token){
-    //         logout()
-    //     }
-    // }, [])
+    useEffect(() => {
+      const token = retrieveAccessToken();
+      if (!token) {
+        logout();
+      }
+    }, []);
 
     return (
       <Box minH='100vh' bg='black'>

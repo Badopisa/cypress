@@ -52,7 +52,7 @@ const Messaging = () => {
   };
 
   return (
-    <>
+    <Box>
       <DashboardDesktopNav />
       <Tabs
         variant='unstyled'
@@ -360,7 +360,7 @@ const Messaging = () => {
       {tab === 2 && <GroupChats />}
       {tab === 3 && <Calls />}
       <CreateChatModal isOpen={isOpen} onClose={onClose} />
-    </>
+    </Box>
   );
 };
 
