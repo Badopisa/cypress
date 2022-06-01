@@ -9,10 +9,11 @@ import { adminRegistration } from '@/store/actions/authActions';
 import { useRouter } from 'next/router'
 import ImageUpload from '@/components/Elements/ImageUpload';
 import Link from '@/components/Elements/Link/Link';
+import {fetchCountries} from "@/services/countriesService";
 
 
 
-const ClubAdminRegistration = () => {
+const ClubAdminRegistration = ({ countries }: any) => {
     const {isLoading}= useSelector((state: RootStateOrAny) => state.msg)
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
     const dispatch = useDispatch()
@@ -117,9 +118,9 @@ const ClubAdminRegistration = () => {
                                     required: "Country is required",
                                     minLength: { value: 5, message: "Country is Required" }
                                 })} variant='outline' placeholder='Select Country'>
-                                <option value='option1'>Option 1</option>
-                                <option value='option2'>Option 2</option>
-                                <option value='option3'>Option 3</option>
+                                {countries?.map((country: any) => (
+                                    <option key={country.id} value={country.name.common}>{country.name.common}</option>
+                                ))}
                             </Select>
                             <FormErrorMessage>{errors.country && errors.country.message}</FormErrorMessage>
                         </FormControl>
@@ -167,5 +168,14 @@ const ClubAdminRegistration = () => {
         </Flex>  
     );
 };
+
+export async function getStaticProps() {
+    const countries = await fetchCountries();
+    return {
+        props: {
+            countries
+        },
+    }
+}
 
 export default ClubAdminRegistration;

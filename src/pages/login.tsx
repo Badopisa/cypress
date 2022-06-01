@@ -71,7 +71,7 @@ const Login = () => {
                         <Button isLoading={isLoading} type="submit" variant="action" size="lg" w="full">LOGIN</Button>
                     </form>  
                     <Text align={'center'}>
-                        Don't Have an Account? <Link href="/admin/registration" fontWeight="semibold">Get Started</Link>
+                        Don't Have an Account? <Link href="/admin/ClubAdminRegistration" fontWeight="semibold">Get Started</Link>
                     </Text>  
                     <Text align={'center'}>
                         <Link href="/forgot-password"> <Text fontWeight="semibold">Forgot Password</Text></Link>
@@ -84,4 +84,3 @@ const Login = () => {
 };
 
 export default Login;
-

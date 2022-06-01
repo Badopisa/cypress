@@ -45,7 +45,7 @@ const Hero = ({image,heading, subHeading, mouseImage}: {image: string, heading: 
                 >
                     {subHeading}
                 </Text>
-                <Button onClick={() => router.push('/admin/registration') } variant="action">
+                <Button onClick={() => router.push('/admin/ClubAdminRegistration') } variant="action">
                     Get Started
                 </Button>
                 <Link href="#about">
