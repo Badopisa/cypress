@@ -27,7 +27,7 @@ import ImageUpload from '@/components/Elements/ImageUpload';
 import Link from '@/components/Elements/Link/Link';
 import {fetchCountries} from "@/services/countriesService";
 import {CountriesSelector} from "@/components/Form/CountriesSelector";
-import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
+import {PhoneNumberInput} from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 
 
 const ClubAdminRegistration = ({countries}: any) => {
@@ -153,24 +153,23 @@ const ClubAdminRegistration = ({countries}: any) => {
                             <FormLabel htmlFor="phoneNumber">
                                 Company Phone Number
                             </FormLabel>
-                            {/*<InputGroup>*/}
-                            {/*    <InputLeftElement width='20' children={*/}
-                            {/*        <Select variant='unstyled' icon={<div />} placeholder='Flag 234'>*/}
-                            {/*            <option value='option1'>Flag soetanrosetanrostenaro234</option>*/}
-                            {/*            <option value='option2'>Option 2</option>*/}
-                            {/*            <option value='option3'>Option 3</option>*/}
-                            {/*        </Select>*/}
-                            {/*    } />*/}
-                            {/*    <Input {...register("phoneNumber", {*/}
-                            {/*        required: "Company phone number is required",*/}
-                            {/*        minLength: {value: 5, message: "Company phone number is Required"}*/}
-                            {/*    })} id="phoneNumber" type="tel" placeholder="901-912-35656" />*/}
-                            {/*</InputGroup>*/}
                             <Controller
                                 control={control}
                                 name="phone"
-                                render={({ field: { onChange } }) => (
-                                    <PhoneNumberInput onChange={onChange} />
+                                render={({field: {onChange}}) => (
+                                    <PhoneNumberInput
+                                        id="phone-number"
+                                        onChange={onChange}
+                                        useFormRegisterReturn={register("phoneNumber", {
+                                            valueAsNumber: true,
+                                            validate: (value) => value > 0 || "Input a phone number",
+                                            required: "Company phone number is required",
+                                            minLength: {
+                                                value: 5,
+                                                message: "Company phone number is Required"
+                                            },
+                                        })}
+                                    />
                                 )}
                             />
                             <FormErrorMessage>{errors.phoneNumber && errors.phoneNumber.message}</FormErrorMessage>

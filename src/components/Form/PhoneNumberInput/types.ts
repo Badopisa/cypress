@@ -1,4 +1,7 @@
+import {UseFormRegisterReturn} from "react-hook-form";
+
 export type PhoneNumberInputProps = {
-    // value: string;
     onChange: (arg: string) => void;
+    id: string;
+    useFormRegisterReturn: UseFormRegisterReturn;
 };

@@ -5,7 +5,8 @@ import {
     InputGroup,
     useDisclosure,
     useOutsideClick,
-    InputLeftElement
+    InputLeftElement,
+    FormErrorMessage
 } from "@chakra-ui/react";
 import Countries from "./countries.json";
 import { AsYouType } from "libphonenumber-js";
@@ -14,7 +15,7 @@ import { useState, useEffect, useRef } from "react";
 import { Country, SearchOnList } from "./SearchOnList";
 import Flag from "react-world-flags";
 
-export const PhoneNumberInput = ({ onChange }: PhoneNumberInputProps) => {
+export const PhoneNumberInput = ({ onChange, id, useFormRegisterReturn }: PhoneNumberInputProps) => {
     const ref = useRef(null);
     const [number, setNumber] = useState("");
     const [country, setCountry] = useState("");
@@ -63,10 +64,12 @@ export const PhoneNumberInput = ({ onChange }: PhoneNumberInputProps) => {
                         <Box ml="10px"  borderLeftWidth="1px" borderColor="#5E5E5E" height="40%" />
                     </InputLeftElement>
                     <Input
+                        id={id}
                         pl="7em"
                         type="tel"
                         value={number}
                         placeholder="901-912-35646"
+                        {...useFormRegisterReturn}
                         onChange={onPhoneNumberChange}
                     />
                 </InputGroup>
