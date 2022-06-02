@@ -20,6 +20,7 @@
     "framer-motion": "^6",
     "jest-config": "^27.5.1",
     "jwt-decode": "^3.1.2",
+    "libphonenumber-js": "^1.10.6",
     "next": "12.1.0",
     "next-redux-wrapper": "^7.0.5",
     "react": "17.0.2",
@@ -30,6 +31,7 @@
     "react-icons": "^4.3.1",
     "react-player": "^2.10.0",
     "react-redux": "^7.2.6",
+    "react-world-flags": "^1.5.0",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1"

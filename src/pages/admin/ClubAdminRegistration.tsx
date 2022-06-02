@@ -8,8 +8,10 @@ import {
     FormLabel,
     GridItem,
     Input,
-    InputGroup,
+    InputGroup, InputLeftAddon,
+    InputLeftElement,
     InputRightElement,
+    Select,
     SimpleGrid,
     Text,
     useToast,
@@ -17,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import {FormImage} from '@/components/Form';
 import {AiFillEyeInvisible} from 'react-icons/ai'
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
 import {adminRegistration} from '@/store/actions/authActions';
 import {useRouter} from 'next/router'
@@ -25,6 +27,7 @@ import ImageUpload from '@/components/Elements/ImageUpload';
 import Link from '@/components/Elements/Link/Link';
 import {fetchCountries} from "@/services/countriesService";
 import {CountriesSelector} from "@/components/Form/CountriesSelector";
+import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 
 
 const ClubAdminRegistration = ({countries}: any) => {
@@ -37,6 +40,7 @@ const ClubAdminRegistration = ({countries}: any) => {
     const {
         handleSubmit,
         register,
+        control,
         formState: {errors, isSubmitting}
     } = useForm();
     const onSubmit = async (values: any) => {
@@ -149,10 +153,26 @@ const ClubAdminRegistration = ({countries}: any) => {
                             <FormLabel htmlFor="phoneNumber">
                                 Company Phone Number
                             </FormLabel>
-                            <Input {...register("phoneNumber", {
-                                required: "Company phone number is required",
-                                minLength: {value: 5, message: "Company phone number is Required"}
-                            })} id="phoneNumber" type="tel" placeholder="901-912-35656" />
+                            {/*<InputGroup>*/}
+                            {/*    <InputLeftElement width='20' children={*/}
+                            {/*        <Select variant='unstyled' icon={<div />} placeholder='Flag 234'>*/}
+                            {/*            <option value='option1'>Flag soetanrosetanrostenaro234</option>*/}
+                            {/*            <option value='option2'>Option 2</option>*/}
+                            {/*            <option value='option3'>Option 3</option>*/}
+                            {/*        </Select>*/}
+                            {/*    } />*/}
+                            {/*    <Input {...register("phoneNumber", {*/}
+                            {/*        required: "Company phone number is required",*/}
+                            {/*        minLength: {value: 5, message: "Company phone number is Required"}*/}
+                            {/*    })} id="phoneNumber" type="tel" placeholder="901-912-35656" />*/}
+                            {/*</InputGroup>*/}
+                            <Controller
+                                control={control}
+                                name="phone"
+                                render={({ field: { onChange } }) => (
+                                    <PhoneNumberInput onChange={onChange} />
+                                )}
+                            />
                             <FormErrorMessage>{errors.phoneNumber && errors.phoneNumber.message}</FormErrorMessage>
                         </FormControl>
                         <FormControl mb={6} isInvalid={errors.password}>
