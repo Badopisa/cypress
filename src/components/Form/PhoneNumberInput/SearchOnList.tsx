@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Box, Input, List, ListItem, Text } from "@chakra-ui/react";
+import {useState} from "react";
+import {Box, Flex, Input, List, ListItem, Text} from "@chakra-ui/react";
+import Flag from "react-world-flags";
 
 export type Country = {
     name: string;
@@ -13,7 +14,7 @@ export type Props = {
     onChange: (args: Country) => void;
 };
 
-export const SearchOnList = ({ data, onChange }: Props) => {
+export const SearchOnList = ({data, onChange}: Props) => {
     const [filteredList, setFilteredList] = useState(data);
     const [selectedItem, setSelectedItem] = useState<Country | undefined>(
         undefined
@@ -32,7 +33,7 @@ export const SearchOnList = ({ data, onChange }: Props) => {
         <Box
             my={1}
             maxH="xs"
-            bg="white"
+            bg="#131313"
             width="full"
             zIndex={999}
             height="auto"
@@ -41,16 +42,16 @@ export const SearchOnList = ({ data, onChange }: Props) => {
             position="absolute"
             boxShadow="0px 1px 30px rgba(0, 0, 0, 0.1)"
         >
-            <Box position="sticky" top="0" padding={4} bg="white">
+            <Box position="sticky" top="0" padding={4} bg="#131313">
                 <Input
                     size="sm"
                     type="search"
                     borderRadius="md"
-                    autoComplete="off"
-                    placeholder="Rechercher un pays..."
+                    autoComplete="on"
+                    placeholder="Search Country"
                     onChange={(event) => handleSearch(event)}
-                    _focusWithin={{ borderColor: "secondary" }}
-                    _invalid={{ bg: "white", borderColor: "gray.50" }}
+                    _focusWithin={{borderColor: "secondary"}}
+                    _invalid={{bg: "white", borderColor: "gray.50"}}
                 />
             </Box>
 
@@ -59,6 +60,7 @@ export const SearchOnList = ({ data, onChange }: Props) => {
                     <ListItem
                         key={index}
                         paddingY={2}
+                        paddingX={5}
                         color="#ACB9C4"
                         cursor="pointer"
                         fontWeight="500"
@@ -67,18 +69,18 @@ export const SearchOnList = ({ data, onChange }: Props) => {
                             onChange(item);
                             setSelectedItem(item);
                         }}
-                        style={{ transition: "all .125s ease" }}
-                        _hover={{ bg: "gray.50", color: "#396070" }}
+                        style={{transition: "all .125s ease"}}
+                        _hover={{bg: "gray.50", color: "#396070"}}
                         sx={
-                            item?.flag === selectedItem?.flag
-                                ? { backgroundColor: "gray.50", color: "#396070" }
+                            item?.code === selectedItem?.code
+                                ? {backgroundColor: "gray.50", color: "#396070"}
                                 : {}
                         }
                     >
-                        <Text as="span" mx={4}>
-                            {item?.flag}
-                        </Text>
-                        <Text as="span">{item?.name}</Text>
+                        <Flex>
+                            <Flag height="20px" width="20px" code={item?.code || ""} />
+                            <Text ml={4} as="span">{item?.name}</Text>
+                        </Flex>
                     </ListItem>
                 ))}
             </List>

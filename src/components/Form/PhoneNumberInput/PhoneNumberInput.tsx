@@ -13,7 +13,6 @@ import { PhoneNumberInputProps } from "./types";
 import { useState, useEffect, useRef } from "react";
 import { Country, SearchOnList } from "./SearchOnList";
 import Flag from "react-world-flags";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 export const PhoneNumberInput = ({ onChange }: PhoneNumberInputProps) => {
     const ref = useRef(null);
@@ -54,13 +53,14 @@ export const PhoneNumberInput = ({ onChange }: PhoneNumberInputProps) => {
         <>
             <Box as="section" ref={ref} position="relative">
                 <InputGroup>
-                    <InputLeftElement width="6em" cursor="pointer" onClick={onToggle}>
+                    <InputLeftElement width="6.5em" cursor="pointer" onClick={onToggle}>
                         <Box ml="20px" mr="10px" width="50%" flex={1}>
                             <Flag height="1rem" code={countryFlag || ""} />
                         </Box>
                         <Text fontSize="14px">
-                            {<Text fontWeight="bold">{country}{number}</Text> || <Text fontWeight="bold" color="gray">+234</Text>}
+                            {country ? <Text fontWeight="bold">{country}</Text> : <Text fontWeight="bold" color="gray">+234</Text>}
                         </Text>
+                        <Box ml="10px"  borderLeftWidth="1px" borderColor="#5E5E5E" height="40%" />
                     </InputLeftElement>
                     <Input
                         pl="7em"
