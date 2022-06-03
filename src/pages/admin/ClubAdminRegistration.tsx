@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    Box,
     Button,
     chakra,
     Flex,
@@ -33,6 +34,8 @@ import {PhoneNumberInput} from '@/components/Form/PhoneNumberInput/PhoneNumberIn
 const ClubAdminRegistration = ({countries}: any) => {
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
+    const [show, setShow] = React.useState<Boolean>(false)
+    const handleClick = () => setShow(!show)
     const dispatch = useDispatch()
     const toast = useToast()
     const router = useRouter()
@@ -62,39 +65,35 @@ const ClubAdminRegistration = ({countries}: any) => {
         <Flex h="auto" direction={{base: 'column-reverse', md: 'row'}} bg='primary'>
             <FormImage isAdmin image="/images/image/hero-bg.jpg" title="Club Admin Platform"
                        body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut purus rhoncus lectus." />
-            <VStack bgColor="black" color="white" w="full" h="full" p={{base: 2, sm: 20}} spacing={10}
+            <VStack bgColor="black" zIndex={10} color="white" w="full" h="full" p={{base: 2, sm: 20}} spacing={10}
                     alignItems={{base: "center", md: "flex-start"}}>
-                <VStack mt={5} spacing={1} alignItems={{base: "center", md: "flex-start"}}>
-                    <Text fontSize="3xl" fontWeight="semibold">
+                <VStack mt={0} spacing={1} alignItems={{base: "center", md: "flex-start"}}>
+                    <Text fontSize="38px" fontWeight="semibold">
                         <chakra.span color="yellow">
                             Build&nbsp;
                         </chakra.span>
                         Your Football Club
                     </Text>
-                    <Text w={{base: "90%"}} align={{base: "center", md: "start"}}>Lorem ipsum dolor sit amet,
-                                                                                  consectetur
-                                                                                  adipiscing elit. Ut purus rhoncus
-                                                                                  lectus.</Text>
+                    <Text w={{base: "90%"}} fontSize="14px" color="#AAAAAA" align={{base: "center", md: "start"}}>Please fill in the following details to bring your dream to life</Text>
                 </VStack>
                 <SimpleGrid columns={1} rowGap={5} w="80%">
                     <VStack>
-
                         <ImageUpload
-                            defaultImage="/images/image/default-user-avatar.png"
+                            defaultImage="/images/image/default-user-avatar3.svg"
                             w="100px"
                             h="100px"
                             rounded="full"
                             setSelectedImage={setProfilePicture}
                             selectedImage={profilePicture}
                         />
-                        <Text color="blue" textAlign='center'>Upload Your Logo</Text>
                     </VStack>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl mb={5} isInvalid={errors.name}>
-                            <FormLabel htmlFor="name">
-                                Club Name
+                            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="name">
+                                CLUB NAME
                             </FormLabel>
                             <Input
+                                focusBorderColor="#811AFF"
                                 {...register("name", {
                                     required: "Club name is required",
                                     minLength: {value: 4, message: "Club name is Required"}
@@ -106,13 +105,14 @@ const ClubAdminRegistration = ({countries}: any) => {
                         <SimpleGrid mb={5} columns={2} spacing={3}>
                             <GridItem>
                                 <FormControl isInvalid={errors.firstname}>
-                                    <FormLabel htmlFor="firstname">
-                                        Firstname
+                                    <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="firstname">
+                                        OWNER'S FIRST NAME
                                     </FormLabel>
                                     <Input
+                                        focusBorderColor="#811AFF"
                                         {...register("firstname", {
-                                            required: "Firstname is required",
-                                            minLength: {value: 4, message: "Firstname is Required"}
+                                            required: "First Name is required",
+                                            minLength: {value: 3, message: "First Name is too short"}
                                         })} id="firstname" placeholder="Enter your firstname"
                                     />
                                     <FormErrorMessage>{errors.firstname && errors.firstname.message}</FormErrorMessage>
@@ -120,13 +120,14 @@ const ClubAdminRegistration = ({countries}: any) => {
                             </GridItem>
                             <GridItem>
                                 <FormControl isInvalid={errors.lastname}>
-                                    <FormLabel htmlFor="lastname">
-                                        Lastname
+                                    <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="lastname">
+                                        OWNER'S LAST NAME
                                     </FormLabel>
                                     <Input
+                                        focusBorderColor="#811AFF"
                                         {...register("lastname", {
-                                            required: "Lastname is required",
-                                            minLength: {value: 4, message: "Lastname is Required"}
+                                            required: "Last Name is required",
+                                            minLength: {value: 3, message: "Last Name is too short"}
                                         })} id="lastname" placeholder="Enter your lastname" />
                                     <FormErrorMessage>{errors.lastname && errors.lastname.message}</FormErrorMessage>
                                 </FormControl>
@@ -139,10 +140,11 @@ const ClubAdminRegistration = ({countries}: any) => {
                             <option key={country.id} value={country.name.common}>{country.name.common}</option>
                         ))} />
                         <FormControl mb={5} isInvalid={errors.email}>
-                            <FormLabel htmlFor="email">
-                                Company Email
+                            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="email">
+                                COMPANY EMAIL
                             </FormLabel>
                             <Input
+                                focusBorderColor="#811AFF"
                                 {...register("email", {
                                     required: "Company Email is required",
                                     minLength: {value: 5, message: "Company Email is Required"}
@@ -150,8 +152,8 @@ const ClubAdminRegistration = ({countries}: any) => {
                             <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
                         </FormControl>
                         <FormControl mb={5} isInvalid={errors.phoneNumber}>
-                            <FormLabel htmlFor="phoneNumber">
-                                Company Phone Number
+                            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="phoneNumber">
+                                COMPANY PHONE NUMBER
                             </FormLabel>
                             <Controller
                                 control={control}
@@ -162,7 +164,7 @@ const ClubAdminRegistration = ({countries}: any) => {
                                         onChange={onChange}
                                         useFormRegisterReturn={register("phoneNumber", {
                                             valueAsNumber: true,
-                                            validate: (value) => value > 0 || "Input a phone number",
+                                            validate: (value) => value > 0 || "Input only digits",
                                             required: "Company phone number is required",
                                             minLength: {
                                                 value: 5,
@@ -175,23 +177,32 @@ const ClubAdminRegistration = ({countries}: any) => {
                             <FormErrorMessage>{errors.phoneNumber && errors.phoneNumber.message}</FormErrorMessage>
                         </FormControl>
                         <FormControl mb={6} isInvalid={errors.password}>
-                            <FormLabel htmlFor="password">
-                                Password
+                            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="password">
+                                PASSWORD
                             </FormLabel>
                             <InputGroup>
-                                <Input {...register("password", {
+                                <Input
+                                    focusBorderColor="#811AFF"
+                                    {...register("password", {
                                     required: "Password is required",
-                                    minLength: {value: 5, message: "Password is Required"}
-                                })} id="password" type="password" placeholder="At least 8+ characters" />
-                                <InputRightElement><AiFillEyeInvisible color='green.500' /></InputRightElement>
+                                    minLength: {value: 8, message: "Password is Required"}
+                                })} id="password" type={show ? "text" : "password"}
+                                       placeholder="At least 8+ characters" />
+                                <InputRightElement>
+                                    <Button mr="10px" padding={0} background="transparent" onClick={handleClick}>
+                                        {show ? <AiFillEyeInvisible color='green.500' /> :
+                                            <AiFillEyeInvisible color='green.500' />}
+                                    </Button>
+                                </InputRightElement>
                             </InputGroup>
                             <FormErrorMessage>Password phone is required.</FormErrorMessage>
                         </FormControl>
-                        <Button isLoading={isLoading} type="submit" variant="action" size="lg" w="full">REGISTER YOUR
-                                                                                                        CLUB</Button>
+                        <Button paddingY={7} mt={7} fontWeight="500" isLoading={isLoading} type="submit" fontSize="14px"
+                                variant="action" size="lg" w="full">REGISTER YOUR
+                                                                    CLUB</Button>
                     </form>
-                    <Text align={'center'}>
-                        Already have an account? <Link href="/login" fontWeight="semibold">Login</Link>
+                    <Text align={'center'} fontSize="14px" fontWeight="600">
+                        ALREADY HAVE AN ACCOUNT? <Link href="/login" fontWeight="semibold">LOGIN</Link>
                     </Text>
                 </SimpleGrid>
             </VStack>

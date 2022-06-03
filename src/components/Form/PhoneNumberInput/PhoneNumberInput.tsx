@@ -64,6 +64,7 @@ export const PhoneNumberInput = ({ onChange, id, useFormRegisterReturn }: PhoneN
                         <Box ml="10px"  borderLeftWidth="1px" borderColor="#5E5E5E" height="40%" />
                     </InputLeftElement>
                     <Input
+                        focusBorderColor="#811AFF"
                         id={id}
                         pl="7em"
                         type="tel"

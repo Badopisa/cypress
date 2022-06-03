@@ -4,8 +4,8 @@ import {FieldErrors, FieldValues, UseFormRegisterReturn} from "react-hook-form";
 
 export function CountriesSelector(props: { errors: FieldErrors<FieldValues>, useFormRegisterReturn: UseFormRegisterReturn, map: any }) {
     return <FormControl data-testid="countries-dropdown" mb={5} isInvalid={props.errors.country}>
-        <FormLabel htmlFor="country">
-            Country
+        <FormLabel color="#C9D0CD" fontSize="14px"  htmlFor="country">
+            COUNTRY
         </FormLabel>
         <Select
             variant="outline" placeholder="Select Country" {...props.useFormRegisterReturn}>
