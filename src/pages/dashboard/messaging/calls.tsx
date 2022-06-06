@@ -17,6 +17,8 @@ import {
   Spacer,
   Text,
   useDisclosure,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import StartCallsModal from './startCallsModal';
@@ -27,20 +29,26 @@ const Calls = () => {
   return (
     <>
       {' '}
-      <SimpleGrid
-        columns={{ base: 1, md: 2 }}
+      <Grid
+        // columns={{ base: 1, md: 2 }}
+        templateColumns={{
+          base: 'repeat(1, 1fr)',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+        }}
         color='white'
         bg={'dark'}
         borderRadius={'lg'}
       >
-        <Stack
+        <GridItem
+          colSpan={{ md: 2, base: 1 }}
           bg={'black'}
           borderRadius={'xl'}
           m={{ base: 0, md: 4 }}
           p={2}
           h={'30rem'}
-        ></Stack>
-        <Stack>
+        ></GridItem>
+        <GridItem display={'none'}>
           <Box bg='dark' borderRadius='lg' w={'100%'} p={3}>
             <Flex justifyContent={'space-between'}>
               <Text fontSize={'xl'}>History</Text>
@@ -133,8 +141,8 @@ const Calls = () => {
                 </>
               ))}
           </Box>
-        </Stack>
-      </SimpleGrid>
+        </GridItem>
+      </Grid>
       <StartCallsModal isOpen={isOpen} onClose={onClose} />
     </>
   );
