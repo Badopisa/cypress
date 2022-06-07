@@ -21,8 +21,8 @@ const ImageUpload = ({
     const [defaultUserImage, setDefaultUserImage] = useState(defaultImage)
 
     useEffect(() => {
-        dispatch(updateImageFile(imageRef?.current?.files[0]));
-        dispatch(updateFileName(imageRef?.current?.files[0]?.name.replace(/\..+$/, "")));
+        // dispatch(updateImageFile(imageRef?.current?.files[0]));
+        // dispatch(updateFileName(imageRef?.current?.files[0]?.name.replace(/\..+$/, "")));
         if (selectedImage) {
             const objectURL = URL.createObjectURL(selectedImage)
             setDefaultUserImage(objectURL)
@@ -39,6 +39,7 @@ const ImageUpload = ({
     const handleChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedImage(file)
+        dispatch(updateImageFile(file));
     }
 
     const removeImage = () => {
