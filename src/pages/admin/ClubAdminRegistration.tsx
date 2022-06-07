@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useRef} from 'react'
+import S3 from "react-aws-s3-typescript";
 import {
     Box,
     Button,
@@ -33,6 +34,7 @@ import {PhoneNumberInput} from '@/components/Form/PhoneNumberInput/PhoneNumberIn
 
 const ClubAdminRegistration = ({countries}: any) => {
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
+    const {file, fileName} = useSelector((state: RootStateOrAny) => state.auth)
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
     const [show, setShow] = React.useState<Boolean>(false)
     const handleClick = () => setShow(!show)
@@ -47,19 +49,49 @@ const ClubAdminRegistration = ({countries}: any) => {
         formState: {errors, isSubmitting}
     } = useForm();
     const onSubmit = async (values: any) => {
+        console.log('submit', values);
         const payload = {
             photo: "",
             role: "owner",
-            club_name: values.name,
+            club_name: values.clubName,
             email: values.email,
             password: values.password,
             first_name: values.firstname,
+            phone: values.phoneNumber,
             last_name: values.lastname,
             country: values.country
         }
         dispatch(adminRegistration(payload, toast, router))
     }
 
+    const uploadImage = () => {
+        console.log('file', file);
+        console.log('file name', fileName);
+        const config: any = {
+            bucketName: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+            dirName: `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_LOCATION}.amazonaws.com/`,
+            region: process.env.NEXT_PUBLIC_AWS_REGION,
+            accessKeyId: process.env.NEXT_PUBLIC_WS_AWS_ACCESS_ID,
+            secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+            poolID: `${process.env.NEXT_PUBLIC_AWS_LOCATION}:eefe909d-3fdf-43ab-b100-5f304bbf6837`,
+            s3Url: "https://sonalysis-asset.s3.amazonaws.com/"
+        }
+        console.log('config', config);
+        const ReactS3Client = new S3(config);
+
+        console.log('started')
+        ReactS3Client.uploadFile(file, fileName).then((data: any) => {
+            console.log('upload data', data);
+            if (data.status === 204) {
+                console.log('upload success');
+            } else {
+                console.log('upload failed');
+            }
+        }).catch((err: any) => {
+            console.log('upload error', err);
+            console.log('upload error message', err.message);
+        });
+    };
     return (
 
         <Flex h="auto" direction={{base: 'column-reverse', md: 'row'}} bg='primary'>
@@ -68,7 +100,7 @@ const ClubAdminRegistration = ({countries}: any) => {
             <VStack bgColor="black" zIndex={10} color="white" w="full" h="full" p={{base: 2, sm: 20}} spacing={10}
                     alignItems={{base: "center", md: "flex-start"}}>
                 <VStack mt={0} spacing={1} alignItems={{base: "center", md: "flex-start"}}>
-                    <Text fontSize="38px" fontWeight="semibold">
+                    <Text fontSize="38px" onClick={uploadImage} fontWeight="semibold">
                         <chakra.span color="yellow">
                             Build&nbsp;
                         </chakra.span>
@@ -89,16 +121,16 @@ const ClubAdminRegistration = ({countries}: any) => {
                     </VStack>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl mb={5} isInvalid={errors.name}>
-                            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="name">
+                            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="clubName">
                                 CLUB NAME
                             </FormLabel>
                             <Input
                                 focusBorderColor="#811AFF"
-                                {...register("name", {
+                                {...register("clubName", {
                                     required: "Club name is required",
                                     minLength: {value: 4, message: "Club name is Required"}
                                 })}
-                                id="name" placeholder="eg. ClubFC"
+                                id="clubName" placeholder="eg. ClubFC"
                             />
                             <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
                         </FormControl>
@@ -157,12 +189,12 @@ const ClubAdminRegistration = ({countries}: any) => {
                             </FormLabel>
                             <Controller
                                 control={control}
-                                name="phone"
+                                name="phoneNumber"
                                 render={({field: {onChange}}) => (
                                     <PhoneNumberInput
-                                        id="phone-number"
+                                        id="phone"
                                         onChange={onChange}
-                                        useFormRegisterReturn={register("phoneNumber", {
+                                        useFormRegisterReturn={register("phone", {
                                             valueAsNumber: true,
                                             validate: (value) => value > 0 || "Input only digits",
                                             required: "Company phone number is required",

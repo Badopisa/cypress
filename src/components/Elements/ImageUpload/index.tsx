@@ -1,6 +1,8 @@
 import React, {useRef, useEffect, useState} from 'react'
 import {Image, NextChakraImageProps} from '@/components/Elements/Image/Image'
 import {Text} from "@chakra-ui/react";
+import {useDispatch} from "react-redux";
+import {updateFileName, updateImageFile } from '@/store/actions/authActions';
 
 interface ImageUploadProps extends NextChakraImageProps {
     defaultImage: string
@@ -14,10 +16,13 @@ const ImageUpload = ({
                          selectedImage,
                          ...rest
                      }: Omit<ImageUploadProps, 'src'>) => {
-    const imageRef = useRef<HTMLInputElement | null>(null)
+    const dispatch = useDispatch();
+    const imageRef = useRef<any>(null)
     const [defaultUserImage, setDefaultUserImage] = useState(defaultImage)
 
     useEffect(() => {
+        dispatch(updateImageFile(imageRef?.current?.files[0]));
+        dispatch(updateFileName(imageRef?.current?.files[0]?.name.replace(/\..+$/, "")));
         if (selectedImage) {
             const objectURL = URL.createObjectURL(selectedImage)
             setDefaultUserImage(objectURL)
@@ -104,3 +109,6 @@ const ImageUpload = ({
 }
 
 export default ImageUpload
+function updateFile(selectedImage: File | null): any {
+    throw new Error('Function not implemented.');
+}
