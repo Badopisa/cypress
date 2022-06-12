@@ -1,78 +1,90 @@
-import { retrieveAccessToken } from "@/utils/locaStorageActions";
-import { verifyToken } from "@/utils/verifyToken";
+import {retrieveAccessToken} from "@/utils/locaStorageActions";
+import {verifyToken} from "@/utils/verifyToken";
 import axios from "axios";
 
 class HttpService {
 
-  token: string 
-  
-  baseUrl: string|undefined
+    token: string | null | undefined
 
-  constructor () {
+    baseUrl: string | undefined
 
-    this.token = retrieveAccessToken();
+    constructor() {
 
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    
-  }
+        this.token = retrieveAccessToken();
 
-  postData = async (payload: any ,url: string ,secure: boolean) => {
-
-    if(secure){
-
-        verifyToken(this.token);
+        this.baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
     }
 
-    const AuthStr = 'Bearer '.concat(this.token);
+    postData = async (payload: any, url: string, secure: boolean) => {
+        let AuthStr = '';
 
-    return axios.post(this.baseUrl + url, payload, { headers: { Authorization: AuthStr }})
+        if (secure) {
 
-  };
+            verifyToken(this.token);
 
-  getData = async (url: string ,secure: boolean) => {
+        }
 
-    if(secure){
+        if (typeof this.token === "string") {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-      verifyToken(this.token);
+        return axios.post(this.baseUrl + url, payload, {headers: {Authorization: AuthStr}})
 
-    }
+    };
 
-    const AuthStr = 'Bearer '.concat(this.token); 
+    getData = async (url: string, secure: boolean) => {
+        let AuthStr = ''
 
-    return axios.get(this.baseUrl + url, { headers: { Authorization: AuthStr } })
+        if (secure) {
 
-  };
+            verifyToken(this.token);
+
+        }
+
+        if (typeof this.token === "string") {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
+
+        return axios.get(this.baseUrl + url, {headers: {Authorization: AuthStr}})
+
+    };
 
 
-  putData = async (formData: any,url: string, secure: boolean ) => {
+    putData = async (formData: any, url: string, secure: boolean) => {
+        let AuthStr = '';
 
-    if(secure){
+        if (secure) {
 
-      verifyToken(this.token);
+            verifyToken(this.token);
 
-    }
+        }
 
-    const AuthStr = 'Bearer '.concat(this.token); 
+        if (typeof this.token === "string") {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-    return axios.put(this.baseUrl + url, formData, { headers: { Authorization: AuthStr } })
+        return axios.put(this.baseUrl + url, formData, {headers: {Authorization: AuthStr}})
 
-  };
+    };
 
-  deleteData = async (url: string, secure: boolean) => {
+    deleteData = async (url: string, secure: boolean) => {
+        let AuthStr = '';
 
-    if(secure){
+        if (secure) {
 
-      verifyToken(this.token);
+            verifyToken(this.token);
 
-    }
+        }
 
-    const AuthStr = 'Bearer '.concat(this.token); 
+        if (typeof this.token === "string") {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-    return axios.delete(this.baseUrl + url, { headers: { Authorization: AuthStr } })
+        return axios.delete(this.baseUrl + url, {headers: {Authorization: AuthStr}})
 
-  };
-  
+    };
+
 }
 
 export default HttpService;
