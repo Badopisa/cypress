@@ -13,7 +13,6 @@ import {
   GridItem,
   FormLabel,
   Input,
-  FormErrorMessage,
   Select,
   HStack,
   FormControl,
@@ -21,14 +20,22 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-type NewStaffType = {
+type EditPlayerDetailsType = {
   isOpen: boolean;
   onClose: (value: boolean) => void;
+  setSelected: (value: boolean) => void;
 };
 
-const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
+const EditPlayerDetails = ({
+  isOpen,
+  onClose,
+  setSelected,
+}: EditPlayerDetailsType) => {
   const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
-
+  const handleSelect = () => {
+    setSelected(true);
+    onClose(true);
+  };
   return (
     <Modal isOpen={isOpen} onClose={() => onClose(false)}>
       <ModalOverlay />
@@ -41,10 +48,7 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
         borderRadius='3xl'
       >
         <ModalHeader py={8} textAlign='center' fontSize='lg' fontWeight='bold'>
-          Create New Staff
-          <Text fontSize='sm' fontWeight='light'>
-            Fill in a staff details and send an invite
-          </Text>
+          Edit Player Details
         </ModalHeader>
         <ModalBody>
           <Center>
@@ -58,7 +62,7 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
                 selectedImage={profilePicture}
               />
               <Text fontSize='sm' fontWeight='bold' color='blue'>
-                Upload Image
+                Change Image
               </Text>
             </VStack>
           </Center>
@@ -66,16 +70,15 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
             <HStack spacing={6}>
               <GridItem colSpan={1}>
                 <FormControl>
-                  <FormLabel fontSize='sm' htmlFor='lastname'>
+                  <FormLabel fontSize='sm' htmlFor='firstName'>
                     FIRST NAME
                   </FormLabel>
                   <Input
                     id='lastname'
                     name='lastname'
                     type='text'
-                    placeholder='eg.John'
+                    placeholder='Cavani'
                   />
-                  <FormErrorMessage>Firstname is required.</FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={1}>
@@ -87,9 +90,8 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
                     id='lastname'
                     name='lastname'
                     type='text'
-                    placeholder='eg.Dough'
+                    placeholder='Edison'
                   />
-                  <FormErrorMessage>Lastname is required.</FormErrorMessage>
                 </FormControl>
               </GridItem>
             </HStack>
@@ -97,33 +99,40 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
               <GridItem w='full'>
                 <FormControl>
                   <FormLabel fontSize='sm' htmlFor='country'>
-                    Designation
+                    POSITION
                   </FormLabel>
-                  <Select
-                    name='country'
-                    variant='outline'
-                    placeholder='Assistant Keeper Coach'
-                  >
+                  <Select name='country' variant='outline' placeholder='Choose'>
                     <option value='option1'>Option 1</option>
                     <option value='option2'>Option 2</option>
                     <option value='option3'>Option 3</option>
                   </Select>
-                  <FormErrorMessage>Designation is required.</FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem w='full'>
+                <FormControl>
+                  <FormLabel fontSize='sm' htmlFor='jerseyNo'>
+                    JERSY NUMBER
+                  </FormLabel>
+                  <Input
+                    id='jerseyNo'
+                    name='jerseyNo'
+                    type='text'
+                    placeholder='9'
+                  />
                 </FormControl>
               </GridItem>
             </HStack>
             <GridItem colSpan={1} w='full'>
               <FormControl>
-                <FormLabel fontSize='sm' htmlFor='lastname'>
-                  EMAIL
+                <FormLabel fontSize='sm' htmlFor='currentTeam'>
+                  Current Team
                 </FormLabel>
                 <Input
-                  id='lastname'
-                  name='lastname'
+                  id='currentTeam'
+                  name='currentTeam'
                   type='text'
-                  placeholder='example@gmail.com'
+                  placeholder='Wolves B'
                 />
-                <FormErrorMessage>Email address is required.</FormErrorMessage>
               </FormControl>
             </GridItem>
           </VStack>
@@ -131,8 +140,8 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
 
         <ModalFooter w='100%'>
           <VStack spacing={4} w='100%' mb='12px'>
-            <Button fontSize='sm' variant='action' w='full'>
-              ADD STAFF
+            <Button variant='action' w='full' onClick={handleSelect}>
+              Save Changes
             </Button>
             <Center>
               <Text w='full' onClick={() => onClose(false)} cursor='pointer'>
@@ -146,4 +155,4 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
   );
 };
 
-export default NewStaff;
+export default EditPlayerDetails;
