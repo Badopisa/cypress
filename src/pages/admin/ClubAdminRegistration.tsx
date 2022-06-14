@@ -30,8 +30,10 @@ import Link from '@/components/Elements/Link/Link';
 import {fetchCountries} from "@/services/countriesService";
 import {CountriesSelector} from "@/components/Form/CountriesSelector";
 import {PhoneNumberInput} from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
-import { useS3Upload } from 'next-s3-upload';
-
+import {useS3Upload} from 'next-s3-upload';
+import {config} from "react-paystack/dist/test/fixtures";
+import {uploadFile} from 'react-s3';
+// const {uploadFile} = require('react-s3');
 
 const ClubAdminRegistration = ({countries}: any) => {
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
@@ -93,10 +95,22 @@ const ClubAdminRegistration = ({countries}: any) => {
     //         console.log('upload error message', err.message);
     //     });
     // };
+    // const uploadImage = async () => {
+    //     let {url} = await uploadToS3(file);
+    //     console.log('image url', url);
+    // };
+    const config = {
+        bucketName: 'sonalysis-asset',
+        region: 'us-east-1',
+        accessKeyId: 'AKIAUATJLZ6TPTG35KFW',
+        secretAccessKey: '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',
+    }
+
     const uploadImage = async () => {
-        let {url} = await uploadToS3(file);
-        console.log('image url', url);
-    };
+        uploadFile(file, config)
+            .then((data: any) => console.log(data))
+            .catch((err: any) => console.error(err))
+    }
     return (
 
         <Flex h="auto" direction={{base: 'column-reverse', md: 'row'}} bg='primary'>
@@ -111,7 +125,17 @@ const ClubAdminRegistration = ({countries}: any) => {
                         </chakra.span>
                         Your Football Club
                     </Text>
-                    <Text w={{base: "90%"}} fontSize="14px" color="#AAAAAA" align={{base: "center", md: "start"}}>Please fill in the following details to bring your dream to life</Text>
+                    <Text w={{base: "90%"}} fontSize="14px" color="#AAAAAA" align={{base: "center", md: "start"}}>Please
+                                                                                                                  fill
+                                                                                                                  in the
+                                                                                                                  following
+                                                                                                                  details
+                                                                                                                  to
+                                                                                                                  bring
+                                                                                                                  your
+                                                                                                                  dream
+                                                                                                                  to
+                                                                                                                  life</Text>
                 </VStack>
                 <SimpleGrid columns={1} rowGap={5} w="80%">
                     <VStack>
@@ -221,10 +245,10 @@ const ClubAdminRegistration = ({countries}: any) => {
                                 <Input
                                     focusBorderColor="#811AFF"
                                     {...register("password", {
-                                    required: "Password is required",
-                                    minLength: {value: 8, message: "Password is Required"}
-                                })} id="password" type={show ? "text" : "password"}
-                                       placeholder="At least 8+ characters" />
+                                        required: "Password is required",
+                                        minLength: {value: 8, message: "Password is Required"}
+                                    })} id="password" type={show ? "text" : "password"}
+                                    placeholder="At least 8+ characters" />
                                 <InputRightElement>
                                     <Button mr="10px" padding={0} background="transparent" onClick={handleClick}>
                                         {show ? <AiFillEyeInvisible color='green.500' /> :

@@ -31,8 +31,7 @@ const ImageUpload = ({
         } else {
             setDefaultUserImage(defaultImage)
         }
-        return () => {
-        }
+        return () => {}
     }, [defaultImage, selectedImage])
 
     // On each change let user have access to a selected file
