@@ -17,12 +17,12 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 
+import { staffData } from '@/data/StaffData';
 import { SearchIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
-import { playerData } from '@/data/PlayerData';
 import Confirmation from './Confirmation';
 
-type ExistingPlayerType = {
+type ExistingStaffType = {
   isOpen: boolean;
   onClose: (value: boolean) => void;
   image?: string;
@@ -30,17 +30,16 @@ type ExistingPlayerType = {
   title?: string;
   buttonTitle?: string;
 };
-const ExistingPlayer = ({
+const ExistingStaff = ({
   isOpen,
   onClose,
   image,
   setSelected,
-  title = 'Add Existing Player',
-  buttonTitle = 'ADD PLAYER',
-}: ExistingPlayerType) => {
-  const [isPlayerSelected, setIsPlayerSelected] = useState<boolean>(false);
-  const [selectedPlayers, setSelectedPlayers] = useState<any>([]);
-
+  title = 'Add Existing Staffs',
+  buttonTitle = 'ADD STAFF',
+}: ExistingStaffType) => {
+  const [isStaffSelected, setIsStaffSelected] = useState<boolean>(false);
+  const [selectedStaffs, setSelectedStaffs] = useState<any>([]);
   const [selectConfirmation, setSelectedConfirmation] =
     useState<boolean>(false);
 
@@ -48,14 +47,14 @@ const ExistingPlayer = ({
     setSelectedConfirmation(true);
     onClose(true);
   };
-  const handleSelectExisitngPlayer = (id: number) => {
-    setIsPlayerSelected(true);
-    if (selectedPlayers.includes(id)) {
-      setSelectedPlayers((ids: number[]) =>
-        ids.filter((playerId) => playerId !== id)
+  const handleSelectExisitngStaff = (id: number) => {
+    setIsStaffSelected(true);
+    if (selectedStaffs.includes(id)) {
+      setSelectedStaffs((ids: number[]) =>
+        ids.filter((staffId) => staffId !== id)
       );
     } else {
-      setSelectedPlayers((ids: number[]) => [...ids, id]);
+      setSelectedStaffs((ids: number[]) => [...ids, id]);
     }
   };
   return (
@@ -106,22 +105,21 @@ const ExistingPlayer = ({
                 mt={8}
                 spacing={8}
               >
-                {playerData
-                  .map((player, index) => (
+                {staffData
+                  .map((staff, index) => (
                     <VStack
                       key={index}
-                      onClick={() => handleSelectExisitngPlayer(player.id)}
-                      cursor={'pointer'}
+                      onClick={() => handleSelectExisitngStaff(staff.id)}
                     >
                       <Avatar
                         bg='ash'
                         boxSize={{ base: '2rem', md: '4rem' }}
-                        src={player.file}
+                        src={staff.file}
                         position={'relative'}
                         top={0}
                         zIndex={1}
                       />
-                      {selectedPlayers.includes(player.id) && (
+                      {selectedStaffs.includes(staff.id) && (
                         <Image
                           src={'/icons/checked.svg'}
                           alt='checked'
@@ -133,9 +131,9 @@ const ExistingPlayer = ({
                         />
                       )}
                       <Text fontSize={'xxs'} fontWeight='semibold'>
-                        {player.playerName}
+                        {staff.staffName}
                       </Text>
-                      <Text fontSize={'xxs'}>{player.playerPosition}</Text>
+                      <Text fontSize={'xxs'}>{staff.staffPosition}</Text>
                     </VStack>
                   ))
                   .slice(0, 6)}
@@ -145,8 +143,8 @@ const ExistingPlayer = ({
 
           <ModalFooter w='full' py={{ base: 4, md: 8 }}>
             <VStack spacing={4} w='full'>
-              {isPlayerSelected && (
-                <Button variant='action' w='full' onClick={handleSelect}>
+              {isStaffSelected && (
+                <Button variant='action' w='full'>
                   {buttonTitle}
                 </Button>
               )}
@@ -166,4 +164,4 @@ const ExistingPlayer = ({
   );
 };
 
-export default ExistingPlayer;
+export default ExistingStaff;

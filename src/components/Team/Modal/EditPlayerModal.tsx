@@ -6,7 +6,13 @@ import {
   ModalContent,
   Divider,
 } from '@chakra-ui/react';
-import { MdMode, MdDelete, MdShare } from 'react-icons/md';
+import {
+  MdMode,
+  MdDelete,
+  MdShare,
+  MdPeople,
+  MdPersonAddAlt1,
+} from 'react-icons/md';
 
 import React, { useState } from 'react';
 import EditPlayerDetails from './EditPlayerDetails';
@@ -14,12 +20,38 @@ import Confirmation from './Confirmation';
 
 type ManagePlayerType = {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (value: boolean) => void;
+  setCreatePlayer?: (value: boolean) => void;
+  setCreateExistingPlayer?: (value: boolean) => void;
+
+  create?: string;
+  existing?: string;
+  edit?: string;
+  share?: string;
+  remove?: string;
 };
 
-const ManagePlayerModal = ({ isOpen, onClose }: ManagePlayerType) => {
+const ManagePlayerModal = ({
+  isOpen,
+  onClose,
+  create,
+  existing,
+  setCreatePlayer,
+  setCreateExistingPlayer,
+
+  edit,
+  share,
+  remove,
+}: ManagePlayerType) => {
   const [editPlayer, setEditPlayer] = useState<boolean>(false);
   const [select, setSelected] = useState<boolean>(false);
+
+  const handleCreatePlayer = () => {
+    setCreatePlayer?.(true);
+  };
+  const handleCreateExistingPlayer = () => {
+    setCreateExistingPlayer?.(true);
+  };
 
   const handleEditPlayer = () => {
     setEditPlayer(true);
@@ -32,7 +64,7 @@ const ManagePlayerModal = ({ isOpen, onClose }: ManagePlayerType) => {
   };
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={() => onClose(false)}>
         <ModalOverlay />
         <ModalContent
           w='xs'
@@ -43,34 +75,72 @@ const ManagePlayerModal = ({ isOpen, onClose }: ManagePlayerType) => {
           rounded='1.125rem'
         >
           <VStack alignItems={'flex-start'}>
-            <Button
-              variant={'bare'}
-              leftIcon={<MdMode color='white' />}
-              onClick={handleEditPlayer}
-              px={8}
-            >
-              Edit Player
-            </Button>
-            <Divider color='primary' />
-            <Button
-              variant={'bare'}
-              leftIcon={<MdShare color='white' />}
-              onClick={handleSharePlayer}
-              px={8}
-            >
-              Share Player
-            </Button>
-            <Divider color='primary' orientation='horizontal' />{' '}
-            <Button
-              variant={'bare'}
-              leftIcon={<MdDelete color='white' />}
-              onClick={handleDeletePlayer}
-              px={8}
-            >
-              Remove Player
-            </Button>
-            <Divider color='primary' orientation='horizontal' />{' '}
-            <Button variant={'bare'} onClick={onClose} px={12}>
+            {create && (
+              <>
+                <Button
+                  variant={'bare'}
+                  leftIcon={<MdPersonAddAlt1 color='white' />}
+                  onClick={handleCreatePlayer}
+                  px={8}
+                >
+                  {create}
+                </Button>
+                <Divider color='primary' orientation='horizontal' />
+              </>
+            )}
+            {existing && (
+              <>
+                <Button
+                  variant={'bare'}
+                  leftIcon={<MdPeople color='white' />}
+                  onClick={handleCreateExistingPlayer}
+                  px={8}
+                >
+                  {existing}
+                </Button>
+                <Divider color='primary' orientation='horizontal' />
+              </>
+            )}
+            {edit && (
+              <>
+                <Button
+                  variant={'bare'}
+                  leftIcon={<MdMode color='white' />}
+                  onClick={handleEditPlayer}
+                  px={8}
+                >
+                  {edit}
+                </Button>
+                <Divider color='primary' orientation='horizontal' />
+              </>
+            )}
+            {share && (
+              <>
+                <Button
+                  variant={'bare'}
+                  leftIcon={<MdShare color='white' />}
+                  onClick={handleSharePlayer}
+                  px={8}
+                >
+                  Share Player
+                </Button>
+                <Divider color='primary' orientation='horizontal' />
+              </>
+            )}
+            {remove && (
+              <>
+                <Button
+                  variant={'bare'}
+                  leftIcon={<MdDelete color='white' />}
+                  onClick={handleDeletePlayer}
+                  px={8}
+                >
+                  {remove}
+                </Button>
+                <Divider color='primary' />
+              </>
+            )}{' '}
+            <Button variant={'bare'} onClick={() => onClose(false)} px={12}>
               Close
             </Button>
             <Divider color='primary' orientation='horizontal' />

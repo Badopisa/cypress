@@ -31,26 +31,44 @@ import EditStaffModal from '@/components/Team/Modal/EditStaffModal';
 import EditTeamInfo from '@/components/Team/Modal/EditTeamInfo';
 import { staffData } from '@/data/StaffData';
 import NewStaff from '@/components/Team/Modal/NewStaff';
+import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
+import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
 const TeamManagement = () => {
   const [tab, setTab] = useState<number>(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [create, setCreate] = useState<boolean>(false);
   const [createStaff, setCreateStaff] = useState<boolean>(false);
+  const [createPlayer, setCreatePlayer] = useState<boolean>(false);
+  const [createExistingPlayer, setCreateExistingPlayer] =
+    useState<boolean>(false);
+  const [createExistingStaff, setCreateExistingStaff] =
+    useState<boolean>(false);
 
   const [openStaff, setOpenStaff] = useState<boolean>(false);
+  const [openStaffModal, setOpenStaffModal] = useState<boolean>(false);
+  const [openPlayer, setOpenPlayer] = useState<boolean>(false);
+  const [openPlayerModal, setOpenPlayerModal] = useState<boolean>(false);
+
   const [openTeam, setOpenTeam] = useState<boolean>(false);
 
   const handleCreate = () => {
     setCreate(true);
   };
-  const handleCreateStaff = () => {
-    setCreateStaff(true);
-  };
+
   const handleEditTeam = () => {
     setOpenTeam(true);
   };
+  const handleStaffModal1 = () => {
+    setOpenStaffModal(true);
+  };
   const handleStaffModal = () => {
     setOpenStaff(true);
+  };
+  const handlePlayerModal1 = () => {
+    setOpenPlayerModal(true);
+  };
+  const handlePlayerModal = () => {
+    setOpenPlayer(true);
   };
 
   const TabSelectedStyle = {
@@ -65,7 +83,12 @@ const TeamManagement = () => {
         <Text fontSize={'xl'} fontWeight='semibold'>
           Club management
         </Text>
-        <Flex justify='space-between' w={'70%'} my={8}>
+        <Flex
+          justify='space-between'
+          w={'70%'}
+          my={8}
+          direction={{ base: 'column', md: 'row' }}
+        >
           <VStack>
             <Avatar
               bg='ash'
@@ -77,7 +100,7 @@ const TeamManagement = () => {
             </Text>
           </VStack>
 
-          <Wrap w={'45%'} alignSelf={'self-end'}>
+          <Wrap w={'45%'} alignSelf={{ base: 'self-start', md: 'self-end' }}>
             <Text fontSize={'sm'} p={1} color='white' bg='dark'>
               23 Players
             </Text>
@@ -143,7 +166,7 @@ const TeamManagement = () => {
                 fontWeight='semibold'
                 variant='outline'
                 _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
-                onClick={handleCreate}
+                onClick={handlePlayerModal}
               >
                 ADD NEW PLAYER
               </Button>
@@ -170,7 +193,7 @@ const TeamManagement = () => {
                     key={index}
                     name={player.playerName}
                     team='Wolves'
-                    click={onOpen}
+                    click={handlePlayerModal1}
                   />
                 ))
                 .slice(0, 6)}
@@ -186,7 +209,7 @@ const TeamManagement = () => {
                 fontWeight='semibold'
                 variant='outline'
                 _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
-                onClick={handleCreateStaff}
+                onClick={handleStaffModal}
               >
                 ADD NEW STAFF
               </Button>
@@ -213,18 +236,54 @@ const TeamManagement = () => {
                     key={index}
                     name={staff.staffName}
                     position={staff.staffPosition}
-                    click={handleStaffModal}
+                    click={handleStaffModal1}
                   />
                 ))
                 .slice(0, 6)}
             </SimpleGrid>
           </>
         )}
-        <NewPlayer isOpen={create} onClose={setCreate} />
+        <NewPlayer isOpen={createPlayer} onClose={setCreatePlayer} />
         <NewStaff isOpen={createStaff} onClose={setCreateStaff} />
         <EditTeamInfo isOpen={openTeam} onClose={setOpenTeam} />
-        <EditPlayerModal isOpen={isOpen} onClose={onClose} />
-        <EditStaffModal isOpen={openStaff} onClose={setOpenStaff} />
+        <EditPlayerModal
+          isOpen={openPlayerModal}
+          onClose={setOpenPlayerModal}
+          edit='Edit Player'
+          share='Share Player'
+          remove='Remove Player'
+        />
+        <EditPlayerModal
+          isOpen={openPlayer}
+          onClose={setOpenPlayer}
+          create='Add New Player'
+          existing='Add Existing Player'
+          setCreatePlayer={setCreatePlayer}
+          setCreateExistingPlayer={setCreateExistingPlayer}
+        />
+        <EditStaffModal
+          isOpen={openStaffModal}
+          onClose={setOpenStaffModal}
+          edit='Edit Staff'
+          share='Share Staff'
+          remove='Remove Staff'
+        />
+        <EditStaffModal
+          isOpen={openStaff}
+          onClose={setOpenStaff}
+          create='Add New Staff'
+          existing='Add Existing Staff'
+          setCreateStaff={setCreateStaff}
+          setCreateExistingStaff={setCreateExistingStaff}
+        />
+        <ExistingPlayer
+          isOpen={createExistingPlayer}
+          onClose={setCreateExistingPlayer}
+        />
+        <ExistingStaff
+          isOpen={createExistingStaff}
+          onClose={setCreateExistingStaff}
+        />
       </Box>
     </>
   );

@@ -7,6 +7,9 @@ export const Button = {
       },
       color: '#fff',
       bg: "primary",
+      _focus: {
+        boxShadow: 'none'
+      }
     },
     outline: {
       color: "#fff",
@@ -14,6 +17,9 @@ export const Button = {
         color: '#fff',
         bg: "ash"
       },
+      _focus: {
+        boxShadow: 'none'
+      }
     },
     actionOutline: {
       color: "#fff",
@@ -22,6 +28,9 @@ export const Button = {
         color: '#fff',
         bg: "primary"
       },
+      _focus: {
+        boxShadow: 'none'
+      }
     },
     actionWhite: {
       _hover: {
@@ -30,6 +39,9 @@ export const Button = {
       },
       color: 'dark',
       bg: "white",
+      _focus: {
+        boxShadow: 'none'
+      }
     },
     actionBare: {
       _hover: {
@@ -38,10 +50,16 @@ export const Button = {
       },
       color: 'white',
       bg: "deepAsh",
+      _focus: {
+        boxShadow: 'none'
+      }
     },
     bare: {
       color: 'white',
       bg: "transparent",
+      _focus: {
+        boxShadow: 'none'
+      }
     },
   }
 }
