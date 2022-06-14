@@ -18,8 +18,11 @@ import NewPlayer from '@/components/Team/Modal/NewPlayer';
 import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
+import {TeamDataType} from "@/types/TeamDataType";
+import {RootStateOrAny, useSelector} from "react-redux";
 
 const AddTeam = () => {
+    const {currentTeam}: { currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
     const [create, setCreate] = useState<boolean>(false);
     const [existing, setExisting] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false)
@@ -80,24 +83,17 @@ const AddTeam = () => {
                 </Stack>
                 <SimpleGrid minChildWidth={{base: '100%', md: '166px'}} spacing={{base: '14px', md: '40px'}} mt={8}
                             mb={8}>
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
-                    <PlayerCard image='/images/image/jersy.png' name='John Doe' position='Center'
-                                status='Wolves FC B Team' />
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
-                    <PlayerCard image='/images/image/jersy.png' name='Edinson Cavani' position='Forward'
-                                status='Pending Invite' />
+                    {
+                        currentTeam?.player === [] ?
+                            <BlankTeam image="/images/image/jersy.png" title="No team created yet" />
+                            :
+                            currentTeam.players.map((player: any) => (
+                                <PlayerCard key={player?.id} position={player?.position}
+                                            image={'/images/image/jersy.png'}
+                                            status="Pending Invite" name={`${player.first_name} ${player.last_name}`} />
+                            ))
+                    }
                 </SimpleGrid>
-                <BlankTeam image="/images/image/jersy.png" title="No team created yet" />
                 <Center>
                     <VStack mb={10} w={{base: '40%', md: '40%'}} spacing={4} mx={{base: 8, md: 12}}>
                         <Button
