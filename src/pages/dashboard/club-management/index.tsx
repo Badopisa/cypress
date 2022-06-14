@@ -28,7 +28,7 @@ import BlankTeam from '@/components/Team/BlankTeam';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { fetchTeams, filterTeam } from '@/store/actions/teamActions';
 import { TeamDataType } from '@/types/TeamDataType';
-import PlayerCard from '@/components/Team/PlayerCard';
+import TeamCard from '@/components/Team/TeamCard';
 import { UserDataType } from '@/types/AuthDataType';
 
 const boxStyles = {
@@ -63,13 +63,14 @@ const ClubManagement = () => {
   const handleCreateTeam = () => {
     router.push('/dashboard/club-management/create-team');
   };
+  console.log('filteredData is', filteredData);
 
   useEffect(() => {
     if (filteredData.length < 1) {
-      console.log('No team', user.clubs[0].id);
-      console.log('Clubs are eam', user.clubs);
+      console.log('No team', user?.clubs[0].id);
+      console.log('Clubs are eam', user?.clubs);
 
-      dispatch(fetchTeams(user.clubs[0].id));
+      dispatch(fetchTeams(user?.clubs[0].id));
     }
   }, []);
   console.log('Clubs are eam', user);
@@ -80,6 +81,9 @@ const ClubManagement = () => {
     if (text.length < 1 || text.length > 2) {
       dispatch(filterTeam(text));
     }
+  };
+  const handleTeamSelect = () => {
+    router.push('/dashboard/club-management/TeamManagement');
   };
 
   return (
@@ -206,11 +210,11 @@ const ClubManagement = () => {
             mb={8}
           >
             {filteredData.map((team, index) => (
-              <PlayerCard
+              <TeamCard
                 image='/images/image/jersy.png'
                 key={index}
                 name={team.name}
-                status='active'
+                click={handleTeamSelect}
               />
             ))}
           </SimpleGrid>

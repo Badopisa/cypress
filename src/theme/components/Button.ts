@@ -39,6 +39,10 @@ export const Button = {
       color: 'white',
       bg: "deepAsh",
     },
+    bare: {
+      color: 'white',
+      bg: "transparent",
+    },
   }
 }
 
