@@ -1,0 +1,14 @@
+.scrollbar {
+  overflow-y: auto;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 0.2em;
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: '#818181';
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: '#818181';
+  border: 0.2em solid #818181;
+  border-radius: 20px;
+}

@@ -9,9 +9,14 @@ export const colors = {
     danger: "D52121",
     muted: "#818181",
     yellow: "#FFD601",
-    dark:"#000000",
+    lightAsh: '#474344',
+    dark: "#000000",
     divider: "#262626",
     blue: "#5597FF",
     grey: "#242424",
-    active:"#A257FF"
+    active: "#A257FF",
+    offWhite: "#C0C0C0",
+    deepAsh: '#515151',
+    deepGray: '#5E5E5E',
+
 }

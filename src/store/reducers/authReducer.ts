@@ -3,6 +3,8 @@ import { UserDataType } from '@/types/AuthDataType'
 
 const initialState = {
   user: null,
+  file: null,
+  fileName: null
 }
 
 type IAction =  {
@@ -16,6 +18,16 @@ export const authReducer = (state = initialState, action: IAction) => {
       return {
         ...state,
         user: action.payload
+      }
+    case types.UPDATE_FILE:
+      return {
+        ...state,
+        file: action.payload
+      }
+    case types.UPDATE_FILE_NAME:
+      return {
+        ...state,
+        fileName: action.payload
       }
     default: return state
   }
