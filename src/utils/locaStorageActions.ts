@@ -1,21 +1,28 @@
-import {ACCESS_TOKEN, TOKEN_TIME} from "./constants";
+import { ACCESS_TOKEN, TOKEN_TIME } from "./constants";
 
 export const saveAccessToken = (token: string) => {
 
-    localStorage.setItem(ACCESS_TOKEN, token)
+    if (typeof window !== "undefined") {
+        localStorage.setItem(ACCESS_TOKEN, token)
 
-    localStorage.setItem(TOKEN_TIME, Date.now().toString());
+        localStorage.setItem(TOKEN_TIME, Date.now().toString());
+    }
 
 }
 
 export const retrieveAccessToken = () => {
     if (typeof window !== 'undefined') {
-        // Perform localStorage action
-        return localStorage?.getItem(ACCESS_TOKEN)
+        return localStorage.getItem(ACCESS_TOKEN) || ''
     }
+    return ''
+
+
 }
 
 export const clearLocalStorage = () => {
-    localStorage.removeItem(ACCESS_TOKEN)
-    localStorage.removeItem(TOKEN_TIME)
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem(ACCESS_TOKEN)
+        localStorage.removeItem(TOKEN_TIME)
+    }
+
 }
