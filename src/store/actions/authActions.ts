@@ -19,7 +19,6 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
 
             .then(async (result) => {
 
-                console.log('payload submit', payload);
                 const {data} = result
 
                 dispatch(saveAdminData(data.data.user))

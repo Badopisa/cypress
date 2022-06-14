@@ -51,7 +51,6 @@ const ClubAdminRegistration = ({countries}: any) => {
         formState: {errors, isSubmitting}
     } = useForm();
     const onSubmit = async (values: any) => {
-        console.log('submit', values);
         const payload = {
             photo: "",
             role: "owner",
