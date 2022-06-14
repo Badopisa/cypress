@@ -53,7 +53,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
             fontSize='lg'
             fontWeight='bold'
           >
-            Create New Player'
+            Create New Player
             <Text fontSize='sm' fontWeight='light'>
               Fill in a player’s details and send an invite
             </Text>

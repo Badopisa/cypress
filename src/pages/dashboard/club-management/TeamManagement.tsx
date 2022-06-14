@@ -30,15 +30,21 @@ import NewPlayer from '@/components/Team/Modal/NewPlayer';
 import EditStaffModal from '@/components/Team/Modal/EditStaffModal';
 import EditTeamInfo from '@/components/Team/Modal/EditTeamInfo';
 import { staffData } from '@/data/StaffData';
+import NewStaff from '@/components/Team/Modal/NewStaff';
 const TeamManagement = () => {
   const [tab, setTab] = useState<number>(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [create, setCreate] = useState<boolean>(false);
+  const [createStaff, setCreateStaff] = useState<boolean>(false);
+
   const [openStaff, setOpenStaff] = useState<boolean>(false);
   const [openTeam, setOpenTeam] = useState<boolean>(false);
 
   const handleCreate = () => {
     setCreate(true);
+  };
+  const handleCreateStaff = () => {
+    setCreateStaff(true);
   };
   const handleEditTeam = () => {
     setOpenTeam(true);
@@ -180,6 +186,7 @@ const TeamManagement = () => {
                 fontWeight='semibold'
                 variant='outline'
                 _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
+                onClick={handleCreateStaff}
               >
                 ADD NEW STAFF
               </Button>
@@ -214,6 +221,7 @@ const TeamManagement = () => {
           </>
         )}
         <NewPlayer isOpen={create} onClose={setCreate} />
+        <NewStaff isOpen={createStaff} onClose={setCreateStaff} />
         <EditTeamInfo isOpen={openTeam} onClose={setOpenTeam} />
         <EditPlayerModal isOpen={isOpen} onClose={onClose} />
         <EditStaffModal isOpen={openStaff} onClose={setOpenStaff} />
