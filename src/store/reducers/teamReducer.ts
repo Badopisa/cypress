@@ -2,11 +2,13 @@ import * as types from '@/store/actions/actionTypes'
 import {TeamDataType} from '@/types/TeamDataType'
 
 type TeamReducerData = {
+    allPlayers: any,
     currentTeam: any,
     teams: TeamDataType[] | [],
     filteredData: TeamDataType[] | []
 }
 const initialState: TeamReducerData = {
+    allPlayers: [],
     currentTeam: null,
     teams: [],
     filteredData: []
@@ -19,6 +21,18 @@ type IAction = {
 
 export const teamReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
+        case types.GET_ALL_PLAYERS:
+            let players: any = []
+            for (const team of state.teams) {
+                if(team.players) {
+                    players = [...players, ...team.players]
+                }
+            }
+            console.log('players team reducer', players)
+            return {
+                ...state,
+                allPlayers: players
+            }
         case types.SET_CURRENT_TEAM:
             return {
                 ...state,

@@ -3,5 +3,7 @@ import {PlayerToTeamType} from "@/types/TeamDataType";
 
 export type PlayerReducerData = {
     newPlayer: PlayerFormType | null,
-    addedPlayerToTeamInfo: PlayerToTeamType[] | []
+    addedPlayerToTeamInfo: PlayerToTeamType[] | [],
+    selectedPlayers: any,
+    allPlayers: any,
 }

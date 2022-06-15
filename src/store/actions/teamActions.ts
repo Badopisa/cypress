@@ -105,6 +105,12 @@ export const getTeamDetails = (teamID: string, toast: any) => {
     };
 }
 
+export const getAllPlayers = () => {
+    return {
+        type: actionTypes.GET_ALL_PLAYERS
+    }
+}
+
 const saveTeamData = (data: TeamDataType[] | null) => {
 
     return {

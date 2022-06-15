@@ -84,14 +84,14 @@ const AddTeam = () => {
                 <SimpleGrid minChildWidth={{base: '100%', md: '166px'}} spacing={{base: '14px', md: '40px'}} mt={8}
                             mb={8}>
                     {
-                        currentTeam?.player === [] ?
-                            <BlankTeam image="/images/image/jersy.png" title="No team created yet" />
-                            :
-                            currentTeam.players.map((player: any) => (
+                        currentTeam?.players?.length > 0 ?
+                            currentTeam?.players?.map((player: any) => (
                                 <PlayerCard key={player?.id} position={player?.position}
                                             image={'/images/image/jersy.png'}
                                             status="Pending Invite" name={`${player.first_name} ${player.last_name}`} />
                             ))
+                            :
+                            <BlankTeam image="/images/image/jersy.png" title="No team created yet" />
                     }
                 </SimpleGrid>
                 <Center>
@@ -114,7 +114,7 @@ const AddTeam = () => {
                     </VStack>
                 </Center>
 
-                <ExistingPlayer isOpen={existing} onClose={setExisting} jersyPng='/images/image/jersy.png'
+                <ExistingPlayer isOpen={existing} onClose={setExisting}
                                 setSelected={setSelected} />
 
                 <NewPlayer isOpen={create} onClose={setCreate} />

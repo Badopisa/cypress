@@ -8,7 +8,7 @@ import {getTeamDetails} from "@/store/actions/teamActions";
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string, toast: any, onClose: any) => {
+export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string, toast: any, onClose: any, setSeleced: any,) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true))
 
@@ -37,6 +37,7 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
                     console.log('newResult', newResult)
                     dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast))
                     onClose(false)
+                    setSeleced(true)
                     dispatch(updateIsLoading(false))
                 }).catch(err => {
                     console.log('add player to team error', err)
@@ -49,6 +50,37 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
 
     };
 }
+
+// export const getAllPlayers = (teams: any) => {
+//     // let players: any = []
+//     // for (const team of teams) {
+//     //     console.log('started')
+//     //     players = [...players, ...team.players]
+//     //     console.log('players', players)
+//     // }
+//     // for (let i = 0; i < teams.length; i++) {
+//     //     console.log('started')
+//     //     players = [...players, ...teams[i].players]
+//     //     console.log('players', players)
+//     // }
+//     const players = teams.map((team: any) => {
+//         team.players
+//     })
+//     console.log('teams', teams)
+//     console.log('players', players)
+//     return {
+//         type: actionTypes.GET_ALL_PLAYERS,
+//         payload: players
+//     }
+// }
+
+export const checkSelectedPlayer = (playerId: any) => {
+    return {
+        type: actionTypes.CHECK_SELECTED_PLAYER,
+        payload: playerId
+    }
+}
+
 
 const handleError = (err: any, toast: any, dispatch: Dispatch) => {
     updateAlertMsg(toast, {type: "error", message: err?.response?.data?.message})

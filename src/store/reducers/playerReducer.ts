@@ -3,7 +3,9 @@ import {PlayerReducerData} from "@/store/reducers/reducerTypes";
 
 const initialState: PlayerReducerData = {
     newPlayer: null,
-    addedPlayerToTeamInfo: []
+    addedPlayerToTeamInfo: [],
+    selectedPlayers: [],
+    allPlayers: [],
 }
 
 type IAction = {
@@ -13,6 +15,11 @@ type IAction = {
 
 export const playerReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
+        case types.GET_ALL_PLAYERS:
+            return {
+                ...state,
+                allPlayers: action.payload
+            }
         case types.SAVE_NEW_PLAYER:
             return {
                 ...state,
@@ -22,6 +29,18 @@ export const playerReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 addedPlayerToTeamInfo: action.payload
+            }
+        case types.CHECK_SELECTED_PLAYER:
+            if (state.selectedPlayers.includes(action.payload)) {
+                return {
+                    ...state,
+                    selectedPlayers: state.selectedPlayers.filter((player: any) => player !== action.payload)
+                }
+            } else {
+                return {
+                    ...state,
+                    selectedPlayers: [...state.selectedPlayers, action.payload]
+                }
             }
         default:
             return state
