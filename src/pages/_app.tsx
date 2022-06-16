@@ -6,7 +6,8 @@ import Layout from '@/components/Layout';
 import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
 import store from '@/store';
-import '../pages/admin/registration.scss';
+// import '../components/Team/Modal/GlobalError/global.scss';
+// import '../pages/admin/registration.scss';
 import '../pages/admin/choose-payment.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
