@@ -32,7 +32,7 @@ const DashboardNavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
         p='8'
         role='group'
         cursor='pointer'
-        bg={linkSelected ? 'primary' : 'transparent'}
+        bg={linkSelected ? 'active' : 'transparent'}
         _hover={{
           bg: 'active',
           color: 'white',
