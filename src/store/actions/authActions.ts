@@ -1,44 +1,45 @@
 import * as Redux from 'redux';
-import { AdminRegFormData, LoginFormDataType, UserDataType } from "@/types/AuthDataType";
+import {AdminRegFormData, LoginFormDataType, UserDataType} from "@/types/AuthDataType";
 import {ClubAdminLogin, ClubAdminRegistration} from "@/services/clubAdminService"
 import * as actionTypes from "./actionTypes"
-import { updateAlertMsg, updateIsLoading } from './msgAction';
-import { clearLocalStorage, saveAccessToken } from '@/utils/locaStorageActions';
+import {updateAlertMsg, updateIsLoading} from './msgAction';
+import {clearLocalStorage, saveAccessToken} from '@/utils/locaStorageActions';
 
 
 type Dispatch = Redux.Dispatch<any>;
 
 export const adminRegistration = (payload: AdminRegFormData, toast: any, router: any) => {
 
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
 
-      dispatch(updateIsLoading(true))
+        dispatch(updateIsLoading(true))
+        //here
 
-      ClubAdminRegistration(payload)
+        ClubAdminRegistration(payload)
 
-        .then(async (result) => {
+            .then(async (result) => {
 
-            const {data} = result
+                const {data} = result
 
-            dispatch(saveAdminData(data.data.user))
+                dispatch(saveAdminData(data.data.user))
 
-            updateAlertMsg(toast, {type: "success", message:"Congratulations, Account successfully created"})
+                updateAlertMsg(toast, {type: "success", message: "Congratulations, Account successfully created"})
 
-            saveAccessToken(data.data.auth_token)
+                saveAccessToken(data.data.auth_token)
 
-            dispatch(updateIsLoading(false))
+                dispatch(updateIsLoading(false))
 
-            router.push('/admin/subscription')
-          
-        })
-        
-        .catch((err) => {
+                router.push('/admin/subscription')
 
-            updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+            })
 
-            dispatch(updateIsLoading(false))
+            .catch((err) => {
 
-        });
+                updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+
+                dispatch(updateIsLoading(false))
+
+            });
 
     };
 
@@ -46,35 +47,35 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
 
 export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) => {
 
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
 
-      dispatch(updateIsLoading(true))
+        dispatch(updateIsLoading(true))
 
-     ClubAdminLogin(payload)
+        ClubAdminLogin(payload)
 
-        .then(async (result) => {
+            .then(async (result) => {
 
-            const {data} = result
+                const {data} = result
 
-            dispatch(saveAdminData(data.data.user))
+                dispatch(saveAdminData(data.data.user))
 
-            updateAlertMsg(toast, {type: "success", message:"Congratulations, Login Successful"})
+                updateAlertMsg(toast, {type: "success", message: "Congratulations, Login Successful"})
 
-            saveAccessToken(data.data.auth_token)
+                saveAccessToken(data.data.auth_token)
 
-            dispatch(updateIsLoading(false))
+                dispatch(updateIsLoading(false))
 
-            router.push('/dashboard/club-management')
-          
-        })
-        
-        .catch((err) => {
+                router.push('/dashboard/club-management')
 
-            updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+            })
 
-            dispatch(updateIsLoading(false))
+            .catch((err) => {
 
-        });
+                updateAlertMsg(toast, {type: "error", message: err.response.data.message})
+
+                dispatch(updateIsLoading(false))
+
+            });
 
     };
 
@@ -83,21 +84,41 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
 export const logout = () => {
 
 
-        clearLocalStorage()
+    clearLocalStorage()
 
-        window.location.href = process.env.NEXT_PUBLIC_APP_BASE_URL + 'login';
-          
+    window.location.href = process.env.NEXT_PUBLIC_APP_BASE_URL + 'login';
+
 }
-
 
 
 const saveAdminData = (data: UserDataType) => {
 
     return {
-  
+
         type: actionTypes.SAVE_USER_DETAILS,
-   
+
         payload: data
-   
+
+    }
+}
+
+export const updateImageFile = (data: any) => {
+
+    return {
+
+        type: actionTypes.UPDATE_FILE,
+
+        payload: data
+
+    }
+}
+export const updateFileName = (data: String) => {
+
+    return {
+
+        type: actionTypes.UPDATE_FILE_NAME,
+
+        payload: data
+
     }
 }

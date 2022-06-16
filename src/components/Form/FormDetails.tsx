@@ -23,7 +23,7 @@ type FormDetailsType = {
 const FormDetails = ({children, coloredTitle,title, subTitle, buttonText, hasFormFooter=false, hasAccount=false, tW="90%", mt="20", hasArror, hasFooter=true, hasOtherLinks=true, handleButtonClick}: FormDetailsType) => {
     const router = useRouter()
   return (
-        <VStack bgColor="black" color="white" w="full" h="full"  p={{base: 20, sm: 20}}  spacing={10} alignItems="flex-start">
+        <VStack zIndex={10} bgColor="black" color="white" w="full" h="full"  p={{base: 20, sm: 20}}  spacing={10} alignItems="flex-start">
             {
                 hasArror &&
                 <HStack cursor="pointer" onClick={()=>router.back()} spacing={6} py={{base:2, md:4}}>

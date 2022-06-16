@@ -13,6 +13,8 @@ export type UserDataType = {
     email: string,
     is_active: number,
     last_name: string,
+    file?: any,
+    fileName?: string,
     clubs: ClubDataType[]
 }
 
