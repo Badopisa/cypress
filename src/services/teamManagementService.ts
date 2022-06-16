@@ -2,12 +2,10 @@ import HttpService from '@/services/httpService'
 import {PlayerToTeamType, TeamFormType} from '@/types/TeamDataType';
 
 export const FetchTeamDetails = (clubId: string) => {
-    console.log('FetchTeamDetails', clubId)
 
     const http = new HttpService();
 
     const url = `teams?club_id=${clubId}`;
-    console.log('url', url)
 
     return http.getData(url, true)
 

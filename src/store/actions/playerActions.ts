@@ -1,10 +1,10 @@
 import {updateAlertMsg, updateIsLoading} from "@/store/actions/msgAction";
 import {AddPlayersToTeam} from "@/services/teamManagementService";
-import {PlayerFormType} from "@/types/PlayerDataType";
+import {PlayerFormType, PlayerToTeamType} from "@/types/PlayerDataType";
 import * as Redux from "redux";
 import {CreatePlayer} from "@/services/playerManagementService";
 import * as actionTypes from "@/store/actions/actionTypes";
-import {getTeamDetails} from "@/store/actions/teamActions";
+import {fetchTeams, getTeamDetails} from "@/store/actions/teamActions";
 
 type Dispatch = Redux.Dispatch<any>;
 
@@ -36,6 +36,7 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
                     })
                     console.log('newResult', newResult)
                     dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast))
+                    dispatch(fetchTeams(data?.data?.club_id));
                     onClose(false)
                     setSeleced(true)
                     dispatch(updateIsLoading(false))
@@ -51,29 +52,6 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
     };
 }
 
-// export const getAllPlayers = (teams: any) => {
-//     // let players: any = []
-//     // for (const team of teams) {
-//     //     console.log('started')
-//     //     players = [...players, ...team.players]
-//     //     console.log('players', players)
-//     // }
-//     // for (let i = 0; i < teams.length; i++) {
-//     //     console.log('started')
-//     //     players = [...players, ...teams[i].players]
-//     //     console.log('players', players)
-//     // }
-//     const players = teams.map((team: any) => {
-//         team.players
-//     })
-//     console.log('teams', teams)
-//     console.log('players', players)
-//     return {
-//         type: actionTypes.GET_ALL_PLAYERS,
-//         payload: players
-//     }
-// }
-
 export const checkSelectedPlayer = (playerId: any) => {
     return {
         type: actionTypes.CHECK_SELECTED_PLAYER,
@@ -81,6 +59,35 @@ export const checkSelectedPlayer = (playerId: any) => {
     }
 }
 
+export const addSelectedPlayersToTeam = (payload: string[], team_id: string, toast: any, onClose: any, setSeleced: any,) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true))
+        const addPlayerToClubPayload = {
+            players: payload.map(player => {
+                return {
+                    player_id: player,
+                    team_id: team_id
+                }
+            })
+        }
+
+        AddPlayersToTeam(addPlayerToClubPayload).then(newResult => {
+            dispatch(addPlayerToTeam(newResult?.data))
+            updateAlertMsg(toast, {
+                type: "success",
+                message: "Congratulations, Player successfully added to team"
+            })
+            console.log('newResult', newResult)
+            dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast))
+            onClose(false)
+            setSeleced(true)
+            dispatch(updateIsLoading(false))
+        }).catch(err => {
+            console.log('add player to team error', err)
+            handleError(err, toast, dispatch);
+        })
+    }
+}
 
 const handleError = (err: any, toast: any, dispatch: Dispatch) => {
     updateAlertMsg(toast, {type: "error", message: err?.response?.data?.message})
@@ -98,5 +105,5 @@ function addPlayerToTeam(data: any): any {
     return {
         type: actionTypes.ADD_PLAYER_TO_TEAM,
         payload: data
-    }
+ }
 }

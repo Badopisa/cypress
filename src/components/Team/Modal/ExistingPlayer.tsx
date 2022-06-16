@@ -14,16 +14,16 @@ import {
     SimpleGrid,
     Image,
     Stack,
-    FormControl,
+    FormControl, useToast,
 } from '@chakra-ui/react';
 
 import {SearchIcon} from '@chakra-ui/icons';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {allPlayers} from '@/data/AllPlayers';
 import Confirmation from './Confirmation';
-import {checkSelectedPlayer} from "@/store/actions/playerActions";
+import {addSelectedPlayersToTeam, checkSelectedPlayer} from "@/store/actions/playerActions";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {getAllPlayers} from "@/store/actions/teamActions";
+import {filterPlayers, filterTeam, getAllPlayers} from "@/store/actions/teamActions";
 
 type ExistingPlayerType = {
     isOpen: boolean;
@@ -42,15 +42,20 @@ const ExistingPlayer = ({
                             buttonTitle = 'ADD PLAYER',
                         }: ExistingPlayerType) => {
     const {selectedPlayers}: { selectedPlayers: any } = useSelector((state: RootStateOrAny) => state.player)
-    const {allPlayers}: { allPlayers: any } = useSelector((state: RootStateOrAny) => state.team)
+    const {
+        filteredPlayers,
+        teams,
+        currentTeam
+    }: { filteredPlayers: any, teams: any, currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
+    const [searchText, setSearchText] = useState('');
+    const toast = useToast();
     const dispatch = useDispatch();
 
     const [selectConfirmation, setSelectedConfirmation] =
         useState<boolean>(false);
 
     const handleSelect = () => {
-        setSelectedConfirmation(true);
-        onClose(true);
+        dispatch(addSelectedPlayersToTeam(selectedPlayers, currentTeam.id, toast, onClose, setSelectedConfirmation))
     };
     const handleSelectExistingPlayer = (id: number) => {
         dispatch(checkSelectedPlayer(id));
@@ -59,7 +64,20 @@ const ExistingPlayer = ({
     useEffect(() => {
         console.log('called')
         dispatch(getAllPlayers())
-    }, []);
+    }, [teams]);
+
+
+    useEffect(() => {
+        console.log('refreshed', filteredPlayers)
+    }, [filteredPlayers]);
+
+    const handlePlayerSearch = (e: React.FormEvent<HTMLInputElement>) => {
+        const text = e.currentTarget.value;
+        setSearchText(text);
+        if (text.length < 1 || text.length > 2) {
+            dispatch(filterPlayers(text));
+        }
+    };
 
     return (
         <>
@@ -94,6 +112,8 @@ const ExistingPlayer = ({
                                     <Input
                                         variant={'solid'}
                                         bg='transparent'
+                                        value={searchText}
+                                        onChange={handlePlayerSearch}
                                         id={'text'}
                                         type={'text'}
                                         placeholder={'Search for players'}
@@ -110,17 +130,17 @@ const ExistingPlayer = ({
                                 spacing={8}
                                 overflowY='auto'
                             >
-                                {allPlayers
-                                    .map((player) => (
+                                {filteredPlayers
+                                    .map((player: any) => (
                                         <VStack
-                                            key={index}
+                                            key={player.id}
                                             onClick={() => handleSelectExistingPlayer(player.id)}
                                             cursor={'pointer'}
                                         >
                                             <Avatar
                                                 bg='ash'
                                                 boxSize={{base: '2rem', md: '4rem'}}
-                                                src={player.file}
+                                                src={player.photo}
                                                 position={'relative'}
                                                 top={0}
                                                 zIndex={1}
@@ -137,12 +157,12 @@ const ExistingPlayer = ({
                                                 />
                                             )}
                                             <Text fontSize={'xxs'} fontWeight='semibold'>
-                                                {player.playerName}
+                                                {`${player.first_name} ${player.last_name}`}
                                             </Text>
-                                            <Text fontSize={'xxs'}>{player.playerPosition}</Text>
+                                            <Text fontSize={'xxs'}>{player.position}</Text>
                                         </VStack>
                                     ))
-                                    .slice(0, 6)}
+                                }
                             </SimpleGrid>
                         </Stack>
                     </ModalBody>

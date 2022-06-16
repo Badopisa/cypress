@@ -87,6 +87,20 @@ export const filterTeam = (text: string) => {
 
 }
 
+
+export const filterPlayers = (text: string) => {
+
+    return async (dispatch: Dispatch) => {
+
+        dispatch(updateIsLoading(true))
+
+        dispatch(filterPlayersData(text))
+
+        dispatch(updateIsLoading(false))
+
+    };
+
+}
 export const getTeamDetails = (teamID: string, toast: any) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true))
@@ -125,6 +139,13 @@ const saveTeamData = (data: TeamDataType[] | null) => {
 const filterTeamData = (data: string) => {
     return {
         type: actionTypes.FILTER_TEAM_DETAILS,
+        payload: data
+    }
+}
+
+const filterPlayersData = (data: string) => {
+    return {
+        type: actionTypes.FILTER_PLAYERS,
         payload: data
     }
 }

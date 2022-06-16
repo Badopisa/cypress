@@ -3,12 +3,14 @@ import {TeamDataType} from '@/types/TeamDataType'
 
 type TeamReducerData = {
     allPlayers: any,
+    filteredPlayers: any,
     currentTeam: any,
     teams: TeamDataType[] | [],
     filteredData: TeamDataType[] | []
 }
 const initialState: TeamReducerData = {
     allPlayers: [],
+    filteredPlayers: [],
     currentTeam: null,
     teams: [],
     filteredData: []
@@ -31,7 +33,20 @@ export const teamReducer = (state = initialState, action: IAction) => {
             console.log('players team reducer', players)
             return {
                 ...state,
-                allPlayers: players
+                allPlayers: players,
+                filteredPlayers: players
+            }
+        case types.FILTER_PLAYERS:
+            const filteredPlayers = state.allPlayers.filter((player: any) => {
+                const fullPlayerName = `${player.first_name} ${player.last_name}`
+                if (typeof (action.payload) === 'string' && (fullPlayerName.toLowerCase().includes(action.payload.toLowerCase()))) {
+                    return player
+                }
+            })
+
+            return {
+                ...state,
+                filteredPlayers
             }
         case types.SET_CURRENT_TEAM:
             return {

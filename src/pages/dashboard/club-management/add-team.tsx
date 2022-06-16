@@ -70,7 +70,7 @@ const AddTeam = () => {
                     <Spacer />
                     <Button px={6} bg="grey" color="white" fontSize="xs" ml="8" w="83"
                     >
-                        0/100
+                        {currentTeam?.players?.length}/100
                     </Button>
                     <Spacer />
                     <Button
