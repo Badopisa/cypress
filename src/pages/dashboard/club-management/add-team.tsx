@@ -19,7 +19,12 @@ import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
 
+import { RootStateOrAny, useSelector } from 'react-redux';
+
 const AddTeam = () => {
+  const { currentTeam }: { currentTeam: any } = useSelector(
+    (state: RootStateOrAny) => state.team
+  );
   const [create, setCreate] = useState<boolean>(false);
   const [existing, setExisting] = useState<boolean>(false);
   const [select, setSelected] = useState<boolean>(false);
@@ -70,7 +75,7 @@ const AddTeam = () => {
           </Button>
           <Spacer />
           <Button px={6} bg='grey' color='white' fontSize='xs' ml='8' w='83'>
-            0/100
+            {currentTeam?.players?.length}/100
           </Button>
           <Spacer />
           <Button fontSize='xs' variant='outline' w='full'>
@@ -78,22 +83,28 @@ const AddTeam = () => {
           </Button>
         </Stack>
         <SimpleGrid
-          columns={{ base: 1, sm: 2, lg: 4 }}
+          minChildWidth={{ base: '100%', md: '166px' }}
+          spacing={{ base: '14px', md: '40px' }}
           mt={8}
-          spacing={8}
           mb={8}
         >
-          <PlayerCard
-            image='/icons/chat-user.svg'
-            name='Edinson Cavani'
-            position='Forward'
-            status='Pending Invite'
-          />
+          {currentTeam?.players?.length > 0 ? (
+            currentTeam?.players?.map((player: any) => (
+              <PlayerCard
+                key={player?.id}
+                position={player?.position}
+                image={'/images/image/jersy.png'}
+                status='Pending Invite'
+                name={`${player.first_name} ${player.last_name}`}
+              />
+            ))
+          ) : (
+            <BlankTeam
+              image='/images/image/jersy.png'
+              title='No team created yet'
+            />
+          )}
         </SimpleGrid>
-        <BlankTeam
-          image='/images/image/jersy.png'
-          title='No team created yet'
-        />
         <Center>
           <VStack
             mb={10}
@@ -120,7 +131,6 @@ const AddTeam = () => {
         <ExistingPlayer
           isOpen={existing}
           onClose={setExisting}
-          //   jersyPng='/images/image/jersy.png'
           setSelected={setSelected}
         />
 
