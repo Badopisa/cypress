@@ -45,7 +45,7 @@ const Login = () => {
         <main>
             <Flex h="100vh" direction={{base: 'column-reverse', md: 'row'}}>
                 <FormImage image="/images/image/login-coach.jpg" title="CONTINUE AS" body="A Coach" />
-                <VStack bgColor="black" color="white" w="full" h="full" p={{base: 2, sm: 20}} spacing={10}
+                <VStack zIndex={10} bgColor="black" color="white" w="full" h="full" p={{base: 2, sm: 20}} spacing={10}
                         alignItems={{base: "center", md: "flex-start"}}>
                     <VStack mt={10} spacing={1} alignItems={{base: "center", md: "flex-start"}}>
                         <Text fontSize="3xl" fontWeight="semibold">
@@ -89,8 +89,8 @@ const Login = () => {
                                     w="full">LOGIN</Button>
                         </form>
                         <Text align={'center'}>
-                            Don't Have an Account? <Link href="/admin/registration" fontWeight="semibold">Get
-                                                                                                          Started</Link>
+                            Don't Have an Account? <Link href="/admin/ClubAdminRegistration" fontWeight="semibold">Get
+                                                                                                                   Started</Link>
                         </Text>
                         <Text align={'center'}>
                             <Link href="/forgot-password"> <Text fontWeight="semibold">Forgot Password</Text></Link>

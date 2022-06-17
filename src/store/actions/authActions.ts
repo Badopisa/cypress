@@ -100,3 +100,24 @@ const saveAdminData = (data: UserDataType) => {
 
     }
 }
+
+export const updateImageFile = (data: any) => {
+
+    return {
+
+        type: actionTypes.UPDATE_FILE,
+
+        payload: data
+
+    }
+}
+export const updateFileName = (data: String) => {
+
+    return {
+
+        type: actionTypes.UPDATE_FILE_NAME,
+
+        payload: data
+
+    }
+}
