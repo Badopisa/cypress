@@ -83,7 +83,7 @@ const Analytics = () => {
             alignItems='center'
           >
             <VStack spacing={6}>
-              <Text>VIDEO</Text>
+              <Text>PLAYER</Text>
               <Heading>Analytics</Heading>
               <Text textAlign='center'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor,

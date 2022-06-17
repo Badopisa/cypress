@@ -1,14 +1,4 @@
-import {
-  Text,
-  Avatar,
-  Flex,
-  Center,
-  Box,
-  Heading,
-  Img,
-  Stack,
-  HStack,
-} from '@chakra-ui/react';
+import { Text, Avatar, Center, Box, Img, Stack } from '@chakra-ui/react';
 
 const PlayerCard = ({
   name,
@@ -33,14 +23,10 @@ const PlayerCard = ({
       onClick={click}
       cursor={'pointer'}
     >
-      <Stack py={4}>
-        <Flex justify='center' gap={2}>
-          <Avatar src={image} size={'l'} placeSelf={'center'} mr={4} />
-          <Box>
-            {' '}
-            <Img src='/icons/more_vert.svg' alt='edit' />
-          </Box>
-        </Flex>
+      <Stack py={4} position={'relative'}>
+        <Center>
+          <Avatar src={image} size={''} />
+        </Center>
 
         <Box p={2}>
           <Stack spacing={3} align={'center'} mb={5}>
@@ -54,6 +40,10 @@ const PlayerCard = ({
               {team}
             </Text>
           </Stack>
+        </Box>
+        <Box position={'absolute'} right={4} top={4}>
+          {' '}
+          <Img src='/icons/more_vert.svg' alt='edit' />
         </Box>
       </Stack>
     </Box>

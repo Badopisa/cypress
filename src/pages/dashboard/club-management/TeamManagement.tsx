@@ -33,6 +33,7 @@ import { staffData } from '@/data/StaffData';
 import NewStaff from '@/components/Team/Modal/NewStaff';
 import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
+import GlobalErrorModal from '@/components/Team/Modal/GlobalErrorModal';
 const TeamManagement = () => {
   const [tab, setTab] = useState<number>(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,6 +49,7 @@ const TeamManagement = () => {
   const [openStaffModal, setOpenStaffModal] = useState<boolean>(false);
   const [openPlayer, setOpenPlayer] = useState<boolean>(false);
   const [openPlayerModal, setOpenPlayerModal] = useState<boolean>(false);
+  const [globalError, setGlobalError] = useState<boolean>(false);
 
   const [openTeam, setOpenTeam] = useState<boolean>(false);
 
@@ -147,7 +149,7 @@ const TeamManagement = () => {
             </Tab>
           </TabList>
         </Tabs>
-
+        <Button onClick={() => setGlobalError(true)}>Error</Button>
         <Input
           id='search'
           name='search'
@@ -283,6 +285,11 @@ const TeamManagement = () => {
         <ExistingStaff
           isOpen={createExistingStaff}
           onClose={setCreateExistingStaff}
+        />
+        <GlobalErrorModal
+          isOpen={globalError}
+          onClose={setGlobalError}
+          globalError={false}
         />
       </Box>
     </>
