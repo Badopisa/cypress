@@ -1,10 +1,11 @@
 import {updateAlertMsg, updateIsLoading} from "@/store/actions/msgAction";
-import {AddPlayersToTeam} from "@/services/teamManagementService";
-import {PlayerFormType, PlayerToTeamType} from "@/types/PlayerDataType";
+import {AddPlayersToTeam, RemovePlayerFromTeam} from "@/services/teamManagementService";
+import {PlayerFormType} from "@/types/PlayerDataType";
 import * as Redux from "redux";
 import {CreatePlayer} from "@/services/playerManagementService";
 import * as actionTypes from "@/store/actions/actionTypes";
 import {fetchTeams, getTeamDetails} from "@/store/actions/teamActions";
+import {PlayerToTeamType} from "@/types/TeamDataType";
 
 type Dispatch = Redux.Dispatch<any>;
 
@@ -52,6 +53,33 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
     };
 }
 
+export const removePlayerFromTeam = (player_id: string, team_id: string, club_id: any, toast: any, onClose: any) => {
+    return async (dispatch: Dispatch) => {
+        const removePlayerFromClubPayload = {
+            players: [{
+                player_id,
+                team_id
+            }]
+        }
+        RemovePlayerFromTeam(removePlayerFromClubPayload).then(newResult => {
+            dispatch(addPlayerToTeam(newResult?.data))
+            updateAlertMsg(toast, {
+                type: "success",
+                message: "Player successfully removed from team"
+            })
+            console.log('newResult', newResult)
+            dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast))
+            dispatch(fetchTeams(club_id));
+            onClose(false)
+            // setSeleced(true)
+            dispatch(updateIsLoading(false))
+        }).catch(err => {
+            console.log('add player to team error', err)
+            handleError(err, toast, dispatch);
+        })
+    }
+}
+
 export const checkSelectedPlayer = (playerId: any) => {
     return {
         type: actionTypes.CHECK_SELECTED_PLAYER,
@@ -94,7 +122,7 @@ const handleError = (err: any, toast: any, dispatch: Dispatch) => {
     dispatch(updateIsLoading(false))
 }
 
-function saveNewPlayerData(data: any): any {
+export function saveNewPlayerData(data: any): any {
     return {
         type: actionTypes.SAVE_NEW_PLAYER,
         payload: data

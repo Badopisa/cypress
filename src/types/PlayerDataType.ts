@@ -8,7 +8,7 @@ export type PlayerFormType = {
     club_id?: string,
     email?: string
 }
-export type PlayerToTeamType = {
-    player_id: string,
-    team_id: string
-}
+// export type PlayerToTeamType = {
+//     player_id: string,
+//     team_id: string
+// }

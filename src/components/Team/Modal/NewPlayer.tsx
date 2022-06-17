@@ -43,10 +43,6 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
         formState: {errors}
     } = useForm();
 
-    // const handleSelect = () => {
-    //     setSelected(true);
-    //     onClose(true);
-    // };
 
     const dispatch = useDispatch()
     const toast = useToast()
@@ -135,7 +131,7 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
                                                 <option value='option2'>Option 2</option>
                                                 <option value='option3'>Option 3</option>
                                             </Select>
-                                            <FormErrorMessage>{errors.country && errors.country.message}</FormErrorMessage>
+                                            <FormErrorMessage>{errors.position && errors.position.message}</FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                     <GridItem w="full">
@@ -145,8 +141,9 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
                                             </FormLabel>
                                             <Input {...register("jerseyNo", {
                                                 required: "Jersey number is required",
+                                                minLength: {value: 0, message: "Jersey number address is Required"}
                                             })} id="jerseyNo" type="number" placeholder="9" />
-                                            <FormErrorMessage>{errors.jerseyNo && errors.jerseryNo.message}</FormErrorMessage>
+                                            <FormErrorMessage>{errors?.jerseyNo && errors.jerseryNo?.message}</FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                 </HStack>

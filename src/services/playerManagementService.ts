@@ -11,11 +11,11 @@ export const CreatePlayer = (payload: PlayerFormType) => {
 
 }
 
-export const GetPlayersByAttribute = () => {
+export const GetPlayersForClub = (id: string) => {
 
     const http = new HttpService();
 
-    const url = `players`;
+    const url = `players?club_id=${id}`;
 
     return http.getData(url, true)
 

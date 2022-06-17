@@ -68,7 +68,7 @@ class HttpService {
 
     };
 
-    deleteData = async (url: string, secure: boolean) => {
+    deleteData = async (url: string, secure: boolean, formData: any) => {
         let AuthStr = '';
 
         if (secure) {
@@ -81,7 +81,7 @@ class HttpService {
             AuthStr = 'Bearer '.concat(this.token);
         }
 
-        return axios.delete(this.baseUrl + url, {headers: {Authorization: AuthStr}})
+        return axios.delete(this.baseUrl + url, {headers: {Authorization: AuthStr}, data: {source: formData}})
 
     };
 

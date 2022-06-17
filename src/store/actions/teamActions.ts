@@ -3,6 +3,8 @@ import {TeamDataType, TeamFormType} from '@/types/TeamDataType';
 import * as Redux from 'redux';
 import * as actionTypes from "./actionTypes"
 import {updateAlertMsg, updateIsLoading} from './msgAction';
+import {GetStaffForAClub} from "@/services/staffManagementService";
+import {GetPlayersForClub} from "@/services/playerManagementService";
 
 
 type Dispatch = Redux.Dispatch<any>;
@@ -101,6 +103,20 @@ export const filterPlayers = (text: string) => {
     };
 
 }
+
+export const filterStaffs = (text: string) => {
+
+    return async (dispatch: Dispatch) => {
+
+        dispatch(updateIsLoading(true))
+
+        dispatch(filterStaffsData(text))
+
+        dispatch(updateIsLoading(false))
+
+    };
+
+}
 export const getTeamDetails = (teamID: string, toast: any) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true))
@@ -119,9 +135,21 @@ export const getTeamDetails = (teamID: string, toast: any) => {
     };
 }
 
-export const getAllPlayers = () => {
+export const getAllPlayers = (clubId: string) => {
+    return async (dispatch: Dispatch) => {
+        GetPlayersForClub(clubId).then(result => {
+            console.log('all players', result)
+            dispatch(saveAllPlayers(result?.data))
+        }).catch(err => {
+            console.log('get all players error', err)
+        })
+    }
+}
+
+export const saveAllPlayers = (data: any) => {
     return {
-        type: actionTypes.GET_ALL_PLAYERS
+        type: actionTypes.GET_ALL_PLAYERS,
+        payload: data
     }
 }
 
@@ -150,6 +178,13 @@ const filterPlayersData = (data: string) => {
     }
 }
 
+const filterStaffsData = (data: string) => {
+    return {
+        type: actionTypes.FILTER_STAFFS,
+        payload: data
+    }
+}
+
 const saveNewTeamData = (data: TeamDataType) => {
     return {
         type: actionTypes.SAVE_NEW_TEAM,
@@ -157,7 +192,7 @@ const saveNewTeamData = (data: TeamDataType) => {
     }
 }
 
-function setCurrentTeam(data: any): any {
+export function setCurrentTeam(data: any): any {
     return {
         type: actionTypes.SET_CURRENT_TEAM,
         payload: data

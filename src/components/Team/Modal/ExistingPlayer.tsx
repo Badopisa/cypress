@@ -24,6 +24,7 @@ import Confirmation from './Confirmation';
 import {addSelectedPlayersToTeam, checkSelectedPlayer} from "@/store/actions/playerActions";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {filterPlayers, filterTeam, getAllPlayers} from "@/store/actions/teamActions";
+import {UserDataType} from "@/types/AuthDataType";
 
 type ExistingPlayerType = {
     isOpen: boolean;
@@ -47,6 +48,7 @@ const ExistingPlayer = ({
         teams,
         currentTeam
     }: { filteredPlayers: any, teams: any, currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
+    const {user}: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth)
     const [searchText, setSearchText] = useState('');
     const toast = useToast();
     const dispatch = useDispatch();
@@ -63,13 +65,13 @@ const ExistingPlayer = ({
 
     useEffect(() => {
         console.log('called')
-        dispatch(getAllPlayers())
-    }, [teams]);
+        dispatch(getAllPlayers(user?.clubs[0]?.id))
+    }, []);
 
 
-    useEffect(() => {
-        console.log('refreshed', filteredPlayers)
-    }, [filteredPlayers]);
+    // useEffect(() => {
+    //     console.log('refreshed', filteredPlayers)
+    // }, [filteredPlayers]);
 
     const handlePlayerSearch = (e: React.FormEvent<HTMLInputElement>) => {
         const text = e.currentTarget.value;
@@ -130,38 +132,37 @@ const ExistingPlayer = ({
                                 spacing={8}
                                 overflowY='auto'
                             >
-                                {filteredPlayers
-                                    .map((player: any) => (
-                                        <VStack
-                                            key={player.id}
-                                            onClick={() => handleSelectExistingPlayer(player.id)}
-                                            cursor={'pointer'}
-                                        >
-                                            <Avatar
-                                                bg='ash'
-                                                boxSize={{base: '2rem', md: '4rem'}}
-                                                src={player.photo}
-                                                position={'relative'}
-                                                top={0}
-                                                zIndex={1}
+                                {filteredPlayers?.map((player: any) => (
+                                    <VStack
+                                        key={player.id}
+                                        onClick={() => handleSelectExistingPlayer(player.id)}
+                                        cursor={'pointer'}
+                                    >
+                                        <Avatar
+                                            bg='ash'
+                                            boxSize={{base: '2rem', md: '4rem'}}
+                                            src={player.photo}
+                                            position={'relative'}
+                                            top={0}
+                                            zIndex={1}
+                                        />
+                                        {selectedPlayers.includes(player.id) && (
+                                            <Image
+                                                src={'/icons/checked.svg'}
+                                                alt='checked'
+                                                w={8}
+                                                h={8}
+                                                color='primary'
+                                                position={'absolute'}
+                                                zIndex={3}
                                             />
-                                            {selectedPlayers.includes(player.id) && (
-                                                <Image
-                                                    src={'/icons/checked.svg'}
-                                                    alt='checked'
-                                                    w={8}
-                                                    h={8}
-                                                    color='primary'
-                                                    position={'absolute'}
-                                                    zIndex={3}
-                                                />
-                                            )}
-                                            <Text fontSize={'xxs'} fontWeight='semibold'>
-                                                {`${player.first_name} ${player.last_name}`}
-                                            </Text>
-                                            <Text fontSize={'xxs'}>{player.position}</Text>
-                                        </VStack>
-                                    ))
+                                        )}
+                                        <Text fontSize={'xxs'} fontWeight='semibold'>
+                                            {`${player.first_name} ${player.last_name}`}
+                                        </Text>
+                                        <Text fontSize={'xxs'}>{player.position}</Text>
+                                    </VStack>
+                                ))
                                 }
                             </SimpleGrid>
                         </Stack>

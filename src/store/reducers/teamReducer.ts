@@ -3,13 +3,17 @@ import {TeamDataType} from '@/types/TeamDataType'
 
 type TeamReducerData = {
     allPlayers: any,
+    allStaffs: any,
     filteredPlayers: any,
+    filteredStaffs: any,
     currentTeam: any,
     teams: TeamDataType[] | [],
     filteredData: TeamDataType[] | []
 }
 const initialState: TeamReducerData = {
     allPlayers: [],
+    allStaffs: [],
+    filteredStaffs: [],
     filteredPlayers: [],
     currentTeam: null,
     teams: [],
@@ -24,19 +28,19 @@ type IAction = {
 export const teamReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
         case types.GET_ALL_PLAYERS:
-            let players: any = []
-            for (const team of state.teams) {
-                if(team.players) {
-                    players = [...players, ...team.players]
-                }
-            }
-            console.log('players team reducer', players)
             return {
                 ...state,
-                allPlayers: players,
-                filteredPlayers: players
+                allPlayers: action.payload.data,
+                filteredPlayers: action.payload.data
             }
         case types.FILTER_PLAYERS:
+            if (!action.payload) {
+                return {
+                    ...state,
+                    filteredPlayers: state.allPlayers
+                }
+            }
+
             const filteredPlayers = state.allPlayers.filter((player: any) => {
                 const fullPlayerName = `${player.first_name} ${player.last_name}`
                 if (typeof (action.payload) === 'string' && (fullPlayerName.toLowerCase().includes(action.payload.toLowerCase()))) {
@@ -47,6 +51,31 @@ export const teamReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 filteredPlayers
+            }
+        case types.GET_ALL_STAFFS:
+            return {
+                ...state,
+                allStaffs: action.payload,
+                filteredStaffs: action.payload.data
+            }
+        case types.FILTER_STAFFS:
+            if (!action.payload) {
+                return {
+                    ...state,
+                    filteredStaffs: state.allStaffs.data
+                }
+            }
+
+            const filteredStaffs = state.allStaffs.data.filter((staff: any) => {
+                const fullStaffName = `${staff.user.first_name} ${staff.user.last_name}`
+                if (typeof (action.payload) === 'string' && (fullStaffName.toLowerCase().includes(action.payload.toLowerCase()))) {
+                    return staff
+                }
+            })
+
+            return {
+                ...state,
+                filteredStaffs
             }
         case types.SET_CURRENT_TEAM:
             return {

@@ -8,8 +8,11 @@ export type StaffFormType = {
     club_id?: string,
     email?: string
 }
+
 export type StaffToTeamType = {
-    staff_id: string,
-    team_id: string,
-    role: string
+    staff: Array<{
+        staff_id: string,
+        team_id: string,
+        role: string
+    }>
 }

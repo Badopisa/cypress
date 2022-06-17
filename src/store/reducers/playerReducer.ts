@@ -5,7 +5,6 @@ const initialState: PlayerReducerData = {
     newPlayer: null,
     addedPlayerToTeamInfo: [],
     selectedPlayers: [],
-    allPlayers: [],
 }
 
 type IAction = {
@@ -15,11 +14,6 @@ type IAction = {
 
 export const playerReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
-        case types.GET_ALL_PLAYERS:
-            return {
-                ...state,
-                allPlayers: action.payload
-            }
         case types.SAVE_NEW_PLAYER:
             return {
                 ...state,

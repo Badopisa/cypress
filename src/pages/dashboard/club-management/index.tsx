@@ -26,10 +26,11 @@ import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopN
 import {useRouter} from 'next/router';
 import BlankTeam from '@/components/Team/BlankTeam';
 import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
-import {fetchTeams, filterTeam} from '@/store/actions/teamActions';
+import {fetchTeams, filterTeam, getAllPlayers, setCurrentTeam} from '@/store/actions/teamActions';
 import {TeamDataType} from '@/types/TeamDataType';
 import TeamCard from '@/components/Team/TeamCard';
 import {UserDataType} from '@/types/AuthDataType';
+import {getAllStaffs} from "@/store/actions/staffActions";
 
 const boxStyles = {
     display: 'flex',
@@ -49,7 +50,7 @@ const TabSelectedStyle = {
 };
 
 const ClubManagement = () => {
-    const {filteredData}: { filteredData: TeamDataType[] | [] } = useSelector(
+    const {filteredData, teams, allPlayers, allStaffs}: { filteredData: TeamDataType[] | [], teams: TeamDataType[] | [], allPlayers: any, allStaffs: any } = useSelector(
         (state: RootStateOrAny) => state.team
     );
     const {user}: { user: UserDataType } = useSelector(
@@ -64,6 +65,12 @@ const ClubManagement = () => {
         router.push('/dashboard/club-management/create-team');
     };
     console.log('filteredData is', filteredData);
+
+    useEffect(() => {
+        console.log('called')
+        dispatch(getAllPlayers(user?.clubs[0]?.id))
+        dispatch(getAllStaffs(user?.clubs[0]?.id))
+    }, []);
 
     useEffect(() => {
         if (filteredData.length < 1) {
@@ -82,7 +89,8 @@ const ClubManagement = () => {
             dispatch(filterTeam(text));
         }
     };
-    const handleTeamSelect = () => {
+    const handleTeamSelect = (team: TeamDataType) => {
+        dispatch(setCurrentTeam(team));
         router.push('/dashboard/club-management/TeamManagement');
     };
 
@@ -165,12 +173,101 @@ const ClubManagement = () => {
                                             fontWeight: 'bold',
                                         }}
                                     >
-                                        0/100
+                                        {teams.length}/100
                                     </Button>
                                 </Flex>
+                                <Box width="250%">
+                                    {isLoading ? (
+                                        <Center my='16'>
+                                            <Spinner size='xl' />
+                                        </Center>
+                                    ) : filteredData.length > 0 ? (
+                                        <SimpleGrid
+                                            columns={{base: 1, sm: 2, lg: 4}}
+                                            width='min(90%, 1200px)'
+                                            spacing={{base: '14px', md: '40px'}}
+                                            mt={8}
+                                            mb={8}
+                                        >
+                                            {filteredData.map((team: TeamDataType) => (
+                                                <TeamCard
+                                                    image='/images/image/jersy.png'
+                                                    key={team.id}
+                                                    name={team.name}
+                                                    click={() => handleTeamSelect(team)}
+                                                />
+                                            ))}
+                                        </SimpleGrid>
+                                    ) : (
+                                        <BlankTeam
+                                            image='/images/image/jersy.png'
+                                            title='No team created yet'
+                                        />
+                                    )}
+                                </Box>
                             </TabPanel>
-                            <TabPanel />
-                            <TabPanel />
+                            <TabPanel>
+                                <Box width="250%">
+                                    {isLoading ? (
+                                        <Center my='16'>
+                                            <Spinner size='xl' />
+                                        </Center>
+                                    ) : allPlayers?.length > 0 ? (
+                                        <SimpleGrid
+                                            columns={{base: 1, sm: 2, lg: 4}}
+                                            width='min(90%, 1200px)'
+                                            spacing={{base: '14px', md: '40px'}}
+                                            mt={8}
+                                            mb={8}
+                                        >
+                                            {allPlayers.map((player: any) => (
+                                                <TeamCard
+                                                    image='/images/image/jersy.png'
+                                                    key={player.id}
+                                                    name={`${player.first_name} ${player.last_name}`}
+                                                    click={handleTeamSelect}
+                                                />
+                                            ))}
+                                        </SimpleGrid>
+                                    ) : (
+                                        <BlankTeam
+                                            image='/images/image/jersy.png'
+                                            title='No team created yet'
+                                        />
+                                    )}
+                                </Box>
+                            </TabPanel>
+                            <TabPanel>
+                                <Box width="250%">
+                                    {isLoading ? (
+                                        <Center my='16'>
+                                            <Spinner size='xl' />
+                                        </Center>
+                                    ) : allStaffs?.data?.length > 0 ? (
+                                        <SimpleGrid
+                                            columns={{base: 1, sm: 2, lg: 4}}
+                                            width='min(90%, 1200px)'
+                                            spacing={{base: '14px', md: '40px'}}
+                                            mt={8}
+                                            mb={8}
+                                        >
+                                            {allStaffs?.data?.map((staff: any) => (
+                                                <TeamCard
+                                                    image='/images/image/jersy.png'
+                                                    key={staff.id}
+                                                    name={`${staff.user.first_name} ${staff.user.last_name}`}
+                                                    click={handleTeamSelect}
+                                                />
+                                            ))}
+                                        </SimpleGrid>
+                                    ) : (
+                                        <BlankTeam
+                                            image='/images/image/jersy.png'
+                                            title='No team created yet'
+                                        />
+                                    )}
+                                </Box>
+                            </TabPanel>
                         </TabPanels>
                     </Tabs>
                     <Spacer />
@@ -197,33 +294,6 @@ const ClubManagement = () => {
                         </Button>
                     </Flex>
                 </Flex>
-                {isLoading ? (
-                    <Center my='16'>
-                        <Spinner size='xl' />
-                    </Center>
-                ) : filteredData.length > 0 ? (
-                    <SimpleGrid
-                        columns={{base: 1, sm: 2, lg: 4}}
-                        width='min(90%, 1200px)'
-                        spacing={{base: '14px', md: '40px'}}
-                        mt={8}
-                        mb={8}
-                    >
-                        {filteredData.map((team, index) => (
-                            <TeamCard
-                                image='/images/image/jersy.png'
-                                key={index}
-                                name={team.name}
-                                click={handleTeamSelect}
-                            />
-                        ))}
-                    </SimpleGrid>
-                ) : (
-                    <BlankTeam
-                        image='/images/image/jersy.png'
-                        title='No team created yet'
-                    />
-                )}
             </Box>
         </>
     );

@@ -1,5 +1,6 @@
 import HttpService from '@/services/httpService'
 import {PlayerToTeamType, TeamFormType} from '@/types/TeamDataType';
+import {StaffToTeamType} from "@/types/StaffDataType";
 
 export const FetchTeamDetails = (clubId: string) => {
 
@@ -36,6 +37,36 @@ export const AddPlayersToTeam = (payload: PlayerToTeamType) => {
     const http = new HttpService();
 
     const url = `teams/players/add`;
+
+    return http.postData(payload, url, true)
+
+}
+
+export const RemovePlayerFromTeam = (payload: PlayerToTeamType) => {
+
+    const http = new HttpService();
+
+    const url = `teams/players/remove`;
+
+    return http.deleteData( url, true, payload)
+
+}
+
+export const RemoveStaffFromTeam = (payload: StaffToTeamType) => {
+
+    const http = new HttpService();
+
+    const url = `teams/staff/remove`;
+
+    return http.deleteData( url, true, payload)
+
+}
+
+export const AddStaffToTeam = (payload: StaffToTeamType) => {
+
+    const http = new HttpService();
+
+    const url = `teams/staff/add`;
 
     return http.postData(payload, url, true)
 
