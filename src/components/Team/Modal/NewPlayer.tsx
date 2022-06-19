@@ -24,6 +24,7 @@ import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {createAndAddPlayerToTeam} from "@/store/actions/playerActions";
 import {UserDataType} from "@/types/AuthDataType";
 import Confirmation from './Confirmation';
+import useUploadToS3 from "@/hooks/useUploadToS3";
 
 type NewPlayerType = {
     isOpen: boolean,
@@ -36,6 +37,7 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
     const {currentTeam}: { currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
     const [select, setSelected] = useState<boolean>(false);
+    const {s3Error} = useUploadToS3(profilePicture)
 
     const {
         handleSubmit,
@@ -48,9 +50,21 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
     const toast = useToast()
 
     const onSubmit = (value: any) => {
+        if(s3Error) {
+            toast({
+                title: 'Upload Error',
+                description: s3Error,
+                status: 'error',
+                duration: 9000,
+                isClosable: true
+            })
+            return
+        }
+
         const teamId = currentTeam?.id
 
         const payload = {
+            // photo: s3URL,
             first_name: value.firstName,
             last_name: value.lastName,
             position: value.position,
@@ -77,16 +91,13 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
                             <Center>
                                 <VStack mb={6} mt={2}>
                                     <ImageUpload
-                                        defaultImage="/images/image/default-user-avatar.png"
+                                        defaultImage="/images/image/default-user-avatar3.svg"
                                         w="100px"
                                         h="100px"
                                         rounded="full"
                                         setSelectedImage={setProfilePicture}
                                         selectedImage={profilePicture}
                                     />
-                                    <Text fontSize="sm" fontWeight="bold" color="blue">
-                                        Upload Image
-                                    </Text>
                                 </VStack>
                             </Center>
                             <VStack spacing={6}>

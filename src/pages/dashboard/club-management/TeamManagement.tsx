@@ -198,7 +198,7 @@ const TeamManagement = () => {
                         <SimpleGrid columns={{base: 1, sm: 2, lg: 4}} mt={8} spacing={8}>
                             {currentTeam?.players?.map((player: any) => (
                                 <PlayerCard
-                                    image='/images/imgs/player.svg'
+                                    image={player?.photo}
                                     key={player.id}
                                     name={`${player?.first_name} ${player?.last_name}`}
                                     team={currentTeam?.name}
@@ -240,7 +240,7 @@ const TeamManagement = () => {
                         <SimpleGrid columns={{base: 1, sm: 2, lg: 4}} mt={8} spacing={8}>
                             {currentTeam?.staff?.map((staff: any) => (
                                 <PlayerCard
-                                    image={staff?.photo || '/images/imgs/player.svg'}
+                                    image={staff?.user?.photo}
                                     key={staff.id}
                                     name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
                                     position={staff?.role}

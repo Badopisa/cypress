@@ -2,18 +2,20 @@ import React, {useRef, useEffect, useState} from 'react'
 import {Image, NextChakraImageProps} from '@/components/Elements/Image/Image'
 import {Text} from "@chakra-ui/react";
 import {useDispatch} from "react-redux";
-import {updateFileName, updateImageFile } from '@/store/actions/authActions';
+import {updateFileName, updateImageFile} from '@/store/actions/authActions';
 
 interface ImageUploadProps extends NextChakraImageProps {
     defaultImage: string
     setSelectedImage: (file: File | null) => void
     selectedImage: File | null
+    title?: string
 }
 
 const ImageUpload = ({
                          defaultImage,
                          setSelectedImage,
                          selectedImage,
+                         title = 'Upload Your Logo',
                          ...rest
                      }: Omit<ImageUploadProps, 'src'>) => {
     const dispatch = useDispatch();
@@ -31,7 +33,8 @@ const ImageUpload = ({
         } else {
             setDefaultUserImage(defaultImage)
         }
-        return () => {}
+        return () => {
+        }
     }, [defaultImage, selectedImage])
 
     // On each change let user have access to a selected file
@@ -100,7 +103,7 @@ const ImageUpload = ({
                         color="#5597FF"
                         decoration="underline"
                         textAlign='center'>
-                        Upload Your Logo
+                        {title}
                     </Text>
                 )
             }
@@ -109,6 +112,7 @@ const ImageUpload = ({
 }
 
 export default ImageUpload
+
 function updateFile(selectedImage: File | null): any {
     throw new Error('Function not implemented.');
 }

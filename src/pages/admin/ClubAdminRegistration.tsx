@@ -26,14 +26,14 @@ import Link from '@/components/Elements/Link/Link';
 import {fetchCountries} from "@/services/countriesService";
 import {CountriesSelector} from "@/components/Form/CountriesSelector";
 import {PhoneNumberInput} from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
-import axios from "axios";
-import {updateIsLoading} from "@/store/actions/msgAction";
+import useUploadToS3 from "@/hooks/useUploadToS3";
 
 const ClubAdminRegistration = ({countries}: any) => {
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
     const {file} = useSelector((state: RootStateOrAny) => state.auth)
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
     const [show, setShow] = React.useState<boolean>(false)
+    const {s3URL, s3Error} = useUploadToS3(profilePicture)
     const handleClick = () => setShow(!show)
     const dispatch = useDispatch()
     const toast = useToast()
@@ -45,41 +45,20 @@ const ClubAdminRegistration = ({countries}: any) => {
         control,
         formState: {errors}
     } = useForm();
-    const uploadImage = async () => {
-        dispatch(updateIsLoading(true))
-        console.log('Uploading file to AWS S3')
-        const config: any = {
-            onUploadProgress: (progressEvent: any) => console.log('upload progress', progressEvent.loaded)
+    const onSubmit = async (values: any) => {
+        if(s3Error) {
+            toast({
+                title: 'Upload Error',
+                description: s3Error,
+                status: 'error',
+                duration: 9000,
+                isClosable: true
+            })
+            return
         }
 
-        // Making a POST request to created API endpoint
-        let {data} = await axios.post("/api/s3/uploadFile", {
-            name: file.name,
-            type: file.type
-        }, config);
-        console.log('data from created endpoint', data)
-
-        // Fetching out a URL
-        const url = data.url;
-        console.log('url', url)
-
-        // Uploading file to S3
-        await axios.put(url, file, {
-            headers: {
-                'Content-Type': file.type,
-                'Access-Control-Allow-Origin': '*',
-            }
-        })
-
-        console.log('File uploaded to S3')
-        dispatch(updateFileName(process.env.NEXT_PUBLIC_AWS_BUCKET_URL + file.name))
-        return process.env.NEXT_PUBLIC_AWS_BUCKET_URL + file.name
-    }
-
-    const onSubmit = async (values: any) => {
-        const photoURL = await uploadImage()
         const payload = {
-            photo: photoURL,
+            photo: s3URL,
             role: "owner",
             club_name: values.clubName,
             email: values.email,
@@ -89,6 +68,7 @@ const ClubAdminRegistration = ({countries}: any) => {
             last_name: values.lastname,
             country: values.country
         }
+
         dispatch(adminRegistration(payload, toast, router))
     }
 

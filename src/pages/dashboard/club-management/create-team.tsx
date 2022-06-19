@@ -27,13 +27,16 @@ import {createTeam} from '@/store/actions/teamActions';
 import {UserDataType} from '@/types/AuthDataType';
 import {CategoryDataType} from '@/types/CategoryDataType';
 import {fetchCategories} from '@/store/actions/ categoryAction';
+import useUploadToS3 from "@/hooks/useUploadToS3";
 
 
 const CreateTeam = () => {
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
+    const {file} = useSelector((state: RootStateOrAny) => state.auth)
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
     const {user}: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth)
     const {category}: { category: CategoryDataType[] } = useSelector((state: RootStateOrAny) => state.category)
+    const {s3Error} = useUploadToS3(file)
     const dispatch = useDispatch()
     const toast = useToast()
 
@@ -52,9 +55,23 @@ const CreateTeam = () => {
     }, [])
 
     const onSubmit = async (values: any) => {
+        if(s3Error) {
+            toast({
+                title: 'Upload Error',
+                description: s3Error,
+                status: 'error',
+                duration: 9000,
+                isClosable: true
+            })
+            return
+        }
+
         const club_id = user?.clubs[0]?.id
         const payload = {
-            club_id, category_id: values.category, name: values.name
+            // photo: s3URL,
+            club_id,
+            category_id: values.category,
+            name: values.name
         }
         dispatch(createTeam(payload, toast, router))
     }
@@ -72,16 +89,13 @@ const CreateTeam = () => {
                 <Stack spacing={24} direction={{base: 'column', md: 'row'}}>
                     <VStack>
                         <ImageUpload
-                            defaultImage="/images/image/default-user-avatar.png"
+                            defaultImage="/images/image/default-user-avatar3.svg"
                             w="100px"
                             h="100px"
                             rounded="full"
                             setSelectedImage={setProfilePicture}
                             selectedImage={profilePicture}
                         />
-                        <Link fontSize='sm' fontWeight='medium' color='blue'>
-                            Upload Your Logo
-                        </Link>
                     </VStack>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <VStack spacing={10}>

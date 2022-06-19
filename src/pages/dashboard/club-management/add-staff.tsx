@@ -14,7 +14,6 @@ import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopN
 import {useRouter} from 'next/router';
 import Steps from '@/components/Team/Steps';
 import BlankTeam from '@/components/Team/BlankTeam';
-import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
 import NewStaff from '@/components/Team/Modal/NewStaff';
@@ -96,7 +95,7 @@ const AddStaff = () => {
                             <PlayerCard
                                 key={staff?.user_id}
                                 position={staff?.role}
-                                image={'/images/image/jersy.png'}
+                                image={staff?.user?.photo}
                                 status='Pending Invite'
                                 name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
                             />

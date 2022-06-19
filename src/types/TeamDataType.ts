@@ -1,4 +1,5 @@
 export type TeamDataType = {
+    photo: string,
     id: string,
     name: string,
     category_id: string,
@@ -9,6 +10,7 @@ export type TeamDataType = {
 }
 
 export type TeamFormType = {
+    photo: string,
     name: string,
     club_id: string,
     category_id: string

@@ -11,7 +11,7 @@ const TeamCard = ({
   noOfPlayers?: number;
   noOfStaff?: number;
   image: string;
-  click: () => void;
+  click?: () => void;
 }) => {
   return (
     <Flex

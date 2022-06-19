@@ -191,7 +191,7 @@ const ClubManagement = () => {
                                         >
                                             {filteredData.map((team: TeamDataType) => (
                                                 <TeamCard
-                                                    image='/images/image/jersy.png'
+                                                    image={team?.photo}
                                                     key={team.id}
                                                     name={team.name}
                                                     click={() => handleTeamSelect(team)}
@@ -222,10 +222,10 @@ const ClubManagement = () => {
                                         >
                                             {allPlayers.map((player: any) => (
                                                 <TeamCard
-                                                    image='/images/image/jersy.png'
+                                                    image={player?.photo}
                                                     key={player.id}
                                                     name={`${player.first_name} ${player.last_name}`}
-                                                    click={handleTeamSelect}
+                                                    // click={handleTeamSelect}
                                                 />
                                             ))}
                                         </SimpleGrid>
@@ -253,10 +253,10 @@ const ClubManagement = () => {
                                         >
                                             {allStaffs?.data?.map((staff: any) => (
                                                 <TeamCard
-                                                    image='/images/image/jersy.png'
+                                                    image={staff?.user?.photo}
                                                     key={staff.id}
                                                     name={`${staff.user.first_name} ${staff.user.last_name}`}
-                                                    click={handleTeamSelect}
+                                                    // click={handleTeamSelect}
                                                 />
                                             ))}
                                         </SimpleGrid>
