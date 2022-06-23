@@ -34,7 +34,7 @@ const PlayerStatistics = () => {
     };
   }, []);
   return (
-    <Box w={'80%'}>
+    <Box w={'75%'}>
       <Table>
         <Tbody>
           <Tr bg='dark' borderRadius='lg'>
@@ -60,10 +60,10 @@ const PlayerStatistics = () => {
       <Flex
         direction={{ base: 'column', md: 'row' }}
         justifyContent={'space-between'}
-        w='90%'
         mt={4}
+        gap={8}
       >
-        <Box bg='dark' borderRadius={'lg'} p={8}>
+        <Box bg='dark' borderRadius={'lg'} p={10}>
           <Flex justifyContent={'space-between'} mb={8}>
             <Text fontSize={'sm'}>Video Analytics</Text>
             <Button
