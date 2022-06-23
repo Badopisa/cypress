@@ -37,7 +37,7 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
     const {currentTeam}: { currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null)
     const [select, setSelected] = useState<boolean>(false);
-    const {s3Error} = useUploadToS3(profilePicture)
+    const {s3URL, s3Error} = useUploadToS3(profilePicture)
 
     const {
         handleSubmit,
@@ -64,11 +64,11 @@ const NewPlayer = ({isOpen, onClose}: NewPlayerType) => {
         const teamId = currentTeam?.id
 
         const payload = {
-            // photo: s3URL,
+            photo: s3URL,
             first_name: value.firstName,
             last_name: value.lastName,
             position: value.position,
-            jersey_no: value.jersey_no,
+            jersey_no: value.jerseyNo,
             club_id: user?.clubs[0]?.id,
             email: value.email,
         }

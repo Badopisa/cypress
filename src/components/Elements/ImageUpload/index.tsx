@@ -7,7 +7,7 @@ import {updateFileName, updateImageFile} from '@/store/actions/authActions';
 interface ImageUploadProps extends NextChakraImageProps {
     defaultImage: string
     setSelectedImage: (file: File | null) => void
-    selectedImage: File | null
+    selectedImage: File | null | string
     title?: string
 }
 
@@ -26,6 +26,13 @@ const ImageUpload = ({
         // dispatch(updateImageFile(imageRef?.current?.files[0]));
         // dispatch(updateFileName(imageRef?.current?.files[0]?.name.replace(/\..+$/, "")));
         if (selectedImage) {
+            //check if the seleceted image is a string
+            if (typeof selectedImage === 'string') {
+                setDefaultUserImage(selectedImage)
+
+
+                return
+            }
             const objectURL = URL.createObjectURL(selectedImage)
             setDefaultUserImage(objectURL)
             // Clean up the selection to avoid memory leak

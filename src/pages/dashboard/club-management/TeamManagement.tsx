@@ -36,6 +36,7 @@ import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
 import GlobalErrorModal from '@/components/Team/Modal/GlobalErrorModal';
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {saveNewPlayerData} from "@/store/actions/playerActions";
+import {saveNewStaffData} from "@/store/actions/staffActions";
 
 const TeamManagement = () => {
     const {
@@ -67,7 +68,8 @@ const TeamManagement = () => {
     const handleEditTeam = () => {
         setOpenTeam(true);
     };
-    const handleStaffModal1 = () => {
+    const handleStaffModal1 = (staff: any) => {
+        dispatch(saveNewStaffData(staff))
         setOpenStaffModal(true);
     };
     const handleStaffModal = () => {
@@ -244,7 +246,7 @@ const TeamManagement = () => {
                                     key={staff.id}
                                     name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
                                     position={staff?.role}
-                                    click={handleStaffModal1}
+                                    click={() => handleStaffModal1(staff)}
                                 />
                             ))
                                 .slice(0, 6)}

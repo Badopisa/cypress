@@ -48,7 +48,7 @@ export const RemovePlayerFromTeam = (payload: PlayerToTeamType) => {
 
     const url = `teams/players/remove`;
 
-    return http.deleteData( url, true, payload)
+    return http.postData(payload, url, true)
 
 }
 
@@ -58,7 +58,7 @@ export const RemoveStaffFromTeam = (payload: StaffToTeamType) => {
 
     const url = `teams/staff/remove`;
 
-    return http.deleteData( url, true, payload)
+    return http.postData(payload, url, true)
 
 }
 

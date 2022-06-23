@@ -93,7 +93,7 @@ const AddTeam = () => {
                             <PlayerCard
                                 key={player?.id}
                                 position={player?.position}
-                                image={'/images/image/jersy.png'}
+                                image={player?.photo}
                                 status='Pending Invite'
                                 name={`${player.first_name} ${player.last_name}`}
                             />
@@ -101,7 +101,7 @@ const AddTeam = () => {
                     ) : (
                         <BlankTeam
                             image='/images/image/jersy.png'
-                            title='No team created yet'
+                            title='No player created yet'
                         />
                     )}
                 </SimpleGrid>

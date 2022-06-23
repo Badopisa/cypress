@@ -7,6 +7,8 @@ export type StaffFormType = {
     country?: string,
     club_id?: string,
     email?: string
+    password?: string,
+    device_token?: string,
 }
 
 export type StaffToTeamType = {

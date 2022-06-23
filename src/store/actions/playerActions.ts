@@ -2,7 +2,7 @@ import {updateAlertMsg, updateIsLoading} from "@/store/actions/msgAction";
 import {AddPlayersToTeam, RemovePlayerFromTeam} from "@/services/teamManagementService";
 import {PlayerFormType} from "@/types/PlayerDataType";
 import * as Redux from "redux";
-import {CreatePlayer} from "@/services/playerManagementService";
+import {CreatePlayer, UpdatePlayer} from "@/services/playerManagementService";
 import * as actionTypes from "@/store/actions/actionTypes";
 import {fetchTeams, getTeamDetails} from "@/store/actions/teamActions";
 import {PlayerToTeamType} from "@/types/TeamDataType";
@@ -53,6 +53,25 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
     };
 }
 
+export const updatePlayer = (payload: PlayerFormType, toast: any, onClose: any, setSeleced: any,) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true))
+        UpdatePlayer(payload).then((result) => {
+            const {data} = result
+            console.log('result', data)
+            dispatch(saveNewPlayerData(data?.data))
+            updateAlertMsg(toast, {type: "success", message: "Congratulations, Player successfully updated"})
+            dispatch(updateIsLoading(false))
+            onClose(false)
+            setSeleced(true)
+
+        }).catch((err) => {
+            handleError(err, toast, dispatch);
+            dispatch(updateIsLoading(false))
+        })
+    }
+}
+
 export const removePlayerFromTeam = (player_id: string, team_id: string, club_id: any, toast: any, onClose: any) => {
     return async (dispatch: Dispatch) => {
         const removePlayerFromClubPayload = {
@@ -68,7 +87,6 @@ export const removePlayerFromTeam = (player_id: string, team_id: string, club_id
                 message: "Player successfully removed from team"
             })
             console.log('newResult', newResult)
-            dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast))
             dispatch(fetchTeams(club_id));
             onClose(false)
             // setSeleced(true)

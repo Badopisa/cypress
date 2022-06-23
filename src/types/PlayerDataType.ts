@@ -7,6 +7,7 @@ export type PlayerFormType = {
     jersey_no?: string,
     club_id?: string,
     email?: string
+    team_name?: string,
 }
 // export type PlayerToTeamType = {
 //     player_id: string,

@@ -3,8 +3,11 @@ import * as Redux from "redux";
 import * as actionTypes from "@/store/actions/actionTypes";
 import {fetchTeams, getTeamDetails} from "@/store/actions/teamActions";
 import {StaffFormType} from "@/types/StaffDataType";
-import {CreateStaff, GetStaffForAClub} from "@/services/staffManagementService";
-import {AddStaffToTeam} from "@/services/teamManagementService";
+import {CreateStaff, GetStaffForAClub, UpdateStaff} from "@/services/staffManagementService";
+import {AddStaffToTeam, RemovePlayerFromTeam, RemoveStaffFromTeam} from "@/services/teamManagementService";
+import {PlayerFormType} from "@/types/PlayerDataType";
+import {UpdatePlayer} from "@/services/playerManagementService";
+import {saveNewPlayerData} from "@/store/actions/playerActions";
 
 type Dispatch = Redux.Dispatch<any>;
 
@@ -95,6 +98,27 @@ export const addSelectedStaffsToTeam = (payload: any[], team_id: string, club_id
     }
 }
 
+export const updateStaff = (payload: StaffFormType, toast: any, onClose: any, setSeleced: any,) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true))
+        UpdateStaff(payload).then((result) => {
+            const {data} = result
+            console.log('result', data)
+            dispatch(saveNewStaffData(data?.data))
+            updateAlertMsg(toast, {type: "success", message: "Congratulations, Staff successfully updated"})
+            //insert correct club id path here
+            dispatch(fetchTeams(data?.data?.user?.club_id));
+            dispatch(updateIsLoading(false))
+            onClose(false)
+            setSeleced(true)
+
+        }).catch((err) => {
+            dispatch(updateIsLoading(false))
+            handleError(err, toast, dispatch);
+        })
+    }
+}
+
 export const getAllStaffs = (clubId: string) => {
     return async (dispatch: Dispatch) => {
         GetStaffForAClub(clubId).then(result => {
@@ -106,12 +130,39 @@ export const getAllStaffs = (clubId: string) => {
     }
 }
 
+export const removeStaffFromTeam = (staff_id: string, role: string, team_id: string, club_id: any, toast: any, onClose: any) => {
+    return async (dispatch: Dispatch) => {
+        const removeStaffFromClubPayload = {
+            staff: [{
+                staff_id,
+                team_id,
+                role
+            }]
+        }
+        RemoveStaffFromTeam(removeStaffFromClubPayload).then(newResult => {
+            dispatch(addStaffToTeam(newResult?.data))
+            updateAlertMsg(toast, {
+                type: "success",
+                message: "Staff successfully removed from team"
+            })
+            console.log('newResult', newResult)
+            dispatch(fetchTeams(club_id));
+            onClose(false)
+            // setSeleced(true)
+            dispatch(updateIsLoading(false))
+        }).catch(err => {
+            console.log('add staff to team error', err)
+            handleError(err, toast, dispatch);
+        })
+    }
+}
+
 const handleError = (err: any, toast: any, dispatch: Dispatch) => {
     updateAlertMsg(toast, {type: "error", message: err?.response?.data?.message})
     dispatch(updateIsLoading(false))
 }
 
-function saveNewStaffData(data: any): any {
+export function saveNewStaffData(data: any): any {
     return {
         type: actionTypes.SAVE_NEW_STAFF,
         payload: data
