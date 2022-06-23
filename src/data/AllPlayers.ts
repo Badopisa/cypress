@@ -8,7 +8,80 @@ interface PlayerType {
 
 
 }
+interface PlayerStatsType {
+    id: number;
+    playerName: string;
+    goalsScored: number;
+    shotsAttempts: number;
+    ballPossession: number;
+    longPass: number;
+    shortPass: number;
+    speed: number;
+    freeKicks: number;
+    penalties: number;
+    yellowCards: number;
+    redCards: number;
+}
 
+export const playersStat: PlayerStatsType[] = [
+    {
+        id: 1,
+        playerName: 'Bruno Fernandez',
+        goalsScored: 0,
+        shotsAttempts: 4,
+        ballPossession: 84,
+        longPass: 89,
+        shortPass: 94,
+        speed: 56,
+        freeKicks: 3,
+        penalties: 2,
+        yellowCards: 1,
+        redCards: 0,
+    },
+    {
+        id: 2,
+        playerName: 'Nemar Dendard',
+        goalsScored: 0,
+        shotsAttempts: 4,
+        ballPossession: 84,
+        longPass: 89,
+        shortPass: 94,
+        speed: 56,
+        freeKicks: 3,
+        penalties: 2,
+        yellowCards: 1,
+        redCards: 0,
+    },
+    {
+        id: 3,
+        playerName: 'Nemar Dendard',
+        goalsScored: 0,
+        shotsAttempts: 4,
+        ballPossession: 84,
+        longPass: 89,
+        shortPass: 94,
+        speed: 56,
+        freeKicks: 3,
+        penalties: 2,
+        yellowCards: 1,
+        redCards: 0,
+    },
+    {
+        id: 4,
+        playerName: 'Nemar Dendard',
+        goalsScored: 0,
+        shotsAttempts: 4,
+        ballPossession: 84,
+        longPass: 89,
+        shortPass: 94,
+        speed: 56,
+        freeKicks: 3,
+        penalties: 2,
+        yellowCards: 1,
+        redCards: 0,
+    },
+
+]
 
 
 export const allPlayers: PlayerType[] = [
@@ -185,3 +258,4 @@ export const allPlayers: PlayerType[] = [
 
 
 ]
+

@@ -1,17 +1,17 @@
-import {authenticatedRoute} from '@/components/Layout/AuthenticatedRoute';
-import React, {useState} from 'react';
+import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
+import React, { useState } from 'react';
 import {
-    Text,
-    Box,
-    Spacer,
-    VStack,
-    Stack,
-    Center,
-    Button,
-    SimpleGrid,
+  Text,
+  Box,
+  Spacer,
+  VStack,
+  Stack,
+  Center,
+  Button,
+  SimpleGrid,
 } from '@chakra-ui/react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Steps from '@/components/Team/Steps';
 import BlankTeam from '@/components/Team/BlankTeam';
 import NewPlayer from '@/components/Team/Modal/NewPlayer';
@@ -19,23 +19,23 @@ import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
 
-import {RootStateOrAny, useSelector} from 'react-redux';
+import { RootStateOrAny, useSelector } from 'react-redux';
 
 const AddTeam = () => {
-    const {currentTeam}: { currentTeam: any } = useSelector(
-        (state: RootStateOrAny) => state.team
-    );
-    const [create, setCreate] = useState<boolean>(false);
-    const [existing, setExisting] = useState<boolean>(false);
-    const [select, setSelected] = useState<boolean>(false);
-    const handleCreate = () => {
-        setCreate(true);
-    };
-    const handleExist = () => {
-        setExisting(true);
-    };
+  const { currentTeam }: { currentTeam: any } = useSelector(
+    (state: RootStateOrAny) => state.team
+  );
+  const [create, setCreate] = useState<boolean>(false);
+  const [existing, setExisting] = useState<boolean>(false);
+  const [select, setSelected] = useState<boolean>(false);
+  const handleCreate = () => {
+    setCreate(true);
+  };
+  const handleExist = () => {
+    setExisting(true);
+  };
 
-    const router = useRouter();
+  const router = useRouter();
 
     return (
         <>
@@ -128,24 +128,24 @@ const AddTeam = () => {
                     </VStack>
                 </Center>
 
-                <ExistingPlayer
-                    isOpen={existing}
-                    onClose={setExisting}
-                    setSelected={setSelected}
-                />
+        <ExistingPlayer
+          isOpen={existing}
+          onClose={setExisting}
+          setSelected={setSelected}
+        />
 
-                <NewPlayer isOpen={create} onClose={setCreate} />
+        <NewPlayer isOpen={create} onClose={setCreate} />
 
-                <Confirmation
-                    jersyPng='/images/image/jersy.png'
-                    isOpen={select}
-                    onClose={setSelected}
-                    playerName='Kareem Benzema'
-                    title='Striker'
-                />
-            </Box>
-        </>
-    );
+        <Confirmation
+          jersyPng='/images/image/jersy.png'
+          isOpen={select}
+          onClose={setSelected}
+          playerName='Kareem Benzema'
+          title='Striker'
+        />
+      </Box>
+    </>
+  );
 };
 
 export default authenticatedRoute(AddTeam);

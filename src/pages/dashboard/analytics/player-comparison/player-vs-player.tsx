@@ -7,31 +7,43 @@ import {
   Select,
   Text,
   Box,
-  Avatar,
-  Link,
-  Spacer,
-  Flex,
   Stack,
-  Center,
   Button,
-  FormLabel,
-  Input,
+  Tag,
+  TagCloseButton,
+  TagLabel,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  TableContainer,
+  Flex,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { allPlayers, playersStat } from '@/data/AllPlayers';
 
 const PlayerVsPlayer = () => {
   const [selectedClub, setSelectedClub] = useState(false);
+  const [selectedPlayers, setSelectedPlayers] = useState(['']);
+  // const selectedPlayers: string[] = [];
+
+  const handleSelectedPlayer = (e: any) => {
+    selectedPlayers.push(e.target.value);
+    console.log('selected players', selectedPlayers);
+  };
+  const handleRemoveSelectedPlayer = () => {};
   return (
     <>
-      <HStack>
-        {' '}
+      <Text m={8}>You can select more that two players for comparison</Text>
+
+      <Stack w={'80%'} mb={8}>
         <FormControl
-          w={'80%'}
+          w={'60%'}
           bg={'lightAsh'}
           borderRadius={'lg'}
-          px={8}
+          pl={8}
           my={8}
         >
           <HStack>
@@ -41,144 +53,100 @@ const PlayerVsPlayer = () => {
                 Choose team
               </option>
               <option value='option2'>Manchester United</option>
-              <option value='option3'>Option 3</option>
+              <option value='option3'>Arsenal</option>
+              <option value='option4'>Manchester United</option>
+              <option value='option5'>Arsenal</option>
             </Select>
           </HStack>
         </FormControl>
-        <FormControl w={'80%'} bg={'lightAsh'} borderRadius={'lg'} px={8}>
-          <HStack>
-            <Img src='/images/imgs/manu.svg' w={'30px'} />
-            <Select outline='none' border={'none'}>
-              <option value='option1' selected>
-                Choose team{' '}
+        <FormControl w={'60%'}>
+          <Select id='players' onChange={handleSelectedPlayer}>
+            {allPlayers.map((player) => (
+              <option key={player.id} value={player.playerName}>
+                {player.playerName}
               </option>
-              <option value='option2'> Chelsea</option>
-              <option value='option3'>Option 3</option>
-            </Select>
-          </HStack>
+            ))}
+          </Select>
         </FormControl>
-      </HStack>
-      <Stack>
-        <HStack spacing={{ base: '2', md: '12' }}>
-          <Box>
-            <FormControl id='choosePlayer1'>
-              <FormLabel>Choose Player1</FormLabel>
-              <Select>
-                <option value='option1' selected>
-                  Select
-                </option>
-                <option value='option2'>Manchester United</option>
-                <option value='option3'>Option 3</option>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box>
-            <FormControl id='choosesPlayer2'>
-              <FormLabel>Choose Player 2</FormLabel>
-              <Select placeholder=''>
-                <option value='option1' selected>
-                  Select
-                </option>
-                <option value='option2'>Manchester United</option>
-                <option value='option3'>Option 3</option>
-              </Select>
-            </FormControl>
-          </Box>
+
+        <HStack spacing={4}>
+          {selectedPlayers.length > 1 &&
+            selectedPlayers.map((player) => (
+              <Tag
+                size={'md'}
+                key={player}
+                borderRadius={'lg'}
+                variant='outline'
+                my={8}
+              >
+                <TagLabel>{player}</TagLabel>
+                <TagCloseButton onClick={handleRemoveSelectedPlayer} />
+              </Tag>
+            ))}
         </HStack>
-        <Button variant='actionBare' w={'50%'}>
-          COMPARE
-        </Button>
+        <HStack gap={8}>
+          <Button variant='action' px={4}>
+            COMPARE
+          </Button>
+          <Button variant='outline' px={4}>
+            SHARE STATS
+          </Button>
+        </HStack>
       </Stack>
-      <Box bg='dark' borderRadius='lg' marginTop={'3.5rem'} w={'100%'} p={6}>
-        <HStack>
-          <VStack>
-            <Avatar bg='ash' boxSize={{ base: '5rem', md: '7.5rem' }} />
-            <Text fontSize='m' fontWeight='medium'>
-              Player 1
-            </Text>
-            <Text fontSize='sm' fontWeight='medium'>
-              Position
-            </Text>
-            <Text fontSize='sm' fontWeight='medium'>
-              JerseyNo
-            </Text>
-          </VStack>
-          <Spacer />
-          <Text>Vs</Text>
-          <Spacer />
-          <VStack>
-            <Avatar bg='ash' boxSize={{ base: '5rem', md: '7.5rem' }} />
-            <Text fontSize='m' fontWeight='medium'>
-              Player 2
-            </Text>
-            <Text fontSize='sm' fontWeight='medium'>
-              Position
-            </Text>
-            <Text fontSize='sm' fontWeight='medium'>
-              JerseyNo
-            </Text>
-          </VStack>
-        </HStack>
-        <Text align={'center'} fontSize='xl' my={12}>
-          Comparison Stats
-        </Text>
-        {playerStatsData.map((data, index) => (
-          <Flex px={{ base: 2, md: 6 }} mb={6} key={index}>
-            <Stack>
-              <Box h='100px' w='100px'>
-                <CircularProgressbar
-                  value={data.player1Stats}
-                  text={`${data.player1Stats}%`}
-                  strokeWidth={10}
-                  styles={buildStyles({
-                    textSize: '20px',
-                    textColor: '#fff',
-                    pathColor: '#47DC40',
-                  })}
-                />
-              </Box>
-              <Text>{data.statsType}</Text>
-            </Stack>
-            <Spacer />
-            <Stack>
-              <Box h='100px' w='100px'>
-                <CircularProgressbar
-                  value={data.player2Stats}
-                  text={`${data.player2Stats}%`}
-                  strokeWidth={10}
-                  styles={buildStyles({
-                    textSize: '20px',
-                    textColor: '#fff',
-                    pathColor: '#47DC40',
-                  })}
-                />
-              </Box>
-              <Text>{data.statsType}</Text>
-            </Stack>
-          </Flex>
-        ))}
-        {matchStatsData.map((data, index) => (
-          <>
-            <Flex key={index} bg='black' borderRadius='lg' px={6} mb={6}>
-              <Box p='2'>
-                <Text>{data.team1Stats}</Text>
-              </Box>
-              <Spacer />
-              <Box p='2'>
-                <Text>{data.statsType}</Text>
-              </Box>
-              <Spacer />
-              <Box p='2'>
-                <Text>{data.team2Stats}</Text>
-              </Box>
-            </Flex>
-            <Spacer />
-          </>
-        ))}
-      </Box>{' '}
-      <Button variant='actionOutline' alignSelf='center' mt={16}>
-        BACK TO TOP
-      </Button>
+      <Flex justifyContent='space-between' width={'90%'} my={'4rem'}>
+        <Text fontWeight={'semibold'}>Player Stats</Text>
+        <FormControl width={'20%'}>
+          <Select>
+            <option value={'All matches'}>All matches</option>
+            <option value={'All matches'}>All matches</option>
+            <option value={'All matches'}>All matches</option>
+          </Select>
+        </FormControl>
+      </Flex>
+      <TableContainer
+        overflow={'auto'}
+        width={'90%'}
+        bg={'dark'}
+        borderRadius={'lg'}
+        mt={8}
+      >
+        <Table p={8}>
+          <Thead p={8}>
+            <Tr>
+              <Th borderBottom={'none'}></Th>
+              <Th borderBottom={'none'} width={'4px'}>
+                Goals Scored
+              </Th>
+              <Th borderBottom={'none'}>Shots Attempts</Th>
+              <Th borderBottom={'none'}>Ball Possession</Th>
+              <Th borderBottom={'none'}>Long Pass Acc.</Th>
+              <Th borderBottom={'none'}>Short Pass Acc.</Th>
+              <Th borderBottom={'none'}>Speed</Th>
+              <Th borderBottom={'none'}>Free Kicks</Th>
+              <Th borderBottom={'none'}>Penalties</Th>
+              <Th borderBottom={'none'}>Yellow Cards</Th>
+              <Th borderBottom={'none'}>Red Cards</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {playersStat.map((stat) => (
+              <Tr key={stat.id}>
+                <Td>{stat.playerName}</Td>
+                <Td>{stat.goalsScored}</Td>
+                <Td>{`${stat.shotsAttempts}%`}</Td>
+                <Td>{`${stat.ballPossession}%`}</Td>
+                <Td>{`${stat.longPass}%`}</Td>
+                <Td>{`${stat.shortPass}%`}</Td>
+                <Td>{`${stat.speed}%`}</Td>
+                <Td>{stat.freeKicks}</Td>
+                <Td>{stat.penalties}</Td>
+                <Td>{stat.yellowCards}</Td>
+                <Td>{stat.redCards}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

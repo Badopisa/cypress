@@ -8,6 +8,8 @@ import {
   Button,
   Center,
   Container,
+  CircularProgress,
+  CircularProgressLabel,
   Flex,
   HStack,
   Img,
@@ -17,8 +19,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
 
 const VideoComparisonResult = () => {
   return (
@@ -86,32 +86,26 @@ const VideoComparisonResult = () => {
             <Flex px={6} mb={6} key={index}>
               <Stack>
                 <Box h='100px' w='100px'>
-                  <CircularProgressbar
+                  <CircularProgress
                     value={data.player1Stats}
-                    text={`${data.player1Stats}%`}
-                    strokeWidth={10}
-                    styles={buildStyles({
-                      textSize: '20px',
-                      textColor: '#fff',
-                      pathColor: '#47DC40',
-                    })}
-                  />
+                    color='green.400'
+                    thickness={'10px'}
+                  >
+                    <CircularProgressLabel>{`${data.player1Stats}%`}</CircularProgressLabel>
+                  </CircularProgress>
                 </Box>
                 <Text>{data.statsType}</Text>
               </Stack>
               <Spacer />
               <Stack>
                 <Box h='100px' w='100px'>
-                  <CircularProgressbar
+                  <CircularProgress
                     value={data.player2Stats}
-                    text={`${data.player2Stats}%`}
-                    strokeWidth={10}
-                    styles={buildStyles({
-                      textSize: '20px',
-                      textColor: '#fff',
-                      pathColor: '#47DC40',
-                    })}
-                  />
+                    color='green.400'
+                    thickness={'10px'}
+                  >
+                    <CircularProgressLabel>{`${data.player2Stats}%`}</CircularProgressLabel>
+                  </CircularProgress>
                 </Box>
                 <Text>{data.statsType}</Text>
               </Stack>

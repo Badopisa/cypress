@@ -18,6 +18,7 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    Tag,
     Text,
     useDisclosure,
     VStack,
@@ -39,9 +40,9 @@ import {saveNewPlayerData} from "@/store/actions/playerActions";
 import {saveNewStaffData} from "@/store/actions/staffActions";
 
 const TeamManagement = () => {
-    const {
-        currentTeam
-    }: { currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
+    const {currentTeam}: { currentTeam: any } = useSelector(
+        (state: RootStateOrAny) => state.team
+    );
     const [tab, setTab] = useState<number>(1);
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [create, setCreate] = useState<boolean>(false);
@@ -113,18 +114,18 @@ const TeamManagement = () => {
                     </VStack>
 
                     <Wrap w={'45%'} alignSelf={{base: 'self-start', md: 'self-end'}}>
-                        <Text fontSize={'sm'} p={1} color='white' bg='dark'>
+                        <Tag fontSize={'sm'} p={1} color='white' bg='dark'>
                             {currentTeam?.players?.length} Players
-                        </Text>
-                        <Text fontSize={'sm'} p={1} color='white' bg='dark'>
+                        </Tag>
+                        <Tag fontSize={'sm'} p={1} color='white' bg='dark'>
                             {currentTeam?.staff?.length} Backroom Staffs
-                        </Text>
-                        <Text p={1} color='white' bg='dark'>
+                        </Tag>
+                        <Tag p={1} color='white' bg='dark'>
                             United Kingdom
-                        </Text>
-                        <Text fontSize={'sm'} p={1} color='white' bg='dark'>
+                        </Tag>
+                        <Tag fontSize={'sm'} p={1} color='white' bg='dark'>
                             1920-2022
-                        </Text>
+                        </Tag>
                     </Wrap>
 
                     <Button
@@ -249,7 +250,7 @@ const TeamManagement = () => {
                                     click={() => handleStaffModal1(staff)}
                                 />
                             ))
-                                .slice(0, 6)}
+                            }
                         </SimpleGrid>
                     </>
                 )}

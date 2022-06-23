@@ -1,28 +1,22 @@
 import Video from '@/components/Analytics/Video';
 import { uploadedVideosData } from '@/data/AnalyticsData';
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Img,
-  Table,
-  Tbody,
-  Td,
-  Tr,
-} from '@chakra-ui/react';
+import { Box, Button, Img, Table, Tbody, Td, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
-import ReactPlayer from 'react-player';
 
-const UploadedVideos = () => {
+type displayType = {
+  setDisplay: (value: number) => void;
+};
+
+const PlayerVideos = ({ setDisplay }: displayType) => {
   const router = useRouter();
 
-  const handleOpenVideoAnalytics = () => {
-    router.push('/dashboard/analytics/highlights');
+  const handleOpenPlayerStatistics = () => {
+    setDisplay(2);
   };
 
   return (
-    <Box overflowX={'auto'}>
+    <Box overflowX={'auto'} w={'85%'}>
       <Table mt={8}>
         <Tbody>
           {uploadedVideosData
@@ -32,7 +26,7 @@ const UploadedVideos = () => {
                   bg='dark'
                   borderRadius='lg'
                   key={key}
-                  onClick={handleOpenVideoAnalytics}
+                  onClick={handleOpenPlayerStatistics}
                   _hover={{ border: ' 1px solid #811AFF' }}
                   cursor={'pointer'}
                   // h={'2%'}
@@ -48,7 +42,7 @@ const UploadedVideos = () => {
                   </Td>
                   <Td border={'none'}>
                     <Button variant='outline' fontSize={'2xs'}>
-                      ANALYZING
+                      VIEW ANALYTICS
                     </Button>
                   </Td>
                   <Td border={'none'}>
@@ -68,4 +62,4 @@ const UploadedVideos = () => {
   );
 };
 
-export default UploadedVideos;
+export default PlayerVideos;

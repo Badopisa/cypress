@@ -2,6 +2,8 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
+  CircularProgressLabel,
+  CircularProgress,
   Flex,
   FormControl,
   FormLabel,
@@ -24,12 +26,8 @@ import {
 import React, { useRef, useState } from 'react';
 import ModalLayout from '../../modal';
 import ChangingProgressProvider from './ChangingProgressProvider';
-import {
-  CircularProgressbar,
-  CircularProgressbarWithChildren,
-  buildStyles,
-} from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+
+import PropTypes from 'prop-types';
 import { FileDrop } from 'react-file-drop';
 
 interface UploadTypes {
@@ -47,6 +45,19 @@ const UploadVideoModal = ({
   const [fileName, setName] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
   const percentage = 0;
+
+  const [progress, setProgress] = React.useState(10);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
+    }, 800);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const fileHandler = (file: any) => {
     const extension = file[0].name.split('.')[1]?.toLowerCase();
@@ -116,16 +127,13 @@ const UploadVideoModal = ({
                 >
                   {(percentage: number) => (
                     <Box style={{ width: '30%' }}>
-                      <CircularProgressbar
-                        value={15}
-                        text={`${15}%`}
-                        styles={buildStyles({
-                          pathTransitionDuration: 0.15,
-                          pathColor: '#811AFF',
-                          textColor: '#fff',
-                          textSize: '14px',
-                        })}
-                      />
+                      <CircularProgress
+                        value={percentage}
+                        color='green.400'
+                        thickness={'10px'}
+                      >
+                        <CircularProgressLabel>{`${15}%`}</CircularProgressLabel>
+                      </CircularProgress>
                     </Box>
                   )}
                 </ChangingProgressProvider>
