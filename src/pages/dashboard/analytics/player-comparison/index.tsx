@@ -1,16 +1,6 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import {
-  Center,
-  VStack,
-  Tabs,
-  TabList,
-  Tab,
-  Text,
-  Spacer,
-  Heading,
-  Container,
-} from '@chakra-ui/react';
+import { VStack, Tabs, TabList, Tab, Text, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import PlayerVideo from './player-video';
 import PlayerVsPlayer from './player-vs-player';
@@ -27,37 +17,38 @@ const PlayerComparison = () => {
     <>
       <DashboardDesktopNav hasArrow />
 
-      <Container maxW='2xl'>
+      <>
         <VStack color='white' align={{ base: 'center', lg: 'flex-start' }}>
           <Text fontSize={'3xl'} mb={4}>
-            Player Comparison
+            Comparison
           </Text>
           <Tabs
             variant='unstyled'
             mt={{ base: 8, md: 4 }}
             alignContent='center'
-            w={{ base: '100%', md: '100%' }}
+            // px={8}
+            w={{ base: '80%', md: '50%' }}
           >
             <TabList
               bg='dark'
               color='white'
               w={{ base: '100%', md: '100%' }}
               rounded={5}
-              p={{ base: '0', md: '8px 16px' }}
+              // p={{ base: '0', md: '8px 16px' }}
             >
               <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
-                Player vs Player
+                Player Comparison
               </Tab>
               <Spacer />
               <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
-                Player Video
+                Video Comparison
               </Tab>
             </TabList>
           </Tabs>
           {tab === 1 && <PlayerVsPlayer />}
           {tab === 2 && <PlayerVideo />}
         </VStack>
-      </Container>
+      </>
     </>
   );
 };

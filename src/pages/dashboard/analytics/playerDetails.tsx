@@ -7,6 +7,8 @@ import {
   Box,
   Button,
   Center,
+  CircularProgress,
+  CircularProgressLabel,
   Flex,
   FormControl,
   Heading,
@@ -20,12 +22,24 @@ import {
   VStack,
   Wrap,
 } from '@chakra-ui/react';
-import React from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const PlayerDetails = () => {
+  const [progress, setProgress] = useState(10);
+
   const percentage = 65;
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
+    }, 800);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
   return (
     <>
       <DashboardDesktopNav hasArrow />
@@ -94,49 +108,39 @@ const PlayerDetails = () => {
               </Box>
             </SimpleGrid>
             <Flex mt='3rem' gap={6}>
-              <Stack>
-                <Box>
-                  <CircularProgressbar
+              <Stack alignSelf={'center'}>
+                <Box alignSelf={'center'}>
+                  <CircularProgress
                     value={percentage}
-                    text={`${percentage}%`}
-                    strokeWidth={10}
-                    styles={buildStyles({
-                      textSize: '20px',
-                      textColor: '#fff',
-                      pathColor: '#47DC40',
-                    })}
-                  />
+                    color='green.400'
+                    thickness={'10px'}
+                  >
+                    <CircularProgressLabel>{`${percentage}%`}</CircularProgressLabel>
+                  </CircularProgress>
                 </Box>
                 <Text>Ball Possession</Text>
               </Stack>
               <Stack>
-                <Box>
-                  <CircularProgressbar
+                <Box alignSelf={'center'}>
+                  <CircularProgress
                     value={percentage}
-                    text={`${percentage}%`}
-                    strokeWidth={10}
-                    styles={buildStyles({
-                      textSize: '20px',
-                      textColor: '#fff',
-                      pathColor: '#47DC40',
-                    })}
-                  />
+                    color='green.400'
+                    thickness={'10px'}
+                  >
+                    <CircularProgressLabel>{`${percentage}%`}</CircularProgressLabel>
+                  </CircularProgress>
                 </Box>
                 <Text>Long Pass Acc</Text>
               </Stack>
               <Stack>
-                <Box>
-                  {' '}
-                  <CircularProgressbar
+                <Box alignSelf={'center'}>
+                  <CircularProgress
                     value={percentage}
-                    text={`${percentage}%`}
-                    strokeWidth={10}
-                    styles={buildStyles({
-                      textSize: '20px',
-                      textColor: '#fff',
-                      pathColor: '#47DC40',
-                    })}
-                  />
+                    color='green.400'
+                    thickness={'10px'}
+                  >
+                    <CircularProgressLabel>{`${percentage}%`}</CircularProgressLabel>
+                  </CircularProgress>
                 </Box>
                 <Text>Short Pass Acc</Text>
               </Stack>
