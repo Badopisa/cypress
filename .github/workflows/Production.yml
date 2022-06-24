@@ -28,14 +28,14 @@ jobs:
         run: |
           yarn install
       
-      - name: Test with mocha
-        env:
-          JWT_SECRETE_KEY: "${{ secrets.JWT_SECRETE_KEY }}"
-          AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
-          AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          AWS_REGION: "${{ secrets.AWS_REGION }}"
-        run: |
-          yarn test
+#       - name: Test with mocha
+#         env:
+#           JWT_SECRETE_KEY: "${{ secrets.JWT_SECRETE_KEY }}"
+#           AWS_ACCESS_KEY_ID:  "${{ secrets.AWS_ACCESS_KEY_ID }}"
+#           AWS_SECRET_ACCESS_KEY:  "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+#           AWS_REGION: "${{ secrets.AWS_REGION }}"
+#         run: |
+#           yarn test
       - 
         env: 
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
@@ -74,7 +74,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: parallelscore/sonalysis-service-api
+          images: parallelscore/sonalysis-web
       
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
