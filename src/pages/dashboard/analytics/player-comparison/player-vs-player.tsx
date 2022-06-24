@@ -21,19 +21,67 @@ import {
   TableContainer,
   Flex,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { allPlayers, playersStat } from '@/data/AllPlayers';
+import React, { useState, useEffect } from 'react';
+import { TeamDataType } from '@/types/TeamDataType';
+import { fetchTeams } from '@/store/actions/teamActions';
+import { UserDataType } from '@/types/AuthDataType';
+import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
+import { fetchPlayerStatistics } from '@/store/actions/comaprisonAction';
 
 const PlayerVsPlayer = () => {
-  const [selectedClub, setSelectedClub] = useState(false);
+  const [currentTeamPlayers, setCurrentTeamPlayers] = useState([{}]);
+
   const [selectedPlayers, setSelectedPlayers] = useState(['']);
-  // const selectedPlayers: string[] = [];
+
+  const dispatch = useDispatch();
+
+  const {
+    filteredData,
+    teams,
+  }: {
+    filteredData: TeamDataType[] | [];
+    teams: TeamDataType[] | [];
+  } = useSelector((state: RootStateOrAny) => state.team);
+  const { user }: { user: UserDataType } = useSelector(
+    (state: RootStateOrAny) => state.auth
+  );
+  const playersStats: any = useSelector(
+    (state: any) => state.playersStatistics.playersStatistics
+  );
+
+  useEffect(() => {
+    if (filteredData.length < 1) {
+      dispatch(fetchTeams(user?.clubs[0].id));
+    }
+  }, []);
+
+  const displayPlayerStats = () => {
+    const playerIds = selectedPlayers.map((player: any) => {
+      const id = currentTeamPlayers?.filter(
+        (currentPlayer: any) =>
+          `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
+      )[0].id;
+      return id || null;
+    });
+    dispatch(fetchPlayerStatistics(playerIds));
+  };
+
+  const handleSelectedTeam = (e: any) => {
+    const value = e.target.value;
+    const currentTeam = filteredData.filter(
+      (team) => team.name === e.target.value
+    )[0];
+    setCurrentTeamPlayers(currentTeam.players);
+  };
 
   const handleSelectedPlayer = (e: any) => {
-    selectedPlayers.push(e.target.value);
-    console.log('selected players', selectedPlayers);
+    const players = selectedPlayers.filter((player) => player);
+    setSelectedPlayers([...players, e.target.value]);
   };
-  const handleRemoveSelectedPlayer = () => {};
+  const handleRemoveSelectedPlayer = (playerName: string) => {
+    const players = selectedPlayers.filter((player) => player != playerName);
+    setSelectedPlayers(players);
+  };
   return (
     <>
       <Text m={8}>You can select more that two players for comparison</Text>
@@ -48,29 +96,38 @@ const PlayerVsPlayer = () => {
         >
           <HStack>
             <Img src='/images/imgs/manu.svg' w={'30px'} />
-            <Select outline='none' border={'none'}>
-              <option value='option1' selected>
-                Choose team
-              </option>
-              <option value='option2'>Manchester United</option>
-              <option value='option3'>Arsenal</option>
-              <option value='option4'>Manchester United</option>
-              <option value='option5'>Arsenal</option>
+            <Select
+              outline='none'
+              border={'none'}
+              onChange={handleSelectedTeam}
+            >
+              {filteredData.map((data: TeamDataType) => (
+                <option key={data.id} value={data.name} selected>
+                  {data.name}
+                </option>
+              ))}
             </Select>
           </HStack>
         </FormControl>
         <FormControl w={'60%'}>
           <Select id='players' onChange={handleSelectedPlayer}>
-            {allPlayers.map((player) => (
-              <option key={player.id} value={player.playerName}>
-                {player.playerName}
-              </option>
-            ))}
+            {currentTeamPlayers.length > 0 &&
+              currentTeamPlayers.map((player: any) => (
+                <option
+                  key={player.id}
+                  value={`${player.first_name} ${player.last_name}`}
+                  disabled={selectedPlayers.includes(
+                    `${player.first_name} ${player.last_name}`
+                  )}
+                >
+                  {`${player.first_name} ${player.last_name}`}
+                </option>
+              ))}
           </Select>
         </FormControl>
 
         <HStack spacing={4}>
-          {selectedPlayers.length > 1 &&
+          {selectedPlayers.length > 0 &&
             selectedPlayers.map((player) => (
               <Tag
                 size={'md'}
@@ -80,12 +137,14 @@ const PlayerVsPlayer = () => {
                 my={8}
               >
                 <TagLabel>{player}</TagLabel>
-                <TagCloseButton onClick={handleRemoveSelectedPlayer} />
+                <TagCloseButton
+                  onClick={() => handleRemoveSelectedPlayer(player)}
+                />
               </Tag>
             ))}
         </HStack>
         <HStack gap={8}>
-          <Button variant='action' px={4}>
+          <Button variant='action' px={4} onClick={displayPlayerStats}>
             COMPARE
           </Button>
           <Button variant='outline' px={4}>
@@ -129,19 +188,19 @@ const PlayerVsPlayer = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {playersStat.map((stat) => (
+            {playersStats?.map((stat: any) => (
               <Tr key={stat.id}>
-                <Td>{stat.playerName}</Td>
-                <Td>{stat.goalsScored}</Td>
-                <Td>{`${stat.shotsAttempts}%`}</Td>
-                <Td>{`${stat.ballPossession}%`}</Td>
-                <Td>{`${stat.longPass}%`}</Td>
-                <Td>{`${stat.shortPass}%`}</Td>
+                <Td>{`${stat.player.first_name} ${stat.player.last_name}`}</Td>
+                <Td>{stat.goal}</Td>
+                <Td>{`${70}%`}</Td>
+                <Td>{`${50}%`}</Td>
+                <Td>{`${stat.long_pass}%`}</Td>
+                <Td>{`${stat.short_pass}%`}</Td>
                 <Td>{`${stat.speed}%`}</Td>
-                <Td>{stat.freeKicks}</Td>
-                <Td>{stat.penalties}</Td>
-                <Td>{stat.yellowCards}</Td>
-                <Td>{stat.redCards}</Td>
+                <Td>{stat.free_kick}</Td>
+                <Td>{stat.penalty}</Td>
+                <Td>{stat.yellow_card}</Td>
+                <Td>{stat.red_card}</Td>
               </Tr>
             ))}
           </Tbody>

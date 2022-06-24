@@ -1,10 +1,11 @@
-import { combineReducers } from "redux";
-import { authReducer } from "./authReducer";
-import { categoryReducer } from "./categoryReducer";
-import { msgReducer } from "./msgReducer";
-import {teamReducer} from "./teamReducer"
-import {playerReducer} from "@/store/reducers/playerReducer";
-import {staffReducer} from "@/store/reducers/staffReducer";
+import { combineReducers } from 'redux';
+import { authReducer } from './authReducer';
+import { categoryReducer } from './categoryReducer';
+import { msgReducer } from './msgReducer';
+import { teamReducer } from './teamReducer';
+import { playerReducer } from '@/store/reducers/playerReducer';
+import { staffReducer } from '@/store/reducers/staffReducer';
+import { playerStatisticReducer } from '@/store/reducers/playerStatisticsReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   staff: staffReducer,
   player: playerReducer,
   team: teamReducer,
-  category: categoryReducer
+  category: categoryReducer,
+  playersStatistics: playerStatisticReducer,
 });
 
 export default rootReducer;
