@@ -3,7 +3,7 @@ name: 'Production CICD'
 on:
   push:
     branches:
-    - production
+    - main
   pull_request:
 
 permissions:
@@ -39,10 +39,10 @@ jobs:
           args: >
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.verbose=true
-      - env:
-          SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
-        timeout-minutes: 240
-        uses: sonarsource/sonarqube-quality-gate-action@master
+#       - env:
+#           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
+#         timeout-minutes: 240
+#         uses: sonarsource/sonarqube-quality-gate-action@master
         
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -142,40 +142,40 @@ jobs:
         run: echo ${{ env.SSH_HOST }}
       
       
-      - name: ssh deployment
-        uses: fifsky/ssh-action@master
-        with:
-            host: ${{ env.SSH_HOST }}
-            user: ${{secrets.SSH_USERNAME}}
-            key: ${{secrets.SSH_KEY}}
-            port: ${{secrets.SSH_PORT}}
-            script: |
-              mkdir -p /var/www/sonalysis_backend/sonalysis_service_v2
-              cd /var/www/sonalysis_backend/sonalysis_service_v2
+#       - name: ssh deployment
+#         uses: fifsky/ssh-action@master
+#         with:
+#             host: ${{ env.SSH_HOST }}
+#             user: ${{secrets.SSH_USERNAME}}
+#             key: ${{secrets.SSH_KEY}}
+#             port: ${{secrets.SSH_PORT}}
+#             script: |
+#               mkdir -p /var/www/sonalysis_backend/sonalysis_service_v2
+#               cd /var/www/sonalysis_backend/sonalysis_service_v2
               
-              # Install docker on the server
-              sudo apt-get update
-              sudo apt-get install \
-              ca-certificates \
-              curl \
-              gnupg \
-              lsb-release
-              sudo mkdir -p /etc/apt/keyrings
-              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-              echo \
-              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-              $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-              sudo apt-get update
-              sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-              sudo systemctl start docker
-              # Stop all running Docker Containers
-              docker kill $(docker ps -q)
+#               # Install docker on the server
+#               sudo apt-get update
+#               sudo apt-get install \
+#               ca-certificates \
+#               curl \
+#               gnupg \
+#               lsb-release
+#               sudo mkdir -p /etc/apt/keyrings
+#               curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+#               echo \
+#               "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+#               $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#               sudo apt-get update
+#               sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+#               sudo systemctl start docker
+#               # Stop all running Docker Containers
+#               docker kill $(docker ps -q)
               
-              # Login to Dockerhub Container Registry
-              docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#               # Login to Dockerhub Container Registry
+#               docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
               
-              # Pull the Docker Image 
-              docker pull parallelscore/sonalysis-service-api:staging
+#               # Pull the Docker Image 
+#               docker pull parallelscore/sonalysis-service-api:staging
               
-              # Run a new container from a new image
-              docker run -d -p 3001:3001 -t parallelscore/sonalysis-service-api:staging
+#               # Run a new container from a new image
+#               docker run -d -p 3001:3001 -t parallelscore/sonalysis-service-api:staging
