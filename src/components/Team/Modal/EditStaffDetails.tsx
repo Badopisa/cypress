@@ -74,6 +74,7 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
         }
 
         const teamId = currentTeam?.id
+        const clubId = user?.clubs[0]?.id
 
         const payload = {
             photo: s3URL,
@@ -84,7 +85,7 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
             email: email,
         }
         console.log("pre submit payload", payload)
-        dispatch(updateStaff(payload, toast, onClose, setSelected));
+        dispatch(updateStaff(payload, teamId, clubId, toast, onClose, setSelected));
     }
     return (
         <>

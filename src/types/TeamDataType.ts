@@ -6,7 +6,8 @@ export type TeamDataType = {
     location: string | null,
     country: string | null,
     club_id: string
-    players?: any
+    players?: any,
+    staff?: any
 }
 
 export type TeamFormType = {

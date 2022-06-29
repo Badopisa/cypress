@@ -36,13 +36,16 @@ const EditPlayerDetails = ({
     const {
         newPlayer
     }: { newPlayer: any } = useSelector((state: RootStateOrAny) => state.player)
+    const {currentTeam}: { currentTeam: any } = useSelector(
+        (state: RootStateOrAny) => state.team
+    );
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
     const [profilePicture, setProfilePicture] = React.useState<null | File | string>(null);
     const [firstName, setFirstName] = React.useState<any>(null);
     const [lastName, setLastName] = React.useState<any>(null);
     const [position, setPosition] = React.useState<any>(null);
     const [jerseyNo, setJerseyNo] = React.useState<any>(null);
-    const [currentTeam, setCurrentTeam] = React.useState<any>(null);
+    const [team, setTeam] = React.useState<any>(null);
     const [email, setEmail] = React.useState<any>(null);
     const {s3URL, s3Error} = useUploadToS3(profilePicture)
     const dispatch = useDispatch();
@@ -55,7 +58,7 @@ const EditPlayerDetails = ({
         setPosition(newPlayer?.position);
         setJerseyNo(newPlayer?.jersey_no);
         setEmail(newPlayer?.user_profile?.email)
-        setCurrentTeam(newPlayer?.team_name);
+        setTeam(newPlayer?.team_name);
         return () => {
         };
     }, [newPlayer]);
@@ -83,10 +86,10 @@ const EditPlayerDetails = ({
                 email,
                 position: position,
                 jersey_no: jerseyNo,
-                team_name: currentTeam,
+                team_name: team,
             };
             console.log('playerData', playerData);
-            dispatch(updatePlayer(playerData, toast, onClose, setSelected));
+            dispatch(updatePlayer(playerData, currentTeam?.id, toast, onClose, setSelected));
         }
     ;
     return (
@@ -202,8 +205,8 @@ const EditPlayerDetails = ({
                                 </FormLabel>
                                 <Input
                                     id='currentTeam'
-                                    value={currentTeam}
-                                    onChange={e => setCurrentTeam(e.target.value)}
+                                    value={team}
+                                    onChange={e => setTeam(e.target.value)}
                                     name='currentTeam'
                                     type='text'
                                     placeholder='Wolves B'
@@ -218,7 +221,7 @@ const EditPlayerDetails = ({
                         <Button
                             variant='action'
                             isLoading={isLoading}
-                            isDisabled={!(profilePicture && email && firstName && lastName && position && jerseyNo && currentTeam)}
+                            isDisabled={!(profilePicture && email && firstName && lastName && position && jerseyNo && team)}
                                 w='full' onClick={handleSelect}>
                             Save Changes
                         </Button>

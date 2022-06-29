@@ -2,9 +2,14 @@ import {updateAlertMsg, updateIsLoading} from "@/store/actions/msgAction";
 import {AddPlayersToTeam, RemovePlayerFromTeam} from "@/services/teamManagementService";
 import {PlayerFormType} from "@/types/PlayerDataType";
 import * as Redux from "redux";
-import {CreatePlayer, UpdatePlayer} from "@/services/playerManagementService";
+import {
+    CreateMultiplePlayers,
+    CreatePlayer,
+    FetchPlayerDetails,
+    UpdatePlayer
+} from "@/services/playerManagementService";
 import * as actionTypes from "@/store/actions/actionTypes";
-import {fetchTeams, getTeamDetails} from "@/store/actions/teamActions";
+import {fetchTeams, getAllPlayers, getTeamDetails} from "@/store/actions/teamActions";
 import {PlayerToTeamType} from "@/types/TeamDataType";
 
 type Dispatch = Redux.Dispatch<any>;
@@ -53,7 +58,23 @@ export const createAndAddPlayerToTeam = (payload: PlayerFormType, teamId: string
     };
 }
 
-export const updatePlayer = (payload: PlayerFormType, toast: any, onClose: any, setSeleced: any,) => {
+export const getPlayerDetails = (player_id: string, router: any, toast: any) => {
+    return async (dispatch: Dispatch) => {
+        router.push('/dashboard/club-management/PlayerDetails');
+        FetchPlayerDetails(player_id).then((result) => {
+            const {data} = result
+            console.log('gotten player', data)
+            dispatch(saveNewPlayerData(data?.data))
+            dispatch(updateIsLoading(false))
+
+        }).catch((err) => {
+            handleError(err, toast, dispatch);
+            dispatch(updateIsLoading(false))
+        })
+    }
+}
+
+export const updatePlayer = (payload: PlayerFormType, team_id: string, toast: any, onClose: any, setSeleced: any,) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true))
         UpdatePlayer(payload).then((result) => {
@@ -62,6 +83,8 @@ export const updatePlayer = (payload: PlayerFormType, toast: any, onClose: any, 
             dispatch(saveNewPlayerData(data?.data))
             updateAlertMsg(toast, {type: "success", message: "Congratulations, Player successfully updated"})
             dispatch(updateIsLoading(false))
+            dispatch(getTeamDetails(team_id, toast))
+            dispatch(fetchTeams(data?.data?.club_id));
             onClose(false)
             setSeleced(true)
 
@@ -87,6 +110,7 @@ export const removePlayerFromTeam = (player_id: string, team_id: string, club_id
                 message: "Player successfully removed from team"
             })
             console.log('newResult', newResult)
+            dispatch(getTeamDetails(team_id, toast))
             dispatch(fetchTeams(club_id));
             onClose(false)
             // setSeleced(true)
@@ -94,6 +118,33 @@ export const removePlayerFromTeam = (player_id: string, team_id: string, club_id
         }).catch(err => {
             console.log('add player to team error', err)
             handleError(err, toast, dispatch);
+        })
+    }
+}
+export const createMultiplePlayers = (url: string, user_type: string, club_id: any, toast: any, setSelected: any) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true))
+        const payload = {
+            url,
+            user_type,
+            club_id
+        }
+        console.log('dispatched csv', payload)
+
+        CreateMultiplePlayers(payload).then((result) => {
+            const {data} = result
+            const switchToExistingModal = () => {
+                updateAlertMsg(toast, {type: "success", message: "Congratulations, Players successfully created"})
+                dispatch(getAllPlayers(club_id));
+                setSelected(true)
+                console.log('CSV result', result)
+                dispatch(updateIsLoading(false))
+            }
+            setTimeout(switchToExistingModal, 3000)
+            // setSeleced(true)
+        }).catch((err) => {
+            handleError(err, toast, dispatch);
+            dispatch(updateIsLoading(false))
         })
     }
 }

@@ -30,9 +30,10 @@ import useUploadToS3 from "@/hooks/useUploadToS3";
 type NewStaffType = {
     isOpen: boolean,
     onClose: (value: boolean) => void,
+    useCurrentTeamID?: boolean
 }
 
-const NewStaff = ({isOpen, onClose}: NewStaffType) => {
+const NewStaff = ({isOpen, onClose, useCurrentTeamID = true}: NewStaffType) => {
     const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
     const {user}: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth)
     const {currentTeam}: { currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
@@ -61,7 +62,8 @@ const NewStaff = ({isOpen, onClose}: NewStaffType) => {
             return
         }
 
-        const teamId = currentTeam?.id
+        const teamId = useCurrentTeamID ? currentTeam?.id : null
+        const clubId = user?.clubs[0]?.id
 
         const payload = {
             photo: s3URL,
@@ -72,7 +74,7 @@ const NewStaff = ({isOpen, onClose}: NewStaffType) => {
             email: value.email,
         }
         console.log("pre submit payload", payload)
-        dispatch(createAndAddStaffToTeam(payload, teamId, toast, onClose, setSelected))
+        dispatch(createAndAddStaffToTeam(payload, teamId, clubId, toast, onClose, setSelected, useCurrentTeamID))
     }
     return (
         <>

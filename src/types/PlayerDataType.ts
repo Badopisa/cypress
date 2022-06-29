@@ -13,3 +13,9 @@ export type PlayerFormType = {
 //     player_id: string,
 //     team_id: string
 // }
+
+export type PlayerCSV = {
+    club_id: string,
+    user_type: string,
+    url: string,
+}

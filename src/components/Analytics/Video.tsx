@@ -13,7 +13,7 @@ const Video = (data: any) => {
           {' '}
           <ReactPlayer
             className='react-player'
-            url={data.data.file}
+            url={data}
             width='100%'
             height='100%'
             playing={isPlaying}

@@ -66,7 +66,7 @@ const ManageStaffModal = ({
     };
     const handleDeleteStaff = () => {
         console.log('delete');
-        dispatch(removeStaffFromTeam(newStaff.user.id, newStaff.role, currentTeam.id, newStaff.club_id, toast, onClose));
+        dispatch(removeStaffFromTeam(newStaff.id, newStaff.role, currentTeam.id, newStaff.club_id, toast, onClose));
     };
     return (
         <>

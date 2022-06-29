@@ -1,17 +1,17 @@
-import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
-import React, { useState } from 'react';
+import {authenticatedRoute} from '@/components/Layout/AuthenticatedRoute';
+import React, {useEffect, useState} from 'react';
 import {
-  Text,
-  Box,
-  Spacer,
-  VStack,
-  Stack,
-  Center,
-  Button,
-  SimpleGrid,
+    Text,
+    Box,
+    Spacer,
+    VStack,
+    Stack,
+    Center,
+    Button,
+    SimpleGrid, useToast, Spinner,
 } from '@chakra-ui/react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import Steps from '@/components/Team/Steps';
 import BlankTeam from '@/components/Team/BlankTeam';
 import NewPlayer from '@/components/Team/Modal/NewPlayer';
@@ -19,23 +19,60 @@ import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
 
-import { RootStateOrAny, useSelector } from 'react-redux';
+import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
+import useUploadToS3 from "@/hooks/useUploadToS3";
+import {updateImageFile} from "@/store/actions/authActions";
+import {createMultiplePlayers} from "@/store/actions/playerActions";
 
 const AddTeam = () => {
-  const { currentTeam }: { currentTeam: any } = useSelector(
-    (state: RootStateOrAny) => state.team
-  );
-  const [create, setCreate] = useState<boolean>(false);
-  const [existing, setExisting] = useState<boolean>(false);
-  const [select, setSelected] = useState<boolean>(false);
-  const handleCreate = () => {
-    setCreate(true);
-  };
-  const handleExist = () => {
-    setExisting(true);
-  };
+    const {currentTeam}: { currentTeam: any } = useSelector(
+        (state: RootStateOrAny) => state.team
+    );
+    const {isLoading} = useSelector((state: RootStateOrAny) => state.msg);
+    const [csv, setCSV] = React.useState<null | File>(null)
+    const {s3URL, s3Error} = useUploadToS3(csv, false)
+    const [create, setCreate] = useState<boolean>(false);
+    const [existing, setExisting] = useState<boolean>(false);
+    const [select, setSelected] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const toast = useToast();
+    const handleCreate = () => {
+        setCreate(true);
+    };
+    const handleExist = () => {
+        setExisting(true);
+    };
 
-  const router = useRouter();
+    useEffect(() => {
+        if (s3Error) {
+            toast({
+                title: 'Error',
+                description: s3Error,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+        }
+        if (s3URL !== '') {
+            dispatch(createMultiplePlayers(s3URL, 'PLAYER', currentTeam?.club_id, toast, setExisting))
+        }
+        return () => {};
+    }, [s3URL]);
+
+
+    const handleChange = (event: any) => {
+        const file = event.target.files[0]
+        setCSV(file)
+        console.log('file', file)
+    }
+
+    const hiddenFileInput: any = React.useRef(null);
+
+    const handleClick = () => {
+        hiddenFileInput.current.click();
+    };
+
+    const router = useRouter();
 
     return (
         <>
@@ -78,9 +115,19 @@ const AddTeam = () => {
                         {currentTeam?.players?.length}/100
                     </Button>
                     <Spacer />
-                    <Button fontSize='xs' variant='outline' w='full'>
-                        UPLOAD CSV FILE
-                    </Button>
+                    <>
+                        <Button fontSize='xs' onClick={handleClick} variant='outline' w='full'>
+                            UPLOAD CSV FILE
+                        </Button>
+                        <input
+                            type="file"
+                            id="file"
+                            ref={hiddenFileInput}
+                            accept="csv"
+                            style={{display: 'none'}}
+                            onChange={handleChange}
+                        />
+                    </>
                 </Stack>
                 <SimpleGrid
                     minChildWidth={{base: '100%', md: '166px'}}
@@ -88,22 +135,27 @@ const AddTeam = () => {
                     mt={8}
                     mb={8}
                 >
-                    {currentTeam?.players?.length > 0 ? (
-                        currentTeam?.players?.map((player: any) => (
-                            <PlayerCard
-                                key={player?.id}
-                                position={player?.position}
-                                image={player?.photo}
-                                status='Pending Invite'
-                                name={`${player.first_name} ${player.last_name}`}
-                            />
-                        ))
-                    ) : (
-                        <BlankTeam
-                            image='/images/image/jersy.png'
-                            title='No player created yet'
-                        />
-                    )}
+                    {
+                        isLoading ? (
+                                <Center my='16'>
+                                    <Spinner size='xl' />
+                                </Center>) :
+                            currentTeam?.players?.length > 0 ? (
+                                currentTeam?.players?.map((player: any) => (
+                                    <PlayerCard
+                                        key={player?.id}
+                                        position={player?.position}
+                                        image={player?.photo}
+                                        status='Pending Invite'
+                                        name={`${player.first_name} ${player.last_name}`}
+                                    />
+                                ))
+                            ) : (
+                                <BlankTeam
+                                    image='/images/image/jersy.png'
+                                    title='No player created yet'
+                                />
+                            )}
                 </SimpleGrid>
                 <Center>
                     <VStack
@@ -128,24 +180,24 @@ const AddTeam = () => {
                     </VStack>
                 </Center>
 
-        <ExistingPlayer
-          isOpen={existing}
-          onClose={setExisting}
-          setSelected={setSelected}
-        />
+                <ExistingPlayer
+                    isOpen={existing}
+                    onClose={setExisting}
+                    setSelected={setSelected}
+                />
 
-        <NewPlayer isOpen={create} onClose={setCreate} />
+                <NewPlayer isOpen={create} onClose={setCreate} />
 
-        <Confirmation
-          jersyPng='/images/image/jersy.png'
-          isOpen={select}
-          onClose={setSelected}
-          playerName='Kareem Benzema'
-          title='Striker'
-        />
-      </Box>
-    </>
-  );
+                <Confirmation
+                    jersyPng='/images/image/jersy.png'
+                    isOpen={select}
+                    onClose={setSelected}
+                    playerName='Kareem Benzema'
+                    title='Striker'
+                />
+            </Box>
+        </>
+    );
 };
 
 export default authenticatedRoute(AddTeam);

@@ -124,7 +124,7 @@ const ExistingStaff = ({
                                 {filteredStaffs?.map((staff: any) => (
                                     <VStack
                                         key={staff.id}
-                                        onClick={() => handleSelectStaff(staff?.user?.id, staff?.role)}
+                                        onClick={() => handleSelectStaff(staff?.id, staff?.role)}
                                         cursor={'pointer'}
                                     >
                                         <Avatar
@@ -136,7 +136,7 @@ const ExistingStaff = ({
                                             zIndex={1}
                                         />
                                         {
-                                            selectedStaffs.some((contStaff: any) => contStaff['id'] === staff?.user?.id) && (
+                                            selectedStaffs.some((contStaff: any) => contStaff['id'] === staff?.id) && (
                                                 <Image
                                                     src={'/icons/checked.svg'}
                                                     alt='checked'

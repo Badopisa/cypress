@@ -34,7 +34,7 @@ const TeamCard = ({
         {noOfPlayers} Players
       </Text>
       <Text fontSize='xs' color='muted' fontWeight='normal'>
-        {noOfStaff}Staff
+        {noOfStaff} Staff
       </Text>
     </Flex>
   );

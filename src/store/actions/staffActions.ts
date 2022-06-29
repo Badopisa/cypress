@@ -11,7 +11,7 @@ import {saveNewPlayerData} from "@/store/actions/playerActions";
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const createAndAddStaffToTeam = (payload: StaffFormType, teamId: string, toast: any, onClose: any, setSeleced: any,) => {
+export const createAndAddStaffToTeam = (payload: StaffFormType, teamId: string, club_id: string, toast: any, onClose: any, setSeleced: any, useCurrentTeamID: boolean) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true))
 
@@ -29,6 +29,7 @@ export const createAndAddStaffToTeam = (payload: StaffFormType, teamId: string, 
                 console.log('createStaffToTeamdata', addStaffToTeamData)
 
                 dispatch(saveNewStaffData(data?.data))
+                dispatch(getAllStaffs(club_id))
 
                 updateAlertMsg(toast, {type: "success", message: "Congratulations, Staff successfully created"})
 
@@ -47,6 +48,8 @@ export const createAndAddStaffToTeam = (payload: StaffFormType, teamId: string, 
                     dispatch(updateIsLoading(false))
                 }).catch(err => {
                     console.log('add staff to team error', err)
+                    onClose(useCurrentTeamID)
+                    setSeleced(!useCurrentTeamID)
                     handleError(err, toast, dispatch);
                 })
             })
@@ -79,7 +82,7 @@ export const addSelectedStaffsToTeam = (payload: any[], team_id: string, club_id
         }
 
         console.log('addStaffToClubPayload', addStaffToTeamData)
-        AddStaffToTeam( addStaffToTeamData).then(newResult => {
+        AddStaffToTeam(addStaffToTeamData).then(newResult => {
             dispatch(addStaffToTeam(newResult?.data))
             updateAlertMsg(toast, {
                 type: "success",
@@ -98,16 +101,18 @@ export const addSelectedStaffsToTeam = (payload: any[], team_id: string, club_id
     }
 }
 
-export const updateStaff = (payload: StaffFormType, toast: any, onClose: any, setSeleced: any,) => {
+export const updateStaff = (payload: StaffFormType, team_id: string, club_id: string, toast: any, onClose: any, setSeleced: any,) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true))
         UpdateStaff(payload).then((result) => {
             const {data} = result
-            console.log('result', data)
+            console.log('update staff result', data)
             dispatch(saveNewStaffData(data?.data))
             updateAlertMsg(toast, {type: "success", message: "Congratulations, Staff successfully updated"})
             //insert correct club id path here
-            dispatch(fetchTeams(data?.data?.user?.club_id));
+            dispatch(getAllStaffs(club_id))
+            dispatch(getTeamDetails(team_id, toast))
+            dispatch(fetchTeams(club_id));
             dispatch(updateIsLoading(false))
             onClose(false)
             setSeleced(true)
@@ -121,9 +126,11 @@ export const updateStaff = (payload: StaffFormType, toast: any, onClose: any, se
 
 export const getAllStaffs = (clubId: string) => {
     return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true))
         GetStaffForAClub(clubId).then(result => {
             console.log('all staffs', result)
             dispatch(saveAllStaffs(result?.data))
+            dispatch(updateIsLoading(false))
         }).catch(err => {
             console.log('get all staffs error', err)
         })
@@ -146,19 +153,20 @@ export const removeStaffFromTeam = (staff_id: string, role: string, team_id: str
                 message: "Staff successfully removed from team"
             })
             console.log('newResult', newResult)
+            dispatch(getTeamDetails(team_id, toast))
             dispatch(fetchTeams(club_id));
             onClose(false)
             // setSeleced(true)
             dispatch(updateIsLoading(false))
         }).catch(err => {
-            console.log('add staff to team error', err)
+            console.log('remove staff from team error', err)
             handleError(err, toast, dispatch);
         })
     }
 }
 
 const handleError = (err: any, toast: any, dispatch: Dispatch) => {
-    updateAlertMsg(toast, {type: "error", message: err?.response?.data?.message})
+    updateAlertMsg(toast, {type: "error", message: 'Not added to a team'})
     dispatch(updateIsLoading(false))
 }
 
