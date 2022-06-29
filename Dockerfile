@@ -1,5 +1,5 @@
 
-FROM node:15.13-alpine
+FROM node:lts
 WORKDIR /usr/app
 
 # Install pm2 
