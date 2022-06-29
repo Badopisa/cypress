@@ -6,6 +6,7 @@ type TeamReducerData = {
 }
 const initialState: TeamReducerData = {
     playersStatistics: [],
+    // filter
 }
 
 type IAction = {

@@ -50,7 +50,7 @@ const AllPlayers = ({ allPlayers, isLoading }: any) => {
             fontWeight: 'bold',
           }}
         >
-          {teams.length}/100
+          {teams?.length}/100
         </Button>
       </Flex>
       <Box>
@@ -58,7 +58,7 @@ const AllPlayers = ({ allPlayers, isLoading }: any) => {
           <Center my='16'>
             <Spinner size='xl' />
           </Center>
-        ) : allPlayers.length > 0 ? (
+        ) : allPlayers?.length > 0 ? (
           <SimpleGrid
             columns={{ base: 1, sm: 2, lg: 4 }}
             width='min(90%, 1200px)'

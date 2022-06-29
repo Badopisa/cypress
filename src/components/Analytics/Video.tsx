@@ -1,6 +1,8 @@
 import { Box, AspectRatio, Button, Img } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import ReactPlayer from 'react-player';
+import { default as _ReactPlayer } from 'react-player';
+import { ReactPlayerProps } from 'react-player/types/lib';
+const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>;
 
 const Video = (data: any) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);

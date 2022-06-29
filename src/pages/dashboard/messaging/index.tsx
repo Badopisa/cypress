@@ -29,7 +29,6 @@ import React, { useState } from 'react';
 import Calls from './calls';
 import CreateChatModal from './CreateChatModal';
 import GroupChats from './groupChats';
-import scrollbarstyles from './scrollbarstyle.module.css';
 
 const TabSelectedStyle = {
   color: 'white',
@@ -170,190 +169,203 @@ const Messaging = () => {
             p={2}
             h={'30rem'}
           >
-            <div className={scrollbarstyles.scrollbar}>
-              <Box
-                position={'sticky'}
-                top={0}
-                bg={'dark'}
-                borderRadius={'lg'}
-                p={4}
-              >
-                <Flex justify={'space-between'}>
-                  <Flex gap={4}>
-                    <Avatar src='/icons/chat-user.svg'>
-                      {' '}
-                      <AvatarBadge boxSize='0.8em' bg='green.500' />
-                    </Avatar>
-                    <VStack>
-                      <Text>{'Lily Adrin'} </Text>
-                      <Text>{'Coach'}</Text>
-                    </VStack>
-                  </Flex>
+            {/* Scrollbar */}
+            <Box
+              position={'sticky'}
+              top={0}
+              bg={'dark'}
+              borderRadius={'lg'}
+              p={4}
+              css={{
+                '&::-webkit-scrollbar': {
+                  width: '0.2em',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#818181',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#818181',
+                  border: '0.2em solid #818181',
+                  borderRadius: '20px',
+                },
+              }}
+            >
+              <Flex justify={'space-between'}>
+                <Flex gap={4}>
+                  <Avatar src='/icons/chat-user.svg'>
+                    {' '}
+                    <AvatarBadge boxSize='0.8em' bg='green.500' />
+                  </Avatar>
+                  <VStack>
+                    <Text>{'Lily Adrin'} </Text>
+                    <Text>{'Coach'}</Text>
+                  </VStack>
+                </Flex>
 
-                  <HStack>
-                    <Img src='/icons/videocam.svg' alt={'video cam'} />
-                    <Img src='/icons/call.svg' alt={'call'} />
-                    <Img src='/icons/more_vert.svg' alt={'menu'} />
-                  </HStack>
-                </Flex>
-              </Box>
-              <Box px={{ base: 2, md: 4 }}>
-                <Flex justify={'flex-start'}>
-                  <Text
-                    bg={'grey'}
-                    p={2}
-                    borderBottomRightRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    Good morning Chief
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-start'}>
-                  <Text>8:15am</Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text
-                    bg={'primary'}
-                    p={2}
-                    borderBottomLeftRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    Morning Coach
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text>8:30am</Text>
-                </Flex>
-                <Flex justify={'flex-start'}>
-                  <Text
-                    bg={'grey'}
-                    p={2}
-                    borderBottomRightRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    How was your night?
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-start'}>
-                  <Text>8:50am</Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text
-                    bg={'primary'}
-                    p={2}
-                    borderBottomLeftRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    Great{' '}
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text>9:00am</Text>
-                </Flex>
-                {/* Another */}
-                <Flex justify={'flex-start'}>
-                  <Text
-                    bg={'grey'}
-                    p={2}
-                    borderBottomRightRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    Good morning Chief
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-start'}>
-                  <Text>8:15am</Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text
-                    bg={'primary'}
-                    p={2}
-                    borderBottomLeftRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    Morning Coach
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text>8:30am</Text>
-                </Flex>
-                <Flex justify={'flex-start'}>
-                  <Text
-                    bg={'grey'}
-                    p={2}
-                    borderBottomRightRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    How was your night?
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-start'}>
-                  <Text>8:50am</Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text
-                    bg={'primary'}
-                    p={2}
-                    borderBottomLeftRadius={'lg'}
-                    borderTopLeftRadius={'lg'}
-                    borderTopRightRadius={'lg'}
-                  >
-                    {' '}
-                    Great{' '}
-                  </Text>
-                </Flex>
-                <Flex justify={'flex-end'}>
-                  <Text>9:00am</Text>
-                </Flex>
-              </Box>
-              <Box
-                position={'sticky'}
-                bottom={0}
-                bg={'dark'}
-                borderRadius={'lg'}
-                p={4}
-              >
-                <Flex gap={2}>
-                  <Img src='/icons/add.svg' alt={'add'} />
-                  <FormControl
-                    py={'0.2em'}
-                    px={'0.5em'}
-                    bg='lightAsh'
-                    display='flex'
-                    borderRadius='lg'
-                  >
-                    <Img src='/icons/Smiley.svg' alt={'smiley'} />
-                    <Input
-                      variant={'solid'}
-                      bg='transparent'
-                      id={'text'}
-                      type={'text'}
-                      placeholder={'Start typing...'}
-                      aria-label={'Start typing...'}
-                      onChange={checkInput}
-                    />
-                  </FormControl>
-                  <Img
-                    src={toggle ? '/icons/send.svg' : '/icons/mic.svg'}
-                    alt={toggle ? 'send message' : 'mic'}
+                <HStack>
+                  <Img src='/icons/videocam.svg' alt={'video cam'} />
+                  <Img src='/icons/call.svg' alt={'call'} />
+                  <Img src='/icons/more_vert.svg' alt={'menu'} />
+                </HStack>
+              </Flex>
+            </Box>
+            <Box px={{ base: 2, md: 4 }}>
+              <Flex justify={'flex-start'}>
+                <Text
+                  bg={'grey'}
+                  p={2}
+                  borderBottomRightRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  Good morning Chief
+                </Text>
+              </Flex>
+              <Flex justify={'flex-start'}>
+                <Text>8:15am</Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text
+                  bg={'primary'}
+                  p={2}
+                  borderBottomLeftRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  Morning Coach
+                </Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text>8:30am</Text>
+              </Flex>
+              <Flex justify={'flex-start'}>
+                <Text
+                  bg={'grey'}
+                  p={2}
+                  borderBottomRightRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  How was your night?
+                </Text>
+              </Flex>
+              <Flex justify={'flex-start'}>
+                <Text>8:50am</Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text
+                  bg={'primary'}
+                  p={2}
+                  borderBottomLeftRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  Great{' '}
+                </Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text>9:00am</Text>
+              </Flex>
+              {/* Another */}
+              <Flex justify={'flex-start'}>
+                <Text
+                  bg={'grey'}
+                  p={2}
+                  borderBottomRightRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  Good morning Chief
+                </Text>
+              </Flex>
+              <Flex justify={'flex-start'}>
+                <Text>8:15am</Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text
+                  bg={'primary'}
+                  p={2}
+                  borderBottomLeftRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  Morning Coach
+                </Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text>8:30am</Text>
+              </Flex>
+              <Flex justify={'flex-start'}>
+                <Text
+                  bg={'grey'}
+                  p={2}
+                  borderBottomRightRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  How was your night?
+                </Text>
+              </Flex>
+              <Flex justify={'flex-start'}>
+                <Text>8:50am</Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text
+                  bg={'primary'}
+                  p={2}
+                  borderBottomLeftRadius={'lg'}
+                  borderTopLeftRadius={'lg'}
+                  borderTopRightRadius={'lg'}
+                >
+                  {' '}
+                  Great{' '}
+                </Text>
+              </Flex>
+              <Flex justify={'flex-end'}>
+                <Text>9:00am</Text>
+              </Flex>
+            </Box>
+            <Box
+              position={'sticky'}
+              bottom={0}
+              bg={'dark'}
+              borderRadius={'lg'}
+              p={4}
+            >
+              <Flex gap={2}>
+                <Img src='/icons/add.svg' alt={'add'} />
+                <FormControl
+                  py={'0.2em'}
+                  px={'0.5em'}
+                  bg='lightAsh'
+                  display='flex'
+                  borderRadius='lg'
+                >
+                  <Img src='/icons/Smiley.svg' alt={'smiley'} />
+                  <Input
+                    variant={'solid'}
+                    bg='transparent'
+                    id={'text'}
+                    type={'text'}
+                    placeholder={'Start typing...'}
+                    aria-label={'Start typing...'}
+                    onChange={checkInput}
                   />
-                </Flex>
-              </Box>
-            </div>
+                </FormControl>
+                <Img
+                  src={toggle ? '/icons/send.svg' : '/icons/mic.svg'}
+                  alt={toggle ? 'send message' : 'mic'}
+                />
+              </Flex>
+            </Box>
+            {/* scrollbar ends here */}
           </Stack>
         </SimpleGrid>
       )}

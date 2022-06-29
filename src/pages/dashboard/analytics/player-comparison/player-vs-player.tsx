@@ -29,7 +29,7 @@ import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { fetchPlayerStatistics } from '@/store/actions/comaprisonAction';
 
 const PlayerVsPlayer = () => {
-  const [currentTeamPlayers, setCurrentTeamPlayers] = useState([{}]);
+  const [currentTeamPlayers, setCurrentTeamPlayers] = useState<any>([{}]);
 
   const [selectedPlayers, setSelectedPlayers] = useState(['']);
 
@@ -56,6 +56,7 @@ const PlayerVsPlayer = () => {
   }, []);
 
   const displayPlayerStats = () => {
+    console.log('current is', currentTeamPlayers);
     const playerIds = selectedPlayers.map((player: any) => {
       const id = currentTeamPlayers?.filter(
         (currentPlayer: any) =>

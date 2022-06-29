@@ -1,4 +1,4 @@
-import { GetPlayersStatistics } from '@/services/playerStatisticsService';
+import { GetPlayersStatistics, FilterPlayersStatistics } from '@/services/playerStatisticsService';
 import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
 import * as Redux from 'redux';
 import * as actionTypes from "./actionTypes"
@@ -42,6 +42,28 @@ export const fetchPlayerStatistics = (playersIDs: string[]) => {
     };
 
 }
+export const filterPlayersStatisticsByMatch = (clubId: any, noOfMarch: number) => {
+    return async (dispatch: Dispatch) => {
+        const payload = [clubId, noOfMarch]
+
+        FilterPlayersStatistics(payload)
+            .then(async (result) => {
+
+                const { data } = result
+                console.log('fetchTeams', data)
+
+                dispatch(updateIsLoading(false))
+
+            })
+
+            .catch((err) => {
+
+                console.log('fetch teams error', err)
+                dispatch(updateIsLoading(false))
+
+            });
+    }
+}
 
 const savePlayerStats = (data: any) => {
 
@@ -53,6 +75,7 @@ const savePlayerStats = (data: any) => {
 
     }
 }
+
 
 
 

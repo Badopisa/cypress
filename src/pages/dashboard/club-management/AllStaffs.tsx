@@ -1,7 +1,7 @@
 import BlankTeam from '@/components/Team/BlankTeam';
 import PlayerCard from '@/components/Team/PlayerCard';
 import TeamCard from '@/components/Team/TeamCard';
-import { teams } from '@/data/TeamData';
+// import { teams } from '@/data/TeamData';
 import { TeamDataType } from '@/types/TeamDataType';
 import {
   Box,
@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-const AllStaffs = ({ allStaffs, isLoading }: any) => {
+const AllStaffs = ({ allStaffs, isLoading, teams }: any) => {
   const [searchText, setSearchText] = useState('');
 
   return (
@@ -42,7 +42,7 @@ const AllStaffs = ({ allStaffs, isLoading }: any) => {
             fontWeight: 'bold',
           }}
         >
-          {teams.length}/100
+          {teams?.length}/100
         </Button>
       </Flex>
       <Box>
@@ -50,7 +50,7 @@ const AllStaffs = ({ allStaffs, isLoading }: any) => {
           <Center my='16'>
             <Spinner size='xl' />
           </Center>
-        ) : allStaffs.length > 0 ? (
+        ) : allStaffs?.length > 0 ? (
           <SimpleGrid
             columns={{ base: 1, sm: 2, lg: 4 }}
             width='min(90%, 1200px)'

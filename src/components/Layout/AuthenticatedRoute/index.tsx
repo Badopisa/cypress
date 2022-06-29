@@ -12,9 +12,7 @@ import MobileNav from './MobileNav';
 import { retrieveAccessToken } from '@/utils/locaStorageActions';
 import { logout } from '@/store/actions/authActions';
 
-export const authenticatedRoute = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
-) => {
+export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
   const AuthenticatedRoute = (props: P) => {
     // const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure();

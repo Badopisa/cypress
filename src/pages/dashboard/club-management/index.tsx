@@ -263,7 +263,13 @@ const ClubManagement = () => {
         {tab === 2 && (
           <AllPlayers allPlayers={allPlayers} isLoading={isLoading} />
         )}
-        {tab === 3 && <AllStaffs allStaffs={allStaffs} isLoading={isLoading} />}
+        {tab === 3 && (
+          <AllStaffs
+            teams={teams}
+            allStaffs={allStaffs}
+            isLoading={isLoading}
+          />
+        )}
       </Box>
     </>
   );
