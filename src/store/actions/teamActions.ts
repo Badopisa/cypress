@@ -1,200 +1,170 @@
-import {CreateTeam, FetchTeamDetails, GetTeamDetails} from '@/services/teamManagementService';
-import {TeamDataType, TeamFormType} from '@/types/TeamDataType';
+import { CreateTeam, FetchTeamDetails, GetTeamDetails } from '@/services/teamManagementService';
+import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
 import * as Redux from 'redux';
-import * as actionTypes from "./actionTypes"
-import {updateAlertMsg, updateIsLoading} from './msgAction';
-import {GetStaffForAClub} from "@/services/staffManagementService";
-import {GetPlayersForClub} from "@/services/playerManagementService";
-
+import * as actionTypes from './actionTypes';
+import { updateAlertMsg, updateIsLoading } from './msgAction';
+import { GetStaffForAClub } from '@/services/staffManagementService';
+import { GetPlayersForClub } from '@/services/playerManagementService';
 
 type Dispatch = Redux.Dispatch<any>;
 
 export const fetchTeams = (clubId: string) => {
-
     return async (dispatch: Dispatch) => {
-
-        dispatch(updateIsLoading(true))
+        dispatch(updateIsLoading(true));
 
         FetchTeamDetails(clubId)
-
             .then(async (result) => {
+                const { data } = result;
+                console.log('fetchTeams', data);
 
-                const {data} = result
-                console.log('fetchTeams', data)
+                dispatch(saveTeamData(data.data));
 
-                dispatch(saveTeamData(data.data))
-
-                dispatch(updateIsLoading(false))
-
+                dispatch(updateIsLoading(false));
             })
 
             .catch((err) => {
-
-                console.log('fetch teams error', err)
-                dispatch(updateIsLoading(false))
-
+                console.log('fetch teams error', err);
+                dispatch(updateIsLoading(false));
             });
-
     };
-
-}
+};
 
 export const createTeam = (payload: TeamFormType, toast: any, router: any) => {
-
     return async (dispatch: Dispatch) => {
-
-        dispatch(updateIsLoading(true))
+        dispatch(updateIsLoading(true));
 
         CreateTeam(payload)
-
             .then((result) => {
+                const { data } = result;
 
-                const {data} = result
+                dispatch(saveNewTeamData(data.data));
 
-                dispatch(saveNewTeamData(data.data))
+                dispatch(setCurrentTeam(data.data));
 
-                dispatch(setCurrentTeam(data.data))
+                updateAlertMsg(toast, {
+                    type: 'success',
+                    message: 'Congratulations, Team successfully created'
+                });
 
+                dispatch(updateIsLoading(false));
 
-                updateAlertMsg(toast, {type: "success", message: "Congratulations, Team successfully created"})
-
-                dispatch(updateIsLoading(false))
-
-                router.push('/dashboard/club-management/add-team')
-
+                router.push('/dashboard/club-management/add-team');
             })
 
             .catch((err) => {
+                updateAlertMsg(toast, { type: 'error', message: err.response.data.message });
 
-                updateAlertMsg(toast, {type: "error", message: err.response.data.message})
-
-                dispatch(updateIsLoading(false))
-
+                dispatch(updateIsLoading(false));
             });
-
     };
-}
+};
 
 export const filterTeam = (text: string) => {
-
     return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
 
-        dispatch(updateIsLoading(true))
+        dispatch(filterTeamData(text));
 
-        dispatch(filterTeamData(text))
-
-        dispatch(updateIsLoading(false))
-
+        dispatch(updateIsLoading(false));
     };
-
-}
-
+};
 
 export const filterPlayers = (text: string) => {
-
     return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
 
-        dispatch(updateIsLoading(true))
+        dispatch(filterPlayersData(text));
 
-        dispatch(filterPlayersData(text))
-
-        dispatch(updateIsLoading(false))
-
+        dispatch(updateIsLoading(false));
     };
-
-}
+};
 
 export const filterStaffs = (text: string) => {
-
     return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
 
-        dispatch(updateIsLoading(true))
+        dispatch(filterStaffsData(text));
 
-        dispatch(filterStaffsData(text))
-
-        dispatch(updateIsLoading(false))
-
+        dispatch(updateIsLoading(false));
     };
-
-}
+};
 export const getTeamDetails = (teamID: string, toast: any) => {
     return async (dispatch: Dispatch) => {
-        dispatch(updateIsLoading(true))
+        dispatch(updateIsLoading(true));
 
         GetTeamDetails(teamID)
             .then((result) => {
-                const {data} = result
-                dispatch(setCurrentTeam(data.data))
-                dispatch(updateIsLoading(false))
+                const { data } = result;
+                dispatch(setCurrentTeam(data.data));
+                dispatch(updateIsLoading(false));
             })
             .catch((err) => {
-                console.log('get team details error', err)
-                updateAlertMsg(toast, {type: "error", message: err.response.data.message})
-                dispatch(updateIsLoading(false))
+                console.log('get team details error', err);
+                updateAlertMsg(toast, { type: 'error', message: err.response.data.message });
+                dispatch(updateIsLoading(false));
             });
     };
-}
+};
 
 export const getAllPlayers = (clubId: string) => {
     return async (dispatch: Dispatch) => {
-        GetPlayersForClub(clubId).then(result => {
-            console.log('all players', result)
-            dispatch(saveAllPlayers(result?.data))
-        }).catch(err => {
-            console.log('get all players error', err)
-        })
-    }
-}
+        GetPlayersForClub(clubId)
+            .then((result) => {
+                console.log('all players', result);
+                dispatch(saveAllPlayers(result?.data));
+            })
+            .catch((err) => {
+                console.log('get all players error', err);
+            });
+    };
+};
 
 export const saveAllPlayers = (data: any) => {
     return {
         type: actionTypes.GET_ALL_PLAYERS,
         payload: data
-    }
-}
+    };
+};
 
 const saveTeamData = (data: TeamDataType[] | null) => {
-
     return {
-
         type: actionTypes.SAVE_TEAM_DETAILS,
 
         payload: data
-
-    }
-}
+    };
+};
 
 const filterTeamData = (data: string) => {
     return {
         type: actionTypes.FILTER_TEAM_DETAILS,
         payload: data
-    }
-}
+    };
+};
 
 const filterPlayersData = (data: string) => {
     return {
         type: actionTypes.FILTER_PLAYERS,
         payload: data
-    }
-}
+    };
+};
 
 const filterStaffsData = (data: string) => {
     return {
         type: actionTypes.FILTER_STAFFS,
         payload: data
-    }
-}
+    };
+};
 
 const saveNewTeamData = (data: TeamDataType) => {
     return {
         type: actionTypes.SAVE_NEW_TEAM,
         payload: data
-    }
-}
+    };
+};
 
 export function setCurrentTeam(data: any): any {
     return {
         type: actionTypes.SET_CURRENT_TEAM,
         payload: data
-    }
+    };
 }

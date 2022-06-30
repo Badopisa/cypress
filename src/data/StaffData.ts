@@ -1,15 +1,9 @@
-
-
 interface StaffType {
     id: number;
-    file: string,
-    staffName: string,
-    staffPosition: string,
-
-
+    file: string;
+    staffName: string;
+    staffPosition: string;
 }
-
-
 
 export const staffData: StaffType[] = [
     {
@@ -35,10 +29,5 @@ export const staffData: StaffType[] = [
         file: '/images/imgs/hudson.svg',
         staffName: 'Stanley Hudson',
         staffPosition: 'Striking Coach'
-    },
-
-
-]
-
-
-
+    }
+];

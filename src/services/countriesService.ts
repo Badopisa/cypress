@@ -4,7 +4,7 @@ export async function fetchCountries() {
     const countriesData = await countriesResponse.json();
 
     //Sorting the countries by common name
-    return countriesData.sort(function(a: any, b: any) {
+    return countriesData.sort(function (a: any, b: any) {
         const nameA = a.name.common.toUpperCase(); // ignore upper and lowercase
         const nameB = b.name.common.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {

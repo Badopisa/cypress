@@ -1,12 +1,8 @@
-
-
 interface PlayerType {
     id: number;
-    file: string,
-    playerName: string,
-    playerPosition: string,
-
-
+    file: string;
+    playerName: string;
+    playerPosition: string;
 }
 interface PlayerStatsType {
     id: number;
@@ -36,7 +32,7 @@ export const playersStat: PlayerStatsType[] = [
         freeKicks: 3,
         penalties: 2,
         yellowCards: 1,
-        redCards: 0,
+        redCards: 0
     },
     {
         id: 2,
@@ -50,7 +46,7 @@ export const playersStat: PlayerStatsType[] = [
         freeKicks: 3,
         penalties: 2,
         yellowCards: 1,
-        redCards: 0,
+        redCards: 0
     },
     {
         id: 3,
@@ -64,7 +60,7 @@ export const playersStat: PlayerStatsType[] = [
         freeKicks: 3,
         penalties: 2,
         yellowCards: 1,
-        redCards: 0,
+        redCards: 0
     },
     {
         id: 4,
@@ -78,11 +74,9 @@ export const playersStat: PlayerStatsType[] = [
         freeKicks: 3,
         penalties: 2,
         yellowCards: 1,
-        redCards: 0,
-    },
-
-]
-
+        redCards: 0
+    }
+];
 
 export const allPlayers: PlayerType[] = [
     {
@@ -254,8 +248,5 @@ export const allPlayers: PlayerType[] = [
         file: '/images/imgs/player9.svg',
         playerName: 'C. Ronaldo',
         playerPosition: 'Center Back'
-    },
-
-
-]
-
+    }
+];

@@ -1,25 +1,25 @@
 import { matchStatsData, playerStatsData } from '@/data/AnalyticsData';
 import {
-  VStack,
-  HStack,
-  FormControl,
-  Img,
-  Select,
-  Text,
-  Box,
-  Stack,
-  Button,
-  Tag,
-  TagCloseButton,
-  TagLabel,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  TableContainer,
-  Flex,
+    VStack,
+    HStack,
+    FormControl,
+    Img,
+    Select,
+    Text,
+    Box,
+    Stack,
+    Button,
+    Tag,
+    TagCloseButton,
+    TagLabel,
+    Table,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+    TableContainer,
+    Flex
 } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { TeamDataType } from '@/types/TeamDataType';
@@ -32,31 +32,29 @@ import {
 } from '@/store/actions/comaprisonAction';
 
 const PlayerVsPlayer = () => {
-  const [currentTeamPlayers, setCurrentTeamPlayers] = useState<any>([{}]);
+    const [currentTeamPlayers, setCurrentTeamPlayers] = useState<any>([{}]);
 
-  const [selectedPlayers, setSelectedPlayers] = useState(['']);
+    const [selectedPlayers, setSelectedPlayers] = useState(['']);
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const {
-    filteredData,
-    teams,
-  }: {
-    filteredData: TeamDataType[] | [];
-    teams: TeamDataType[] | [];
-  } = useSelector((state: RootStateOrAny) => state.team);
-  const { user }: { user: UserDataType } = useSelector(
-    (state: RootStateOrAny) => state.auth
-  );
-  const playersStats: any = useSelector(
-    (state: any) => state.playersStatistics.playersStatistics
-  );
+    const {
+        filteredData,
+        teams
+    }: {
+        filteredData: TeamDataType[] | [];
+        teams: TeamDataType[] | [];
+    } = useSelector((state: RootStateOrAny) => state.team);
+    const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
+    const playersStats: any = useSelector(
+        (state: any) => state.playersStatistics.playersStatistics
+    );
 
-  useEffect(() => {
-    if (filteredData.length < 1) {
-      dispatch(fetchTeams(user?.clubs[0].id));
-    }
-  }, []);
+    useEffect(() => {
+        if (filteredData.length < 1) {
+            dispatch(fetchTeams(user?.clubs[0].id));
+        }
+    }, []);
 
   const displayPlayerStats = () => {
     console.log('current is', currentTeamPlayers);
@@ -72,13 +70,11 @@ const PlayerVsPlayer = () => {
     dispatch(fetchPlayerStatistics(playerIds, clubId));
   };
 
-  const handleSelectedTeam = (e: any) => {
-    const value = e.target.value;
-    const currentTeam = filteredData.filter(
-      (team) => team.name === e.target.value
-    )[0];
-    setCurrentTeamPlayers(currentTeam.players);
-  };
+    const handleSelectedTeam = (e: any) => {
+        const value = e.target.value;
+        const currentTeam = filteredData.filter((team) => team.name === e.target.value)[0];
+        setCurrentTeamPlayers(currentTeam.players);
+    };
 
   const handleSelectedPlayer = (e: any) => {
     const players = selectedPlayers.filter((player) => player);
@@ -104,45 +100,34 @@ const PlayerVsPlayer = () => {
     <>
       <Text m={8}>You can select more that two players for comparison</Text>
 
-      <Stack w={'80%'} mb={8}>
-        <FormControl
-          w={'60%'}
-          bg={'lightAsh'}
-          borderRadius={'lg'}
-          pl={8}
-          my={8}
-        >
-          <HStack>
-            <Img src='/images/imgs/manu.svg' w={'30px'} />
-            <Select
-              outline='none'
-              border={'none'}
-              onChange={handleSelectedTeam}
-            >
-              {filteredData.map((data: TeamDataType) => (
-                <option key={data.id} value={data.name} selected>
-                  {data.name}
-                </option>
-              ))}
-            </Select>
-          </HStack>
-        </FormControl>
-        <FormControl w={'60%'}>
-          <Select id='players' onChange={handleSelectedPlayer}>
-            {currentTeamPlayers.length > 0 &&
-              currentTeamPlayers.map((player: any) => (
-                <option
-                  key={player.id}
-                  value={`${player.first_name} ${player.last_name}`}
-                  disabled={selectedPlayers.includes(
-                    `${player.first_name} ${player.last_name}`
-                  )}
-                >
-                  {`${player.first_name} ${player.last_name}`}
-                </option>
-              ))}
-          </Select>
-        </FormControl>
+            <Stack w={'80%'} mb={8}>
+                <FormControl w={'60%'} bg={'lightAsh'} borderRadius={'lg'} pl={8} my={8}>
+                    <HStack>
+                        <Img src="/images/imgs/manu.svg" w={'30px'} />
+                        <Select outline="none" border={'none'} onChange={handleSelectedTeam}>
+                            {filteredData.map((data: TeamDataType) => (
+                                <option key={data.id} value={data.name} selected>
+                                    {data.name}
+                                </option>
+                            ))}
+                        </Select>
+                    </HStack>
+                </FormControl>
+                <FormControl w={'60%'}>
+                    <Select id="players" onChange={handleSelectedPlayer}>
+                        {currentTeamPlayers.length > 0 &&
+                            currentTeamPlayers.map((player: any) => (
+                                <option
+                                    key={player.id}
+                                    value={`${player.first_name} ${player.last_name}`}
+                                    disabled={selectedPlayers.includes(
+                                        `${player.first_name} ${player.last_name}`
+                                    )}>
+                                    {`${player.first_name} ${player.last_name}`}
+                                </option>
+                            ))}
+                    </Select>
+                </FormControl>
 
         <HStack spacing={4}>
           {selectedPlayers.length > 0 &&

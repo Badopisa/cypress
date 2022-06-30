@@ -1,8 +1,6 @@
-import HttpService from '@/services/httpService'
+import HttpService from '@/services/httpService';
 import { PlayerToTeamType, TeamFormType } from '@/types/TeamDataType';
-import { StaffToTeamType } from "@/types/StaffDataType";
-
-
+import { StaffToTeamType } from '@/types/StaffDataType';
 
 export const GetPlayersStatistics = (club_Id: any, playersIds: any) => {
     console.log('paayloaddddd', club_Id);

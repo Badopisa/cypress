@@ -1,19 +1,36 @@
 import React from 'react';
-import {VStack, Stack, Text, Container, Heading, Box} from '@chakra-ui/react';
+import { VStack, Stack, Text, Container, Heading, Box } from '@chakra-ui/react';
 
 
 const FormImage = ({
-                       image,
-                       title,
-                       body,
-                       isAdmin,
-                       hasRole,
-                       role
-                   }: { image: string, title: string, body: string, isAdmin?: boolean, hasRole?: boolean, role?: string }) => {
-
+    image,
+    title,
+    body,
+    isAdmin,
+    hasRole,
+    role
+}: {
+    image: string;
+    title: string;
+    body: string;
+    isAdmin?: boolean;
+    hasRole?: boolean;
+    role?: string;
+}) => {
     return (
-        <VStack bgRepeat="no-repeat" backgroundSize="cover" bgImage={image} w="full" alignItems="flex-start">
-            <Box width="100%" height="100%" position="absolute" backgroundColor="#30006B" opacity={0.6} />
+        <VStack
+            bgRepeat="no-repeat"
+            backgroundSize="cover"
+            bgImage={image}
+            w="full"
+            alignItems="flex-start">
+            <Box
+                width="100%"
+                height="100%"
+                position="absolute"
+                backgroundColor="#30006B"
+                opacity={0.6}
+            />
             <Container size="container.lg" height="600px" position="relative">
                 <Stack
                     spacing={3}
@@ -38,25 +55,22 @@ const FormImage = ({
                             </>
                             :
                             <>
-                                <Text fontSize="25" fontWeight="light">
-                                    {title}
+                            <Text fontSize="25" fontWeight="light">
+                                {title}
+                            </Text>
+                            {hasRole && (
+                                <Text fontSize="4xl" fontWeight="black">
+                                    {role}
                                 </Text>
-                                {
-                                    hasRole &&
-                                    <Text fontSize="4xl" fontWeight="black">
-                                        {role}
-                                    </Text>
-                                }
-                                <Text variant="title">
-                                    {body}
-                                </Text>
-                            </>
-                    }
+                            )}
+                            <Text variant="title">{body}</Text>
+                        </>
+                    )}
                 </Stack>
             </Container>
         </VStack>
 
-    )
-}
+    );
+};
 
-export default FormImage
+export default FormImage;

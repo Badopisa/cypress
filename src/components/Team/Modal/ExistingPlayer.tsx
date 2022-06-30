@@ -14,17 +14,18 @@ import {
     SimpleGrid,
     Image,
     Stack,
-    FormControl, useToast,
+    FormControl,
+    useToast
 } from '@chakra-ui/react';
 
-import {SearchIcon} from '@chakra-ui/icons';
-import React, {useEffect, useState} from 'react';
-import {allPlayers} from '@/data/AllPlayers';
+import { SearchIcon } from '@chakra-ui/icons';
+import React, { useEffect, useState } from 'react';
+import { allPlayers } from '@/data/AllPlayers';
 import Confirmation from './Confirmation';
-import {addSelectedPlayersToTeam, checkSelectedPlayer} from "@/store/actions/playerActions";
-import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {filterPlayers, filterTeam, getAllPlayers} from "@/store/actions/teamActions";
-import {UserDataType} from "@/types/AuthDataType";
+import { addSelectedPlayersToTeam, checkSelectedPlayer } from '@/store/actions/playerActions';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { filterPlayers, filterTeam, getAllPlayers } from '@/store/actions/teamActions';
+import { UserDataType } from '@/types/AuthDataType';
 
 type ExistingPlayerType = {
     isOpen: boolean;
@@ -35,39 +36,49 @@ type ExistingPlayerType = {
     buttonTitle?: string;
 };
 const ExistingPlayer = ({
-                            isOpen,
-                            onClose,
-                            image,
-                            setSelected,
-                            title = 'Add Existing Player',
-                            buttonTitle = 'ADD PLAYER',
-                        }: ExistingPlayerType) => {
-    const {selectedPlayers}: { selectedPlayers: any } = useSelector((state: RootStateOrAny) => state.player)
+    isOpen,
+    onClose,
+    image,
+    setSelected,
+    title = 'Add Existing Player',
+    buttonTitle = 'ADD PLAYER'
+}: ExistingPlayerType) => {
+    const { selectedPlayers }: { selectedPlayers: any } = useSelector(
+        (state: RootStateOrAny) => state.player
+    );
     const {
         filteredPlayers,
         teams,
         currentTeam
-    }: { filteredPlayers: any, teams: any, currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
-    const {user}: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth)
+    }: { filteredPlayers: any; teams: any; currentTeam: any } = useSelector(
+        (state: RootStateOrAny) => state.team
+    );
+    const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
     const [searchText, setSearchText] = useState('');
     const toast = useToast();
     const dispatch = useDispatch();
 
-    const [selectConfirmation, setSelectedConfirmation] =
-        useState<boolean>(false);
+    const [selectConfirmation, setSelectedConfirmation] = useState<boolean>(false);
 
     const handleSelect = () => {
-        dispatch(addSelectedPlayersToTeam(selectedPlayers, currentTeam.id, toast, onClose, setSelectedConfirmation))
+        dispatch(
+            addSelectedPlayersToTeam(
+                selectedPlayers,
+                currentTeam.id,
+                toast,
+                onClose,
+                setSelectedConfirmation
+            )
+        );
     };
     const handleSelectExistingPlayer = (id: number) => {
         dispatch(checkSelectedPlayer(id));
     };
 
     useEffect(() => {
-        console.log('called')
-        dispatch(getAllPlayers(user?.clubs[0]?.id))
+        console.log('called');
+        dispatch(getAllPlayers(user?.clubs[0]?.id));
     }, []);
-
 
     // useEffect(() => {
     //     console.log('refreshed', filteredPlayers)
@@ -85,35 +96,22 @@ const ExistingPlayer = ({
         <>
             <Modal isOpen={isOpen} onClose={() => onClose(false)}>
                 <ModalOverlay />
-                <ModalContent
-                    w='xl'
-                    px={8}
-                    h='auto'
-                    bg='grey'
-                    color='white'
-                    borderRadius='18px'
-                >
+                <ModalContent w="xl" px={8} h="auto" bg="grey" color="white" borderRadius="18px">
                     <ModalHeader
-                        p='24px 24px 4px'
-                        textAlign='center'
-                        fontSize='18px'
-                        fontWeight='600'
-                    >
+                        p="24px 24px 4px"
+                        textAlign="center"
+                        fontSize="18px"
+                        fontWeight="600">
                         {title}
                     </ModalHeader>
                     <ModalBody mt={5}>
                         <VStack spacing={4}>
-                            <Flex direction='row' w='100%'>
-                                <FormControl
-                                    p='0.2em'
-                                    bg='black'
-                                    display='flex'
-                                    borderRadius='lg'
-                                >
-                                    <SearchIcon alignSelf='center' ml={2} color='grey' />
+                            <Flex direction="row" w="100%">
+                                <FormControl p="0.2em" bg="black" display="flex" borderRadius="lg">
+                                    <SearchIcon alignSelf="center" ml={2} color="grey" />
                                     <Input
                                         variant={'solid'}
-                                        bg='transparent'
+                                        bg="transparent"
                                         value={searchText}
                                         onChange={handlePlayerSearch}
                                         id={'text'}
@@ -125,22 +123,20 @@ const ExistingPlayer = ({
                             </Flex>
                         </VStack>
 
-                        <Stack w='100%' spacing={8}>
+                        <Stack w="100%" spacing={8}>
                             <SimpleGrid
-                                columns={{base: 1, sm: 2, lg: 3}}
+                                columns={{ base: 1, sm: 2, lg: 3 }}
                                 mt={8}
                                 spacing={8}
-                                overflowY='auto'
-                            >
+                                overflowY="auto">
                                 {filteredPlayers?.map((player: any) => (
                                     <VStack
                                         key={player.id}
                                         onClick={() => handleSelectExistingPlayer(player.id)}
-                                        cursor={'pointer'}
-                                    >
+                                        cursor={'pointer'}>
                                         <Avatar
-                                            bg='ash'
-                                            boxSize={{base: '2rem', md: '4rem'}}
+                                            bg="ash"
+                                            boxSize={{ base: '2rem', md: '4rem' }}
                                             src={player.photo}
                                             position={'relative'}
                                             top={0}
@@ -149,29 +145,28 @@ const ExistingPlayer = ({
                                         {selectedPlayers.includes(player.id) && (
                                             <Image
                                                 src={'/icons/checked.svg'}
-                                                alt='checked'
+                                                alt="checked"
                                                 w={8}
                                                 h={8}
-                                                color='primary'
+                                                color="primary"
                                                 position={'absolute'}
                                                 zIndex={3}
                                             />
                                         )}
-                                        <Text fontSize={'xxs'} fontWeight='semibold'>
+                                        <Text fontSize={'xxs'} fontWeight="semibold">
                                             {`${player.first_name} ${player.last_name}`}
                                         </Text>
                                         <Text fontSize={'xxs'}>{player.position}</Text>
                                     </VStack>
-                                ))
-                                }
+                                ))}
                             </SimpleGrid>
                         </Stack>
                     </ModalBody>
 
-                    <ModalFooter w='full' py={{base: 4, md: 8}}>
-                        <VStack spacing={4} w='full'>
+                    <ModalFooter w="full" py={{ base: 4, md: 8 }}>
+                        <VStack spacing={4} w="full">
                             {selectedPlayers?.length > 0 && (
-                                <Button variant='action' w='full' onClick={handleSelect}>
+                                <Button variant="action" w="full" onClick={handleSelect}>
                                     {buttonTitle}
                                 </Button>
                             )}
@@ -184,7 +179,7 @@ const ExistingPlayer = ({
                 isOpen={selectConfirmation}
                 onClose={setSelectedConfirmation}
                 body={'Sonalysis will notify this player of the changes made'}
-                title='New Player Added'
+                title="New Player Added"
                 buttonTitle={'OKAY, THANK YOU'}
             />
         </>

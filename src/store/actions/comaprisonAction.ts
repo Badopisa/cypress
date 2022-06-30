@@ -1,11 +1,10 @@
 import { GetPlayersStatistics, FilterPlayersStatistics } from '@/services/playerStatisticsService';
 import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
 import * as Redux from 'redux';
-import * as actionTypes from "./actionTypes"
+import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
-import { GetStaffForAClub } from "@/services/staffManagementService";
-import { GetPlayersForClub } from "@/services/playerManagementService";
-
+import { GetStaffForAClub } from '@/services/staffManagementService';
+import { GetPlayersForClub } from '@/services/playerManagementService';
 
 type Dispatch = Redux.Dispatch<any>;
 
@@ -24,24 +23,18 @@ export const fetchPlayerStatistics = (playersIDs: string[], clubId: string) => {
 
 
             .then(async (result) => {
+                const { data } = result;
+                console.log('fetchTeams', data);
 
-                const { data } = result
-                console.log('fetchTeams', data)
+                dispatch(savePlayerStats(data.data));
 
-
-                dispatch(savePlayerStats(data.data))
-
-                dispatch(updateIsLoading(false))
-
+                dispatch(updateIsLoading(false));
             })
 
             .catch((err) => {
-
-                console.log('fetch teams error', err)
-                dispatch(updateIsLoading(false))
-
+                console.log('fetch teams error', err);
+                dispatch(updateIsLoading(false));
             });
-
     };
 
 }
@@ -55,27 +48,22 @@ export const filterPlayersStatisticsByMatch = (playerIds: any, clubId: string, n
 
         FilterPlayersStatistics(club_Id, playersIds, noMarch)
             .then(async (result) => {
-
-                const { data } = result
-                console.log('fetchTeamsReee', data)
+                const { data } = result;
+                console.log('fetchTeams', data);
 
                 dispatch(updateIsLoading(false))
 
             })
 
             .catch((err) => {
-
-                console.log('fetch teams error', err)
-                dispatch(updateIsLoading(false))
-
+                console.log('fetch teams error', err);
+                dispatch(updateIsLoading(false));
             });
-    }
-}
+    };
+};
 
 const savePlayerStats = (data: any) => {
-
     return {
-
         type: actionTypes.GET_PLAYERS_STATISTICS,
 
         payload: data

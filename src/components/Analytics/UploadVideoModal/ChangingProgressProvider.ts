@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 
 interface ChangingProgressProviderProps {
     interval?: number;
@@ -22,12 +21,9 @@ class ChangingProgressProvider extends React.Component<ChangingProgressProviderP
                 valuesIndex: (this.state.valuesIndex + 1) % this.props.values.length
             });
         }, this.props.interval);
-
-
     }
 
     render() {
-
         return this.props.children(this.props.values[this.state.valuesIndex]);
     }
 }
