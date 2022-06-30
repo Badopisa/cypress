@@ -27,8 +27,8 @@ import { fetchTeams } from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import {
-  fetchPlayerStatistics,
-  filterPlayersStatisticsByMatch,
+    fetchPlayerStatistics,
+    filterPlayersStatisticsByMatch
 } from '@/store/actions/comaprisonAction';
 
 const PlayerVsPlayer = () => {
@@ -56,19 +56,19 @@ const PlayerVsPlayer = () => {
         }
     }, []);
 
-  const displayPlayerStats = () => {
-    console.log('current is', currentTeamPlayers);
-    const clubId = currentTeamPlayers[0].id;
-    console.log('club idd', clubId);
-    const playerIds = selectedPlayers.map((player: any) => {
-      const id = currentTeamPlayers?.filter(
-        (currentPlayer: any) =>
-          `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
-      )[0].id;
-      return id || null;
-    });
-    dispatch(fetchPlayerStatistics(playerIds, clubId));
-  };
+    const displayPlayerStats = () => {
+        console.log('current is', currentTeamPlayers);
+        const clubId = currentTeamPlayers[0].id;
+        console.log('club idd', clubId);
+        const playerIds = selectedPlayers.map((player: any) => {
+            const id = currentTeamPlayers?.filter(
+                (currentPlayer: any) =>
+                    `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
+            )[0].id;
+            return id || null;
+        });
+        dispatch(fetchPlayerStatistics(playerIds, clubId));
+    };
 
     const handleSelectedTeam = (e: any) => {
         const value = e.target.value;
@@ -76,29 +76,29 @@ const PlayerVsPlayer = () => {
         setCurrentTeamPlayers(currentTeam.players);
     };
 
-  const handleSelectedPlayer = (e: any) => {
-    const players = selectedPlayers.filter((player) => player);
-    setSelectedPlayers([...players, e.target.value]);
-  };
-  const handleRemoveSelectedPlayer = (playerName: string) => {
-    const players = selectedPlayers.filter((player) => player != playerName);
-    setSelectedPlayers(players);
-  };
-  const handleFilterTable = (e: any) => {
-    const value = e.target.value;
-    const clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
-    const playerIds = selectedPlayers.map((player: any) => {
-      const id = currentTeamPlayers?.filter(
-        (currentPlayer: any) =>
-          `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
-      )[0].id;
-      return id || null;
-    });
-    dispatch(filterPlayersStatisticsByMatch(playerIds, clubId, value));
-  };
-  return (
-    <>
-      <Text m={8}>You can select more that two players for comparison</Text>
+    const handleSelectedPlayer = (e: any) => {
+        const players = selectedPlayers.filter((player) => player);
+        setSelectedPlayers([...players, e.target.value]);
+    };
+    const handleRemoveSelectedPlayer = (playerName: string) => {
+        const players = selectedPlayers.filter((player) => player != playerName);
+        setSelectedPlayers(players);
+    };
+    const handleFilterTable = (e: any) => {
+        const value = e.target.value;
+        const clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
+        const playerIds = selectedPlayers.map((player: any) => {
+            const id = currentTeamPlayers?.filter(
+                (currentPlayer: any) =>
+                    `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
+            )[0].id;
+            return id || null;
+        });
+        dispatch(filterPlayersStatisticsByMatch(playerIds, clubId, value));
+    };
+    return (
+        <>
+            <Text m={8}>You can select more that two players for comparison</Text>
 
             <Stack w={'80%'} mb={8}>
                 <FormControl w={'60%'} bg={'lightAsh'} borderRadius={'lg'} pl={8} my={8}>
@@ -129,88 +129,81 @@ const PlayerVsPlayer = () => {
                     </Select>
                 </FormControl>
 
-        <HStack spacing={4}>
-          {selectedPlayers.length > 0 &&
-            selectedPlayers.map((player) => (
-              <Tag
-                size={'md'}
-                key={player}
-                borderRadius={'lg'}
-                variant='outline'
-                my={8}
-              >
-                <TagLabel>{player}</TagLabel>
-                <TagCloseButton
-                  onClick={() => handleRemoveSelectedPlayer(player)}
-                />
-              </Tag>
-            ))}
-        </HStack>
-        <HStack gap={8}>
-          <Button variant='action' px={4} onClick={displayPlayerStats}>
-            COMPARE
-          </Button>
-          <Button variant='outline' px={4}>
-            SHARE STATS
-          </Button>
-        </HStack>
-      </Stack>
-      <Flex justifyContent='space-between' width={'90%'} my={'4rem'}>
-        <Text fontWeight={'semibold'}>Player Stats</Text>
-        <FormControl width={'20%'}>
-          <Select onChange={handleFilterTable}>
-            <option value={1}>Last match</option>
-            <option value={3}>Last 3 matches</option>
-            <option value={5}>Last 5 matches</option>
-          </Select>
-        </FormControl>
-      </Flex>
-      <TableContainer
-        overflow={'auto'}
-        width={'90%'}
-        bg={'dark'}
-        borderRadius={'lg'}
-        mt={8}
-      >
-        <Table p={8}>
-          <Thead p={8}>
-            <Tr>
-              <Th borderBottom={'none'}></Th>
-              <Th borderBottom={'none'} width={'4px'}>
-                Goals Scored
-              </Th>
-              <Th borderBottom={'none'}>Shots Attempts</Th>
-              <Th borderBottom={'none'}>Ball Possession</Th>
-              <Th borderBottom={'none'}>Long Pass Acc.</Th>
-              <Th borderBottom={'none'}>Short Pass Acc.</Th>
-              <Th borderBottom={'none'}>Speed</Th>
-              <Th borderBottom={'none'}>Free Kicks</Th>
-              <Th borderBottom={'none'}>Penalties</Th>
-              <Th borderBottom={'none'}>Yellow Cards</Th>
-              <Th borderBottom={'none'}>Red Cards</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {playersStats?.map((stat: any) => (
-              <Tr key={stat.id}>
-                <Td>{`${stat.player.first_name} ${stat.player.last_name}`}</Td>
-                <Td>{stat.goal}</Td>
-                <Td>{`${70}%`}</Td>
-                <Td>{`${50}%`}</Td>
-                <Td>{`${stat.long_pass}%`}</Td>
-                <Td>{`${stat.short_pass}%`}</Td>
-                <Td>{`${stat.speed}%`}</Td>
-                <Td>{stat.free_kick}</Td>
-                <Td>{stat.penalty}</Td>
-                <Td>{stat.yellow_card}</Td>
-                <Td>{stat.red_card}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </>
-  );
+                <HStack spacing={4}>
+                    {selectedPlayers.length > 0 &&
+                        selectedPlayers.map((player) => (
+                            <Tag
+                                size={'md'}
+                                key={player}
+                                borderRadius={'lg'}
+                                variant="outline"
+                                my={8}>
+                                <TagLabel>{player}</TagLabel>
+                                <TagCloseButton
+                                    onClick={() => handleRemoveSelectedPlayer(player)}
+                                />
+                            </Tag>
+                        ))}
+                </HStack>
+                <HStack gap={8}>
+                    <Button variant="action" px={4} onClick={displayPlayerStats}>
+                        COMPARE
+                    </Button>
+                    <Button variant="outline" px={4}>
+                        SHARE STATS
+                    </Button>
+                </HStack>
+            </Stack>
+            <Flex justifyContent="space-between" width={'90%'} my={'4rem'}>
+                <Text fontWeight={'semibold'}>Player Stats</Text>
+                <FormControl width={'20%'}>
+                    <Select onChange={handleFilterTable}>
+                        <option value={1}>Last match</option>
+                        <option value={3}>Last 3 matches</option>
+                        <option value={5}>Last 5 matches</option>
+                    </Select>
+                </FormControl>
+            </Flex>
+            <TableContainer overflow={'auto'} width={'90%'} bg={'dark'} borderRadius={'lg'} mt={8}>
+                <Table p={8}>
+                    <Thead p={8}>
+                        <Tr>
+                            <Th borderBottom={'none'}></Th>
+                            <Th borderBottom={'none'} width={'4px'}>
+                                Goals Scored
+                            </Th>
+                            <Th borderBottom={'none'}>Shots Attempts</Th>
+                            <Th borderBottom={'none'}>Ball Possession</Th>
+                            <Th borderBottom={'none'}>Long Pass Acc.</Th>
+                            <Th borderBottom={'none'}>Short Pass Acc.</Th>
+                            <Th borderBottom={'none'}>Speed</Th>
+                            <Th borderBottom={'none'}>Free Kicks</Th>
+                            <Th borderBottom={'none'}>Penalties</Th>
+                            <Th borderBottom={'none'}>Yellow Cards</Th>
+                            <Th borderBottom={'none'}>Red Cards</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {playersStats?.map((stat: any) => (
+                            <Tr key={stat.id}>
+                                <Td>{`${stat.player.first_name} ${stat.player.last_name}`}</Td>
+                                <Td>{stat.goal}</Td>
+                                <Td>{`${70}%`}</Td>
+                                <Td>{`${50}%`}</Td>
+                                <Td>{`${stat.long_pass}%`}</Td>
+                                <Td>{`${stat.short_pass}%`}</Td>
+                                <Td>{`${stat.speed}%`}</Td>
+                                <Td>{stat.free_kick}</Td>
+                                <Td>{stat.penalty}</Td>
+                                <Td>{stat.yellow_card}</Td>
+                                <Td>{stat.red_card}</Td>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </TableContainer>
+        </>
+    );
 };
 
 export default PlayerVsPlayer;

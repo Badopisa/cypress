@@ -6,31 +6,21 @@ import {
     Box,
     Button,
     Flex,
-    Heading,
-    HStack,
-    Img,
-    Input,
     SimpleGrid,
     Spacer,
-    Stack,
     Tab,
     TabList,
-    TabPanel,
-    TabPanels,
     Tabs,
     Tag,
     Text,
-    useDisclosure,
     VStack,
     Wrap
 } from '@chakra-ui/react';
-import { allEventsData } from '@/data/AnalyticsData';
 import React, { useState } from 'react';
 import EditPlayerModal from '@/components/Team/Modal/EditPlayerModal';
 import NewPlayer from '@/components/Team/Modal/NewPlayer';
 import EditStaffModal from '@/components/Team/Modal/EditStaffModal';
 import EditTeamInfo from '@/components/Team/Modal/EditTeamInfo';
-import { staffData } from '@/data/StaffData';
 import NewStaff from '@/components/Team/Modal/NewStaff';
 import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
@@ -43,13 +33,11 @@ const TeamManagement = () => {
         (state: RootStateOrAny) => state.team
     );
     const [tab, setTab] = useState<number>(1);
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [create, setCreate] = useState<boolean>(false);
+    const [_create, setCreate] = useState<boolean>(false);
     const [createStaff, setCreateStaff] = useState<boolean>(false);
     const [createPlayer, setCreatePlayer] = useState<boolean>(false);
     const [createExistingPlayer, setCreateExistingPlayer] = useState<boolean>(false);
     const [createExistingStaff, setCreateExistingStaff] = useState<boolean>(false);
-
     const [openStaff, setOpenStaff] = useState<boolean>(false);
     const [openStaffModal, setOpenStaffModal] = useState<boolean>(false);
     const [openPlayer, setOpenPlayer] = useState<boolean>(false);
@@ -58,10 +46,6 @@ const TeamManagement = () => {
     const dispatch = useDispatch();
 
     const [openTeam, setOpenTeam] = useState<boolean>(false);
-
-    const handleCreate = () => {
-        setCreate(true);
-    };
 
     const handleEditTeam = () => {
         setOpenTeam(true);

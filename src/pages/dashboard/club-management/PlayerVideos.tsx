@@ -1,7 +1,7 @@
 import Video from '@/components/Analytics/Video';
 import { uploadedVideosData } from '@/data/AnalyticsData';
 import { Box, Button, Img, Table, Tbody, Td, Tr } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+
 import React from 'react';
 
 type displayType = {
@@ -9,8 +9,6 @@ type displayType = {
 };
 
 const PlayerVideos = ({ setDisplay }: displayType) => {
-    const router = useRouter();
-
     const handleOpenPlayerStatistics = () => {
         setDisplay(2);
     };

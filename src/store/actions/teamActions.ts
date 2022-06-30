@@ -3,7 +3,6 @@ import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
 import * as Redux from 'redux';
 import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
-import { GetStaffForAClub } from '@/services/staffManagementService';
 import { GetPlayersForClub } from '@/services/playerManagementService';
 
 type Dispatch = Redux.Dispatch<any>;

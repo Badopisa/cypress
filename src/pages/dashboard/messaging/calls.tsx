@@ -1,9 +1,6 @@
-import { chatData } from '@/data/AnalyticsData';
 import { historyData } from '@/data/ChatsData';
 import { SearchIcon } from '@chakra-ui/icons';
 import {
-    SimpleGrid,
-    Stack,
     Box,
     Flex,
     Img,

@@ -5,7 +5,6 @@ import * as Redux from 'redux';
 import { CreatePlayer } from '@/services/playerManagementService';
 import * as actionTypes from '@/store/actions/actionTypes';
 import { fetchTeams, getTeamDetails } from '@/store/actions/teamActions';
-import { PlayerToTeamType } from '@/types/TeamDataType';
 
 type Dispatch = Redux.Dispatch<any>;
 

@@ -4,7 +4,6 @@ import {
     Text,
     Box,
     HStack,
-    Avatar,
     VStack,
     Stack,
     FormControl,
@@ -14,7 +13,6 @@ import {
     FormErrorMessage,
     Select,
     Button,
-    Link,
     useToast
 } from '@chakra-ui/react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';

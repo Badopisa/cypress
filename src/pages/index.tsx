@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Stack, Flex, SimpleGrid, Text, VStack, Img, Box, Heading, Image } from '@chakra-ui/react';
+import { Stack, Flex, SimpleGrid, Text, VStack, Box, Heading, Image } from '@chakra-ui/react';
 import Hero from '@/components/Layout/Hero/Hero';
 import Banner from '@/components/Layout/Banner/Banner';
 import FeatureCard from '@/components/Elements/Card/FeatureCard';

@@ -1,13 +1,4 @@
-import {
-    Flex,
-    FormControl,
-    GridItem,
-    FormLabel,
-    Input,
-    FormErrorMessage,
-    Text,
-    chakra
-} from '@chakra-ui/react';
+import { Flex, FormControl, GridItem, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
 import { FormImage, FormDetails } from '@/components/Form';
 
 import React from 'react';

@@ -2,12 +2,12 @@ import * as types from '@/store/actions/actionTypes';
 import { TeamDataType } from '@/types/TeamDataType';
 
 type TeamReducerData = {
-    playersStatistics: any,
-    filteredMatch: any,
-}
+    playersStatistics: any;
+    filteredMatch: any;
+};
 const initialState: TeamReducerData = {
     playersStatistics: [],
-    filteredMatch: [],
+    filteredMatch: []
     // filter
 };
 
@@ -22,14 +22,14 @@ export const playerStatisticReducer = (state = initialState, action: IAction) =>
             console.log('action pay', action.payload);
             return {
                 ...state,
-                playersStatistics: action.payload,
-            }
+                playersStatistics: action.payload
+            };
         case types.FILTER_PLAYERS_STATISTICS_BY_MATCH:
-            console.log('action pay', action.payload)
+            console.log('action pay', action.payload);
             return {
                 ...state,
-                filteredMatch: action.payload,
-            }
+                filteredMatch: action.payload
+            };
         default:
             return state;
     }
