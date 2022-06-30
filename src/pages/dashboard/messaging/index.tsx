@@ -1,4 +1,3 @@
-import LineUp from '@/components/Analytics/LineUp';
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { chatData } from '@/data/AnalyticsData';
@@ -19,8 +18,6 @@ import {
     Text,
     Img,
     AvatarBadge,
-    Button,
-    Heading,
     Input,
     FormControl,
     useDisclosure
@@ -38,7 +35,7 @@ const TabSelectedStyle = {
 
 const Messaging = () => {
     const [tab, setTab] = useState<number>(1);
-    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [_searchQuery, setSearchQuery] = useState<string>('');
     const [toggle, setToggle] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
 

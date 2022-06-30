@@ -14,7 +14,6 @@ import {
     Avatar,
     Center,
     VStack,
-    Box,
     Button,
     HStack
 } from '@chakra-ui/react';

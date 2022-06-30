@@ -1,4 +1,3 @@
-import { chatData } from '@/data/AnalyticsData';
 import { groupChats } from '@/data/ChatsData';
 import { SearchIcon } from '@chakra-ui/icons';
 import {
@@ -22,7 +21,7 @@ import React, { useState } from 'react';
 
 const GroupChats = () => {
     const [toggle, setToggle] = useState<boolean>(false);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { onOpen } = useDisclosure();
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     const checkInput = (e: any) => {

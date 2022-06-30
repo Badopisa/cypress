@@ -20,36 +20,30 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-const StartCallsModal = ({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  return (
-    <Box borderRadius={'lg'}>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <Stack p={4} bg={'black'} color={'white'} spacing={6}>
-            <Flex justify={'flex-end'}>
-              <Img
-                src='/icons/close-icon.svg'
-                alt={'close modal'}
-                cursor={'pointer'}
-                onClick={onClose}
-                w={4}
-              />
-            </Flex>
-            <Text fontSize={'xl'}>Start New Call</Text>
-            <FormControl
-              py={'0.2em'}
-              px={'0.5em'}
-              bg='grey'
-              display='flex'
-              borderRadius='lg'
+const StartCallsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    return (
+        <Box borderRadius={'lg'}>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <Stack p={4} bg={'black'} color={'white'} spacing={6}>
+                        <Flex justify={'flex-end'}>
+                            <Img
+                                src="/icons/close-icon.svg"
+                                alt={'close modal'}
+                                cursor={'pointer'}
+                                onClick={onClose}
+                                w={4}
+                            />
+                        </Flex>
+                        <Text fontSize={'xl'}>Start New Call</Text>
+                        <FormControl
+                            py={'0.2em'}
+                            px={'0.5em'}
+                            bg="grey"
+                            display="flex"
+                            borderRadius="lg">
                             <SearchIcon alignSelf="center" ml={2} />
                             <Input
                                 variant={'solid'}

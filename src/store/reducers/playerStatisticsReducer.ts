@@ -3,9 +3,11 @@ import { TeamDataType } from '@/types/TeamDataType';
 
 type TeamReducerData = {
     playersStatistics: any;
+    filteredMatch: any;
 };
 const initialState: TeamReducerData = {
-    playersStatistics: []
+    playersStatistics: [],
+    filteredMatch: []
     // filter
 };
 
@@ -21,6 +23,12 @@ export const playerStatisticReducer = (state = initialState, action: IAction) =>
             return {
                 ...state,
                 playersStatistics: action.payload
+            };
+        case types.FILTER_PLAYERS_STATISTICS_BY_MATCH:
+            console.log('action pay', action.payload);
+            return {
+                ...state,
+                filteredMatch: action.payload
             };
         default:
             return state;

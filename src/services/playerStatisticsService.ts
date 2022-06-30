@@ -1,18 +1,20 @@
 import HttpService from '@/services/httpService';
-import { PlayerToTeamType, TeamFormType } from '@/types/TeamDataType';
-import { StaffToTeamType } from '@/types/StaffDataType';
 
-export const GetPlayersStatistics = (payload: string[]) => {
+export const GetPlayersStatistics = (club_Id: any, playersIds: any) => {
+
     const http = new HttpService();
 
-    const url = `analytics/multiple-players-stats`;
+    const url = `analytics/multiple-players-stats?club_id=${club_Id}`;
 
-    return http.postData(payload, url, true);
+    return http.postData({ player_ids: playersIds }, url, true);
 };
-export const FilterPlayersStatistics = (payload: string[]) => {
+export const FilterPlayersStatistics = (club_Id: any, playersIds: any, noMatch: number) => {
+
+
+
     const http = new HttpService();
 
-    const url = `analytics/multiple-players-stats?filterBy=${payload}`;
+    const url = `analytics/multiple-players-stats?filterBy=${noMatch}&club_id=${club_Id}`;
 
-    return http.postData(payload, url, true);
+    return http.postData({ player_ids: playersIds }, url, true);
 };

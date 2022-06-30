@@ -1,26 +1,23 @@
 import { GetPlayersStatistics, FilterPlayersStatistics } from '@/services/playerStatisticsService';
-import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
+
 import * as Redux from 'redux';
 import * as actionTypes from './actionTypes';
-import { updateAlertMsg, updateIsLoading } from './msgAction';
-import { GetStaffForAClub } from '@/services/staffManagementService';
-import { GetPlayersForClub } from '@/services/playerManagementService';
+import { updateIsLoading } from './msgAction';
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const fetchPlayerStatistics = (playersIDs: string[]) => {
+export const fetchPlayerStatistics = (playersIDs: string[] = [
+    'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
+    '7624726d-c80b-414f-9090-13c337913015'
+], clubId: string = '6bc674e9-5417-4d4c-9152-f2091e78ca22') => {
     return async (dispatch: Dispatch) => {
-        // const payload: any = { player_ids: playersIDs }
-        const payload: any = {
-            player_ids: [
-                'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
-                '7624726d-c80b-414f-9090-13c337913015'
-            ]
-        };
-        dispatch(updateIsLoading(true));
-        console.log('playerID arre', playersIDs);
 
-        GetPlayersStatistics(payload)
+        const club_Id = clubId;
+        const playersIds = playersIDs;
+
+        dispatch(updateIsLoading(true));
+
+        GetPlayersStatistics(club_Id, playersIds)
             .then(async (result) => {
                 const { data } = result;
                 console.log('fetchTeams', data);
@@ -36,11 +33,22 @@ export const fetchPlayerStatistics = (playersIDs: string[]) => {
             });
     };
 };
-export const filterPlayersStatisticsByMatch = (clubId: any, noOfMarch: number) => {
-    return async (dispatch: Dispatch) => {
-        const payload = [clubId, noOfMarch];
+export const filterPlayersStatisticsByMatch = (
+    noOfMarch: number,
+    playerIds: any = [
+        'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
+        '7624726d-c80b-414f-9090-13c337913015'
+    ],
+    clubId: string = '6bc674e9-5417-4d4c-9152-f2091e78ca22',
 
-        FilterPlayersStatistics(payload)
+) => {
+    return async (dispatch: Dispatch) => {
+        const club_Id = clubId;
+        const playersIds = playerIds;
+        const noMarch = noOfMarch;
+        console.log(`'I'm here`);
+
+        FilterPlayersStatistics(club_Id, playersIds, noMarch)
             .then(async (result) => {
                 const { data } = result;
                 console.log('fetchTeams', data);
@@ -62,45 +70,3 @@ const savePlayerStats = (data: any) => {
         payload: data
     };
 };
-
-export const saveAllPlayers = (data: any) => {
-    return {
-        type: actionTypes.GET_ALL_PLAYERS,
-        payload: data
-    };
-};
-
-const filterTeamData = (data: string) => {
-    return {
-        type: actionTypes.FILTER_TEAM_DETAILS,
-        payload: data
-    };
-};
-
-const filterPlayersData = (data: string) => {
-    return {
-        type: actionTypes.FILTER_PLAYERS,
-        payload: data
-    };
-};
-
-const filterStaffsData = (data: string) => {
-    return {
-        type: actionTypes.FILTER_STAFFS,
-        payload: data
-    };
-};
-
-const saveNewTeamData = (data: TeamDataType) => {
-    return {
-        type: actionTypes.SAVE_NEW_TEAM,
-        payload: data
-    };
-};
-
-export function setCurrentTeam(data: any): any {
-    return {
-        type: actionTypes.SET_CURRENT_TEAM,
-        payload: data
-    };
-}

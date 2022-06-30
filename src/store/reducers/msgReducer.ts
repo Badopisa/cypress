@@ -1,5 +1,4 @@
 import * as types from '@/store/actions/actionTypes';
-import { UserDataType } from '@/types/AuthDataType';
 import { MsgDataType } from '@/types/MsgDataType';
 
 const initialState = {
@@ -12,7 +11,7 @@ type IAction = {
     payload?: MsgDataType | null | boolean;
 };
 
-export const msgReducer = (state = initialState, action: IAction) => {
+export const msgReducer = (action: IAction, state = initialState) => {
     switch (action.type) {
         case types.SAVE_USER_DETAILS:
             return {
