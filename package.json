@@ -6,7 +6,7 @@
     "dev": "next dev -p 3005",
     "build": "next build",
     "start": "next start -p 3005",
-    "lint": "next lint",
+    "lint": "eslint . --fix",
     "test": "jest"
   },
   "dependencies": {
@@ -15,13 +15,17 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@material-ui/core": "^4.12.4",
+    "@testing-library/react": "^12.1.4",
     "@types/next-redux-wrapper": "^3.0.0",
-    "@types/react-world-flags": "^1.4.2",
     "@types/react": "18.0.1",
     "@types/react-redux": "^7.1.23",
-    "@testing-library/react": "^12.1.4",
+    "@types/react-world-flags": "^1.4.2",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
     "aws-sdk": "^2.1155.0",
     "axios": "^0.27.2",
+    "eslint-plugin-prettier": "^4.1.0",
+    "eslint-plugin-react": "^7.30.1",
     "framer-motion": "^6",
     "jest-config": "^27.5.1",
     "jwt-decode": "^3.1.2",
@@ -57,9 +61,12 @@
     "@types/react-dom": "^18.0.5",
     "@types/react-world-flags": "^1.4.2",
     "babel-jest": "^27.5.1",
-    "eslint": "8.11.0",
+    "eslint-plugin-prettier": "^4.1.0",
+    "eslint": "^8.18.0",
     "eslint-config-next": "12.1.0",
+    "eslint-config-prettier": "^8.5.0",
     "jest": "^27.5.1",
+    "prettier": "^2.7.1",
     "typescript": "^4.7.4"
   }
 }
