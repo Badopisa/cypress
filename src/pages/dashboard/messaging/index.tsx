@@ -35,9 +35,10 @@ const TabSelectedStyle = {
 
 const Messaging = () => {
     const [tab, setTab] = useState<number>(1);
-    const [_searchQuery, setSearchQuery] = useState<string>('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const [toggle, setToggle] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    console.log(searchQuery);
 
     const checkInput = (e: any) => {
         if (e.target.value === '') {

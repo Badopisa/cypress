@@ -14,13 +14,9 @@ import {
     Text,
     VStack
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Video from '@/components/Analytics/Video';
-import { UserDataType } from '@/types/AuthDataType';
-import { TeamDataType } from '@/types/TeamDataType';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { fetchTeams, getAllPlayers } from '@/store/actions/teamActions';
 
 const PlayerVideo = () => {
     const router = useRouter();

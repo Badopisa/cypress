@@ -15,7 +15,6 @@ import {
     VStack,
     Avatar,
     HStack,
-    Button,
     Box
 } from '@chakra-ui/react';
 import React, { useState } from 'react';

@@ -1,5 +1,4 @@
 import * as types from '@/store/actions/actionTypes';
-import { TeamDataType } from '@/types/TeamDataType';
 
 type TeamReducerData = {
     playersStatistics: any;

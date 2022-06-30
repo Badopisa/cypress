@@ -6,12 +6,14 @@ import { updateIsLoading } from './msgAction';
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const fetchPlayerStatistics = (playersIDs: string[] = [
-    'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
-    '7624726d-c80b-414f-9090-13c337913015'
-], clubId: string = '6bc674e9-5417-4d4c-9152-f2091e78ca22') => {
+export const fetchPlayerStatistics = (
+    playersIDs: string[] = [
+        'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
+        '7624726d-c80b-414f-9090-13c337913015'
+    ],
+    clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22'
+) => {
     return async (dispatch: Dispatch) => {
-
         const club_Id = clubId;
         const playersIds = playersIDs;
 
@@ -39,8 +41,7 @@ export const filterPlayersStatisticsByMatch = (
         'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
         '7624726d-c80b-414f-9090-13c337913015'
     ],
-    clubId: string = '6bc674e9-5417-4d4c-9152-f2091e78ca22',
-
+    clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22'
 ) => {
     return async (dispatch: Dispatch) => {
         const club_Id = clubId;

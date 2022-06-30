@@ -33,7 +33,6 @@ const TeamManagement = () => {
         (state: RootStateOrAny) => state.team
     );
     const [tab, setTab] = useState<number>(1);
-    const [_create, setCreate] = useState<boolean>(false);
     const [createStaff, setCreateStaff] = useState<boolean>(false);
     const [createPlayer, setCreatePlayer] = useState<boolean>(false);
     const [createExistingPlayer, setCreateExistingPlayer] = useState<boolean>(false);
