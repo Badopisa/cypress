@@ -1,31 +1,31 @@
 interface ChatsType {
-    id: number,
-    sender: string,
-    message: string,
-    receiver: string,
-    senderStatus: string,
-    receiverStatus: string,
-    time: string
+    id: number;
+    sender: string;
+    message: string;
+    receiver: string;
+    senderStatus: string;
+    receiverStatus: string;
+    time: string;
 }
 interface ContactsType {
-    id: number,
-    name: string,
-    role: string,
-    email: string
+    id: number;
+    name: string;
+    role: string;
+    email: string;
 }
 interface GroupTypes {
-    id: number,
-    groupName: string,
-    groupMembers: string[],
-    messages: any,
+    id: number;
+    groupName: string;
+    groupMembers: string[];
+    messages: any;
 }
 interface HistoryTypes {
-    id: number,
-    name: string,
-    day: string,
-    time: string,
-    event: string,
-    eventType: string,
+    id: number;
+    name: string;
+    day: string;
+    time: string;
+    event: string;
+    eventType: string;
 }
 export const historyData: HistoryTypes[] = [
     {
@@ -68,7 +68,7 @@ export const historyData: HistoryTypes[] = [
         event: 'call',
         eventType: 'incoming'
     }
-]
+];
 export const groupChats: GroupTypes[] = [
     {
         id: 1,
@@ -111,8 +111,6 @@ export const groupChats: GroupTypes[] = [
                 message: ' Good morning guys'
             }
         ]
-
-
     },
     {
         id: 2,
@@ -155,7 +153,6 @@ export const groupChats: GroupTypes[] = [
                 message: ' Good morning guys'
             }
         ]
-
     },
     {
         id: 3,
@@ -198,11 +195,8 @@ export const groupChats: GroupTypes[] = [
                 message: ' Good morning guys'
             }
         ]
-
-
     }
-
-]
+];
 
 export const chatsData: ChatsType[] = [
     {
@@ -213,7 +207,6 @@ export const chatsData: ChatsType[] = [
         receiver: 'Joy',
         senderStatus: 'online',
         receiverStatus: 'offline'
-
     },
     {
         id: 2,
@@ -223,7 +216,6 @@ export const chatsData: ChatsType[] = [
         receiver: 'John',
         senderStatus: 'offline',
         receiverStatus: 'online'
-
     },
     {
         id: 3,
@@ -233,7 +225,6 @@ export const chatsData: ChatsType[] = [
         receiver: 'Joy',
         senderStatus: 'online',
         receiverStatus: 'offline'
-
     },
     {
         id: 4,
@@ -243,9 +234,8 @@ export const chatsData: ChatsType[] = [
         receiver: 'John',
         senderStatus: 'offline',
         receiverStatus: 'online'
-
-    },
-]
+    }
+];
 export const contacts: ContactsType[] = [
     {
         id: 1,
@@ -295,4 +285,4 @@ export const contacts: ContactsType[] = [
         role: 'Player',
         email: 'dan@gmail.com'
     }
-]
+];

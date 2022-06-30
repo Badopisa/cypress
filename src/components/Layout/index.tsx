@@ -1,12 +1,8 @@
-import React from 'react'
-import {Box} from '@chakra-ui/react'
+import React from 'react';
+import { Box } from '@chakra-ui/react';
 
-const Layout = ({children} : {children: React.ReactNode}) =>  {
-  return (
-    <Box>
-      {children}
-    </Box>
-  )
-}
+const Layout = ({ children }: { children: React.ReactNode }) => {
+    return <Box>{children}</Box>;
+};
 
-export default Layout
+export default Layout;

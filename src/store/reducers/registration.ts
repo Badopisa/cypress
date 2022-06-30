@@ -1,14 +1,14 @@
-import * as types from '@/store/actions/actionTypes'
-import { UserDataType } from '@/types/AuthDataType'
+import * as types from '@/store/actions/actionTypes';
+import { UserDataType } from '@/types/AuthDataType';
 
 const initialState = {
-    user: null,
-}
+    user: null
+};
 
-type IAction =  {
+type IAction = {
     type: string;
     payload?: UserDataType;
-}
+};
 
 export const authReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
@@ -16,7 +16,8 @@ export const authReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 user: action.payload
-            }
-        default: return state
+            };
+        default:
+            return state;
     }
-}
+};
