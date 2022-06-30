@@ -26,7 +26,10 @@ import { TeamDataType } from '@/types/TeamDataType';
 import { fetchTeams } from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import { fetchPlayerStatistics } from '@/store/actions/comaprisonAction';
+import {
+  fetchPlayerStatistics,
+  filterPlayersStatisticsByMatch,
+} from '@/store/actions/comaprisonAction';
 
 const PlayerVsPlayer = () => {
   const [currentTeamPlayers, setCurrentTeamPlayers] = useState<any>([{}]);
@@ -57,6 +60,8 @@ const PlayerVsPlayer = () => {
 
   const displayPlayerStats = () => {
     console.log('current is', currentTeamPlayers);
+    const clubId = currentTeamPlayers[0].id;
+    console.log('club idd', clubId);
     const playerIds = selectedPlayers.map((player: any) => {
       const id = currentTeamPlayers?.filter(
         (currentPlayer: any) =>
@@ -64,7 +69,7 @@ const PlayerVsPlayer = () => {
       )[0].id;
       return id || null;
     });
-    dispatch(fetchPlayerStatistics(playerIds));
+    dispatch(fetchPlayerStatistics(playerIds, clubId));
   };
 
   const handleSelectedTeam = (e: any) => {
@@ -82,6 +87,18 @@ const PlayerVsPlayer = () => {
   const handleRemoveSelectedPlayer = (playerName: string) => {
     const players = selectedPlayers.filter((player) => player != playerName);
     setSelectedPlayers(players);
+  };
+  const handleFilterTable = (e: any) => {
+    const value = e.target.value;
+    const clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
+    const playerIds = selectedPlayers.map((player: any) => {
+      const id = currentTeamPlayers?.filter(
+        (currentPlayer: any) =>
+          `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
+      )[0].id;
+      return id || null;
+    });
+    dispatch(filterPlayersStatisticsByMatch(playerIds, clubId, value));
   };
   return (
     <>
@@ -156,10 +173,10 @@ const PlayerVsPlayer = () => {
       <Flex justifyContent='space-between' width={'90%'} my={'4rem'}>
         <Text fontWeight={'semibold'}>Player Stats</Text>
         <FormControl width={'20%'}>
-          <Select>
-            <option value={'All matches'}>All matches</option>
-            <option value={'All matches'}>All matches</option>
-            <option value={'All matches'}>All matches</option>
+          <Select onChange={handleFilterTable}>
+            <option value={1}>Last match</option>
+            <option value={3}>Last 3 matches</option>
+            <option value={5}>Last 5 matches</option>
           </Select>
         </FormControl>
       </Flex>

@@ -9,15 +9,18 @@ import { GetPlayersForClub } from "@/services/playerManagementService";
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const fetchPlayerStatistics = (playersIDs: string[]) => {
+export const fetchPlayerStatistics = (playersIDs: string[], clubId: string) => {
 
     return async (dispatch: Dispatch) => {
-        // const payload: any = { player_ids: playersIDs }
-        const payload: any = { "player_ids": ["af9c5cbf-a70d-44b2-8cb0-1858ff45b352", "7624726d-c80b-414f-9090-13c337913015"] }
-        dispatch(updateIsLoading(true))
-        console.log('playerID arre', playersIDs)
 
-        GetPlayersStatistics(payload)
+        // console.log('playerID arre', [playersIDs])
+        // const club_Id = clubId;
+        const club_Id = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
+        const playersIds = ["af9c5cbf-a70d-44b2-8cb0-1858ff45b352", "7624726d-c80b-414f-9090-13c337913015"];
+        // const playersIds = playersIDs;
+        dispatch(updateIsLoading(true))
+
+        GetPlayersStatistics(club_Id, playersIds)
 
 
             .then(async (result) => {
@@ -42,15 +45,19 @@ export const fetchPlayerStatistics = (playersIDs: string[]) => {
     };
 
 }
-export const filterPlayersStatisticsByMatch = (clubId: any, noOfMarch: number) => {
+export const filterPlayersStatisticsByMatch = (playerIds: any, clubId: string, noOfMarch: number) => {
     return async (dispatch: Dispatch) => {
-        const payload = [clubId, noOfMarch]
 
-        FilterPlayersStatistics(payload)
+        const club_Id = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
+        const playersIds = ["af9c5cbf-a70d-44b2-8cb0-1858ff45b352", "7624726d-c80b-414f-9090-13c337913015"];
+        const noMarch = noOfMarch;
+        console.log(`'I'm here`)
+
+        FilterPlayersStatistics(club_Id, playersIds, noMarch)
             .then(async (result) => {
 
                 const { data } = result
-                console.log('fetchTeams', data)
+                console.log('fetchTeamsReee', data)
 
                 dispatch(updateIsLoading(false))
 
@@ -73,52 +80,5 @@ const savePlayerStats = (data: any) => {
 
         payload: data
 
-    }
-}
-
-
-
-
-export const saveAllPlayers = (data: any) => {
-    return {
-        type: actionTypes.GET_ALL_PLAYERS,
-        payload: data
-    }
-}
-
-
-
-const filterTeamData = (data: string) => {
-    return {
-        type: actionTypes.FILTER_TEAM_DETAILS,
-        payload: data
-    }
-}
-
-const filterPlayersData = (data: string) => {
-    return {
-        type: actionTypes.FILTER_PLAYERS,
-        payload: data
-    }
-}
-
-const filterStaffsData = (data: string) => {
-    return {
-        type: actionTypes.FILTER_STAFFS,
-        payload: data
-    }
-}
-
-const saveNewTeamData = (data: TeamDataType) => {
-    return {
-        type: actionTypes.SAVE_NEW_TEAM,
-        payload: data
-    }
-}
-
-export function setCurrentTeam(data: any): any {
-    return {
-        type: actionTypes.SET_CURRENT_TEAM,
-        payload: data
     }
 }

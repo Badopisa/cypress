@@ -7,18 +7,26 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  HStack,
   Img,
   Input,
   Select,
   SimpleGrid,
   Stack,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ReactPlayer from 'react-player';
 import Video from '@/components/Analytics/Video';
+import { UserDataType } from '@/types/AuthDataType';
+import { TeamDataType } from '@/types/TeamDataType';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { fetchTeams, getAllPlayers } from '@/store/actions/teamActions';
 
 const PlayerVideo = () => {
   const router = useRouter();
@@ -27,6 +35,24 @@ const PlayerVideo = () => {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [showControl, setShowControl] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
+
+  const {
+    filteredData,
+    allPlayers,
+  }: {
+    filteredData: TeamDataType[] | [];
+    teams: TeamDataType[] | [];
+    allPlayers: any;
+  } = useSelector((state: RootStateOrAny) => state.team);
+  const { user }: { user: UserDataType } = useSelector(
+    (state: RootStateOrAny) => state.auth
+  );
+
+  useEffect(() => {
+    dispatch(getAllPlayers(user?.clubs[0]?.id));
+  }, []);
 
   const handleOpenComparisonResult = () => {
     router.push(
@@ -39,16 +65,20 @@ const PlayerVideo = () => {
         <FormControl id='choosePlayer1' w={{ base: '100%', md: '50%' }}>
           <FormLabel>Choose Player</FormLabel>
           <Select placeholder=''>
-            <option value='option1' selected>
-              Select
-            </option>
-            <option value='option2'>Manchester United</option>
-            <option value='option3'>Option 3</option>
+            {allPlayers?.map((player: any) => (
+              <option
+                key={player.id}
+                value={`${player.first_name} ${player.last_name}`}
+                selected
+              >
+                {`${player.first_name} ${player.last_name}`}
+              </option>
+            ))}
           </Select>
         </FormControl>
         <Text fontSize={'xl'}>Selected Videos</Text>
         <Box bg='dark' p={4} w={{ base: '100%', md: '40%' }}>
-          {selected ? (
+          {/* {selected ? (
             <>
               <Flex gap={5}>
                 <Img src='/images/imgs/football-match.svg' w={'60px'} />
@@ -61,7 +91,26 @@ const PlayerVideo = () => {
               <Text>The videos that you select will be shown right here</Text>
               <Text>Note: Only two videos can be selected at a time</Text>
             </>
-          )}
+
+          )} */}
+
+          <HStack spacing={4}>
+            {allPlayers?.length > 0 &&
+              allPlayers.map((player: any) => (
+                <Tag
+                  size={'md'}
+                  key={player}
+                  borderRadius={'lg'}
+                  variant='outline'
+                  my={8}
+                >
+                  <TagLabel>{player}</TagLabel>
+                  <TagCloseButton
+                    onClick={() => handleRemoveSelectedPlayer(player)}
+                  />
+                </Tag>
+              ))}
+          </HStack>
         </Box>
         <Button
           variant='action'
