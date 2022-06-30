@@ -29,7 +29,7 @@ import useUploadToS3 from '@/hooks/useUploadToS3';
 
 type NewPlayerType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
 };
 
 const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {

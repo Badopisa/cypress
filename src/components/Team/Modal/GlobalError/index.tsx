@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 type ErrorType = {
-    setGlobalError: (value: boolean) => void;
+    setGlobalError: any;
 };
 const GlobalError = ({ setGlobalError }: ErrorType) => {
     return (

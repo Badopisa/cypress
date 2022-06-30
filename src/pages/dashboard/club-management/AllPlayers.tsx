@@ -1,15 +1,12 @@
 import BlankTeam from '@/components/Team/BlankTeam';
 import NewPlayer from '@/components/Team/Modal/NewPlayer';
 import PlayerCard from '@/components/Team/PlayerCard';
-import TeamCard from '@/components/Team/TeamCard';
 import { teams } from '@/data/TeamData';
-import { TeamDataType } from '@/types/TeamDataType';
 import { Box, Button, Center, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 const AllPlayers = ({ allPlayers, isLoading }: any) => {
-    const [searchText, setSearchText] = useState('');
     const [create, setCreate] = useState<boolean>(false);
     const router = useRouter();
     const handleCreatePlayer = () => {

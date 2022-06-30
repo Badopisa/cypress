@@ -5,7 +5,6 @@ import {
     Box,
     Avatar,
     Text,
-    Center,
     Flex,
     Heading,
     Stack,

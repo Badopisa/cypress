@@ -2,7 +2,6 @@ import {
     Text,
     Button,
     Center,
-    Image,
     VStack,
     Avatar,
     Modal,
@@ -16,7 +15,7 @@ type ConfirmationType = {
     jersyPng: string;
 
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
     playerName?: string;
     body?: string;
     title?: string;

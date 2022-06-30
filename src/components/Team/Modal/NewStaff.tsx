@@ -22,7 +22,6 @@ import {
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { createAndAddPlayerToTeam } from '@/store/actions/playerActions';
 import { UserDataType } from '@/types/AuthDataType';
 import Confirmation from './Confirmation';
 import { createAndAddStaffToTeam } from '@/store/actions/staffActions';
@@ -30,7 +29,7 @@ import useUploadToS3 from '@/hooks/useUploadToS3';
 
 type NewStaffType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
 };
 
 const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
@@ -85,7 +84,7 @@ const NewStaff = ({ isOpen, onClose }: NewStaffType) => {
                     <ModalHeader py={8} textAlign="center" fontSize="lg" fontWeight="bold">
                         Create New Staff
                         <Text fontSize="sm" fontWeight="light">
-                            Fill in a staff's details and send an invite
+                            Fill in staff details and send an invite
                         </Text>
                     </ModalHeader>
                     <form onSubmit={handleSubmit(onSubmit)}>

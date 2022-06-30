@@ -1,6 +1,5 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import PlayerCard from '@/components/Team/PlayerCard';
 import { Avatar, Box, Button, Flex, Img, Tag, Text, VStack, Wrap } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import EditPlayerDetails from '@/components/Team/Modal/EditPlayerDetails';
@@ -14,7 +13,7 @@ import PlayerStatistics from './PlayerStatistics';
 const PlayerDetails = () => {
     const [editPlayer, setEditPlayer] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false);
-    const [isVideosAvailable, setIsVideosAvailable] = useState(true);
+    const [isVideosAvailable] = useState(true);
     const [display, setDisplay] = useState(1);
 
     const handleEditPlayer = () => {

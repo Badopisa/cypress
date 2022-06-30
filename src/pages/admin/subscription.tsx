@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormImage, FormDetails } from '@/components/Form';
-import {
-    Flex,
-    Tabs,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    HStack,
-    Text,
-    Stack
-} from '@chakra-ui/react';
+import { Flex, Tabs, Tab, TabList, TabPanel, TabPanels, Stack } from '@chakra-ui/react';
 import PlanCard from '@/components/Elements/Card/PlanCard';
 import { PlanData } from '@/data/PlanData';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const Subscription = () => {
     const { monthly, yearly } = PlanData;
@@ -55,18 +45,24 @@ const Subscription = () => {
                         <TabPanel>
                             <Stack spacing={8} direction={['column', 'row']}>
                                 <PlanCard
-                                    handleSubscription={(title, time, price, benefits) =>
-                                        handleSubscription(title, time, price, benefits)
-                                    }
+                                    handleSubscription={(
+                                        title: any,
+                                        time: any,
+                                        price: any,
+                                        benefits: any
+                                    ) => handleSubscription(title, time, price, benefits)}
                                     title="BASIC"
                                     benefits={monthly.basic.benefits}
                                     price={monthly.basic.price}
                                     time="month"
                                 />
                                 <PlanCard
-                                    handleSubscription={(title, time, price, benefits) =>
-                                        handleSubscription(title, time, price, benefits)
-                                    }
+                                    handleSubscription={(
+                                        title: any,
+                                        time: any,
+                                        price: any,
+                                        benefits: any
+                                    ) => handleSubscription(title, time, price, benefits)}
                                     title="PREMIUM"
                                     benefits={monthly.premium.benefits}
                                     price={monthly.premium.price}
@@ -77,18 +73,24 @@ const Subscription = () => {
                         <TabPanel>
                             <Stack spacing={8} direction={['column', 'row']}>
                                 <PlanCard
-                                    handleSubscription={(title, time, price, benefits) =>
-                                        handleSubscription(title, time, price, benefits)
-                                    }
+                                    handleSubscription={(
+                                        title: any,
+                                        time: any,
+                                        price: any,
+                                        benefits: any
+                                    ) => handleSubscription(title, time, price, benefits)}
                                     title="BASIC"
                                     benefits={yearly.basic.benefits}
                                     price={yearly.basic.price}
                                     time="month"
                                 />
                                 <PlanCard
-                                    handleSubscription={(title, time, price, benefits) =>
-                                        handleSubscription(title, time, price, benefits)
-                                    }
+                                    handleSubscription={(
+                                        title: any,
+                                        time: any,
+                                        price: any,
+                                        benefits: any
+                                    ) => handleSubscription(title, time, price, benefits)}
                                     title="BASIC"
                                     benefits={yearly.premium.benefits}
                                     price={yearly.premium.price}

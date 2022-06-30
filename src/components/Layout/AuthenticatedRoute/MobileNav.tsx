@@ -1,21 +1,6 @@
-import React, { ReactNode } from 'react';
-import {
-    IconButton,
-    Avatar,
-    Box,
-    Flex,
-    HStack,
-    VStack,
-    useColorModeValue,
-    Text,
-    FlexProps,
-    Menu,
-    MenuButton,
-    MenuDivider,
-    MenuItem,
-    MenuList
-} from '@chakra-ui/react';
-import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
+import React from 'react';
+import { IconButton, Flex, Text, FlexProps } from '@chakra-ui/react';
+import { FiMenu } from 'react-icons/fi';
 import Logo from '@/components/Elements/Logo/Logo';
 
 interface MobileProps extends FlexProps {

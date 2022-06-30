@@ -1,19 +1,6 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import {
-    Box,
-    Button,
-    Center,
-    Container,
-    Flex,
-    Heading,
-    HStack,
-    Link,
-    Spacer,
-    Stack,
-    Text,
-    VStack
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Spacer, Text, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 const Analytics = () => {

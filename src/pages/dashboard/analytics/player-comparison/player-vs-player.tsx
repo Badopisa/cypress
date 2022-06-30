@@ -1,12 +1,9 @@
-import { matchStatsData, playerStatsData } from '@/data/AnalyticsData';
 import {
-    VStack,
     HStack,
     FormControl,
     Img,
     Select,
     Text,
-    Box,
     Stack,
     Button,
     Tag,
@@ -36,8 +33,7 @@ const PlayerVsPlayer = () => {
     const dispatch = useDispatch();
 
     const {
-        filteredData,
-        teams
+        filteredData
     }: {
         filteredData: TeamDataType[] | [];
         teams: TeamDataType[] | [];
@@ -66,7 +62,6 @@ const PlayerVsPlayer = () => {
     };
 
     const handleSelectedTeam = (e: any) => {
-        const value = e.target.value;
         const currentTeam = filteredData.filter((team) => team.name === e.target.value)[0];
         setCurrentTeamPlayers(currentTeam.players);
     };
@@ -151,7 +146,7 @@ const PlayerVsPlayer = () => {
                 <Table p={8}>
                     <Thead p={8}>
                         <Tr>
-                            <Th borderBottom={'none'}></Th>
+                            <Th borderBottom={'none'} />
                             <Th borderBottom={'none'} width={'4px'}>
                                 Goals Scored
                             </Th>

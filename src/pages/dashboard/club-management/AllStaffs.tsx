@@ -1,15 +1,9 @@
 import BlankTeam from '@/components/Team/BlankTeam';
 import PlayerCard from '@/components/Team/PlayerCard';
-import TeamCard from '@/components/Team/TeamCard';
-// import { teams } from '@/data/TeamData';
-import { TeamDataType } from '@/types/TeamDataType';
 import { Box, Button, Center, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 
 const AllStaffs = ({ allStaffs, isLoading, teams }: any) => {
-    const [searchText, setSearchText] = useState('');
-
     return (
         <>
             <Flex direction="row">

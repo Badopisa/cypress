@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { Box, Text, Button, HStack, VStack, List, ListItem, ListIcon } from '@chakra-ui/react';
+import React from 'react';
+import { Box, Text, Button, List, ListItem, ListIcon } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
 
 type PlanCardType = {
@@ -8,7 +8,7 @@ type PlanCardType = {
     time: string;
     benefits: string[];
     hasFooter?: boolean;
-    handleSubscription?: (title: string, time: string, price: number, benefits: string[]) => void;
+    handleSubscription?: any;
 };
 const PlanCard = ({
     title,

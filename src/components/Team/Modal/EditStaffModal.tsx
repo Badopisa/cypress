@@ -7,9 +7,9 @@ import EditStaffDetails from './EditStaffDetails';
 
 type ManageStaffType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
-    setCreateStaff?: (value: boolean) => void;
-    setCreateExistingStaff?: (value: boolean) => void;
+    onClose: any;
+    setCreateStaff?: any;
+    setCreateExistingStaff?: any;
     create?: string;
     existing?: string;
     edit?: string;

@@ -10,16 +10,15 @@ import {
     Input,
     Button
 } from '@chakra-ui/react';
-import Link from '@/components/Elements/Link/Link'
+import Link from '@/components/Elements/Link/Link';
 
 const FooterLink = () => {
     return (
-
-    <SimpleGrid
-        px={{base: 4, md: 12 }}
-        py={{base: 20, md: 24 }}
-        columns={{base: 1, md: 4}}
-        spacing={10}
+        <SimpleGrid
+            px={{ base: 4, md: 12 }}
+            py={{ base: 20, md: 24 }}
+            columns={{ base: 1, md: 4 }}
+            spacing={10}>
             <Stack align={{ base: 'center', lg: 'flex-start' }}>
                 <Heading size="sm" py={2}>
                     SONALYSIS
@@ -98,8 +97,7 @@ const FooterLink = () => {
                 </HStack>
             </VStack>
         </SimpleGrid>
-    
-  )
+    );
 };
 
 export default FooterLink;

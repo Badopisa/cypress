@@ -1,16 +1,13 @@
 import Video from '@/components/Analytics/Video';
 import { uploadedVideosData } from '@/data/AnalyticsData';
 import { Box, Button, Img, Table, Tbody, Td, Tr } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 type displayType = {
-    setDisplay: (value: number) => void;
+    setDisplay: any;
 };
 
 const PlayerVideos = ({ setDisplay }: displayType) => {
-    const router = useRouter();
-
     const handleOpenPlayerStatistics = () => {
         setDisplay(2);
     };
@@ -52,7 +49,7 @@ const PlayerVideos = ({ setDisplay }: displayType) => {
                                         <Img src="/icons/delete.svg" alt="delete a video" />
                                     </Td>
                                 </Tr>
-                                <Box bg="transparent" p={4}></Box>
+                                <Box bg="transparent" p={4} />
                             </>
                         ))
                         .slice(0, 4)}

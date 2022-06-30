@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { updateIsLoading } from '@/store/actions/msgAction';
 import axios from 'axios';
-import { updateFileName, updateImageFile } from '@/store/actions/authActions';
+import { updateFileName } from '@/store/actions/authActions';
 import { useDispatch } from 'react-redux';
 
 const useUploadToS3 = (file: any) => {

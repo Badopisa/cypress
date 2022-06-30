@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Stack, Spacer, Button, Flex, VStack, Box } from '@chakra-ui/react';
+import { Text, Button, Flex, VStack, Box } from '@chakra-ui/react';
 
 const FeatureCard = ({
     image,

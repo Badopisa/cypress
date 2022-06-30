@@ -4,12 +4,13 @@ import React from 'react';
 const ModalLayout = ({ children }: { children: React.ReactNode }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [size, setSize] = React.useState('md');
-    const handleSizeClick = (newSize: string) => {
-        setSize(newSize);
-        onOpen();
-    };
-
-    const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full'];
+    // const handleSizeClick = (newSize: string) => {
+    //     setSize(newSize);
+    //     onOpen();
+    // };
+    //
+    // const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full'];
+    console.log(onOpen, setSize);
 
     return (
         <Modal onClose={onClose} size={size} isOpen={isOpen}>

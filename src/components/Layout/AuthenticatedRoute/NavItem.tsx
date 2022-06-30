@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { Flex, Icon, FlexProps } from '@chakra-ui/react';
 
 import Link from '@/components/Elements/Link/Link';

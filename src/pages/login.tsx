@@ -115,7 +115,7 @@ const Login = () => {
                             </Button>
                         </form>
                         <Text align={'center'}>
-                            Don't Have an Account?{' '}
+                            Do Not Have an Account?{' '}
                             <Link href="/admin/ClubAdminRegistration" fontWeight="semibold">
                                 Get Started
                             </Link>

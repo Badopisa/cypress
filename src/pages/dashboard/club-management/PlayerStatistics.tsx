@@ -19,6 +19,7 @@ import {
 
 const PlayerStatistics = () => {
     const [progress, setProgress] = useState(10);
+    console.log(progress);
 
     const data = uploadedVideosData[0];
 

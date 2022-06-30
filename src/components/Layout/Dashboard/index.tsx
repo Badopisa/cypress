@@ -1,17 +1,5 @@
-import {
-    Avatar,
-    Box,
-    Flex,
-    Heading,
-    HStack,
-    Image,
-    Img,
-    Spacer,
-    Text,
-    VStack
-} from '@chakra-ui/react';
+import { Avatar, Box, Flex, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
 
 export interface CardProps {
     number?: number;

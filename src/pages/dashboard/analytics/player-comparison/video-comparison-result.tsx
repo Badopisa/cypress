@@ -3,7 +3,6 @@ import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopN
 import { matchStatsData, playerStatsData } from '@/data/AnalyticsData';
 import {
     AspectRatio,
-    Avatar,
     Box,
     Button,
     Center,

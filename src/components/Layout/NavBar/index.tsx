@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Box, Flex, Spacer } from '@chakra-ui/react';
-import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import Link from '@/components/Elements/Link/Link';
 import Logo from '@/components/Elements/Logo/Logo';
 import DesktopNav from './DesktopNav';
 
 const NavBar = () => {
-    const [isHamburgerOpen, setHamburger] = useState<boolean>(false);
+    const [isHamburgerOpen] = useState<boolean>(false);
     return (
         <Box
             boxShadow="sm"

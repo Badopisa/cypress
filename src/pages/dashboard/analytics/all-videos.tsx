@@ -6,26 +6,16 @@ import {
     Text,
     VStack,
     useBreakpointValue,
-    ButtonGroup,
     Spacer,
     Grid,
-    Container,
     Box,
     Heading,
     FormControl,
     Input,
     Img,
     useDisclosure,
-    FormLabel,
-    HStack,
-    Modal,
-    ModalContent,
-    ModalOverlay,
-    Select,
     Tab,
     TabList,
-    TabPanel,
-    TabPanels,
     Tabs
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
@@ -41,7 +31,7 @@ const TabSelectedStyle = {
 };
 
 const AllVideos = () => {
-    const [isVideosAvailable, setIsVideosAvailable] = useState(true);
+    const [isVideosAvailable] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (

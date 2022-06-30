@@ -3,18 +3,15 @@ import {
     Button,
     Center,
     VStack,
-    Avatar,
     Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalFooter,
     ModalBody,
-    GridItem,
     FormLabel,
     Input,
     Select,
-    HStack,
     FormControl,
     Text
 } from '@chakra-ui/react';
@@ -23,7 +20,7 @@ import Confirmation from './Confirmation';
 
 type EditTeamInfoType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
     //   setSelected: (value: boolean) => void;
 };
 

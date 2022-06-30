@@ -11,7 +11,7 @@ export type Country = {
 
 export type Props = {
     data: Country[];
-    onChange: (args: Country) => void;
+    onChange: any;
 };
 
 export const SearchOnList = ({ data, onChange }: Props) => {

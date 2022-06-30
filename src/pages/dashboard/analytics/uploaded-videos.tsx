@@ -1,9 +1,8 @@
 import Video from '@/components/Analytics/Video';
 import { uploadedVideosData } from '@/data/AnalyticsData';
-import { AspectRatio, Box, Button, Img, Table, Tbody, Td, Tr } from '@chakra-ui/react';
+import { Box, Button, Img, Table, Tbody, Td, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
-import ReactPlayer from 'react-player';
 
 const UploadedVideos = () => {
     const router = useRouter();
@@ -49,7 +48,7 @@ const UploadedVideos = () => {
                                         <Img src="/icons/delete.svg" alt="delete a video" />
                                     </Td>
                                 </Tr>
-                                <Box bg="transparent" p={4}></Box>
+                                <Box bg="transparent" p={4} />
                             </>
                         ))
                         .slice(0, 4)}

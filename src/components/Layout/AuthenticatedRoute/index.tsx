@@ -1,6 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { Box, useColorModeValue, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
+import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 import MobileNav from './MobileNav';
 import { retrieveAccessToken } from '@/utils/locaStorageActions';
@@ -22,7 +21,6 @@ export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
             <Box minH="100vh" bg="black">
                 <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
                 <Drawer
-                    autoFocus={false}
                     isOpen={isOpen}
                     placement="left"
                     onClose={onClose}

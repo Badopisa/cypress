@@ -1,12 +1,10 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import { allEventsData, chatData } from '@/data/AnalyticsData';
+import { allEventsData } from '@/data/AnalyticsData';
 import {
     Avatar,
-    Badge,
     Box,
     Button,
-    Center,
     CircularProgress,
     CircularProgressLabel,
     Flex,
@@ -22,12 +20,11 @@ import {
     VStack,
     Wrap
 } from '@chakra-ui/react';
-import { Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 const PlayerDetails = () => {
     const [progress, setProgress] = useState(10);
+    console.log(progress);
 
     const percentage = 65;
     React.useEffect(() => {

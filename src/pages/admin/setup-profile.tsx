@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Flex,
     FormControl,
@@ -12,15 +12,12 @@ import {
     Select,
     Center,
     Text,
-    InputGroup,
-    InputRightElement,
     HStack,
     useToast,
     chakra
 } from '@chakra-ui/react';
-import { FormImage, FormDetails } from '@/components/Form';
+import { FormImage } from '@/components/Form';
 import { AiOutlinePicture } from 'react-icons/ai';
-import { AiFillEyeInvisible } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { adminRegistration } from '@/store/actions/authActions';
@@ -36,7 +33,7 @@ const ClubAdminRegistration = () => {
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting }
+        formState: { errors }
     } = useForm();
     const onSubmit = async (values: any) => {
         const payload = {
@@ -59,7 +56,7 @@ const ClubAdminRegistration = () => {
                 title="GET STARTED AS"
                 body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut purus rhoncus lectus posuere elit et."
                 hasRole
-                role="A COACH"
+                designation="A COACH"
             />
             <VStack
                 bgColor="black"

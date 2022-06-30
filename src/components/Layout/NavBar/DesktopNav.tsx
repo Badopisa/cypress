@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, HStack, Text } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import { NAV_ITEMS } from '@/data/NavItemData';
 import Link from '@/components/Elements/Link/Link';
 

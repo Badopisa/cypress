@@ -1,18 +1,5 @@
 import React from 'react';
-import {
-    Box,
-    Divider,
-    Stack,
-    Text,
-    Spacer,
-    Image,
-    SimpleGrid,
-    Heading,
-    VStack,
-    HStack,
-    Input,
-    Button
-} from '@chakra-ui/react';
+import { Box, Divider, Stack, Text, Spacer, Image } from '@chakra-ui/react';
 import Link from '@/components/Elements/Link/Link';
 import FooterLink from '@/components/Layout/Footer/FooterLink';
 
@@ -27,7 +14,7 @@ const Footer = () => {
                 px={{ base: 4, md: 12 }}
                 py={{ base: 4, md: 12 }}>
                 <Stack direction={['column', 'row']} spacing={2} align="center">
-                    <Text>Copyright © 2021 Sonalysis. </Text>
+                    <Text>Copyright © 2022 Sonalysis. </Text>
                     <Text as="span" color="yellow">
                         All rights reserved
                     </Text>

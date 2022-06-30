@@ -1,13 +1,5 @@
-import React, { ReactNode } from 'react';
-import {
-    Box,
-    CloseButton,
-    Flex,
-    useColorModeValue,
-    Text,
-    BoxProps,
-    Divider
-} from '@chakra-ui/react';
+import React from 'react';
+import { Box, CloseButton, Flex, BoxProps, Divider } from '@chakra-ui/react';
 import { LinkItems } from '@/data/LinkItem';
 import DashboardNavItem from './NavItem';
 import Logo from '@/components/Elements/Logo/Logo';

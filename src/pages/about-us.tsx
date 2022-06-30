@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import Layout from '@/components/Layout';
 import { Text, Box, Stack, Button, SimpleGrid, HStack, Icon } from '@chakra-ui/react';
-import { FaFacebook, FaLinkedinIn } from 'react-icons/fa';
-import { BsTwitter } from 'react-icons/bs';
-import GuestWrapper from '@/components/Layout/GuestWrapper/GuestWrapper'
+import GuestWrapper from '@/components/Layout/GuestWrapper/GuestWrapper';
 import { teams } from '@/data/TeamData';
 import FooterHero from '@/components/Layout/Footer/FooterHero';
 
@@ -51,12 +48,15 @@ const About = () => {
                 </Stack>
             </Box>
             <Stack direction="column" bg="black" align="center" py={16}>
-
-                        <Text color='white' fontWeight='semibold' fontSize='5xl' >Meet <Text as='span' color='yellow'>Our Team</Text></Text>
+                <Text color="white" fontWeight="semibold" fontSize="5xl">
+                    Meet{' '}
+                    <Text as="span" color="yellow">
+                        Our Team
+                    </Text>
                 </Text>
                 <Text color="white" boxSize="50%" align="center">
-                    Our mission is to crerate a soccer analytics applications that can compete with
-                    the likes of Sportlogiq for real time analysis of soccer games and real time
+                    Our mission is to create a soccer analytics applications that can compete with
+                    the likes of Sportloginq for real time analysis of soccer games and real time
                     delivery.
                 </Text>
 

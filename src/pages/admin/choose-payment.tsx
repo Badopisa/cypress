@@ -1,7 +1,7 @@
 import PaymentCard from '@/components/Elements/Card/PaymentCard';
 import PaymentModal from '@/components/Elements/Modal/PaymentModal';
 import SuccessModal from '@/components/Elements/Modal/SuccessModal';
-import { Flex, HStack, useRadioGroup, useDisclosure } from '@chakra-ui/react';
+import { Flex, HStack, useRadioGroup } from '@chakra-ui/react';
 import { FormImage, FormDetails } from '../../components/Form/index';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -13,9 +13,9 @@ const PaymentMethod = () => {
 
     const router = useRouter();
 
-    const { query } = useRouter();
+    const query: any = router.query;
 
-    const benefits = query.benefits?.toString();
+    const benefits: any = query.benefits?.toString();
 
     const config = {
         reference: new Date().getTime().toString(),
@@ -51,21 +51,6 @@ const PaymentMethod = () => {
         onClose: handlePaystackCloseAction
     };
 
-    const options = [
-        {
-            name: 'MasterCard',
-            picture: '/images/image/mastercard.png'
-        },
-        {
-            name: 'PayPal',
-            picture: '/images/image/paypal.png'
-        },
-        {
-            name: 'Visa',
-            picture: '/images/image/visa.png'
-        }
-    ];
-
     const option = ['Mastercard', 'Visa', 'Paypal'];
 
     const image = [
@@ -79,15 +64,16 @@ const PaymentMethod = () => {
         defaultValue: 'react',
         onChange: console.log
     });
+    console.log(getRootProps);
 
-    const handleButtonClick = () => {
-        setPaymentIsLoading(true);
-
-        setTimeout(() => {
-            setPaymentIsLoading(false);
-            setPaymentSuccess(true);
-        }, 2000);
-    };
+    // const handleButtonClick = () => {
+    //     setPaymentIsLoading(true);
+    //
+    //     setTimeout(() => {
+    //         setPaymentIsLoading(false);
+    //         setPaymentSuccess(true);
+    //     }, 2000);
+    // };
 
     const handleRedirection = () => {
         setPaymentSuccess(false);
@@ -133,10 +119,10 @@ const PaymentMethod = () => {
             <SuccessModal
                 isOpen={paymentSuccess}
                 onClose={handleRedirection}
-                selectedBenefits={benefits?.split(',')!}
+                selectedBenefits={benefits.split(',')!}
                 selectedPrice={Number(query.price)}
-                selectedTitle={query.title?.toString()!}
-                selectedTime={query.time?.toString()!}
+                selectedTitle={query.title.toString()!}
+                selectedTime={query.time.toString()!}
             />
         </Flex>
     );

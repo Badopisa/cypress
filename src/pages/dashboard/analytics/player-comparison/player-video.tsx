@@ -1,7 +1,6 @@
 import { uploadedVideosData } from '@/data/AnalyticsData';
 import { SearchIcon } from '@chakra-ui/icons';
 import {
-    AspectRatio,
     Box,
     Button,
     Flex,
@@ -17,16 +16,12 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import ReactPlayer from 'react-player';
 import Video from '@/components/Analytics/Video';
 
 const PlayerVideo = () => {
     const router = useRouter();
 
-    const [selected, setSelected] = useState(true);
-
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [showControl, setShowControl] = useState<boolean>(false);
+    const [selected] = useState(true);
 
     const handleOpenComparisonResult = () => {
         router.push('/dashboard/analytics/player-comparison/video-comparison-result');

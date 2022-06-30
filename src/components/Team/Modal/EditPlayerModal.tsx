@@ -17,9 +17,9 @@ import { removePlayerFromTeam } from '@/store/actions/playerActions';
 
 type ManagePlayerType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
-    setCreatePlayer?: (value: boolean) => void;
-    setCreateExistingPlayer?: (value: boolean) => void;
+    onClose: any;
+    setCreatePlayer?: any;
+    setCreateExistingPlayer?: any;
 
     create?: string;
     existing?: string;

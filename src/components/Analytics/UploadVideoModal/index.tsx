@@ -1,4 +1,3 @@
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
@@ -8,39 +7,33 @@ import {
     FormControl,
     FormLabel,
     Grid,
-    Heading,
     HStack,
     Img,
     Input,
-    InputGroup,
-    InputRightElement,
     Modal,
     ModalContent,
     ModalOverlay,
     Select,
     Stack,
     Text,
-    useDisclosure,
     VStack
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
-import ModalLayout from '../../modal';
 import ChangingProgressProvider from './ChangingProgressProvider';
 
-import PropTypes from 'prop-types';
 import { FileDrop } from 'react-file-drop';
 
-interface UploadTypes {
-    inputRef: React.RefObject<HTMLInputElement>;
-}
+// interface UploadTypes {
+//     inputRef: React.RefObject<HTMLInputElement>;
+// }
 
 const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-    const [step, setStep] = useState<number>(1);
+    const [step] = useState<number>(1);
     const [fileName, setName] = useState<string>('');
     const inputRef = useRef<HTMLInputElement>(null);
-    const percentage = 0;
 
     const [progress, setProgress] = React.useState(10);
+    console.log('progress', progress);
 
     React.useEffect(() => {
         const timer = setInterval(() => {

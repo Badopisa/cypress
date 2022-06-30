@@ -1,6 +1,5 @@
 import React from 'react';
-import { VStack, Stack, Text, Container, Heading, Box } from '@chakra-ui/react';
-
+import { VStack, Stack, Text, Container, Box } from '@chakra-ui/react';
 
 const FormImage = ({
     image,
@@ -8,14 +7,14 @@ const FormImage = ({
     body,
     isAdmin,
     hasRole,
-    role
+    designation
 }: {
     image: string;
     title: string;
     body: string;
     isAdmin?: boolean;
     hasRole?: boolean;
-    role?: string;
+    designation?: string;
 }) => {
     return (
         <VStack
@@ -40,27 +39,24 @@ const FormImage = ({
                     top="60%"
                     left="15%"
                     transform="translate(0, -50%)"
-                    color="white"
-                >
-                    {
-                        isAdmin ?
-                            <>
-                                <Text fontSize="54px" lineHeight="63px" variant="title">
-                                    {title}
-                                </Text>
-                                <Text fontSize="18" fontWeight="light">
-                                    {body}
-                                </Text>
-
-                            </>
-                            :
-                            <>
+                    color="white">
+                    {isAdmin ? (
+                        <>
+                            <Text fontSize="54px" lineHeight="63px" variant="title">
+                                {title}
+                            </Text>
+                            <Text fontSize="18" fontWeight="light">
+                                {body}
+                            </Text>
+                        </>
+                    ) : (
+                        <>
                             <Text fontSize="25" fontWeight="light">
                                 {title}
                             </Text>
                             {hasRole && (
                                 <Text fontSize="4xl" fontWeight="black">
-                                    {role}
+                                    {designation}
                                 </Text>
                             )}
                             <Text variant="title">{body}</Text>
@@ -69,7 +65,6 @@ const FormImage = ({
                 </Stack>
             </Container>
         </VStack>
-
     );
 };
 

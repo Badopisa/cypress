@@ -9,7 +9,7 @@ import {
     Stack,
     HStack
 } from '@chakra-ui/react';
-import Link from '@/components/Elements/Link/Link'
+import Link from '@/components/Elements/Link/Link';
 import { BiArrowBack } from 'react-icons/bi';
 import { useRouter } from 'next/router';
 
@@ -67,19 +67,14 @@ const FormDetails = ({
             )}
             <VStack mt={mt} spacing={1} alignItems="flex-start">
                 <Text fontSize="3xl" fontWeight="semibold">
-                    <chakra.span color="yellow">
-                        {coloredTitle}&nbsp;
-                    </chakra.span>
+                    <chakra.span color="yellow">{coloredTitle}&nbsp;</chakra.span>
                     {title}
                 </Text>
                 <Text w={tW}>{subTitle}</Text>
             </VStack>
             <SimpleGrid columns={1} rowGap={5} w="80%">
                 {children}
-                {
-
-                    hasFooter &&
-
+                {hasFooter && (
                     <>
                         <GridItem colSpan={1}>
                             <Button
@@ -102,7 +97,7 @@ const FormDetails = ({
                                     </Text>
                                 ) : (
                                     <Text align={'center'}>
-                                        Don't Have an Account?{' '}
+                                        Do Not Have an Account?{' '}
                                         <Link href="/admin/registration" fontWeight="semibold">
                                             Get Started
                                         </Link>
@@ -124,8 +119,6 @@ const FormDetails = ({
                     </>
                 )}
             </SimpleGrid>
-
-            
         </VStack>
     );
 };

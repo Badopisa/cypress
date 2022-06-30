@@ -4,12 +4,7 @@ import MatchStats from '@/components/Analytics/MatchStats';
 import Video from '@/components/Analytics/Video';
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import {
-    allEventsData,
-    chatData,
-    matchAnalyticsType,
-    uploadedVideosData
-} from '@/data/AnalyticsData';
+import { chatData, matchAnalyticsType, uploadedVideosData } from '@/data/AnalyticsData';
 import {
     AspectRatio,
     Avatar,
@@ -35,7 +30,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
-import analytics from '.';
 
 const TabSelectedStyle = {
     color: 'white',

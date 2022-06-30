@@ -19,7 +19,7 @@ import { FormImage } from '@/components/Form';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { Controller, useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { adminRegistration, updateFileName } from '@/store/actions/authActions';
+import { adminRegistration } from '@/store/actions/authActions';
 import { useRouter } from 'next/router';
 import ImageUpload from '@/components/Elements/ImageUpload';
 import Link from '@/components/Elements/Link/Link';
@@ -30,7 +30,6 @@ import useUploadToS3 from '@/hooks/useUploadToS3';
 
 const ClubAdminRegistration = ({ countries }: any) => {
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
-    const { file } = useSelector((state: RootStateOrAny) => state.auth);
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
     const [show, setShow] = React.useState<boolean>(false);
     const { s3URL, s3Error } = useUploadToS3(profilePicture);
@@ -135,7 +134,7 @@ const ClubAdminRegistration = ({ countries }: any) => {
                             <GridItem>
                                 <FormControl>
                                     <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="firstname">
-                                        OWNER'S FIRST NAME
+                                        FIRST NAME OF OWNER
                                     </FormLabel>
                                     <Input
                                         focusBorderColor="#811AFF"
@@ -157,7 +156,7 @@ const ClubAdminRegistration = ({ countries }: any) => {
                             <GridItem>
                                 <FormControl>
                                     <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="lastname">
-                                        OWNER'S LAST NAME
+                                        LAST NAME OF OWNER
                                     </FormLabel>
                                     <Input
                                         focusBorderColor="#811AFF"

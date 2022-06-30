@@ -3,7 +3,6 @@ import {
     Button,
     Center,
     VStack,
-    Avatar,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -22,8 +21,8 @@ import React from 'react';
 
 type EditStaffDetailsType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
-    setSelected: (value: boolean) => void;
+    onClose: any;
+    setSelected: any;
 };
 
 const EditStaffDetails = ({ isOpen, onClose, setSelected }: EditStaffDetailsType) => {

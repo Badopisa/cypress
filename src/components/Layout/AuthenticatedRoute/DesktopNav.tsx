@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
     IconButton,
     Avatar,
@@ -16,14 +16,9 @@ import {
     Button
 } from '@chakra-ui/react';
 
-import {
-    FiBell,
-    FiChevronDown,
-} from 'react-icons/fi';
+import { FiBell, FiChevronDown } from 'react-icons/fi';
 
-import {
-    FaArrowLeft
-} from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { RootStateOrAny, useSelector } from 'react-redux';
 
@@ -38,16 +33,11 @@ const DashboardDesktopNav = ({ hasArrow = false, ...rest }: { hasArrow?: boolean
             justifyContent={{ base: 'space-between' }}
             {...rest}>
             <Box>
-                {
-                    !hasArrow ?
-                        <VStack color="white" align="start">
-                            <Text>
-                                Hi {user?.first_name},
-                            </Text>
-                            <Text>
-                                Welcome 👋
-                            </Text>
-                        </VStack>
+                {!hasArrow ? (
+                    <VStack color="white" align="start">
+                        <Text>Hi {user?.first_name},</Text>
+                        <Text>Welcome 👋</Text>
+                    </VStack>
                 ) : (
                     <Button
                         size="md"
@@ -70,21 +60,15 @@ const DashboardDesktopNav = ({ hasArrow = false, ...rest }: { hasArrow?: boolean
                 />
                 <Flex alignItems={'center'}>
                     <Menu>
-                        <MenuButton
-                            transition="all 0.3s"
-                            _focus={{boxShadow: 'none'}}>
+                        <MenuButton transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                             <HStack>
-                                <Avatar
-                                    size={'sm'}
-                                    src={user?.photo}
-                                />
+                                <Avatar size={'sm'} src={user?.photo} />
                                 <VStack
                                     display={{ base: 'none', md: 'flex' }}
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2"
-                                    color="white"
-                                >
+                                    color="white">
                                     <Text fontSize="sm">{`${user?.first_name} ${user?.last_name}`}</Text>
                                     <Text fontSize="xs" color="gray.600">
                                         {user?.role}

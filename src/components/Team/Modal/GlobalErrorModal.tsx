@@ -7,11 +7,9 @@ const GlobalErrorModal = ({
     globalError
 }: {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
     globalError: boolean;
 }) => {
-    const fullSize = '100vw';
-
     return (
         <Modal isOpen={isOpen} onClose={() => onClose(false)} size={'full'}>
             <ModalOverlay />

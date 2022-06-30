@@ -8,7 +8,6 @@ import {
     InputRightElement,
     Input,
     FormErrorMessage,
-    Text,
     Stack,
     Checkbox,
     Link,
@@ -25,7 +24,7 @@ const Login = () => {
                 title="GET STARTED AS"
                 body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut purus rhoncus lectus posuere elit et."
                 hasRole
-                role="A COACH"
+                designation="A COACH"
             />
             <FormDetails
                 hasFormFooter={false}

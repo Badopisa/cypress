@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Text, Heading, VStack } from '@chakra-ui/react';
+import { Flex, Text, VStack } from '@chakra-ui/react';
 
 const Banner = ({
     heading,

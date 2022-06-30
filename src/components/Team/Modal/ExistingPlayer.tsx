@@ -20,39 +20,31 @@ import {
 
 import { SearchIcon } from '@chakra-ui/icons';
 import React, { useEffect, useState } from 'react';
-import { allPlayers } from '@/data/AllPlayers';
 import Confirmation from './Confirmation';
 import { addSelectedPlayersToTeam, checkSelectedPlayer } from '@/store/actions/playerActions';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { filterPlayers, filterTeam, getAllPlayers } from '@/store/actions/teamActions';
+import { filterPlayers, getAllPlayers } from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
 
 type ExistingPlayerType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
     image?: string;
-    setSelected?: (value: boolean) => void;
+    setSelected?: any;
     title?: string;
     buttonTitle?: string;
 };
 const ExistingPlayer = ({
     isOpen,
     onClose,
-    image,
-    setSelected,
     title = 'Add Existing Player',
     buttonTitle = 'ADD PLAYER'
 }: ExistingPlayerType) => {
     const { selectedPlayers }: { selectedPlayers: any } = useSelector(
         (state: RootStateOrAny) => state.player
     );
-    const {
-        filteredPlayers,
-        teams,
-        currentTeam
-    }: { filteredPlayers: any; teams: any; currentTeam: any } = useSelector(
-        (state: RootStateOrAny) => state.team
-    );
+    const { filteredPlayers, currentTeam }: { filteredPlayers: any; teams: any; currentTeam: any } =
+        useSelector((state: RootStateOrAny) => state.team);
     const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
     const [searchText, setSearchText] = useState('');
     const toast = useToast();

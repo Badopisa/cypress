@@ -1,13 +1,4 @@
-import {
-    Flex,
-    FormControl,
-    GridItem,
-    FormLabel,
-    Input,
-    FormErrorMessage,
-    Text,
-    chakra
-} from '@chakra-ui/react';
+import { Flex, FormControl, GridItem, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
 import { FormImage, FormDetails } from '@/components/Form';
 import React from 'react';
 
@@ -19,7 +10,7 @@ const ResetPassword = () => {
                 title="GET STARTED AS"
                 body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut purus rhoncus lectus posuere elit et."
                 hasRole
-                role="A COACH"
+                designation="A COACH"
             />
             <FormDetails
                 hasAccount={true}

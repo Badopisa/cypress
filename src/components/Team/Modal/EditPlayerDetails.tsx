@@ -3,7 +3,6 @@ import {
     Button,
     Center,
     VStack,
-    Avatar,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -23,8 +22,8 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 
 type EditPlayerDetailsType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
-    setSelected: (value: boolean) => void;
+    onClose: any;
+    setSelected: any;
 };
 
 const EditPlayerDetails = ({ isOpen, onClose, setSelected }: EditPlayerDetailsType) => {

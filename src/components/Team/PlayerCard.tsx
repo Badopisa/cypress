@@ -3,7 +3,6 @@ import { Text, Avatar, Center, Box, Img, Stack } from '@chakra-ui/react';
 const PlayerCard = ({
     name,
     position,
-    status,
     image,
     team,
     click
@@ -11,7 +10,7 @@ const PlayerCard = ({
     name: string;
     position?: string;
     status?: string;
-    image: string;
+    image?: string;
     team?: string;
     click?: () => void;
 }) => {

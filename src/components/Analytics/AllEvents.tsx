@@ -1,23 +1,6 @@
-import { allEventsData, matchAnalyticsType } from '@/data/AnalyticsData';
-import {
-    AspectRatio,
-    Box,
-    Button,
-    Center,
-    Divider,
-    Flex,
-    Grid,
-    Heading,
-    Img,
-    SimpleGrid,
-    Stack,
-    Text,
-    useColorModeValue,
-    VStack
-} from '@chakra-ui/react';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import ReactPlayer from 'react-player';
+import { allEventsData } from '@/data/AnalyticsData';
+import { Center, Flex, Img, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import React from 'react';
 import Video from './Video';
 
 const AllEvents = () => {

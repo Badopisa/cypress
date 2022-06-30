@@ -2,11 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Image, NextChakraImageProps } from '@/components/Elements/Image/Image';
 import { Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { updateFileName, updateImageFile } from '@/store/actions/authActions';
+import { updateImageFile } from '@/store/actions/authActions';
 
 interface ImageUploadProps extends NextChakraImageProps {
     defaultImage: string;
-    setSelectedImage: (file: File | null) => void;
+    setSelectedImage: any;
     selectedImage: File | null;
     title?: string;
 }
@@ -33,7 +33,6 @@ const ImageUpload = ({
         } else {
             setDefaultUserImage(defaultImage);
         }
-        return () => {};
     }, [defaultImage, selectedImage]);
 
     // On each change let user have access to a selected file
@@ -109,7 +108,3 @@ const ImageUpload = ({
 };
 
 export default ImageUpload;
-
-function updateFile(selectedImage: File | null): any {
-    throw new Error('Function not implemented.');
-}

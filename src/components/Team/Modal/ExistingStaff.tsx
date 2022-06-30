@@ -32,9 +32,9 @@ import {
 
 type ExistingStaffType = {
     isOpen: boolean;
-    onClose: (value: boolean) => void;
+    onClose: any;
     image?: string;
-    setSelected?: (value: boolean) => void;
+    setSelected?: any;
     title?: string;
     buttonTitle?: string;
 };
