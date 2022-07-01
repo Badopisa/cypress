@@ -28,7 +28,7 @@ export const GetStaffDetails = (id: string) => {
 export const UpdateStaff = (payload: StaffFormType) => {
     const http = new HttpService();
 
-    const url = `staffs/${payload.id}`;
+    const url = `users/${payload.id}`;
 
     return http.putData(payload, url, true);
 };
