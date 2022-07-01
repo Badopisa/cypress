@@ -11,7 +11,7 @@ on:
 
   push:
     branches:
-      - joy/subscription
+      - joy/player-comparison
 
 jobs:
   push_to_registry:
