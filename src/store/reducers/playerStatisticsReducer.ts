@@ -3,11 +3,12 @@ import * as types from '@/store/actions/actionTypes';
 type TeamReducerData = {
     playersStatistics: any;
     filteredMatch: any;
+    playerVideos: any;
 };
 const initialState: TeamReducerData = {
     playersStatistics: [],
-    filteredMatch: []
-    // filter
+    filteredMatch: [],
+    playerVideos: []
 };
 
 type IAction = {
@@ -28,6 +29,12 @@ export const playerStatisticReducer = (state = initialState, action: IAction) =>
             return {
                 ...state,
                 filteredMatch: action.payload
+            };
+        case types.GET_PLAYER_VIDEOS:
+            console.log('savePlayerVideAct', action.payload);
+            return {
+                ...state,
+                playerVideos: action.payload.data
             };
         default:
             return state;

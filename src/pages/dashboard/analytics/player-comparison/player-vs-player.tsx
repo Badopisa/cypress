@@ -61,8 +61,11 @@ const PlayerVsPlayer = () => {
                 (currentPlayer: any) =>
                     `${currentPlayer.first_name} ${currentPlayer.last_name}` == player
             )[0].id;
+
             return id || null;
         });
+        console.log('deeeeee', playerIds);
+
         dispatch(fetchPlayerStatistics(playerIds, clubId));
     };
 
@@ -81,7 +84,7 @@ const PlayerVsPlayer = () => {
     };
     const handleFilterTable = (e: any) => {
         const value = e.target.value;
-        const clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
+        const clubId = currentTeamPlayers[0].club_id;
         const playerIds: any = selectedPlayers.map((player: any) => {
             const id = currentTeamPlayers?.filter(
                 (currentPlayer: any) =>

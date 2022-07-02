@@ -14,3 +14,10 @@ export const FilterPlayersStatistics = (club_Id: any, playersIds: any, noMatch: 
 
     return http.postData({ player_ids: playersIds }, url, true);
 };
+export const GetPlayerVideos = (id: string) => {
+    const http = new HttpService();
+
+    const url = `players/${id}`;
+
+    return http.getData(url, true);
+};

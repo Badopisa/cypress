@@ -18,7 +18,7 @@ const PlayerComparison = () => {
             <DashboardDesktopNav hasArrow />
 
             <>
-                <VStack color="white" align={{ base: 'center', lg: 'flex-start' }}>
+                <VStack color="white" align={{ base: 'left', lg: 'flex-start' }}>
                     <Text fontSize={'3xl'} mb={4}>
                         Comparison
                     </Text>

@@ -21,7 +21,6 @@ export const FetchPlayerDetails = (id: string) => {
     const http = new HttpService();
 
     const url = `players/${id}`;
-
     return http.getData(url, true);
 };
 
