@@ -36,7 +36,7 @@ const SuccessModal = ({
                     <Image w={'40'} src="/images/image/confirmation.gif" alt="confirmation" />
                 </Center>
                 <ModalHeader px={{ base: 4, md: 4 }} textAlign="center" fontSize="md">
-                    Subscription Successfull
+                    Subscription Successful
                 </ModalHeader>
                 <ModalBody>
                     <Text mb={10} textAlign="center">

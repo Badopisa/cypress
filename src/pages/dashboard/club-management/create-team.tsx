@@ -55,14 +55,13 @@ const CreateTeam = () => {
 
     const onSubmit = async (values: any) => {
         if (s3Error) {
-            toast({
+            return toast({
                 title: 'Upload Error',
-                description: s3Error,
+                description: 'Unable to Upload Image',
                 status: 'error',
                 duration: 9000,
                 isClosable: true
             });
-            return;
         }
 
         const club_id = user?.clubs[0]?.id;

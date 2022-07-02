@@ -14,6 +14,9 @@ const useUploadToS3 = (file: any, globalLoading = true) => {
 
     useEffect(() => {
         setError(null);
+        if (file === '') {
+            setError(null);
+        }
         const uploadImage = async () => {
             dispatch(updateIsLoading(true));
             setIsLoading(true);

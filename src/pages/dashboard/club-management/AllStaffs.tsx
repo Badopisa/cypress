@@ -54,7 +54,7 @@ const AllStaffs = ({ allStaffs, isLoading }: any) => {
                     <Center my="16">
                         <Spinner size="xl" />
                     </Center>
-                ) : allStaffs.length > 0 ? (
+                ) : allStaffs?.length > 0 ? (
                     <SimpleGrid
                         columns={{ base: 1, sm: 2, lg: 4 }}
                         width="min(90%, 1200px)"

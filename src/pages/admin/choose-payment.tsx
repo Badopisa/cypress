@@ -15,7 +15,7 @@ const PaymentMethod = () => {
 
     const query: any = router.query;
 
-    const benefits: any = query.benefits.toString();
+    const benefits: any = query.benefits?.toString();
 
     const config = {
         reference: new Date().getTime().toString(),
@@ -119,10 +119,10 @@ const PaymentMethod = () => {
             <SuccessModal
                 isOpen={paymentSuccess}
                 onClose={handleRedirection}
-                selectedBenefits={benefits.split(',')!}
+                selectedBenefits={benefits?.split(',')}
                 selectedPrice={Number(query.price)}
-                selectedTitle={query.title.toString()!}
-                selectedTime={query.time.toString()!}
+                selectedTitle={query.title?.toString()}
+                selectedTime={query.time?.toString()}
             />
         </Flex>
     );

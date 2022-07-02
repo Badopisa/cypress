@@ -50,6 +50,7 @@ const ImageUpload = ({
 
     const removeImage = () => {
         setSelectedImage(null);
+        dispatch(updateImageFile(''));
     };
 
     return (
