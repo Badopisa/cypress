@@ -1,4 +1,8 @@
-import { GetPlayersStatistics, FilterPlayersStatistics } from '@/services/playerStatisticsService';
+import {
+    GetPlayersStatistics,
+    FilterPlayersStatistics,
+    GetPlayerVideos
+} from '@/services/playerStatisticsService';
 
 import * as Redux from 'redux';
 import * as actionTypes from './actionTypes';
@@ -6,13 +10,7 @@ import { updateIsLoading } from './msgAction';
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const fetchPlayerStatistics = (
-    playersIDs: string[] = [
-        'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
-        '7624726d-c80b-414f-9090-13c337913015'
-    ],
-    clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22'
-) => {
+export const fetchPlayerStatistics = (playersIDs: string[], clubId: any) => {
     return async (dispatch: Dispatch) => {
         const club_Id = clubId;
         const playersIds = playersIDs;
@@ -35,17 +33,16 @@ export const fetchPlayerStatistics = (
             });
     };
 };
-export const filterPlayersStatisticsByMatch = (
-    noOfMarch: number,
-    playerIds: any = [
-        'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
-        '7624726d-c80b-414f-9090-13c337913015'
-    ],
-    clubId = '6bc674e9-5417-4d4c-9152-f2091e78ca22'
-) => {
+export const filterPlayersStatisticsByMatch = (noOfMarch: number, playerIds: any, clubId: any) => {
     return async (dispatch: Dispatch) => {
-        const club_Id = clubId;
-        const playersIds = playerIds;
+        console.log(noOfMarch);
+        console.log(playerIds);
+        console.log(clubId);
+        const club_Id = '6bc674e9-5417-4d4c-9152-f2091e78ca22';
+        const playersIds = [
+            'af9c5cbf-a70d-44b2-8cb0-1858ff45b352',
+            '7624726d-c80b-414f-9090-13c337913015'
+        ];
         const noMarch = noOfMarch;
         console.log(`'I'm here`);
 
@@ -63,11 +60,31 @@ export const filterPlayersStatisticsByMatch = (
             });
     };
 };
+export const getPlayerVideos = (playerId: string) => {
+    return async (dispatch: Dispatch) => {
+        GetPlayerVideos(playerId)
+            .then((result) => {
+                console.log('player details are', result);
+                console.log('player videos are', result?.data.data.player.videos);
+
+                dispatch(savePlayerVideos(result?.data.data.player.videos));
+            })
+            .catch((err) => {
+                console.log('get player videos error', err);
+            });
+    };
+};
 
 const savePlayerStats = (data: any) => {
     return {
         type: actionTypes.GET_PLAYERS_STATISTICS,
 
+        payload: data
+    };
+};
+export const savePlayerVideos = (data: any) => {
+    return {
+        type: actionTypes.GET_PLAYER_VIDEOS,
         payload: data
     };
 };

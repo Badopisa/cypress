@@ -12,7 +12,7 @@ type IAction = {
 };
 
 export const msgReducer = (action: IAction, state = initialState) => {
-    switch (action.type) {
+    switch (action?.type) {
         case types.SAVE_USER_DETAILS:
             return {
                 ...state,
