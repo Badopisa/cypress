@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { Box, Drawer, DrawerContent, useDisclosure, useToast } from '@chakra-ui/react';
+import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 import MobileNav from './MobileNav';
 import { retrieveAccessToken } from '@/utils/locaStorageActions';
-import { adminLogin, logout } from '@/store/actions/authActions';
-import { useRouter } from 'next/router';
-import { ClubAdminLogin } from '@/services/clubAdminService';
+import { logout } from '@/store/actions/authActions';
 
 export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
     return (props: P) => {
@@ -40,6 +38,3 @@ export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
         );
     };
 };
-function useDispatch() {
-    throw new Error('Function not implemented.');
-}
