@@ -8,7 +8,8 @@ import {
     ModalOverlay,
     ModalContent,
     ModalFooter,
-    ModalBody
+    ModalBody,
+    Image
 } from '@chakra-ui/react';
 
 type ConfirmationType = {
@@ -37,8 +38,12 @@ const Confirmation = ({
             <ModalContent w="xs" py={5} h="auto" bg="ash" color="white" rounded="1.125rem">
                 <ModalBody>
                     <Center>
-                        <VStack py={{ base: 2, md: 4 }}>
-                            <Avatar src={jersyPng} boxSize={'80px'} />
+                        <VStack>
+                            <Image
+                                w={'40'}
+                                src="/images/image/confirmation.gif"
+                                alt="confirmation"
+                            />
 
                             <Text fontSize="lg" fontWeight="semibold" color="white">
                                 {playerName}

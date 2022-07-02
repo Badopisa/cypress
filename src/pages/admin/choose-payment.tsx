@@ -15,7 +15,7 @@ const PaymentMethod = () => {
 
     const query: any = router.query;
 
-    const benefits: any = query.benefits?.toString();
+    const benefits: any = query.benefits.toString();
 
     const config = {
         reference: new Date().getTime().toString(),

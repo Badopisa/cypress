@@ -8,14 +8,16 @@ export function CountriesSelector(props: {
     map: any;
 }) {
     return (
-        <FormControl data-testid="countries-dropdown" mb={5}>
+        <FormControl data-testid="countries-dropdown" mb={5} isInvalid={!!props.errors.country}>
             <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="country">
                 COUNTRY
             </FormLabel>
             <Select variant="outline" placeholder="Select Country" {...props.useFormRegisterReturn}>
                 {props.map}
             </Select>
-            <FormErrorMessage>{props.errors.country && 'Country is required'}</FormErrorMessage>
+            <FormErrorMessage>
+                {props.errors.country && <span>{`${props.errors.country.message}`}</span>}
+            </FormErrorMessage>
         </FormControl>
     );
 }

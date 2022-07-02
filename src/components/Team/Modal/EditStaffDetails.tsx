@@ -12,54 +12,48 @@ import {
     GridItem,
     FormLabel,
     Input,
-    FormErrorMessage,
     Select,
     HStack,
     FormControl,
-    Text, useToast,
+    Text,
+    useToast
 } from '@chakra-ui/react';
-import React, {useEffect, useState} from 'react'
-import {useForm} from "react-hook-form";
-import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {createAndAddPlayerToTeam, updatePlayer} from "@/store/actions/playerActions";
-import {UserDataType} from "@/types/AuthDataType";
-import Confirmation from './Confirmation';
-import {createAndAddStaffToTeam, updateStaff} from "@/store/actions/staffActions";
-import useUploadToS3 from "@/hooks/useUploadToS3";
+import React, { useEffect } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { UserDataType } from '@/types/AuthDataType';
+import { updateStaff } from '@/store/actions/staffActions';
+import useUploadToS3 from '@/hooks/useUploadToS3';
 
 type EditStaffType = {
-    isOpen: boolean,
-    onClose: (value: boolean) => void,
-    setSelected: (value: boolean) => void,
-}
+    isOpen: boolean;
+    onClose: any;
+    setSelected: any;
+};
 
-const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
-    const {isLoading} = useSelector((state: RootStateOrAny) => state.msg)
-    const {
-        newStaff
-    }: { newStaff: any } = useSelector((state: RootStateOrAny) => state.staff)
-    const {user}: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth)
-    const {currentTeam}: { currentTeam: any } = useSelector((state: RootStateOrAny) => state.team)
-    const [profilePicture, setProfilePicture] = React.useState<null | File | string>(null)
+const EditStaff = ({ isOpen, onClose, setSelected }: EditStaffType) => {
+    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
+    const { newStaff }: { newStaff: any } = useSelector((state: RootStateOrAny) => state.staff);
+    const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
+    const { currentTeam }: { currentTeam: any } = useSelector(
+        (state: RootStateOrAny) => state.team
+    );
+    const [profilePicture, setProfilePicture] = React.useState<null | File | string>(null);
     const [firstName, setFirstName] = React.useState<any>(null);
     const [lastName, setLastName] = React.useState<any>(null);
     const [designation, setDesignation] = React.useState<any>(null);
     const [email, setEmail] = React.useState<any>(null);
-    const {s3URL, s3Error} = useUploadToS3(profilePicture)
+    const { s3URL, s3Error } = useUploadToS3(profilePicture);
 
-    const dispatch = useDispatch()
-    const toast = useToast()
+    const dispatch = useDispatch();
+    const toast = useToast();
 
     useEffect(() => {
         setProfilePicture(newStaff?.user?.photo);
         setFirstName(newStaff?.user?.first_name);
         setLastName(newStaff?.user?.last_name);
-        setEmail(newStaff?.user?.email)
-        setDesignation(newStaff?.role)
-        return () => {
-        };
+        setEmail(newStaff?.user?.email);
+        setDesignation(newStaff?.role);
     }, [newStaff]);
-
 
     const handleSelect = () => {
         if (s3Error) {
@@ -69,12 +63,12 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
                 description: 'Error uploading image, please try again',
                 duration: 9000,
                 isClosable: true
-            })
-            return
+            });
+            return;
         }
 
-        const teamId = currentTeam?.id
-        const clubId = user?.clubs[0]?.id
+        const teamId = currentTeam?.id;
+        const clubId = user?.clubs[0]?.id;
 
         const payload = {
             photo: s3URL,
@@ -82,11 +76,11 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
             first_name: firstName,
             last_name: lastName,
             role: designation,
-            email: email,
-        }
-        console.log("pre submit payload", payload)
+            email: email
+        };
+        console.log('pre submit payload', payload);
         dispatch(updateStaff(payload, teamId, clubId, toast, onClose, setSelected));
-    }
+    };
     return (
         <>
             <Modal isOpen={isOpen} onClose={() => onClose(false)}>
@@ -112,7 +106,9 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
                             <HStack spacing={6}>
                                 <GridItem colSpan={1}>
                                     <FormControl>
-                                        <FormLabel fontSize="sm" htmlFor="firstName">FIRST NAME</FormLabel>
+                                        <FormLabel fontSize="sm" htmlFor="firstName">
+                                            FIRST NAME
+                                        </FormLabel>
                                         <Input
                                             id="firstName"
                                             placeholder="Enter your firstname"
@@ -123,9 +119,7 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
                                 </GridItem>
                                 <GridItem colSpan={1}>
                                     <FormControl>
-                                        <FormLabel htmlFor="lastName">
-                                            LAST NAME
-                                        </FormLabel>
+                                        <FormLabel htmlFor="lastName">LAST NAME</FormLabel>
                                         <Input
                                             id="lastname"
                                             placeholder="Enter your last name"
@@ -138,29 +132,24 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
                             <HStack spacing={6} w="full">
                                 <GridItem w="full">
                                     <FormControl mb={5}>
-                                        <FormLabel htmlFor="designation">
-                                            DESIGNATION
-                                        </FormLabel>
+                                        <FormLabel htmlFor="designation">DESIGNATION</FormLabel>
                                         <Select
-                                            variant='outline'
-                                            placeholder='Select Designation'
+                                            variant="outline"
+                                            placeholder="Select Designation"
                                             id="designation"
                                             value={designation}
-                                            onChange={(e) => setDesignation(e.target.value)}
-                                        >
-                                            <option value='Assistant Coach'>Assistant Coach</option>
-                                            <option value='Coach'>Coach</option>
-                                            <option value='Physotherapist'>Physotherapist</option>
-                                            <option value='Fitness Coach'>Fitness Coach</option>
+                                            onChange={(e) => setDesignation(e.target.value)}>
+                                            <option value="Assistant Coach">Assistant Coach</option>
+                                            <option value="Coach">Coach</option>
+                                            <option value="Physotherapist">Physotherapist</option>
+                                            <option value="Fitness Coach">Fitness Coach</option>
                                         </Select>
                                     </FormControl>
                                 </GridItem>
                             </HStack>
                             <GridItem colSpan={1} w="full">
                                 <FormControl mb={5}>
-                                    <FormLabel htmlFor="email">
-                                        EMAIL
-                                    </FormLabel>
+                                    <FormLabel htmlFor="email">EMAIL</FormLabel>
                                     <Input
                                         id="email"
                                         type="email"
@@ -176,18 +165,23 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
                     <ModalFooter w="100%">
                         <VStack spacing={4} w="100%" mb="12px">
                             <Button
-                                variant='action'
+                                variant="action"
                                 isLoading={isLoading}
-                                isDisabled={!(profilePicture && email && firstName && lastName && designation)}
-                                w='full' onClick={handleSelect}>
+                                isDisabled={
+                                    !(
+                                        profilePicture &&
+                                        email &&
+                                        firstName &&
+                                        lastName &&
+                                        designation
+                                    )
+                                }
+                                w="full"
+                                onClick={handleSelect}>
                                 Save Changes
                             </Button>
                             <Center>
-                                <Text
-                                    w='full'
-                                    onClick={() => onClose(false)}
-                                    cursor="pointer"
-                                >
+                                <Text w="full" onClick={() => onClose(false)} cursor="pointer">
                                     BACK
                                 </Text>
                             </Center>
@@ -196,7 +190,7 @@ const EditStaff = ({isOpen, onClose, setSelected}: EditStaffType) => {
                 </ModalContent>
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default EditStaff
+export default EditStaff;

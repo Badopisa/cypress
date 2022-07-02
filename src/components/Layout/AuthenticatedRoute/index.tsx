@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
+import { Box, Drawer, DrawerContent, useDisclosure, useToast } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 import MobileNav from './MobileNav';
 import { retrieveAccessToken } from '@/utils/locaStorageActions';
-import { logout } from '@/store/actions/authActions';
+import { adminLogin, logout } from '@/store/actions/authActions';
+import { useRouter } from 'next/router';
+import { ClubAdminLogin } from '@/services/clubAdminService';
 
 export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
-    const AuthenticatedRoute = (props: P) => {
-        // const router = useRouter()
+    return (props: P) => {
         const { isOpen, onOpen, onClose } = useDisclosure();
 
         useEffect(() => {
@@ -38,5 +39,7 @@ export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
             </Box>
         );
     };
-    return AuthenticatedRoute;
 };
+function useDispatch() {
+    throw new Error('Function not implemented.');
+}

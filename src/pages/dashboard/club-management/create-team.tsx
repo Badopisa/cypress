@@ -35,7 +35,7 @@ const CreateTeam = () => {
     const { category }: { category: CategoryDataType[] } = useSelector(
         (state: RootStateOrAny) => state.category
     );
-    const { s3Error } = useUploadToS3(file);
+    const { s3URL, s3Error } = useUploadToS3(file);
     const dispatch = useDispatch();
     const toast = useToast();
 
@@ -67,8 +67,7 @@ const CreateTeam = () => {
 
         const club_id = user?.clubs[0]?.id;
         const payload = {
-            // photo: s3URL,
-            photo: '',
+            photo: s3URL,
             club_id,
             category_id: values.category,
             name: values.name
@@ -101,14 +100,14 @@ const CreateTeam = () => {
                         <VStack spacing={10}>
                             <HStack spacing={8}>
                                 <GridItem>
-                                    <FormControl>
+                                    <FormControl isInvalid={!!errors.name}>
                                         <FormLabel htmlFor="name">TEAM NAME</FormLabel>
                                         <Input
                                             {...register('name', {
                                                 required: 'Team name is required',
                                                 minLength: {
-                                                    value: 4,
-                                                    message: 'Team name is Required'
+                                                    value: 2,
+                                                    message: 'Team name is too short'
                                                 }
                                             })}
                                             id="name"
@@ -116,19 +115,19 @@ const CreateTeam = () => {
                                             placeholder="eg.TeamFC"
                                         />
                                         <FormErrorMessage>
-                                            {errors.name && 'Team name is Required'}
+                                            {errors.name && <span>{`${errors.name.message}`}</span>}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </GridItem>
                                 <GridItem>
-                                    <FormControl>
+                                    <FormControl isInvalid={!!errors.abbrv}>
                                         <FormLabel htmlFor="abbrv">ABBREVIATION</FormLabel>
                                         <Input
                                             {...register('abbrv', {
                                                 required: 'Abreviation is required',
                                                 minLength: {
-                                                    value: 4,
-                                                    message: 'Abreviation is Required'
+                                                    value: 2,
+                                                    message: 'Abreviation is too short'
                                                 }
                                             })}
                                             id="abbrv"
@@ -136,13 +135,15 @@ const CreateTeam = () => {
                                             placeholder="eg.ClubFC"
                                         />
                                         <FormErrorMessage>
-                                            {errors.abbrv && 'Abbreviation is Required'}
+                                            {errors.abbrv && (
+                                                <span>{`${errors.abbrv.message}`}</span>
+                                            )}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </GridItem>
                             </HStack>
                             <GridItem colSpan={2} w="full">
-                                <FormControl mb={5}>
+                                <FormControl mb={5} isInvalid={!!errors.category}>
                                     <FormLabel htmlFor="category">Category</FormLabel>
                                     <Select
                                         {...register('category', {
@@ -158,7 +159,9 @@ const CreateTeam = () => {
                                         ))}
                                     </Select>
                                     <FormErrorMessage>
-                                        {errors.category && 'Category is required'}
+                                        {errors.category && (
+                                            <span>{`${errors.category.message}`}</span>
+                                        )}
                                     </FormErrorMessage>
                                 </FormControl>
                             </GridItem>

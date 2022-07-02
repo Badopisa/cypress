@@ -12,7 +12,6 @@ export const retrieveAccessToken = () => {
     if (typeof window !== 'undefined') {
         return localStorage.getItem(ACCESS_TOKEN) || '';
     }
-    return '';
 };
 
 export const clearLocalStorage = () => {

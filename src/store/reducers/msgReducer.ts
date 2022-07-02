@@ -11,7 +11,7 @@ type IAction = {
     payload?: MsgDataType | null | boolean;
 };
 
-export const msgReducer = (action: IAction, state = initialState) => {
+export const msgReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
         case types.SAVE_USER_DETAILS:
             return {

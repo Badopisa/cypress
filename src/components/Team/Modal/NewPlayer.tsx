@@ -40,7 +40,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
     );
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
     const [select, setSelected] = useState<boolean>(false);
-    const {s3URL, s3Error} = useUploadToS3(profilePicture)
+    const { s3URL, s3Error } = useUploadToS3(profilePicture);
 
     const {
         handleSubmit,
@@ -105,50 +105,54 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                             <VStack spacing={6}>
                                 <HStack spacing={6}>
                                     <GridItem colSpan={1}>
-                                        <FormControl>
+                                        <FormControl isInvalid={!!errors.firstName}>
                                             <FormLabel fontSize="sm" htmlFor="firstName">
                                                 FIRST NAME
                                             </FormLabel>
                                             <Input
                                                 {...register('firstName', {
-                                                    required: 'Firstname is required',
+                                                    required: 'First Name is required',
                                                     minLength: {
-                                                        value: 4,
-                                                        message: 'First Name is Required'
+                                                        value: 2,
+                                                        message: 'First Name is too short'
                                                     }
                                                 })}
                                                 id="firstName"
-                                                placeholder="Enter your firstname"
+                                                placeholder="John"
                                             />
 
                                             <FormErrorMessage>
-                                                {errors.firstName && 'FirstName is required'}
+                                                {errors.firstName && (
+                                                    <span>{`${errors.firstName.message}`}</span>
+                                                )}
                                             </FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                     <GridItem colSpan={1}>
-                                        <FormControl>
+                                        <FormControl isInvalid={!!errors.lastName}>
                                             <FormLabel htmlFor="lastName">LAST NAME</FormLabel>
                                             <Input
                                                 {...register('lastName', {
-                                                    required: 'LastName is required',
+                                                    required: 'Last Name is required',
                                                     minLength: {
-                                                        value: 4,
-                                                        message: 'LastName is Required'
+                                                        value: 2,
+                                                        message: 'Last Name is too short'
                                                     }
                                                 })}
                                                 id="lastname"
-                                                placeholder="Enter your last name"
+                                                placeholder="Doe"
                                             />
                                             <FormErrorMessage>
-                                                {errors.lastName && 'LastName is required'}
+                                                {errors.lastName && (
+                                                    <span>{`${errors.lastName.message}`}</span>
+                                                )}
                                             </FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                 </HStack>
                                 <HStack spacing={6} w="full">
                                     <GridItem w="full">
-                                        <FormControl mb={5}>
+                                        <FormControl mb={5} isInvalid={!!errors.position}>
                                             <FormLabel htmlFor="position">POSITION</FormLabel>
                                             <Select
                                                 {...register('position', {
@@ -156,24 +160,44 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                                 })}
                                                 variant="outline"
                                                 placeholder="Select Position">
-                                                <option value="option1">Option 1</option>
-                                                <option value="option2">Option 2</option>
-                                                <option value="option3">Option 3</option>
+                                                <option value="1">1– Goalkeeper</option>
+                                                <option value="2">2– Right Fullback</option>
+                                                <option value="3">3– Left Fullback</option>
+                                                <option value="4">4– Center Back</option>
+                                                <option value="5">5– Center Back (Sweeper)</option>
+                                                <option value="6">
+                                                    6– Defending/Holding Midfielder
+                                                </option>
+                                                <option value="7">
+                                                    7– Right Midfielder/Winger
+                                                </option>
+                                                <option value="8">
+                                                    8– Central/Box-to-Box Midfielder
+                                                </option>
+                                                <option value="9">9– Striker</option>
+                                                <option value="10">
+                                                    10– Attacking Midfielder/Playmaker
+                                                </option>
+                                                <option value="11">
+                                                    11– Left Midfielder/Wingers
+                                                </option>
                                             </Select>
                                             <FormErrorMessage>
-                                                {errors.position && 'Position is required'}
+                                                {errors.position && (
+                                                    <span>{`${errors.position.message}`}</span>
+                                                )}
                                             </FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                     <GridItem w="full">
-                                        <FormControl mb={5}>
+                                        <FormControl mb={5} isInvalid={!!errors.jerseyNo}>
                                             <FormLabel htmlFor="jerseyNo">JERSY NUMBER</FormLabel>
                                             <Input
                                                 {...register('jerseyNo', {
                                                     required: 'Jersey number is required',
                                                     minLength: {
                                                         value: 0,
-                                                        message: 'Jersey number address is Required'
+                                                        message: 'Jersey number is Required'
                                                     }
                                                 })}
                                                 id="jerseyNo"
@@ -181,28 +205,28 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                                 placeholder="9"
                                             />
                                             <FormErrorMessage>
-                                                {errors?.jerseyNo && 'Jersey number is required'}
+                                                {errors.jerseyNo && (
+                                                    <span>{`${errors.jerseyNo.message}`}</span>
+                                                )}
                                             </FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                 </HStack>
                                 <GridItem colSpan={1} w="full">
-                                    <FormControl mb={5}>
+                                    <FormControl mb={5} isInvalid={!!errors.email}>
                                         <FormLabel htmlFor="email">EMAIL</FormLabel>
                                         <Input
                                             {...register('email', {
-                                                required: 'Email is required',
-                                                minLength: {
-                                                    value: 5,
-                                                    message: 'Email address is Required'
-                                                }
+                                                required: 'Email is required'
                                             })}
                                             id="email"
                                             type="email"
                                             placeholder="example@gmail.com"
                                         />
                                         <FormErrorMessage>
-                                            {errors.email && 'Email address is Required'}
+                                            {errors.email && (
+                                                <span>{`${errors.email.message}`}</span>
+                                            )}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </GridItem>
@@ -229,7 +253,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                 </ModalContent>
             </Modal>
             <Confirmation
-                jersyPng={'/images/imgs/success.svg'}
+                jersyPng={'/images/image/contfirmation.gif'}
                 isOpen={select}
                 onClose={setSelected}
                 body={'Sonalysis will notify this player of the changes made'}

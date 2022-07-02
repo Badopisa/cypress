@@ -33,7 +33,7 @@ const SuccessModal = ({
             <ModalOverlay />
             <ModalContent w="xs" h="auto" bg="grey" color="white">
                 <Center>
-                    <Image src="/images/image/confirmation.png" alt="confirmation" />
+                    <Image w={'40'} src="/images/image/confirmation.gif" alt="confirmation" />
                 </Center>
                 <ModalHeader px={{ base: 4, md: 4 }} textAlign="center" fontSize="md">
                     Subscription Successfull

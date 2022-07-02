@@ -57,6 +57,7 @@ const ExistingPlayer = ({
             addSelectedPlayersToTeam(
                 selectedPlayers,
                 currentTeam.id,
+                currentTeam.club_id,
                 toast,
                 onClose,
                 setSelectedConfirmation

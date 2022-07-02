@@ -9,7 +9,7 @@ export const ClubAdminRegistration = (payload: AdminRegFormData) => {
     return http.postData(payload, url, false);
 };
 
-export const ClubAdminLogin = (payload: LoginFormDataType) => {
+export const ClubAdminLogin = (payload: any) => {
     const http = new HttpService();
 
     const url = 'users/login';
