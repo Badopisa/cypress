@@ -54,14 +54,13 @@ const NewStaff = ({ isOpen, onClose, useCurrentTeamID = true }: NewStaffType) =>
 
     const onSubmit = (value: any) => {
         if (s3Error) {
-            toast({
+            return toast({
                 title: 'Upload Error',
-                description: s3Error,
+                description: 'Error uploading image, please try again or remove image',
                 status: 'error',
                 duration: 9000,
                 isClosable: true
             });
-            return;
         }
 
         const teamId = useCurrentTeamID ? currentTeam?.id : null;

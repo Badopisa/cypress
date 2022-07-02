@@ -3,7 +3,6 @@ import {
     Button,
     Center,
     VStack,
-    Avatar,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -24,7 +23,6 @@ type ConfirmationType = {
 };
 
 const Confirmation = ({
-    jersyPng,
     isOpen,
     onClose,
     playerName,

@@ -58,15 +58,13 @@ const EditPlayerDetails = ({ isOpen, onClose, setSelected }: EditPlayerDetailsTy
 
     const handleSelect = () => {
         if (s3Error) {
-            toast({
+            return toast({
                 title: 'Upload Error',
-                description: 'Error uploading image, please try again',
+                description: 'Error uploading image, please try again or remove image',
                 status: 'error',
                 duration: 9000,
                 isClosable: true
             });
-            console.log('s3 error', s3Error);
-            return;
         }
 
         const playerData = {

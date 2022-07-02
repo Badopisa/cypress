@@ -57,14 +57,13 @@ const EditStaff = ({ isOpen, onClose, setSelected }: EditStaffType) => {
 
     const handleSelect = () => {
         if (s3Error) {
-            toast({
+            return toast({
                 title: 'Upload Error',
                 status: s3Error,
-                description: 'Error uploading image, please try again',
+                description: 'Error uploading image, please try again or remove image',
                 duration: 9000,
                 isClosable: true
             });
-            return;
         }
 
         const teamId = currentTeam?.id;

@@ -48,7 +48,7 @@ const ClubAdminRegistration = ({ countries }: any) => {
         if (s3Error) {
             return toast({
                 title: 'Upload Error',
-                description: 'Unable to upload image',
+                description: 'Error uploading image, please try again or remove image',
                 status: 'error',
                 duration: 9000,
                 isClosable: true

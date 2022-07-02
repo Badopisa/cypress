@@ -57,7 +57,7 @@ const CreateTeam = () => {
         if (s3Error) {
             return toast({
                 title: 'Upload Error',
-                description: 'Unable to Upload Image',
+                description: 'Error uploading image, please try again or remove image',
                 status: 'error',
                 duration: 9000,
                 isClosable: true
