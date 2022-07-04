@@ -72,12 +72,11 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
     
-    
-  Provision_and_deploy:
+  Provision:
       name: 'Terraform'
       runs-on: ubuntu-latest
       needs: [build, push_to_registry]
-      environment: development
+      environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
       defaults:
@@ -93,17 +92,17 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          token: ${{ secrets.TF_API_TOKEN }}
-          cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+          token: ${{ secrets.TF_TOKEN }}
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
           terraform_wrapper: false
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         env: 
-          # SPACES_ACCESS_KEY_ID: ${{ secrets.ACCESS_ID }}
-           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.TF_API_TOKEN }}
-        # run: terraform init -backend-config="access_key=$SPACES_ACCESS_KEY_ID"  -backend-config="secret_key=$SPACES_SECRET_ACCESS_KEY" 
-        run: terraform init -backend-config="token=${{ secrets.TF_TOKEN }}" -backend-config="organization=Parallelscore"
+         SPACES_ACCESS_KEY_ID: ${{ secrets.ACCESS_ID }}
+         SPACES_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
+         DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.TF_API_TOKEN }}
+        run: terraform init -backend-config="access_key=$SPACES_ACCESS_KEY_ID"  -backend-config="secret_key=$SPACES_SECRET_ACCESS_KEY"
       
     # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
@@ -113,7 +112,9 @@ jobs:
     # Generates an execution plan for Terraform
       - name: Terraform Plan
         env: 
-           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.TF_API_TOKEN }}
+         SPACES_ACCESS_KEY_ID: ${{ secrets.ACCESS_ID }}
+         SPACES_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
+         DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.TF_API_TOKEN }}
         run: terraform plan -input=false 
 
       # On push to master, build or change infrastructure according to Terraform configuration files
@@ -124,59 +125,46 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
       
-  #job_two:
-  #    name: Deploy
-  #    runs-on: ubuntu-latest
-  #    steps:
-      - name: Terraform Output
-        run: terraform output 
-   # - name: Set the value
-   #   id: step_one
-   #   run: |
-   #      echo SSH_HOST=${{ steps.terraform.outputs.droplet_ip_addresses  }} >> $GITHUB_ENV
-   #      echo ${{ env.SSH_HOST }}
-      - name: Set the value
-        run: |
-           echo SSH_HOST=$( terraform output -json droplet_ip_addresses | jq '."sonalysis-0"' ) >> $GITHUB_ENV
-           echo ${{ env.SSH_HOST }}
-      - name: runner
-        run: echo ${{ env.SSH_HOST }}
-      
-      
-#       - name: ssh deployment
-#         uses: fifsky/ssh-action@master
-#         with:
-#             host: ${{ env.SSH_HOST }}
-#             user: ${{secrets.SSH_USERNAME}}
-#             key: ${{secrets.SSH_KEY}}
-#             port: ${{secrets.SSH_PORT}}
-#             script: |
-#               mkdir -p /var/www/sonalysis_backend/sonalysis_service_v2
-#               cd /var/www/sonalysis_backend/sonalysis_service_v2
-              
-#               # Install docker on the server
-#               sudo apt-get update
-#               sudo apt-get install \
-#               ca-certificates \
-#               curl \
-#               gnupg \
-#               lsb-release
-#               sudo mkdir -p /etc/apt/keyrings
-#               curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-#               echo \
-#               "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-#               $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-#               sudo apt-get update
-#               sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-#               sudo systemctl start docker
-#               # Stop all running Docker Containers
-#               docker kill $(docker ps -q)
-              
-#               # Login to Dockerhub Container Registry
-#               docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-              
-#               # Pull the Docker Image 
-#               docker pull parallelscore/sonalysis-service-api:staging
-              
-#               # Run a new container from a new image
-#               docker run -d -p 3001:3001 -t parallelscore/sonalysis-service-api:staging
+  deploy:
+    name: 'Deploy'
+    needs: [build, push_to_registry, Provision]
+    environment: production
+    # The type of runner that the job will run on.
+    runs-on: ubuntu-latest
+    
+    
+    steps:
+
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
+    - name: Checkout master
+      uses: actions/checkout@main
+
+    # Install doctl.
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+    # Deploy to DigitalOCcean Kubernetes.
+   
+#     - name: Save DigitalOcean kubeconfig with short-lived credentials
+#       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 sonalysis-k8s-1-22-8-do
+
+#     - name: Deploy to DigitalOcean Kubernetes
+#       run: kubectl apply -f $GITHUB_WORKSPACE/SonalysisAI/deployment.yml
+
+#     - name: Verify deployment
+#       run: kubectl rollout status deployment/new-aimaster    
+
+  
+
+ 
+
+   
