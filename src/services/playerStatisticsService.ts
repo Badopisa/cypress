@@ -21,3 +21,14 @@ export const GetPlayerVideos = (id: string) => {
 
     return http.getData(url, true);
 };
+export const GetPlayerVideosStats = (videoIds: any, playerId: string, club_Id: string) => {
+    const http = new HttpService();
+    console.log('serviceVideoid', videoIds);
+    console.log('serviceclubid', club_Id);
+
+    console.log('servicePlsyerid', playerId);
+
+    const url = `analytics/player-stats-in-multiple-matches?club_id=${club_Id}`;
+
+    return http.postData({ video_ids: [videoIds], player_id: playerId }, url, true);
+};

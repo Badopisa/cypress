@@ -1,7 +1,8 @@
 import {
     GetPlayersStatistics,
     FilterPlayersStatistics,
-    GetPlayerVideos
+    GetPlayerVideos,
+    GetPlayerVideosStats
 } from '@/services/playerStatisticsService';
 
 import * as Redux from 'redux';
@@ -74,6 +75,31 @@ export const getPlayerVideos = (playerId: string) => {
             });
     };
 };
+export const getPlayerVideosStats = (videoIds: any, playerId: string, clubId: string) => {
+    return async (dispatch: Dispatch) => {
+        const video_Ids = videoIds;
+
+        const player_Id = playerId;
+        const club_Id = clubId;
+
+        dispatch(updateIsLoading(true));
+
+        GetPlayerVideosStats(video_Ids, player_Id, club_Id)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('stats result is', data);
+
+                dispatch(savePlayerVideosStats(data));
+
+                dispatch(updateIsLoading(false));
+            })
+
+            .catch((err) => {
+                console.log('fetch stats error', err);
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
 
 const savePlayerStats = (data: any) => {
     return {
@@ -85,6 +111,12 @@ const savePlayerStats = (data: any) => {
 export const savePlayerVideos = (data: any) => {
     return {
         type: actionTypes.GET_PLAYER_VIDEOS,
+        payload: data
+    };
+};
+export const savePlayerVideosStats = (data: any) => {
+    return {
+        type: actionTypes.GET_PLAYER_VIDEOS_STATISTICS,
         payload: data
     };
 };

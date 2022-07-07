@@ -4,11 +4,13 @@ type TeamReducerData = {
     playersStatistics: any;
     filteredMatch: any;
     playerVideos: any;
+    playerVideosStatistics: any;
 };
 const initialState: TeamReducerData = {
     playersStatistics: [],
     filteredMatch: [],
-    playerVideos: []
+    playerVideos: [],
+    playerVideosStatistics: []
 };
 
 type IAction = {
@@ -34,7 +36,13 @@ export const playerStatisticReducer = (state = initialState, action: IAction) =>
             console.log('savePlayerVideAct', action.payload);
             return {
                 ...state,
-                playerVideos: action.payload.data
+                playerVideos: action.payload
+            };
+        case types.GET_PLAYER_VIDEOS_STATISTICS:
+            console.log('player videos statistics are', action.payload);
+            return {
+                ...state,
+                playerVideosStatistics: action.payload
             };
         default:
             return state;

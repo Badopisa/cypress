@@ -203,8 +203,14 @@ const PlayerVsPlayer = () => {
                                 <Th borderBottom={'none'}>Speed</Th>
                                 <Th borderBottom={'none'}>Free Kicks</Th>
                                 <Th borderBottom={'none'}>Penalties</Th>
-                                <Th borderBottom={'none'}>Yellow Cards</Th>
-                                <Th borderBottom={'none'}>Red Cards</Th>
+                                <Th borderBottom={'none'}>
+                                    Yellow Cards{' '}
+                                    <Img src={'/icons/yellow-card.svg'} alt={'Yellow Cards'} />
+                                </Th>
+                                <Th borderBottom={'none'}>
+                                    Red Cards
+                                    <Img src={'/icons/red-card.svg'} alt={'Yellow Cards'} />
+                                </Th>
                             </Tr>
                         </Thead>
                         <Tbody>

@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player';
 const Video = (data: any) => {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [showControl, setShowControl] = useState<boolean>(false);
-    // console.log('data is', data);
+    console.log('data is', data);
     return (
         <Box objectFit="cover" width={'100%'}>
             <AspectRatio ratio={1} onMouseEnter={() => setShowControl(!showControl)}>
@@ -13,7 +13,9 @@ const Video = (data: any) => {
                     {' '}
                     <ReactPlayer
                         className="react-player"
-                        url={data}
+                        url={
+                            'https://sonalysis-asset.s3.amazonaws.com/53adead9-aaf8-41b6-92bf-0ef2637e2252'
+                        }
                         width="100%"
                         height="100%"
                         playing={isPlaying}
