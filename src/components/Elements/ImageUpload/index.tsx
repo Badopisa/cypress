@@ -105,7 +105,7 @@ const ImageUpload = ({
                     onClick={() => imageRef.current?.click()}
                     cursor="pointer"
                     color="#5597FF"
-                    decoration="underline"
+                    // decoration="underline"
                     textAlign="center">
                     {title}
                 </Text>

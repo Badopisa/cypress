@@ -1,11 +1,11 @@
 import ImageUpload from '@/components/Elements/ImageUpload';
 import { CountriesSelector } from '@/components/Form/CountriesSelector';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
-import useUploadToS3 from '@/hooks/useUploadToS3';
-import { createAndAddPlayerToTeam } from '@/store/actions/playerActions';
-import { UserDataType } from '@/types/AuthDataType';
+import { fetchCountries } from '@/services/countriesService';
+
 import {
-    Avatar,
+    Button,
+    Flex,
     FormControl,
     FormErrorMessage,
     FormLabel,
@@ -14,71 +14,28 @@ import {
     Input,
     Select,
     Text,
-    useToast,
     VStack
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 
-type NewPlayerType = {
-    isOpen: boolean;
-    onClose: any;
-};
-
-const PersonalInformation = () => {
-    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
-    const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
-    const { currentTeam }: { currentTeam: any } = useSelector(
-        (state: RootStateOrAny) => state.team
-    );
+const PersonalInformation = ({ countries }: any) => {
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
-    const [select, setSelected] = useState<boolean>(false);
-    const { s3URL, s3Error } = useUploadToS3(profilePicture);
 
     const {
-        handleSubmit,
         register,
         control,
         formState: { errors }
     } = useForm();
 
-    const dispatch = useDispatch();
-    const toast = useToast();
-
-    const onSubmit = (value: any) => {
-        if (s3Error) {
-            return toast({
-                title: 'Upload Error',
-                description: 'Error uploading image, please try again or remove image',
-                status: 'error',
-                duration: 9000,
-                isClosable: true
-            });
-        }
-
-        const teamId = currentTeam?.id;
-
-        const payload = {
-            photo: s3URL,
-            first_name: value.firstName,
-            last_name: value.lastName,
-            position: value.position,
-            jersey_no: value.jerseyNo,
-            club_id: user?.clubs[0]?.id,
-            email: value.email
-        };
-        console.log('pre submit payload', payload);
-        dispatch(createAndAddPlayerToTeam(payload, teamId, toast, onClose, setSelected));
-    };
     return (
         <VStack align={'left'}>
             <Text fontSize={'md'} my={'4'}>
                 personal information settings
             </Text>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <HStack spacing={'16'}>
-                    <VStack mb={6}>
+            <form>
+                <Flex direction={{ base: 'column', md: 'row' }} gap={16}>
+                    <VStack mb={6} align={'baseline'}>
                         <ImageUpload
                             defaultImage="/icons/default-user-avatar3.svg"
                             w="100px"
@@ -86,11 +43,8 @@ const PersonalInformation = () => {
                             rounded="full"
                             setSelectedImage={setProfilePicture}
                             selectedImage={profilePicture}
+                            title={'Change Image'}
                         />
-
-                        <Text fontSize="sm" fontWeight="bold" color="blue">
-                            Change Image
-                        </Text>
                     </VStack>
                     <VStack spacing={6}>
                         <HStack spacing={6} w={'full'}>
@@ -210,7 +164,7 @@ const PersonalInformation = () => {
                                 </FormErrorMessage>
                             </FormControl>
                         </GridItem>
-                        {/* <CountriesSelector
+                        <CountriesSelector
                             errors={errors}
                             useFormRegisterReturn={register('country', {
                                 required: 'Country is required',
@@ -221,36 +175,10 @@ const PersonalInformation = () => {
                                     {country.name.common}
                                 </option>
                             ))}
-                        /> */}
-                        <GridItem w="full">
-                            <FormControl mb={5} isInvalid={!!errors.position}>
-                                <FormLabel htmlFor="position">Country</FormLabel>
-                                <Select
-                                    {...register('position', {
-                                        required: 'Position is required'
-                                    })}
-                                    variant="outline"
-                                    placeholder="Select Position">
-                                    <option value="1">1– Goalkeeper</option>
-                                    <option value="2">2– Right Fullback</option>
-                                    <option value="3">3– Left Fullback</option>
-                                    <option value="4">4– Center Back</option>
-                                    <option value="5">5– Center Back (Sweeper)</option>
-                                    <option value="6">6– Defending/Holding Midfielder</option>
-                                    <option value="7">7– Right Midfielder/Winger</option>
-                                    <option value="8">8– Central/Box-to-Box Midfielder</option>
-                                    <option value="9">9– Striker</option>
-                                    <option value="10">10– Attacking Midfielder/Playmaker</option>
-                                    <option value="11">11– Left Midfielder/Wingers</option>
-                                </Select>
-                                <FormErrorMessage>
-                                    {errors.position && <span>{`${errors.position.message}`}</span>}
-                                </FormErrorMessage>
-                            </FormControl>
-                        </GridItem>
+                        />
                         <FormControl mb={5} isInvalid={!!errors.phone}>
                             <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="phone">
-                                COMPANY PHONE NUMBER
+                                PHONE NUMBER
                             </FormLabel>
                             <Controller
                                 control={control}
@@ -275,11 +203,31 @@ const PersonalInformation = () => {
                                 {errors.phone && <span>{`${errors.phone.message}`}</span>}
                             </FormErrorMessage>
                         </FormControl>
+                        <Button
+                            paddingY={7}
+                            mt={7}
+                            fontWeight="500"
+                            // isLoading={isLoading}
+                            type="submit"
+                            fontSize="14px"
+                            variant="action"
+                            size="lg"
+                            w="full">
+                            SAVE
+                        </Button>
                     </VStack>
-                </HStack>
+                </Flex>
             </form>
         </VStack>
     );
 };
+export async function getStaticProps() {
+    const countries = await fetchCountries();
+    return {
+        props: {
+            countries
+        }
+    };
+}
 
 export default PersonalInformation;

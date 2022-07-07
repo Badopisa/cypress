@@ -36,7 +36,7 @@ const Settings = () => {
                 variant="unstyled"
                 my={{ base: 8, md: 4 }}
                 alignContent="center"
-                w={{ base: '100%', md: '70%' }}>
+                w={{ base: '100%', md: '90%', lg: '80%' }}>
                 <TabList
                     bg="dark"
                     color="white"
