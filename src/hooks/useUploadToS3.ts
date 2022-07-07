@@ -8,7 +8,7 @@ const useUploadToS3 = (file: any, globalLoading = true) => {
     const [s3URL, setS3URL] = useState('');
     const [s3Error, setError] = useState(null);
     const [s3IsLoading, setIsLoading] = useState(false);
-    const [progress, setProgress] = useState(0);
+    const [progress] = useState(0);
     const [isSuccess, setIsSuccess] = useState(false);
     const dispatch = useDispatch();
 
@@ -21,40 +21,41 @@ const useUploadToS3 = (file: any, globalLoading = true) => {
             dispatch(updateIsLoading(true));
             setIsLoading(true);
             console.log('Uploading file to AWS S3');
-            const config: any = {
-                onUploadProgress: (progressEvent: any) => {
-                    const percentCompleted = Math.round(
-                        (progressEvent.loaded * 100) / progressEvent.total
-                    );
-                    console.log('percentCompleted', percentCompleted);
-                    console.log('percentCompleted', progressEvent);
-                    setProgress(percentCompleted);
-                }
-            };
+            // const config: any = {
+            //     onUploadProgress: (progressEvent: any) => {
+            //         const percentCompleted = Math.round(
+            //             (progressEvent.loaded * 100) / progressEvent.total
+            //         );
+            //         console.log('percentCompleted', percentCompleted);
+            //         console.log('percentCompleted', progressEvent);
+            //         setProgress(percentCompleted);
+            //     }
+            // };
 
             try {
                 // Making a POST request to created API endpoint
-                const { data } = await axios.post(
-                    '/api/s3/uploadFile',
-                    {
-                        name: file.name,
-                        type: file.type
-                    },
-                    config
-                );
-                console.log('data from created endpoint', data);
+                // const { data } = await axios.post(
+                //     '/api/upload',
+                //     {
+                //         name: file.name,
+                //         type: file.type
+                //     },
+                //     config
+                // );
+                // console.log('data from created endpoint', data);
 
                 // Fetching out a URL
-                const url = data.url;
+                const url = '/api/upload';
                 console.log('url', url);
 
                 // Uploading file to S3
-                await axios.put(url, file, {
+                const result = await axios.put(url, file, {
                     headers: {
                         'Content-Type': file.type,
                         'Access-Control-Allow-Origin': '*'
                     }
                 });
+                console.log('result', result);
             } catch (e: any) {
                 console.log('Upload 1 error', e);
                 setError(e);
