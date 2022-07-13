@@ -50,7 +50,7 @@ export const filterPlayersStatisticsByMatch = (noOfMarch: number, playerIds: any
         FilterPlayersStatistics(club_Id, playersIds, noMarch)
             .then(async (result) => {
                 const { data } = result;
-                console.log('fetchTeams', data);
+                console.log('fetchTeams filter', data);
 
                 dispatch(updateIsLoading(false));
             })

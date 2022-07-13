@@ -1,8 +1,8 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import Confirmation from '@/components/Team/Modal/Confirmation';
 import { Tabs, TabList, Tab, Spacer, Box } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import Language from './Language';
 import Notifications from './Notifications';
 import PersonalInformation from './PersonalInformation';
 import Security from './Security';
@@ -15,19 +15,6 @@ const TabSelectedStyle = {
 
 const Settings = () => {
     const [tab, setTab] = useState<number>(1);
-    // const [searchQuery, setSearchQuery] = useState<string>('');
-    // const [toggle, setToggle] = useState<boolean>(false);
-    const [select, setSelected] = useState<boolean>(false);
-
-    // console.log(searchQuery);
-
-    // const checkInput = (e: any) => {
-    //     if (e.target.value === '') {
-    //         setToggle(false);
-    //     } else {
-    //         setToggle(true);
-    //     }
-    // };
 
     return (
         <Box>
@@ -65,16 +52,10 @@ const Settings = () => {
                 </TabList>
             </Tabs>
             {tab === 1 && <PersonalInformation />}
+            {tab === 2 && <Language />}
+
             {tab === 3 && <Notifications />}
             {tab === 4 && <Security />}
-            <Confirmation
-                jersyPng={'/images/imgs/success.svg'}
-                isOpen={select}
-                onClose={setSelected}
-                body={'Your changes have been made successfully.'}
-                title="Changes Saved"
-                buttonTitle={'OKAY, THANK YOU'}
-            />
         </Box>
     );
 };

@@ -14,7 +14,7 @@ const Video = (data: any) => {
                     <ReactPlayer
                         className="react-player"
                         url={
-                            'https://sonalysis-asset.s3.amazonaws.com/53adead9-aaf8-41b6-92bf-0ef2637e2252'
+                            'https://sonalysis-media-space.nyc3.digitaloceanspaces.com/sonalysis_upload/samplecluster.mp4'
                         }
                         width="100%"
                         height="100%"
