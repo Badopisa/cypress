@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     Center,
+    Checkbox,
     Flex,
     FormControl,
     FormLabel,
@@ -25,12 +26,13 @@ import {
     VStack
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-// import { useRouter } from 'next/router';
+
 import Video from '@/components/Analytics/Video';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { getAllPlayers } from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
 import { getPlayerVideos, getPlayerVideosStats } from '@/store/actions/comaprisonAction';
+import PlayVideoModal from '@/components/Team/Modal/PlayVideoModal';
 
 const PlayerVideo = () => {
     const {
@@ -44,12 +46,15 @@ const PlayerVideo = () => {
         (state: any) => state.playersStatistics.playerVideosStatistics.data
     );
     const dispatch = useDispatch();
-    // const router = useRouter();
 
     const [selected] = useState(true);
     const [selectedPlayerVideos, setSelectedPlayerVideos] = useState<any>([]);
     const [isCompare, setIsCompare] = useState(false);
     const [isVideosAvailable, setIsVideosAvailable] = useState(false);
+    const [viewSelectedVideo, setViewSelectedVideo] = useState<boolean>(false);
+    const [toBePlayedVideo, setToBePlayedVideo] = useState<string>('');
+    const [fileName, setFileName] = useState<string>('');
+
     useEffect(() => {
         dispatch(getAllPlayers(user?.clubs[0]?.id));
     }, []);
@@ -60,6 +65,7 @@ const PlayerVideo = () => {
         setIsVideosAvailable(true);
     };
     const handleSelectedVideo = (video: any) => {
+        console.log('We are checking');
         console.log('selected video videoId', video.video_ids);
         console.log('selected video playerId', video.player_id);
         console.log('selected video clubId', video.club_id);
@@ -88,7 +94,11 @@ const PlayerVideo = () => {
         console.log('playerId', playerId);
 
         dispatch(getPlayerVideosStats(videoIds, playerId, clubId));
-        // router.push('/dashboard/analytics/player-comparison/video-comparison-result');
+    };
+    const playSelectedVideo = (video: any, filename: string) => {
+        setViewSelectedVideo(true);
+        setToBePlayedVideo(video);
+        setFileName(filename);
     };
 
     return (
@@ -203,33 +213,45 @@ const PlayerVideo = () => {
                                         </Stack>
                                     </Box>
                                 </Flex>
-                                <SimpleGrid columns={{ base: 1, sm: 2, lg: 5 }} spacing={12}>
+                                <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} spacing={12}>
                                     {playerVideos.map((video: any) => (
-                                        <Box
-                                            key={video.id}
-                                            onClick={() => handleSelectedVideo(video)}>
-                                            <Box>
-                                                {' '}
-                                                {/* {selectedPlayerVideos.some(
-                                                    (selectedVideo: any) =>
-                                                        selectedVideo[0].id === video.id
-                                                ) && (
-                                                    <Img
-                                                        src={'/icons/checked.svg'}
-                                                        alt="checked"
-                                                        w={8}
-                                                        h={8}
-                                                        color="primary"
-                                                        position={'absolute'}
-                                                        zIndex={3}
-                                                    />
-                                                )} */}
-                                                <Video data={video.video?.full_video} />
+                                        <Box key={video.id}>
+                                            <Box
+                                                onClick={() =>
+                                                    playSelectedVideo(
+                                                        video.video.full_video,
+                                                        video.video.filename
+                                                    )
+                                                }>
+                                                <Video
+                                                    data={video.video?.full_video}
+                                                    canPlay={false}
+                                                />
                                             </Box>
-                                            <Text bg={'dark'} my={2}>
-                                                Teams: {video.video.filename}
-                                            </Text>
-                                            <Text bg={'dark'}>Competition: {'Premier League'}</Text>
+                                            <Tag
+                                                size={'lg'}
+                                                p={4}
+                                                variant="solid"
+                                                bg={'dark'}
+                                                mb={2}>
+                                                <TagLabel>Teams: {video.video.filename}</TagLabel>
+                                            </Tag>
+                                            <Tag
+                                                size={'lg'}
+                                                p={4}
+                                                variant="solid"
+                                                bg={'dark'}
+                                                mb={2}>
+                                                <TagLabel>Competition: {'Premier League'}</TagLabel>
+                                            </Tag>
+
+                                            <Checkbox
+                                                size="md"
+                                                mx={4}
+                                                colorScheme="green"
+                                                value={video.video?.filename}
+                                                onChange={() => handleSelectedVideo(video)}
+                                            />
                                         </Box>
                                     ))}
                                 </SimpleGrid>
@@ -307,6 +329,13 @@ const PlayerVideo = () => {
                     </>
                 )}
             </VStack>
+
+            <PlayVideoModal
+                isOpen={viewSelectedVideo}
+                onClose={setViewSelectedVideo}
+                url={toBePlayedVideo}
+                fileName={fileName}
+            />
         </>
     );
 };
