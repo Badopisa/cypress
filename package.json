@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3005",
+    "dev": "dapr run --app-id sonalysis-service --app-protocol http --dapr-http-port 4001 -- next dev -p 3005",
     "build": "next build",
-    "start": "next start -p 3005",
+    "start": "dapr run --app-id sonalysis-service --app-protocol http --dapr-http-port 4001 -- next start -p 3005",
     "lint": "eslint . --fix",
     "test": "jest"
   },
@@ -25,6 +25,7 @@
     "@typescript-eslint/parser": "^5.30.0",
     "aws-sdk": "^2.1169.0",
     "axios": "^0.27.2",
+    "dapr-client": "^2.3.0",
     "eslint-config": "^0.3.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "2.25.3",

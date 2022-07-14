@@ -15,6 +15,7 @@ export const fetchTeams = (clubId: string) => {
             .then(async (result) => {
                 const { data } = result;
                 console.log('fetchTeams', data);
+                console.log('Dapr ran too');
 
                 dispatch(saveTeamData(data.data));
 
