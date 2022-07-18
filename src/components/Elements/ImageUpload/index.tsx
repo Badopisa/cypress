@@ -62,6 +62,7 @@ const ImageUpload = ({
                 ref={imageRef}
                 style={{ display: 'none' }}
                 onChange={handleChange}
+                name="demo"
             />
             <Image
                 {...rest}
