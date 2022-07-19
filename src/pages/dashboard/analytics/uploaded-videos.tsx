@@ -16,7 +16,7 @@ const UploadedVideos = () => {
             <Table mt={8}>
                 <Tbody>
                     {uploadedVideosData
-                        .map((data, key) => (
+                        .map((data: any, key) => (
                             <>
                                 <Tr
                                     bg="dark"

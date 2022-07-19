@@ -179,7 +179,7 @@ const Highlights = () => {
                                     Upload & Analyse Videos
                                 </Button>
 
-                                {uploadedVideosData.map((data, index) => (
+                                {uploadedVideosData.map((data: any, index) => (
                                     <>
                                         <HStack key={index} w={{ sm: '100%', md: '100%' }} py={4}>
                                             <Flex flex={1}>

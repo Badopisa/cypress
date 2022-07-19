@@ -9,7 +9,7 @@ const AllEvents = () => {
             <Text fontSize="xl">All Events</Text>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
                 {allEventsData
-                    .map((data, key) => (
+                    .map((data: any, key) => (
                         <Stack
                             borderRadius="lg"
                             w={{ sm: '100%', md: '19rem' }}

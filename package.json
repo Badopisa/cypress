@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dapr run --app-id sonalysis-service --app-protocol http --dapr-http-port 4001 -- next dev -p 3005",
+    "dev": "next dev -p 3005",
     "build": "next build",
-    "start": "dapr run --app-id sonalysis-service --app-protocol http --dapr-http-port 4001 -- next start -p 3005",
+    "start": "next start -p 3005",
     "lint": "eslint . --fix",
-    "test": "jest"
+    "test": "jest",
+    "ddev": "next dev -p 3005"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@material-ui/core": "^4.12.4",
     "@testing-library/react": "^12.1.4",
     "@types/formidable": "^2.0.5",
     "@types/next-redux-wrapper": "^3.0.0",

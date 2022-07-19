@@ -19,7 +19,7 @@ export const config = {
 
 export async function handler(req: any, res: any) {
     const form = formidable();
-    form.parse(req, async (err, fields, files) => {
+    form.parse(req, async (err, fields, files: any) => {
         if (!files.demo) {
             res.status(404).send('No file uploaded');
             return;
@@ -35,7 +35,7 @@ export async function handler(req: any, res: any) {
                 async () => res.status(201).send('File uploaded')
             );
         } catch (error) {
-            console.log(e);
+            console.log(error);
             res.status(500).send('Error uploading file');
         }
     });
