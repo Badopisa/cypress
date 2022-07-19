@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    container_name: sonalysis_frontend
-    image: sonalysis_frontend
+    container_name: sonalysis_web
+    image: sonalysis_web
     build:
       context: .
       target: production

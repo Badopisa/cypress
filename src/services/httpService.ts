@@ -1,78 +1,87 @@
-import { retrieveAccessToken } from "@/utils/locaStorageActions";
-import { verifyToken } from "@/utils/verifyToken";
-import axios from "axios";
+import { retrieveAccessToken } from '@/utils/locaStorageActions';
+import { verifyToken } from '@/utils/verifyToken';
+import axios from 'axios';
 
 class HttpService {
+    token: string | null | undefined;
+    baseUrl: string | undefined;
+    daprHost: string | undefined;
+    daprHTTPPort: string | undefined;
 
-  token: string 
-  
-  baseUrl: string|undefined
+    constructor() {
+        this.token = retrieveAccessToken();
 
-  constructor () {
+        this.baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    this.token = retrieveAccessToken();
+        this.daprHost = process.env.NEXT_PUBLIC_DAPR_HOST;
 
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    
-  }
-
-  postData = async (payload: any ,url: string ,secure: boolean) => {
-
-    if(secure){
-
-        verifyToken(this.token);
-
+        this.daprHTTPPort = process.env.NEXT_PUBLIC_DAPR_HTTP_PORT;
     }
 
-    const AuthStr = 'Bearer '.concat(this.token);
+    postData = async (payload: any, url: string, secure: boolean) => {
+        let AuthStr = '';
 
-    return axios.post(this.baseUrl + url, payload, { headers: { Authorization: AuthStr }})
+        if (secure) {
+            verifyToken(this.token);
+        }
 
-  };
+        if (typeof this.token === 'string') {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-  getData = async (url: string ,secure: boolean) => {
+        return axios.post(`${this.daprHost}:${this.daprHTTPPort}/${url}`, payload, {
+            headers: { Authorization: AuthStr, 'dapr-app-id': 'sonalysis-service' } // eslint-disable-line
+        });
+    };
 
-    if(secure){
+    getData = async (url: string, secure: boolean) => {
+        let AuthStr = '';
 
-      verifyToken(this.token);
+        if (secure) {
+            verifyToken(this.token);
+        }
 
-    }
+        if (typeof this.token === 'string') {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-    const AuthStr = 'Bearer '.concat(this.token); 
+        return axios.get(`${this.daprHost}:${this.daprHTTPPort}/${url}`, {
+            headers: { Authorization: AuthStr, 'dapr-app-id': 'sonalysis-service' } // eslint-disable-line
+        });
+    };
 
-    return axios.get(this.baseUrl + url, { headers: { Authorization: AuthStr } })
+    putData = async (formData: any, url: string, secure: boolean) => {
+        let AuthStr = '';
 
-  };
+        if (secure) {
+            verifyToken(this.token);
+        }
 
+        if (typeof this.token === 'string') {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-  putData = async (formData: any,url: string, secure: boolean ) => {
+        return axios.put(`${this.daprHost}:${this.daprHTTPPort}/${url}`, formData, {
+            headers: { Authorization: AuthStr, 'dapr-app-id': 'sonalysis-service' } // eslint-disable-line
+        });
+    };
 
-    if(secure){
+    deleteData = async (url: string, secure: boolean, formData: any) => {
+        let AuthStr = '';
 
-      verifyToken(this.token);
+        if (secure) {
+            verifyToken(this.token);
+        }
 
-    }
+        if (typeof this.token === 'string') {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
 
-    const AuthStr = 'Bearer '.concat(this.token); 
-
-    return axios.put(this.baseUrl + url, formData, { headers: { Authorization: AuthStr } })
-
-  };
-
-  deleteData = async (url: string, secure: boolean) => {
-
-    if(secure){
-
-      verifyToken(this.token);
-
-    }
-
-    const AuthStr = 'Bearer '.concat(this.token); 
-
-    return axios.delete(this.baseUrl + url, { headers: { Authorization: AuthStr } })
-
-  };
-  
+        return axios.delete(`${this.daprHost}:${this.daprHTTPPort}/${url}`, {
+            headers: { Authorization: AuthStr, 'dapr-app-id': 'sonalysis-service' }, // eslint-disable-line
+            data: { source: formData }
+        });
+    };
 }
 
 export default HttpService;

@@ -1,6 +1,6 @@
-import {useState} from "react";
-import {Box, Flex, Input, List, ListItem, Text} from "@chakra-ui/react";
-import Flag from "react-world-flags";
+import { useState } from 'react';
+import { Box, Flex, Input, List, ListItem, Text } from '@chakra-ui/react';
+import Flag from 'react-world-flags';
 
 export type Country = {
     name: string;
@@ -11,14 +11,12 @@ export type Country = {
 
 export type Props = {
     data: Country[];
-    onChange: (args: Country) => void;
+    onChange: any;
 };
 
-export const SearchOnList = ({data, onChange}: Props) => {
+export const SearchOnList = ({ data, onChange }: Props) => {
     const [filteredList, setFilteredList] = useState(data);
-    const [selectedItem, setSelectedItem] = useState<Country | undefined>(
-        undefined
-    );
+    const [selectedItem, setSelectedItem] = useState<Country | undefined>(undefined);
 
     const handleSearch = (event: any) => {
         const value = event.target.value.toLowerCase();
@@ -40,8 +38,7 @@ export const SearchOnList = ({data, onChange}: Props) => {
             overflow="auto"
             borderRadius="lg"
             position="absolute"
-            boxShadow="0px 1px 30px rgba(0, 0, 0, 0.1)"
-        >
+            boxShadow="0px 1px 30px rgba(0, 0, 0, 0.1)">
             <Box position="sticky" top="0" padding={4} bg="#131313">
                 <Input
                     size="sm"
@@ -50,8 +47,8 @@ export const SearchOnList = ({data, onChange}: Props) => {
                     autoComplete="on"
                     placeholder="Search Country"
                     onChange={(event) => handleSearch(event)}
-                    _focusWithin={{borderColor: "secondary"}}
-                    _invalid={{bg: "white", borderColor: "gray.50"}}
+                    _focusWithin={{ borderColor: 'secondary' }}
+                    _invalid={{ bg: 'white', borderColor: 'gray.50' }}
                 />
             </Box>
 
@@ -69,17 +66,18 @@ export const SearchOnList = ({data, onChange}: Props) => {
                             onChange(item);
                             setSelectedItem(item);
                         }}
-                        style={{transition: "all .125s ease"}}
-                        _hover={{bg: "gray.50", color: "#396070"}}
+                        style={{ transition: 'all .125s ease' }}
+                        _hover={{ bg: 'gray.50', color: '#396070' }}
                         sx={
                             item?.code === selectedItem?.code
-                                ? {backgroundColor: "gray.50", color: "#396070"}
+                                ? { backgroundColor: 'gray.50', color: '#396070' }
                                 : {}
-                        }
-                    >
+                        }>
                         <Flex>
-                            <Flag height="20px" width="20px" code={item?.code || ""} />
-                            <Text ml={4} as="span">{item?.name}</Text>
+                            <Flag height="20px" width="20px" code={item?.code || ''} />
+                            <Text ml={4} as="span">
+                                {item?.name}
+                            </Text>
                         </Flex>
                     </ListItem>
                 ))}

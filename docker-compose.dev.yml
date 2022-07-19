@@ -2,12 +2,18 @@ version: "3.8"
 
 services:
   app:
-    container_name: app-dev
-    image: app-dev
+    container_name: sonalysis-dev
+    image: sonalysis-dev
     build:
       context: .
       target: development
     volumes:
       - ./src:/app/src
     ports:
-      - 3000:3000
+      - 3005:3005
+  nextjs:
+    build: ./
+  nginx:
+    build: ./nginx     
+    ports:
+      - 80:80 
