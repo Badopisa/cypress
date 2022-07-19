@@ -9,9 +9,9 @@ spec:
     app: sonalysis-web
   ports:
     - protocol: TCP
-      port: 90
-      targetPort: 9003
-  type: NodePort
+      port: 80
+      targetPort: 3005
+  type: LoadBalancer
 
 ---
 apiVersion: apps/v1
@@ -30,22 +30,22 @@ spec:
     metadata:
       labels:
         app: sonalysis-web
-
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "sonalysis-service"
+        dapr.io/app-protocol: "http"
+        dapr.io/app-port: "3005"
+        #dapr.io/config: "serverconfig"
+        
     spec:
       containers:
       - name: sonalysis-web
         image: parallelscore/sonalysis-web:main
         ports:
-        - containerPort: 9003      
+        - containerPort: 3005      
         imagePullPolicy: IfNotPresent
         # added below lines to test crashing error
-        startupProbe:
-          initialDelaySeconds: 1
-          periodSeconds: 30
-          timeoutSeconds: 30 
-          exec:
-            command:
-            - pwd
+
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
