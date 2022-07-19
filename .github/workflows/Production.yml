@@ -112,7 +112,6 @@ jobs:
          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.TF_TOKEN }}
         run: terraform plan -input=false 
 
-      # On push to master, build or change infrastructure according to Terraform configuration files
       # required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Apply
         env: 
