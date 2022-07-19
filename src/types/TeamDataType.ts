@@ -1,14 +1,25 @@
 export type TeamDataType = {
-    id: string,
-    name: string,
-    category_id: string,
-    location: string|null,
-    country: string|null,
-    club_id: string
-}
+    photo: string;
+    id: string;
+    name: string;
+    category_id: string;
+    location: string | null;
+    country: string | null;
+    club_id: string;
+    players?: any;
+    staff?: any;
+};
 
 export type TeamFormType = {
-    name: string,
-    club_id: string,
-    category_id: string
-}
+    photo: string;
+    name: string;
+    club_id: string;
+    category_id: string;
+};
+
+export type PlayerToTeamType = {
+    players: Array<{
+        player_id: string;
+        team_id: string;
+    }>;
+};

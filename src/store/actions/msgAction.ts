@@ -1,22 +1,19 @@
-import { MsgDataType } from "@/types/MsgDataType"
-import * as actionTypes from "./actionTypes"
+import { MsgDataType } from '@/types/MsgDataType';
+import * as actionTypes from './actionTypes';
 
 export const updateAlertMsg = (toast: any, message: MsgDataType) => {
     toast({
         description: message.message,
         status: message.type,
         duration: 3000,
-        isClosable: true,
-    })
-}
+        isClosable: true
+    });
+};
 
 export const updateIsLoading = (data: boolean) => {
-    
     return {
-  
         type: actionTypes.UPDATE_LOADING_STATE,
-   
+
         payload: data
-   
-    }
-}
+    };
+};

@@ -1,41 +1,22 @@
-import React, { ReactNode } from 'react';
-import {
-  IconButton,
-  Avatar,
-  Box,
-  Flex,
-  HStack,
-  VStack,
-  useColorModeValue,
-  Text,
-  FlexProps,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-} from '@chakra-ui/react';
-import {
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-} from 'react-icons/fi';
+import React from 'react';
+import { IconButton, Flex, Text, FlexProps } from '@chakra-ui/react';
+import { FiMenu } from 'react-icons/fi';
 import Logo from '@/components/Elements/Logo/Logo';
 
 interface MobileProps extends FlexProps {
-onOpen: () => void;
+    onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     return (
         <Flex
-        ml={{ base: 0, md: 60 }}
-        px={{ base: 4, md: 20 }}
-        py={4}
-        alignItems="center"
-        bg="black"
-        // justifyContent={{ base: 'space-between' }}
-        {...rest}>
-        {/* <Box>
+            ml={{ base: 0, md: 60 }}
+            px={{ base: 4, md: 20 }}
+            py={4}
+            alignItems="center"
+            bg="black"
+            // justifyContent={{ base: 'space-between' }}
+            {...rest}>
+            {/* <Box>
           <VStack color="white" align="start">
             <Text>
                 Hi Jim,
@@ -45,25 +26,24 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             </Text>
           </VStack>
         </Box> */}
-        <IconButton
-          display={{ base: 'flex', md: 'none' }}
-          onClick={onOpen}
-          variant="outline"
-          aria-label="open menu"
-          icon={<FiMenu />}
-          mr={10}
-        />
-  
-        <Text
-          display={{ base: 'flex', md: 'none' }}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold">
-          <Logo/>
-        </Text>
-        
-  
-        {/* <HStack spacing={{ base: '0', md: '6' }}>
+            <IconButton
+                display={{ base: 'flex', md: 'none' }}
+                onClick={onOpen}
+                variant="outline"
+                aria-label="open menu"
+                icon={<FiMenu />}
+                mr={10}
+            />
+
+            <Text
+                display={{ base: 'flex', md: 'none' }}
+                fontSize="2xl"
+                fontFamily="monospace"
+                fontWeight="bold">
+                <Logo />
+            </Text>
+
+            {/* <HStack spacing={{ base: '0', md: '6' }}>
           <IconButton
             _hover={{bg:"black"}}
             bg="black"
@@ -110,8 +90,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             </Menu>
           </Flex>
         </HStack>         */}
-      </Flex>
+        </Flex>
     );
-  };
+};
 
-  export default MobileNav
+export default MobileNav;

@@ -11,7 +11,7 @@ on:
 
   push:
     branches:
-      - dev
+      - joy/player-comparison
 
 jobs:
   push_to_registry:
@@ -40,6 +40,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
-    
-          

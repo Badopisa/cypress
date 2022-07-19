@@ -1,17 +1,5 @@
-import {
-    Avatar,
-    Box,
-    Flex,
-    Heading,
-    HStack,
-    Image,
-    Img,
-    Spacer,
-    Text,
-    VStack,
-} from '@chakra-ui/react';
+import { Avatar, Box, Flex, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import {RootStateOrAny, useSelector} from "react-redux";
 
 export interface CardProps {
     number?: number;
@@ -27,15 +15,14 @@ const DashboardTopNav = () => {
                 <VStack>
                     <Text>Hi Jim,</Text>
                     <Flex>
-                        Welcome{' '}
-                        <Image src='/images/logos/waving-hand.svg' alt='user avatar' />
+                        Welcome <Image src="/images/logos/waving-hand.svg" alt="user avatar" />
                     </Flex>
                 </VStack>
             </Box>
             <Spacer />
             <HStack>
-                <Image src='/images/logos/notification.svg' alt='notification bell' />
-                <Avatar src='/images/imgs/avatar.svg' />
+                <Image src="/images/logos/notification.svg" alt="notification bell" />
+                <Avatar src="/images/imgs/avatar.svg" />
                 <VStack>
                     <Text>Jim Halpert</Text>
                     <Text>Club Admin</Text>

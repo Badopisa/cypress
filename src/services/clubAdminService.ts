@@ -1,22 +1,18 @@
-import HttpService from '@/services/httpService'
-import { AdminRegFormData, LoginFormDataType } from '@/types/AuthDataType';
+import HttpService from '@/services/httpService';
+import { AdminRegFormData } from '@/types/AuthDataType';
 
-export const ClubAdminRegistration = (payload:AdminRegFormData) => {
-  
-  const http = new HttpService();
+export const ClubAdminRegistration = (payload: AdminRegFormData) => {
+    const http = new HttpService();
 
-  const url = "users/signup";
+    const url = 'users/signup';
 
-  return http.postData(payload, url, false)
-  
-}
+    return http.postData(payload, url, false);
+};
 
-export const ClubAdminLogin = (payload: LoginFormDataType) => {
+export const ClubAdminLogin = (payload: any) => {
+    const http = new HttpService();
 
-  const http = new HttpService();
+    const url = 'users/login';
 
-  const url = "users/login";
-
-  return http.postData(payload, url, false)
-
-}
+    return http.postData(payload, url, false);
+};
