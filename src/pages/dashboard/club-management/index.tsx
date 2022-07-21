@@ -152,7 +152,7 @@ const ClubManagement = () => {
                                 All Players
                             </Tab>
                             <Spacer />
-                            {role !== 'player' && (
+                            {role !== 'staff' && (
                                 <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
                                     Staff
                                 </Tab>
