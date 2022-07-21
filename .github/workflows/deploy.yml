@@ -1,0 +1,27 @@
+# name: Sonalysis-deployment
+
+# on:
+#    push:
+#       branches: [ dev ]
+
+# jobs:
+#    deploy:
+#       name: Deploy 
+#       runs-on: ubuntu-latest
+#       steps:
+#       - name: ssh deployment
+#         uses: appleboy/ssh-action@master
+#         with:
+#            host: ${{secrets.SSH_HOST}}
+#            username: ${{secrets.SSH_USERNAME}}
+#            key: ${{secrets.SSH_KEY}}
+#            port: ${{secrets.SSH_PORT}}
+#            script: |
+#               cd sonalysis-web/
+#               git pull origin dev
+#               git status
+#               source ~/.nvm/nvm.sh;
+#               npm install;
+#               pm2 restart 5;
+#               systemctl restart nginx
+

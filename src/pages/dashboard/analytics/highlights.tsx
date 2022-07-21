@@ -38,7 +38,8 @@ const Highlights = () => {
     const [tab, setTab] = useState<number>(1);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [showControl, setShowControl] = useState<boolean>(false);
-
+    const [check] = useState<boolean>(false);
+    console.log(check);
     return (
         <>
             <DashboardDesktopNav hasArrow />
