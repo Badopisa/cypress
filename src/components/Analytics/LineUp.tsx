@@ -32,7 +32,7 @@ const LineUp = () => {
                 </Select>
             </FormControl>
             <Text>Below are the players gotten from the analyzed video</Text>
-            <SimpleGrid columns={[1, 2, 3]} spacing={8}>
+            <SimpleGrid columns={[1, 3, 5]} spacing={8}>
                 {allEventsData
                     .map((data, index) => (
                         <Box
