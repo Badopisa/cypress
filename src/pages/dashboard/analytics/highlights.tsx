@@ -1,21 +1,18 @@
-import AllEvents from '@/components/Analytics/AllEvents';
 import LineUp from '@/components/Analytics/LineUp';
 import MatchStats from '@/components/Analytics/MatchStats';
 import Video from '@/components/Analytics/Video';
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import { chatData, matchAnalyticsType, uploadedVideosData } from '@/data/AnalyticsData';
+import { allEventsData, matchAnalyticsType } from '@/data/AnalyticsData';
 import {
     AspectRatio,
-    Avatar,
     Box,
+    Center,
     Button,
-    Divider,
     Flex,
     FormControl,
     Grid,
     GridItem,
-    HStack,
     Img,
     Select,
     Spacer,
@@ -152,8 +149,7 @@ const Highlights = () => {
 
                                 <Spacer />
 
-                                <AllEvents />
-                                <Text fontSize={'xl'}>Mini map Birds Eye View</Text>
+                                <Text fontSize={'xm'}>Mini map (Bird&#39;s eye view)</Text>
                                 <Box>
                                     <Img src="/images/imgs/mini-map.svg" w="100%" />
                                 </Box>
@@ -165,87 +161,59 @@ const Highlights = () => {
                 </GridItem>
                 {/* @nd flex */}
 
-                <GridItem>
-                    <VStack spacing={8} w={'100%'}>
-                        <Box bg="dark" borderRadius="lg" w={'100%'} p={8}>
-                            <VStack alignItems="left">
-                                <Text fontSize="xl">Other analyzed videos</Text>
-                                <Button
-                                    variant="actionOutline"
-                                    fontSize={'xs'}
-                                    p={0}
-                                    alignSelf="left"
-                                    data-testid="upload-and-analyze">
-                                    Upload & Analyse Videos
-                                </Button>
-
-                                {uploadedVideosData.map((data: any, index) => (
-                                    <>
-                                        <HStack key={index} w={{ sm: '100%', md: '100%' }} py={4}>
-                                            <Flex flex={1}>
-                                                <Video data={data} />
-                                            </Flex>
-                                            <Stack flex={1} flexDirection="column">
-                                                <Text fontSize={'sm'} fontFamily={'body'}>
-                                                    {data.players}
+                {tab === 1 && (
+                    <GridItem>
+                        <VStack spacing={8} w={'100%'}>
+                            <Text fontSize="xl" align={'left'}>
+                                All Events
+                            </Text>
+                            {allEventsData
+                                .map((data: any, key) => (
+                                    <Stack
+                                        borderRadius="lg"
+                                        w={{ sm: '100%', md: '19rem' }}
+                                        h={{ sm: '10rem', md: '10rem' }}
+                                        direction={{ base: 'row', md: 'row' }}
+                                        bg="dark"
+                                        p={2}
+                                        key={key}>
+                                        <Flex flex={1} w="40%">
+                                            <Video data={data} />
+                                        </Flex>
+                                        <Stack flex={1} flexDirection="column" p={1} pt={2}>
+                                            <Text fontSize={'md'} fontFamily={'body'}>
+                                                {data.playerName}
+                                            </Text>
+                                            <Stack
+                                                direction={'row'}
+                                                spacing={2}
+                                                fontSize={'sm'}
+                                                alignItems="center">
+                                                <Text>{data.playerPosition}</Text>
+                                                <Text bg="ash" borderRadius="lg" p={1}>
+                                                    {data.eventType}
                                                 </Text>
-
-                                                <Text>{data.time}</Text>
-                                                <Button variant="outline" fontSize={'xs'}>
-                                                    VIEW ANALYTICS
-                                                </Button>
                                             </Stack>
-                                        </HStack>
-                                        <Divider />
-                                    </>
-                                ))}
-                            </VStack>
-                        </Box>
-
-                        <Box bg="dark" borderRadius="lg" w={'100%'} p={3}>
-                            <Text fontSize={'xl'}>Recent Chats</Text>
-
-                            {chatData.map((data, index) => (
-                                <>
-                                    <HStack key={index} py={4}>
-                                        <Box>
-                                            {' '}
-                                            <Avatar src="/images/imgs/avatar.svg" />
-                                        </Box>
-                                        <Box w="100%">
-                                            <VStack w="100%" alignItems="left">
-                                                <Flex>
+                                            <Stack direction={'row'} spacing={2} fontSize={'sm'}>
+                                                <Text>36</Text>
+                                                <Flex gap={1} cursor={'pointer'}>
                                                     {' '}
-                                                    <Box>
-                                                        <VStack align="left">
-                                                            <Text>{data.userName} </Text>
-                                                            <Text>{data.message}</Text>
-                                                        </VStack>
-                                                    </Box>
-                                                    <Spacer />
-                                                    <Box>
-                                                        <VStack>
-                                                            <Text>{data.status} </Text>
-                                                            <Text
-                                                                borderRadius="50%"
-                                                                w="20px"
-                                                                h="20px"
-                                                                bg="primary"
-                                                                align="center">
-                                                                {data.noOfUnreadChats}
-                                                            </Text>
-                                                        </VStack>
-                                                    </Box>{' '}
+                                                    <Img src="/icons/share.svg" alt="share" w="3" />
+                                                    <Text>Share</Text>
                                                 </Flex>
-                                                <Divider />
-                                            </VStack>
-                                        </Box>
-                                    </HStack>
-                                </>
-                            ))}
-                        </Box>
-                    </VStack>
-                </GridItem>
+                                            </Stack>
+                                        </Stack>
+                                    </Stack>
+                                ))
+                                .slice(0, 4)}
+                            <Center>
+                                <Text borderBottom="1px solid white" cursor={'pointer'}>
+                                    Load more events
+                                </Text>
+                            </Center>
+                        </VStack>
+                    </GridItem>
+                )}
             </Grid>
         </>
     );
