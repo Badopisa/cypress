@@ -22,15 +22,15 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install Test/Coverage Dependencies
-        run: |
-          yarn install
+      # - name: Install Test/Coverage Dependencies
+      #   run: |
+      #     yarn install
 
-      - name: Test with jest
-        env:
-          NEXT_PUBLIC_API_URL: '${{ secrets.NEXT_PUBLIC_API_URL }}'
-        run: |
-          yarn test --coverage
+      # - name: Test with jest
+      #   env:
+      #     NEXT_PUBLIC_API_URL: '${{ secrets.NEXT_PUBLIC_API_URL }}'
+      #   run: |
+      #     yarn test --coverage
       - env:
           SONAR_HOST_URL: '${{ secrets.SONAR_HOST_URL }}'
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
