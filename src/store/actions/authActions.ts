@@ -44,7 +44,8 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
         ClubAdminLogin(payload)
             .then(async (result) => {
                 const { data } = result;
-
+                console.log('token is', data.data);
+                window.localStorage.setItem('user', JSON.stringify(data.data.user));
                 dispatch(saveAdminData(data.data.user));
 
                 updateAlertMsg(toast, {

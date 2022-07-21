@@ -29,6 +29,7 @@ import { UserDataType } from '@/types/AuthDataType';
 import { getAllStaffs } from '@/store/actions/staffActions';
 import AllPlayers from './AllPlayers';
 import AllStaffs from './AllStaffs';
+import { getUserRole } from '@/utils/locaStorageActions';
 
 const boxStyles = {
     display: 'flex',
@@ -48,6 +49,10 @@ const TabSelectedStyle = {
 };
 
 const ClubManagement = () => {
+    const role = getUserRole();
+    console.log('rrole', role);
+    // const r = 'player';
+
     const {
         filteredData,
         teams,
@@ -147,9 +152,11 @@ const ClubManagement = () => {
                                 All Players
                             </Tab>
                             <Spacer />
-                            <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
-                                Staff
-                            </Tab>
+                            {role !== 'player' && (
+                                <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
+                                    Staff
+                                </Tab>
+                            )}
                         </TabList>
                     </Tabs>
 

@@ -20,3 +20,11 @@ export const clearLocalStorage = () => {
         localStorage.removeItem(TOKEN_TIME);
     }
 };
+export const getUserRole = () => {
+    let role = '';
+    if (typeof window !== 'undefined') {
+        const user = JSON.parse(window.localStorage?.getItem('user') || '');
+        role = user.role;
+    }
+    return role;
+};
