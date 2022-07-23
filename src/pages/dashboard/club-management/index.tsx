@@ -76,6 +76,7 @@ const ClubManagement = () => {
         router.push('/dashboard/club-management/create-team');
     };
     console.log('filteredData is', filteredData);
+    console.log('teams');
 
     useEffect(() => {
         console.log('called');
