@@ -16,3 +16,10 @@ export const ClubAdminLogin = (payload: any) => {
 
     return http.postData(payload, url, false);
 };
+export const UpdateProfile = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/${payload.id}`;
+
+    return http.putData(payload, url, true);
+};
