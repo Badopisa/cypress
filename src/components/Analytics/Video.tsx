@@ -13,6 +13,7 @@ const Video = ({ data, canPlay = true, width = '100%', height = 'auto' }: VideoT
     const [showControl, setShowControl] = useState<boolean>(false);
     console.log('data is', data);
     console.log('data is', canPlay);
+    // 'https://sonalysis-media-space.nyc3.digitaloceanspaces.com/sonalysis_upload/samplecluster.mp4'
 
     return (
         <>
@@ -22,9 +23,7 @@ const Video = ({ data, canPlay = true, width = '100%', height = 'auto' }: VideoT
                         {' '}
                         <ReactPlayer
                             className="react-player"
-                            url={
-                                'https://sonalysis-media-space.nyc3.digitaloceanspaces.com/sonalysis_upload/samplecluster.mp4'
-                            }
+                            url={data}
                             width={width}
                             height={height}
                             playing={isPlaying}

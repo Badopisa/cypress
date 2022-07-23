@@ -4,6 +4,7 @@ import { VStack, Tabs, TabList, Tab, Text, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import PlayerVideo from './player-video';
 import PlayerVsPlayer from './player-vs-player';
+// import TeamComparison from './TeamComparison';
 
 const PlayerComparison = () => {
     const [tab, setTab] = useState(1);
@@ -42,10 +43,14 @@ const PlayerComparison = () => {
                             <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
                                 Video Comparison
                             </Tab>
+                            {/* <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
+                                Team Comparison
+                            </Tab> */}
                         </TabList>
                     </Tabs>
                     {tab === 1 && <PlayerVsPlayer />}
                     {tab === 2 && <PlayerVideo />}
+                    {/* {tab === 3 && <TeamComparison />} */}
                 </VStack>
             </>
         </>

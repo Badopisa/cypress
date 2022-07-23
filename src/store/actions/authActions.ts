@@ -14,7 +14,8 @@ export const adminRegistration = (payload: AdminRegFormData, toast: any, router:
         ClubAdminRegistration(payload)
             .then(async (result) => {
                 const { data } = result;
-
+                console.log('admin token is', data.data);
+                // window.localStorage.setItem('user', JSON.stringify(data.data.user));
                 dispatch(saveAdminData(data.data.user));
 
                 updateAlertMsg(toast, {
