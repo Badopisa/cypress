@@ -58,7 +58,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: parallelscore/sonalysis-web
+          images: parallelscore/sonalysis_web
       
           
       - id: docker-tag
@@ -68,7 +68,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           push: true
-          tags: parallelscore/sonalysis-web:${{ steps.docker-tag.outputs.tag }}
+          tags: parallelscore/sonalysis_web:${{ steps.docker-tag.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
     
