@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: sonalysis-web
-        image: parallelscore/sonalysis-web:latest
+        image: parallelscore/sonalysis_web:latest
         ports:
         - containerPort: 3005      
         imagePullPolicy: IfNotPresent
