@@ -4,7 +4,7 @@ import formidable from 'formidable';
 
 const s3Client = new AWS.S3({
     endpoint: process.env.D_SPACES_URL || '',
-    region: 'fral',
+    // region: 'fra1',
     credentials: {
         accessKeyId: process.env.D_SPACES_ID || '',
         secretAccessKey: process.env.D_SPACES_SECRET || ''
@@ -17,7 +17,7 @@ export const config = {
     }
 };
 
-export async function handler(req: any, res: any) {
+export default async function handler(req: any, res: any) {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
         if (!files.demo) {
@@ -32,10 +32,13 @@ export async function handler(req: any, res: any) {
                     Body: fs.createReadStream(files.demo.filepath),
                     ACL: 'public-read'
                 },
-                async () => res.status(201).send('File uploaded')
+                async (response: any) => {
+                    console.log('response', response);
+                    res.status(201).send('File uploaded');
+                }
             );
         } catch (error) {
-            console.log(e);
+            console.log(error);
             res.status(500).send('Error uploading file');
         }
     });

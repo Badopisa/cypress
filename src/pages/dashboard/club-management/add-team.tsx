@@ -31,7 +31,7 @@ const AddTeam = () => {
     );
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const [csv, setCSV] = React.useState<null | File>(null);
-    const { s3URL, s3Error } = useUploadToS3(csv, false);
+    const { s3URL, spaceError } = useUploadToS3(csv, false);
     const [create, setCreate] = useState<boolean>(false);
     const [existing, setExisting] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false);
@@ -45,7 +45,7 @@ const AddTeam = () => {
     };
 
     useEffect(() => {
-        if (s3Error) {
+        if (spaceError) {
             toast({
                 title: 'Error',
                 description: 'Error uploading image, please try again or remove image',
