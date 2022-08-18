@@ -48,6 +48,10 @@ const TabSelectedStyle = {
     rounded: '5px'
 };
 
+// const socket = io('http://192.168.1.181:9000');
+// const socket = io('ws://105.112.210.202:9000');
+// const socket = io('http://105.112.210.202:9000');
+
 const ClubManagement = () => {
     const role = getUserRole();
     console.log('rrole', role);
@@ -77,6 +81,24 @@ const ClubManagement = () => {
     };
     console.log('filteredData is', filteredData);
     console.log('teams');
+
+    // useEffect(() => socketInitializer(), []);
+    //
+    // const socketInitializer = async () => {
+    //     console.log('socket connection started');
+    //     await fetch('/api/socket');
+    //     socket = io();
+    //
+    //     socket.on('connect', () => {
+    //         console.log('connected');
+    //     });
+    //
+    //     socket.on('message', (msg: any) => {
+    //         console.log('message');
+    //         console.log('backend message', msg);
+    //     });
+    //     console.log('socket connection ended');
+    // };
 
     useEffect(() => {
         console.log('called');
@@ -216,9 +238,43 @@ const ClubManagement = () => {
                             </Button>
                         </Flex>
                         <Box>
-                            {isLoading ? (
+                            {!isLoading ? (
                                 <Center my="16">
-                                    <Spinner size="xl" />
+                                    <input
+                                        type="file"
+                                        accept={'all'}
+                                        onChange={async (e: any) => {
+                                            if (e.target.files.length > 0) {
+                                                // Update UI to show file is uploading
+                                                const file = e.target.files[0];
+                                                const userId = 'user';
+
+                                                console.log('file', file);
+                                                // Create FormData and pass picked file with other necessary details
+                                                const formData = new FormData();
+                                                formData.append('file', file);
+                                                formData.append('id', userId);
+                                                try {
+                                                    const uploadFileRes = await fetch(
+                                                        '/api/digital-ocean/uploader',
+                                                        {
+                                                            method: 'POST',
+                                                            body: formData
+                                                        }
+                                                    );
+                                                    const uploadFileData =
+                                                        await uploadFileRes.json();
+                                                    // Retrieve url and show it to user?
+                                                    // Update UI to show file has been uploaded
+                                                    console.log('uploadFileData', uploadFileData);
+                                                } catch (e) {
+                                                    console.log('upload error', e);
+                                                    // Update UI to show file upload failed
+                                                }
+                                            }
+                                        }}
+                                    />
+                                    {/*<Spinner size="xl" />*/}
                                 </Center>
                             ) : filteredData.length > 0 ? (
                                 <SimpleGrid

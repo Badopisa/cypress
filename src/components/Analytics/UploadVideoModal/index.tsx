@@ -4,7 +4,6 @@ import {
     CircularProgressLabel,
     CircularProgress,
     Flex,
-    FormControl,
     FormLabel,
     Grid,
     HStack,
@@ -13,36 +12,45 @@ import {
     Modal,
     ModalContent,
     ModalOverlay,
-    Select,
     Stack,
     Text,
-    VStack
+    VStack,
+    useToast
 } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
-import ChangingProgressProvider from './ChangingProgressProvider';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { FileDrop } from 'react-file-drop';
-
-// interface UploadTypes {
-//     inputRef: React.RefObject<HTMLInputElement>;
-// }
+import useUploadToSpaces from '@/hooks/useUploadToSpaces';
 
 const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-    const [step] = useState<number>(1);
+    const [video, setVideo] = useState<File | null>(null);
     const [fileName, setName] = useState<string>('');
+    const [homeTeam, setHomeTeam] = useState<string | null>(null);
+    const [awayTeam, setAwayTeam] = useState<string | null>(null);
+    const { spaceURL, spaceError, spaceIsLoading, progress, isSuccess } = useUploadToSpaces(video);
     const inputRef = useRef<HTMLInputElement>(null);
+    const toast = useToast();
 
-    const [progress, setProgress] = React.useState(10);
-    console.log('progress', progress);
-
-    React.useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-        }, 800);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+    useEffect(() => {
+        if (spaceError) {
+            return toast({
+                title: 'Upload Error',
+                description: 'Error uploading image, please try again or remove image',
+                status: 'error',
+                duration: 9000,
+                isClosable: true
+            });
+        }
+        if (isSuccess) {
+            return toast({
+                title: 'Upload Success',
+                description: 'Video uploaded successfully',
+                status: 'success',
+                duration: 9000,
+                isClosable: true
+            });
+        }
+    }, [spaceError, isSuccess]);
 
     const fileHandler = (file: any) => {
         const extension = file[0].name.split('.')[1]?.toLowerCase();
@@ -55,6 +63,8 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 };
             });
             setName(fName[0].name);
+            setVideo(file[0]);
+
             console.log('file name is', fName);
             console.log('files name is', fName[0].name);
             console.log('extension name is', extension);
@@ -67,7 +77,6 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         if (inputRef.current) {
             inputRef.current.click();
         }
-        // inputRef.current.click();
     };
 
     return (
@@ -82,13 +91,11 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     color="white"
                     borderRadius="lg"
                     gap="2em">
-                    {step === 0 ? (
-                        <Text fontSize="3xl">Upload and Analyze video</Text>
-                    ) : step === 1 ? (
-                        <Text fontSize="3xl">Video is Uploading...</Text>
-                    ) : (
-                        <Text fontSize="3xl">Video has been uploaded</Text>
-                    )}
+                    {(isSuccess && <Text fontSize="3xl">Video has been uploaded</Text>) ||
+                        (spaceIsLoading && <Text fontSize="3xl">Video is Uploading...</Text>) ||
+                        (spaceError && <Text fontSize="3xl">Error uploading video</Text>) || (
+                            <Text fontSize="3xl">Upload and Analyze video</Text>
+                        )}
                     <Text>
                         It helps if the video is a high quality video as it gives a more precise
                         analysis
@@ -100,26 +107,23 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                         borderColor={'primary'}
                         borderRadius="lg"
                         p="2rem">
-                        <VStack spacing={4} px="4">
-                            {fileName ? (
-                                <ChangingProgressProvider
-                                    values={[
-                                        0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,
-                                        75, 80, 85, 90, 95, 100
-                                    ]}>
-                                    {(percentage: number) => (
-                                        <Box style={{ width: '30%' }}>
-                                            <CircularProgress
-                                                value={percentage}
-                                                color="green.400"
-                                                thickness={'10px'}>
-                                                <CircularProgressLabel>{`${15}%`}</CircularProgressLabel>
-                                            </CircularProgress>
-                                        </Box>
-                                    )}
-                                </ChangingProgressProvider>
+                        <VStack spacing={-2} px="4">
+                            {video ? (
+                                <Box style={{ width: '50%' }}>
+                                    <CircularProgress
+                                        value={progress}
+                                        size="120px"
+                                        color={progress < 100 ? '#A257FF' : '#00BB4C'}
+                                        thickness={'5px'}>
+                                        <CircularProgressLabel fontSize="20px">{`${progress}%`}</CircularProgressLabel>
+                                    </CircularProgress>
+                                </Box>
                             ) : (
-                                <Img src="/icons/video-upload.svg" alt="upload file" />
+                                <Img
+                                    src="/icons/video-upload.svg"
+                                    alt="upload file"
+                                    onClick={() => inputRef.current?.click()}
+                                />
                             )}
                             <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
                                 <input
@@ -131,7 +135,7 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                                     onChange={(e) => fileHandler(e.target.files)}
                                 />
                                 {fileName ? (
-                                    <Flex bg={'lightAsh'} p={3} justify={'center'} gap={4}>
+                                    <Flex bg={'lightAsh'} p={3} justify={'center'} gap={3}>
                                         {' '}
                                         <Img src="/icons/file-icon.svg" alt="file icon" />
                                         <Text>{fileName}</Text>{' '}
@@ -144,25 +148,31 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                         </VStack>
                     </Grid>
                     <Stack spacing={4}>
-                        <FormControl id="link">
-                            <FormLabel>Paste Link</FormLabel>
-                            <Input type="text" placeholder="Insert Google doc link" />
-                        </FormControl>
-                        <FormLabel>Choose Teams</FormLabel>
+                        <FormLabel>Paste Link</FormLabel>
+                        <Input
+                            onChange={(e: any) => setVideo(e.target.value)}
+                            type="text"
+                            placeholder="Insert Google doc link"
+                        />
+                        <FormLabel>Specify Teams</FormLabel>
                         <HStack>
-                            <FormControl id="choose-teams" isRequired>
-                                <Select variant="outline" placeholder="Choose" />
-                            </FormControl>
-
-                            <FormControl>
-                                <Select variant="outline" placeholder="Choose" />
-                            </FormControl>
+                            <Input
+                                type="text"
+                                onChange={(e: any) => setHomeTeam(e.target.value)}
+                                placeholder="Home Team"
+                            />
+                            <Input
+                                type="text"
+                                onChange={(e: any) => setAwayTeam(e.target.value)}
+                                placeholder="Away Team"
+                            />
                         </HStack>
 
                         <Button
                             onClick={onClose}
                             size="lg"
-                            bg="lightAsh"
+                            isLoading={spaceIsLoading}
+                            disabled={!homeTeam || !awayTeam || spaceURL === ''}
                             color={'white'}
                             variant="action">
                             Submit

@@ -26,6 +26,7 @@ import { UserDataType } from '@/types/AuthDataType';
 import { CategoryDataType } from '@/types/CategoryDataType';
 import { fetchCategories } from '@/store/actions/ categoryAction';
 import useUploadToS3 from '@/hooks/useUploadToS3';
+import useUploadToSpaces from '@/hooks/useUploadToSpaces';
 
 const CreateTeam = () => {
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
@@ -36,6 +37,7 @@ const CreateTeam = () => {
         (state: RootStateOrAny) => state.category
     );
     const { s3URL, s3Error } = useUploadToS3(file);
+    const { spaceURL } = useUploadToSpaces(file);
     const dispatch = useDispatch();
     const toast = useToast();
 
@@ -52,6 +54,10 @@ const CreateTeam = () => {
             dispatch(fetchCategories());
         }
     }, []);
+
+    useEffect(() => {
+        console.log('space url', spaceURL);
+    }, [spaceURL]);
 
     const onSubmit = async (values: any) => {
         if (s3Error) {
