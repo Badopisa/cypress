@@ -238,43 +238,43 @@ const ClubManagement = () => {
                             </Button>
                         </Flex>
                         <Box>
-                            {!isLoading ? (
+                            {isLoading ? (
                                 <Center my="16">
-                                    <input
-                                        type="file"
-                                        accept={'all'}
-                                        onChange={async (e: any) => {
-                                            if (e.target.files.length > 0) {
-                                                // Update UI to show file is uploading
-                                                const file = e.target.files[0];
-                                                const userId = 'user';
+                                    {/*<input*/}
+                                    {/*    type="file"*/}
+                                    {/*    accept={'all'}*/}
+                                    {/*    onChange={async (e: any) => {*/}
+                                    {/*        if (e.target.files.length > 0) {*/}
+                                    {/*            // Update UI to show file is uploading*/}
+                                    {/*            const file = e.target.files[0];*/}
+                                    {/*            const userId = 'user';*/}
 
-                                                console.log('file', file);
-                                                // Create FormData and pass picked file with other necessary details
-                                                const formData = new FormData();
-                                                formData.append('file', file);
-                                                formData.append('id', userId);
-                                                try {
-                                                    const uploadFileRes = await fetch(
-                                                        '/api/digital-ocean/uploader',
-                                                        {
-                                                            method: 'POST',
-                                                            body: formData
-                                                        }
-                                                    );
-                                                    const uploadFileData =
-                                                        await uploadFileRes.json();
-                                                    // Retrieve url and show it to user?
-                                                    // Update UI to show file has been uploaded
-                                                    console.log('uploadFileData', uploadFileData);
-                                                } catch (e) {
-                                                    console.log('upload error', e);
-                                                    // Update UI to show file upload failed
-                                                }
-                                            }
-                                        }}
-                                    />
-                                    {/*<Spinner size="xl" />*/}
+                                    {/*            console.log('file', file);*/}
+                                    {/*            // Create FormData and pass picked file with other necessary details*/}
+                                    {/*            const formData = new FormData();*/}
+                                    {/*            formData.append('file', file);*/}
+                                    {/*            formData.append('id', userId);*/}
+                                    {/*            try {*/}
+                                    {/*                const uploadFileRes = await fetch(*/}
+                                    {/*                    '/api/digital-ocean/uploader',*/}
+                                    {/*                    {*/}
+                                    {/*                        method: 'POST',*/}
+                                    {/*                        body: formData*/}
+                                    {/*                    }*/}
+                                    {/*                );*/}
+                                    {/*                const uploadFileData =*/}
+                                    {/*                    await uploadFileRes.json();*/}
+                                    {/*                // Retrieve url and show it to user?*/}
+                                    {/*                // Update UI to show file has been uploaded*/}
+                                    {/*                console.log('uploadFileData', uploadFileData);*/}
+                                    {/*            } catch (e) {*/}
+                                    {/*                console.log('upload error', e);*/}
+                                    {/*                // Update UI to show file upload failed*/}
+                                    {/*            }*/}
+                                    {/*        }*/}
+                                    {/*    }}*/}
+                                    {/*/>*/}
+                                    <Spinner size="xl" />
                                 </Center>
                             ) : filteredData.length > 0 ? (
                                 <SimpleGrid

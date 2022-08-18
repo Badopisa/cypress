@@ -152,6 +152,7 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                         <Input
                             onChange={(e: any) => setVideo(e.target.value)}
                             type="text"
+                            disabled={!!spaceURL}
                             placeholder="Insert Google doc link"
                         />
                         <FormLabel>Specify Teams</FormLabel>
