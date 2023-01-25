@@ -23,3 +23,35 @@ export const UpdateProfile = (payload: any) => {
 
     return http.putData(payload, url, true);
 };
+
+export const ForgotPassword = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/password-reset-request`;
+
+    return http.postData(payload, url, false);
+};
+
+export const EmailVerification = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/email-verification`;
+
+    return http.postData(payload, url, false);
+};
+
+export const VerifyToken = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/verify-token`;
+
+    return http.postData(payload, url, false);
+};
+
+export const ChangePassword = (payload: any, userId: string) => {
+    const http = new HttpService();
+
+    const url = `users/change-password/${userId}`;
+
+    return http.postData(payload, url, false);
+};

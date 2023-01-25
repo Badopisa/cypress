@@ -3,6 +3,8 @@ import { spacing } from './spacing';
 const largeSizes = {
     'max': 'max-content',
     'min': 'min-content',
+    'completeX': '100vw',
+    'completeY': '100vh',
     'full': '100%',
     '3xs': '14rem',
     '2xs': '16rem',
@@ -17,7 +19,14 @@ const largeSizes = {
     '5xl': '64rem',
     '6xl': '72rem',
     '7xl': '80rem',
-    '8xl': '90rem'
+    '8xl': '90rem',
+    'h6': '10px',
+    'h5': '12px',
+    'h4': '14px',
+    'h3': '20px',
+    'h22': '40px',
+    'h1': '80px',
+    'p': '16px'
 };
 
 const container = {

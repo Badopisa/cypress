@@ -10,25 +10,29 @@ import {
     Text,
     InputGroup,
     InputRightElement,
-    chakra,
-    useToast
+    useToast,
+    Box,
+    Img
 } from '@chakra-ui/react';
-import { FormImage } from '@/components/Form';
 import { useForm } from 'react-hook-form';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import Link from '@/components/Elements/Link/Link';
 import { adminLogin } from '@/store/actions/authActions';
 import { useRouter } from 'next/router';
+import React from 'react';
+import NavBar from '@/components/Layout/NavBar';
 
 const Login = () => {
     const {
         handleSubmit,
         register,
-        formState: { errors }
-    } = useForm();
+        formState: { errors, touchedFields }
+    } = useForm({ defaultValues: { email: '', password: '' } });
 
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
+    const [show, setShow] = React.useState<boolean>(false);
+    const handleClick = () => setShow(!show);
     const dispatch = useDispatch();
     const router = useRouter();
     const toast = useToast();
@@ -42,88 +46,143 @@ const Login = () => {
     };
     return (
         <main>
-            <Flex h="100vh" direction={{ base: 'column-reverse', md: 'row' }}>
-                <FormImage
-                    image="/images/image/login-coach.jpg"
-                    title="CONTINUE AS"
-                    body="A Coach"
-                />
+            <NavBar />
+            <Flex
+                direction={'column'}
+                bg="white"
+                color={'black'}
+                minHeight="completeY"
+                alignItems="center"
+                justifyContent="center">
                 <VStack
-                    zIndex={10}
-                    bgColor="black"
-                    color="white"
-                    w="full"
-                    h="full"
-                    p={{ base: 2, sm: 20 }}
-                    spacing={10}
-                    alignItems={{ base: 'center', md: 'flex-start' }}>
-                    <VStack mt={10} spacing={1} alignItems={{ base: 'center', md: 'flex-start' }}>
-                        <Text fontSize="3xl" fontWeight="semibold">
-                            <chakra.span color="yellow">Continue&nbsp;</chakra.span>
-                            Your Analysis Coach
-                        </Text>
-                        <Text w={{ base: '90%' }} align={{ base: 'center', md: 'start' }}>
-                            Welcome back and get to see what has been happening since you’ve been
-                            gone
-                        </Text>
-                    </VStack>
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    w={{ base: 'full', md: 'lg' }}>
+                    {/*<VStack spacing={1} alignItems={{base: 'center', md: 'flex-start'}}>*/}
+                    <Text mb={'40px'} fontSize={{ base: '30px', md: '40px' }} fontWeight="700">
+                        Login to your account
+                    </Text>
+                    {/*</VStack>*/}
                     <SimpleGrid columns={1} rowGap={5} w="80%">
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <FormControl mb={8}>
-                                <FormLabel htmlFor="email">Email</FormLabel>
+                            <FormControl isInvalid={!!errors.email} mb={'32px'}>
+                                <FormLabel mb={'10px'} htmlFor="email">
+                                    Email address
+                                </FormLabel>
                                 <Input
                                     {...register('email', {
-                                        required: 'Email is required',
-                                        minLength: { value: 4, message: 'Email is Required' }
+                                        required: 'Email is required'
                                     })}
                                     id="email"
                                     type="email"
                                     placeholder="Enter your email"
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
                                 />
                                 <FormErrorMessage>
-                                    {errors.email && 'Message is required'}
+                                    {errors.email && (
+                                        <Text
+                                            as={'span'}
+                                            color={'red'}>{`${errors.email.message}`}</Text>
+                                    )}
                                 </FormErrorMessage>
                             </FormControl>
 
-                            <FormControl mb={10}>
+                            <FormControl isInvalid={!!errors.password} mb={'52px'}>
                                 <FormLabel htmlFor="password">Password</FormLabel>
                                 <InputGroup>
                                     <Input
                                         {...register('password', {
                                             required: 'Password is required',
-                                            minLength: { value: 4, message: 'Password is Required' }
+                                            minLength: {
+                                                value: 8,
+                                                message: 'At least 8+ characters'
+                                            }
                                         })}
                                         id="password"
-                                        type="password"
-                                        placeholder="At least 8+ characters"
+                                        placeholder="Enter your password"
+                                        focusBorderColor="purple"
+                                        type={show ? 'text' : 'password'}
+                                        borderColor={'grey5'}
+                                        size={'lg'}
+                                        borderRadius={'6px'}
+                                        _placeholder={{
+                                            opacity: 1,
+                                            color: 'inputText',
+                                            fontSize: '16px',
+                                            fontWeight: '400'
+                                        }}
                                     />
                                     <InputRightElement>
-                                        <AiFillEyeInvisible color="green.500" />
+                                        <Button
+                                            mr="10px"
+                                            padding={0}
+                                            variant={'text'}
+                                            onClick={handleClick}>
+                                            {!show ? (
+                                                <Img
+                                                    alt="hide"
+                                                    src="/images/icons/Password=Hide.svg"
+                                                />
+                                            ) : (
+                                                <Img
+                                                    alt="show"
+                                                    src="/images/icons/Password=Visible.svg"
+                                                />
+                                            )}
+                                        </Button>
                                     </InputRightElement>
                                 </InputGroup>
                                 <FormErrorMessage>
-                                    {errors.password && 'Password is required'}
+                                    {errors.password && (
+                                        <Text
+                                            as={'span'}
+                                            color={'red'}>{`${errors.password.message}`}</Text>
+                                    )}
                                 </FormErrorMessage>
                             </FormControl>
                             <Button
                                 isLoading={isLoading}
+                                disabled={!touchedFields.email || !touchedFields.password}
                                 type="submit"
-                                variant="action"
                                 size="lg"
                                 w="full">
-                                LOGIN
+                                Continue
                             </Button>
                         </form>
-                        <Text align={'center'}>
-                            Don&#39;t Have an Account?{' '}
-                            <Link href="/admin/ClubAdminRegistration" fontWeight="semibold">
-                                Get Started
-                            </Link>
-                        </Text>
-                        <Text align={'center'}>
+                        {/*<Text align={'center'}>*/}
+                        {/*    Don&#39;t Have an Account?{' '}*/}
+                        {/*    <Link href="/admin/ClubAdminRegistration" fontWeight="semibold">*/}
+                        {/*        Get Started*/}
+                        {/*    </Link>*/}
+                        {/*</Text>*/}
+                        <Text
+                            display={'flex'}
+                            justifyContent={'center'}
+                            color={'black2'}
+                            fontSize={'14px'}
+                            align={'center'}>
+                            Forgot your password?
                             <Link href="/forgot-password">
                                 {' '}
-                                <Text fontWeight="semibold">Forgot Password</Text>
+                                <Text
+                                    ml={2}
+                                    bgGradient={
+                                        'linear-gradient(to right, #9741FF, #645EFD, #007DB3)'
+                                    }
+                                    bgClip={'text'}
+                                    as={'u'}
+                                    fontWeight="400">
+                                    Reset it here
+                                </Text>
                             </Link>
                         </Text>
                     </SimpleGrid>
