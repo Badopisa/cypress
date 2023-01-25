@@ -1,27 +1,92 @@
-import { Flex, FormControl, GridItem, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
-import { FormImage, FormDetails } from '@/components/Form';
+import {
+    Flex,
+    FormControl,
+    GridItem,
+    FormLabel,
+    Input,
+    FormErrorMessage,
+    Text,
+    useToast
+} from '@chakra-ui/react';
+import { FormDetails } from '@/components/Form';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import NavBar from '@/components/Layout/NavBar';
+import { useRouter } from 'next/router';
+import { forgotPassword } from '@/store/actions/authActions';
 
 const ForgotPassword = () => {
+    const {
+        handleSubmit,
+        register,
+        formState: { errors, isDirty }
+    } = useForm({ defaultValues: { email: '' } });
+
+    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
+    const dispatch = useDispatch();
+    const toast = useToast();
+    const router = useRouter();
+
+    const onSubmit = (value: any) => {
+        const payload = {
+            email: value.email
+        };
+        dispatch(forgotPassword(payload, toast, router));
+    };
+
     return (
-        <Flex h="100vh" direction={{ base: 'column-reverse', md: 'row' }}>
-            <FormImage image="/images/image/login-coach.jpg" title="Recover Your" body="PASSWORD" />
-            <FormDetails
-                tW="100%"
-                hasAccount={true}
-                buttonText="RECOVER PASSWORD"
-                coloredTitle="Recover"
-                title="Your Password"
-                subTitle="Enter your email below to recover your forgotten password">
-                <GridItem colSpan={1}>
-                    <FormControl>
-                        <FormLabel htmlFor="email">Email</FormLabel>
-                        <Input id="email" name="email" type="email" placeholder="john@doe.com" />
-                        <FormErrorMessage>Email is required and must be valid.</FormErrorMessage>
-                    </FormControl>
-                </GridItem>
-            </FormDetails>
-        </Flex>
+        <>
+            <NavBar />
+            <Flex
+                direction={'column'}
+                bg="white"
+                color={'black'}
+                minHeight="completeY"
+                alignItems="center"
+                justifyContent="center">
+                <FormDetails
+                    hasAccount={true}
+                    buttonText="Continue"
+                    title="Reset Your Password"
+                    disableButton={!isDirty}
+                    loading={isLoading}
+                    handleButtonClick={handleSubmit(onSubmit)}>
+                    <GridItem colSpan={1}>
+                        <FormControl isInvalid={!!errors.email} mb={'32px'}>
+                            <FormLabel mb={'10px'} htmlFor="email">
+                                Email address
+                            </FormLabel>
+                            <Input
+                                {...register('email', {
+                                    required: 'Email is required'
+                                })}
+                                id="email"
+                                type="email"
+                                placeholder="Enter your email"
+                                focusBorderColor="purple"
+                                borderColor={'grey5'}
+                                size={'lg'}
+                                borderRadius={'6px'}
+                                _placeholder={{
+                                    opacity: 1,
+                                    color: 'inputText',
+                                    fontSize: '16px',
+                                    fontWeight: '400'
+                                }}
+                            />
+                            <FormErrorMessage>
+                                {errors.email && (
+                                    <Text
+                                        as={'span'}
+                                        color={'red'}>{`${errors.email.message}`}</Text>
+                                )}
+                            </FormErrorMessage>
+                        </FormControl>
+                    </GridItem>
+                </FormDetails>
+            </Flex>
+        </>
     );
 };
 

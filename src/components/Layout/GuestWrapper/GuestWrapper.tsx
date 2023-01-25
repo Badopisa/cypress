@@ -6,7 +6,7 @@ import NavBar from '@/components/Layout/NavBar';
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <Stack justify="space-between" minH="100vh" spacing={0}>
-            <NavBar />
+            <NavBar login />
             <Box as="main">{children}</Box>
             <Footer />
         </Stack>

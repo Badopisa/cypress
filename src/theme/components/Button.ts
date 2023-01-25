@@ -3,63 +3,49 @@ export const Button = {
         action: {
             _hover: {
                 color: '#fff',
-                bg: 'primary'
+                bg: 'black'
             },
+            transition: 'black 500ms ease-out',
+            transitionDuration: '500ms',
             color: '#fff',
-            bg: 'primary',
+            bg: 'linear-gradient(to right, #9741FF, #645EFD, #007DB3)',
+            fontSize: '16px',
+            fontWeight: '400',
             _focus: {
                 boxShadow: 'none'
             }
         },
-        outline: {
-            color: '#fff',
+        action2: {
             _hover: {
                 color: '#fff',
-                bg: 'ash'
+                bg: 'black'
             },
+            transitionDuration: '200ms',
+            color: 'black',
+            bg: 'secondaryButton',
+            fontSize: '16px',
+            fontWeight: '400',
             _focus: {
                 boxShadow: 'none'
             }
         },
-        actionOutline: {
-            color: '#fff',
-            border: '1px solid',
+        text: {
             _hover: {
-                color: '#fff',
-                bg: 'primary'
+                color: 'linear-gradient(to right, #9741FF, #645EFD, #007DB3)',
+                bg: 'transparent'
             },
-            _focus: {
-                boxShadow: 'none'
-            }
-        },
-        actionWhite: {
-            _hover: {
-                color: '#fff',
-                bg: 'primary'
-            },
-            color: 'dark',
-            bg: 'white',
-            _focus: {
-                boxShadow: 'none'
-            }
-        },
-        actionBare: {
-            _hover: {
-                color: '#fff',
-                bg: 'primary'
-            },
-            color: 'white',
-            bg: 'deepAsh',
-            _focus: {
-                boxShadow: 'none'
-            }
-        },
-        bare: {
-            color: 'white',
+            transitionDuration: '200ms',
+            color: 'black',
             bg: 'transparent',
+            fontSize: '16px',
+            fontWeight: '400',
             _focus: {
                 boxShadow: 'none'
             }
         }
+    },
+    // The default size and variant values
+    defaultProps: {
+        variant: 'action'
     }
 };

@@ -1,10 +1,11 @@
 import { MsgDataType } from '@/types/MsgDataType';
 import * as actionTypes from './actionTypes';
 
-export const updateAlertMsg = (toast: any, message: MsgDataType) => {
+export const updateAlertMsg = (toast: any, message: MsgDataType, position = 'top') => {
     toast({
         description: message.message,
         status: message.type,
+        position: position,
         duration: 3000,
         isClosable: true
     });

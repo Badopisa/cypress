@@ -33,3 +33,16 @@ export type LoginFormDataType = {
     email: string;
     password: string;
 };
+
+export type SetNewPasswordFormDataType = {
+    newPassword: string;
+    confirmPassword: string;
+};
+
+export type ForgotPasswordFormDataType = {
+    email: string;
+};
+
+export type VerifyTokenFormDataType = {
+    token: string;
+};

@@ -28,8 +28,6 @@ class HttpService {
         if (typeof this.token === 'string') {
             AuthStr = 'Bearer '.concat(this.token);
         }
-        console.log('dapr port', this.daprHost);
-        console.log('url isss', this.daprHost, this.daprHTTPPort, url);
 
         // return axios.post(`${this.daprHost}:${this.daprHTTPPort}/${url}`, payload, {
         //     headers: { Authorization: AuthStr, 'dapr-app-id': 'sonalysis-service' } // eslint-disable-line
