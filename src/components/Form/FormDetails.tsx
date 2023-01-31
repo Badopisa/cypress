@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 type FormDetailsType = {
     children: ReactElement;
     title: string;
-    disableButton: boolean;
+    disableButton?: boolean;
     buttonText?: string;
     hasFormFooter?: boolean;
     hasAccount?: boolean;
@@ -27,6 +27,7 @@ type FormDetailsType = {
     hasFooter?: boolean;
     hasOtherLinks?: boolean;
     loading?: boolean;
+    noBackButton?: boolean;
     handleButtonClick?: () => void;
 };
 
@@ -38,11 +39,12 @@ const FormDetails = ({
     disableButton = false,
     hasFooter = true,
     handleButtonClick,
-    loading = false
+    loading = false,
+    noBackButton = false
 }: FormDetailsType) => {
     const router = useRouter();
     return (
-        <VStack justifyContent={'center'} alignItems={'center'} w={{ base: 'full', md: 'lg' }}>
+        <VStack justifyContent={'center'} alignItems={'center'} w={{ base: 'full', md: 'auto' }}>
             <VStack alignItems={'center'} mb={'40px'}>
                 <Text fontSize={{ base: '20px', md: '40px' }} fontWeight="700">
                     {title}
@@ -51,7 +53,7 @@ const FormDetails = ({
                     {subtitle}
                 </Text>
             </VStack>
-            <SimpleGrid columns={1} rowGap={5} w="80%">
+            <SimpleGrid minW={'110%'} columns={1} rowGap={5}>
                 {children}
                 {hasFooter && (
                     <>
@@ -66,14 +68,16 @@ const FormDetails = ({
                                 {buttonText}
                             </Button>
                         </GridItem>
-                        <Stack>
-                            <HStack w={'full'} justifyContent={'center'}>
-                                <HStack onClick={() => router.back()} cursor={'pointer'}>
-                                    <Img alt="back" src="/images/icons/arrow-circle-left.svg" />
-                                    <Text>Go back</Text>
+                        {noBackButton || (
+                            <Stack>
+                                <HStack w={'full'} justifyContent={'center'}>
+                                    <HStack onClick={() => router.back()} cursor={'pointer'}>
+                                        <Img alt="back" src="/images/icons/arrow-circle-left.svg" />
+                                        <Text>Go back</Text>
+                                    </HStack>
                                 </HStack>
-                            </HStack>
-                        </Stack>
+                            </Stack>
+                        )}
 
                         {/*{hasOtherLinks && (*/}
                         {/*    <Stack>*/}
@@ -81,7 +85,7 @@ const FormDetails = ({
                         {/*            <Text align={'center'}>*/}
                         {/*                Already have an account?{' '}*/}
                         {/*                <Link href="/login" fontWeight="semibold">*/}
-                        {/*                    Login*/}
+                        {/*                    Registration*/}
                         {/*                </Link>*/}
                         {/*            </Text>*/}
                         {/*        ) : (*/}

@@ -58,22 +58,29 @@ export const PhoneNumberInput = ({
             <Box as="section" ref={ref} position="relative">
                 <InputGroup>
                     <InputLeftElement width="6.5em" cursor="pointer" onClick={onToggle}>
-                        <Box ml="20px" mr="10px" width="50%" flex={1}>
+                        <Box ml="20px" mr="10px" mt={'8px'} width="50%" flex={1}>
                             <Flag height="1rem" code={countryFlag || ''} />
                         </Box>
-                        <Text fontSize="14px">
+                        <Text mt={'6px'}>
                             {country ? (
-                                <Text fontWeight="bold">{country}</Text>
+                                <Text color="grey2" fontWeight="bold">
+                                    {country}
+                                </Text>
                             ) : (
-                                <Text fontWeight="bold" color="gray">
+                                <Text fontWeight="bold" color="grey5">
                                     +234
                                 </Text>
                             )}
                         </Text>
-                        <Box ml="10px" borderLeftWidth="1px" borderColor="#5E5E5E" height="40%" />
+                        <Box
+                            ml="10px"
+                            borderLeftWidth="2px"
+                            mt={'10px'}
+                            borderColor="grey4"
+                            height="60%"
+                        />
                     </InputLeftElement>
                     <Input
-                        focusBorderColor="#811AFF"
                         id={id}
                         pl="7em"
                         type="tel"
@@ -81,6 +88,16 @@ export const PhoneNumberInput = ({
                         placeholder="901-912-35646"
                         {...useFormRegisterReturn}
                         onChange={onPhoneNumberChange}
+                        focusBorderColor="purple"
+                        borderColor={'grey5'}
+                        size={'lg'}
+                        borderRadius={'6px'}
+                        _placeholder={{
+                            opacity: 1,
+                            color: 'inputText',
+                            fontSize: '16px',
+                            fontWeight: '400'
+                        }}
                     />
                 </InputGroup>
 

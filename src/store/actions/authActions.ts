@@ -1,50 +1,126 @@
 import * as Redux from 'redux';
 import {
-    AdminRegFormData,
     ForgotPasswordFormDataType,
     LoginFormDataType,
+    ProfileFormDataType,
+    RegisterAdminFormDataType,
+    RegisterCoachFormDataType,
     SetNewPasswordFormDataType,
     UserDataType,
+    VerifyEmailTokenFormDataType,
     VerifyTokenFormDataType
 } from '@/types/AuthDataType';
 import {
+    AdminRegistration,
     ChangePassword,
     ClubAdminLogin,
-    ClubAdminRegistration,
     ForgotPassword,
+    UpdateProfile,
+    VerifyEmail,
+    VerifyEmailToken,
     VerifyToken
 } from '@/services/clubAdminService';
 import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
 import { clearLocalStorage, saveAccessToken } from '@/utils/locaStorageActions';
+import { UploadImage } from '@/services/uploadService';
+import Swal from 'sweetalert2';
 
 type Dispatch = Redux.Dispatch<any>;
 
-export const adminRegistration = (payload: AdminRegFormData, toast: any, router: any) => {
+export const adminRegistration = (
+    payload: RegisterAdminFormDataType,
+    profilePicture: File,
+    toast: any,
+    router: any
+) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
 
-        ClubAdminRegistration(payload)
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                payload.photo = result.data.data.uploadUrl;
+                console.log('new payload', payload);
+                AdminRegistration(payload)
+                    .then(async (result) => {
+                        const { data } = result;
+                        console.log('admin token is', data.data);
+                        window.localStorage.setItem('user', JSON.stringify(data.data.user));
+                        dispatch(saveAdminData(data.data.user));
+
+                        updateAlertMsg(toast, {
+                            type: 'success',
+                            message: 'Congratulations, Account successfully created'
+                        });
+                        Swal.fire({
+                            title: 'Account created!',
+                            text: 'Choose to proceed to dashboard or to select a subscription plan',
+                            icon: 'success',
+                            backdrop: false,
+                            showDenyButton: true,
+                            confirmButtonColor: '#645EFD',
+                            denyButtonColor: '#131313',
+                            confirmButtonText: 'Dashboard',
+                            denyButtonText: 'Subscription'
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                router.push('/dashboard');
+                            } else if (result.isDenied) {
+                                router.push('/admin/subscription');
+                            }
+                        });
+
+                        saveAccessToken(data.data.auth_token);
+
+                        dispatch(updateIsLoading(false));
+                    })
+
+                    .catch((err) => {
+                        updateAlertMsg(toast, {
+                            type: 'error',
+                            message: err.response.data.message
+                        });
+
+                        dispatch(updateIsLoading(false));
+                    });
+            })
+
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: err.response.data.message });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+export const coachRegistration = (payload: RegisterCoachFormDataType, toast: any, router: any) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        AdminRegistration(payload)
             .then(async (result) => {
                 const { data } = result;
-                console.log('admin token is', data.data);
-                // window.localStorage.setItem('user', JSON.stringify(data.data.user));
+                console.log('token is', data.data);
+                window.localStorage.setItem('user', JSON.stringify(data.data.user));
                 dispatch(saveAdminData(data.data.user));
 
                 updateAlertMsg(toast, {
                     type: 'success',
-                    message: 'Congratulations, Account successfully created'
+                    message: 'Account created successfully!'
                 });
-
                 saveAccessToken(data.data.auth_token);
 
                 dispatch(updateIsLoading(false));
 
-                router.push('/admin/subscription');
+                router.push('/coachAndPlayer/setNewPassword');
             })
 
             .catch((err) => {
-                updateAlertMsg(toast, { type: 'error', message: err.response.data.message });
+                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
 
                 dispatch(updateIsLoading(false));
             });
@@ -64,7 +140,7 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
 
                 updateAlertMsg(toast, {
                     type: 'success',
-                    message: 'Congratulations, Login Successful'
+                    message: 'Login Successful'
                 });
 
                 saveAccessToken(data.data.auth_token);
@@ -72,6 +148,45 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
                 dispatch(updateIsLoading(false));
 
                 router.push('/dashboard/club-management');
+            })
+
+            .catch((err) => {
+                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+export const updateProfile = (payload: ProfileFormDataType, toast: any, router: any) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        UpdateProfile(payload)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('token is', data.data);
+                window.localStorage.setItem('user', JSON.stringify(data.data.user));
+                dispatch(saveAdminData(data.data.user));
+
+                updateAlertMsg(toast, {
+                    type: 'success',
+                    message: 'Congratulations, Registration Successful'
+                });
+
+                saveAccessToken(data.data.auth_token);
+
+                dispatch(updateIsLoading(false));
+
+                Swal.fire({
+                    title: 'Successful!',
+                    text: 'Proceed to dashboard!',
+                    icon: 'success',
+                    backdrop: false,
+                    confirmButtonColor: '#645EFD',
+                    confirmButtonText: 'Continue',
+                    willClose: () => router.push('/dashboard')
+                });
             })
 
             .catch((err) => {
@@ -152,7 +267,8 @@ export const setNewPassword = (
     userId: any,
     toast: any,
     router: any,
-    Swal: any
+    Swal: any,
+    coach = false
 ) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
@@ -164,25 +280,104 @@ export const setNewPassword = (
 
                 // updateAlertMsg(toast, {
                 //     type: 'success',
-                //     message: 'Congratulations, Login Successful'
+                //     message: 'Congratulations, Registration Successful'
                 // });
 
                 dispatch(updateIsLoading(false));
 
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Password changed successfully!',
-                    icon: 'success',
-                    backdrop: false,
-                    confirmButtonColor: '#645EFD',
-                    confirmButtonText: 'Proceed to Login',
-                    willClose: () => router.push('/login')
-                });
+                if (coach) {
+                    Swal.fire({
+                        title: 'Password created!',
+                        text: 'Proceed to set up your profile!',
+                        icon: 'success',
+                        backdrop: false,
+                        confirmButtonColor: '#645EFD',
+                        confirmButtonText: 'Continue',
+                        willClose: () => router.push('/coachAndPlayer/profile')
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Password changed successfully!',
+                        icon: 'success',
+                        backdrop: false,
+                        confirmButtonColor: '#645EFD',
+                        confirmButtonText: 'Proceed to login',
+                        willClose: () => router.push('/login')
+                    });
+                }
             })
 
             .catch((err) => {
                 updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
                 // Swal.fire(err?.response?.data?.message, 'There was a problem!', 'error');
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+// Admin specific
+
+export const verifyEmail = (payload: ForgotPasswordFormDataType, toast: any, router: any) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+        dispatch(forgotPasswordEmail(payload?.email));
+
+        VerifyEmail(payload)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('token is', data);
+                updateAlertMsg(toast, {
+                    type: 'success',
+                    message: data?.message
+                });
+                dispatch(updateIsLoading(false));
+
+                router.push('/admin/verify-code');
+            })
+
+            .catch((err) => {
+                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+export const verifyEmailToken = (
+    payload: VerifyEmailTokenFormDataType,
+    toast: any,
+    router: any,
+    setPinPassed: any,
+    setError: any,
+    setLoading: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        VerifyEmailToken(payload)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('token is', data);
+                dispatch(saveAdminData(data.data.user));
+                updateAlertMsg(toast, {
+                    type: 'success',
+                    message: data?.message
+                });
+                setError('');
+                setPinPassed(true);
+                dispatch(updateIsLoading(false));
+                setLoading(false);
+
+                router.push('/admin/registration');
+            })
+
+            .catch((err) => {
+                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
+                setPinPassed(true);
+                setError(err?.response?.data?.message);
+                setLoading(false);
 
                 dispatch(updateIsLoading(false));
             });

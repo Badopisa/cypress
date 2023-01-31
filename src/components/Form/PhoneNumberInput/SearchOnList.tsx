@@ -31,7 +31,7 @@ export const SearchOnList = ({ data, onChange }: Props) => {
         <Box
             my={1}
             maxH="xs"
-            bg="#131313"
+            bg="white"
             width="full"
             zIndex={999}
             height="auto"
@@ -39,16 +39,24 @@ export const SearchOnList = ({ data, onChange }: Props) => {
             borderRadius="lg"
             position="absolute"
             boxShadow="0px 1px 30px rgba(0, 0, 0, 0.1)">
-            <Box position="sticky" top="0" padding={4} bg="#131313">
+            <Box position="sticky" top="0" padding={4} bg="white">
                 <Input
                     size="sm"
                     type="search"
-                    borderRadius="md"
                     autoComplete="on"
                     placeholder="Search Country"
                     onChange={(event) => handleSearch(event)}
-                    _focusWithin={{ borderColor: 'secondary' }}
-                    _invalid={{ bg: 'white', borderColor: 'gray.50' }}
+                    _focusWithin={{ borderColor: 'purple' }}
+                    _invalid={{ bg: 'red', borderColor: 'grey6' }}
+                    focusBorderColor="purple"
+                    borderColor={'grey5'}
+                    borderRadius={'6px'}
+                    _placeholder={{
+                        opacity: 1,
+                        color: 'inputText',
+                        fontSize: '16px',
+                        fontWeight: '400'
+                    }}
                 />
             </Box>
 
@@ -67,10 +75,10 @@ export const SearchOnList = ({ data, onChange }: Props) => {
                             setSelectedItem(item);
                         }}
                         style={{ transition: 'all .125s ease' }}
-                        _hover={{ bg: 'gray.50', color: '#396070' }}
+                        _hover={{ bg: 'purple', color: 'white' }}
                         sx={
                             item?.code === selectedItem?.code
-                                ? { backgroundColor: 'gray.50', color: '#396070' }
+                                ? { backgroundColor: 'purple', color: 'white' }
                                 : {}
                         }>
                         <Flex>

@@ -20,36 +20,15 @@ const useUploadToS3 = (file: any, globalLoading = true) => {
         const uploadImage = async () => {
             dispatch(updateIsLoading(true));
             setIsLoading(true);
-            console.log('Uploading file to AWS S3');
-            // const config: any = {
-            //     onUploadProgress: (progressEvent: any) => {
-            //         const percentCompleted = Math.round(
-            //             (progressEvent.loaded * 100) / progressEvent.total
-            //         );
-            //         console.log('percentCompleted', percentCompleted);
-            //         console.log('percentCompleted', progressEvent);
-            //         setProgress(percentCompleted);
-            //     }
-            // };
+            console.log('Uploading file');
 
             try {
-                // Making a POST request to created API endpoint
-                // const { data } = await axios.post(
-                //     '/api/upload',
-                //     {
-                //         name: file.name,
-                //         type: file.type
-                //     },
-                //     config
-                // );
-                // console.log('data from created endpoint', data);
 
                 // Fetching out a URL
-                const url = '/api/upload';
-                console.log('url', url);
+                const url = '/users/upload-image';
 
-                // Uploading file to S3
-                const result = await axios.put(url, file, {
+                // Uploading file
+                const result = await axios.post(url, file, {
                     headers: {
                         'Content-Type': file.type,
                         'Access-Control-Allow-Origin': '*'

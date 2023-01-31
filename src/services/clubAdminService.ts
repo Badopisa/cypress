@@ -1,7 +1,7 @@
 import HttpService from '@/services/httpService';
 import { AdminRegFormData } from '@/types/AuthDataType';
 
-export const ClubAdminRegistration = (payload: AdminRegFormData) => {
+export const AdminRegistration = (payload: AdminRegFormData) => {
     const http = new HttpService();
 
     const url = 'users/signup';
@@ -52,6 +52,22 @@ export const ChangePassword = (payload: any, userId: string) => {
     const http = new HttpService();
 
     const url = `users/change-password/${userId}`;
+
+    return http.postData(payload, url, false);
+};
+
+export const VerifyEmail = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/send-otp`;
+
+    return http.postData(payload, url, false);
+};
+
+export const VerifyEmailToken = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/verify-send/otp`;
 
     return http.postData(payload, url, false);
 };

@@ -15,9 +15,9 @@ const ResetPassword = () => {
             <FormDetails
                 hasAccount={true}
                 buttonText="SET NEW PASSWORD"
-                coloredTitle="Set New"
+                // coloredTitle="Set New"
                 title="Password"
-                subTitle="Create a new Password">
+                subtitle="Create a new Password">
                 <>
                     <GridItem colSpan={1}>
                         <FormControl>

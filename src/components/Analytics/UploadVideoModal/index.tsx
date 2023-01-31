@@ -31,6 +31,8 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     const inputRef = useRef<HTMLInputElement>(null);
     const toast = useToast();
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     useEffect(() => {
         if (spaceError) {
             return toast({

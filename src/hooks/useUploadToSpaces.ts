@@ -14,8 +14,12 @@ const useUploadToSpaces = (file: any, globalLoading = true) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const dispatch = useDispatch();
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     useEffect(async () => {
         // connect to socket server
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         socket = SocketIOClient.connect(process.env.NEXT_PUBLIC_APP_BASE_URL, {
             path: '/api/socket'
         });

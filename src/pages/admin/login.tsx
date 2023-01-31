@@ -27,11 +27,11 @@ const Login = () => {
                 designation="A COACH"
             />
             <FormDetails
-                hasFormFooter={false}
+                // hasFormFooter={false}
                 buttonText="LOGIN"
-                coloredTitle="Unlock"
+                // coloredTitle="Unlock"
                 title="Your Potential"
-                subTitle="Please fill in the following details to bring your dream to life">
+                subtitle="Please fill in the following details to bring your dream to life">
                 <>
                     <GridItem colSpan={1}>
                         <FormControl>
