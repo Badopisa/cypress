@@ -3,16 +3,32 @@ import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/rea
 import { FieldErrors, FieldValues, UseFormRegisterReturn } from 'react-hook-form';
 
 export function CountriesSelector(props: {
-    errors: FieldErrors<FieldValues>;
+    errors: any;
     useFormRegisterReturn: UseFormRegisterReturn;
     map: any;
 }) {
     return (
-        <FormControl data-testid="countries-dropdown" mb={5} isInvalid={!!props.errors.country}>
-            <FormLabel color="#C9D0CD" fontSize="14px" htmlFor="country">
-                COUNTRY
+        <FormControl
+            data-testid="countries-dropdown"
+            mb={'32px'}
+            isInvalid={!!props.errors.country}>
+            <FormLabel mb={'10px'} htmlFor="country">
+                Country
             </FormLabel>
-            <Select variant="outline" placeholder="Select Country" {...props.useFormRegisterReturn}>
+            <Select
+                id="email"
+                focusBorderColor="purple"
+                borderColor={'grey5'}
+                size={'lg'}
+                borderRadius={'6px'}
+                _placeholder={{
+                    opacity: 1,
+                    color: 'inputText',
+                    fontSize: '16px',
+                    fontWeight: '400'
+                }}
+                placeholder="Select country"
+                {...props.useFormRegisterReturn}>
                 {props.map}
             </Select>
             <FormErrorMessage>

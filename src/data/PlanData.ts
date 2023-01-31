@@ -14,11 +14,26 @@ export const PlanData: { [type: string]: PlanDataType } = {
                 'Good Video Quality',
                 'Good Video Quality',
                 'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
                 'Good Video Quality'
             ]
         },
         premium: {
             price: 600,
+            benefits: [
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality'
+            ]
+        },
+        main: {
+            price: 900,
             benefits: [
                 'Good Video Quality',
                 'Good Video Quality',
@@ -37,11 +52,26 @@ export const PlanData: { [type: string]: PlanDataType } = {
                 'Good Video Quality',
                 'Good Video Quality',
                 'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
                 'Good Video Quality'
             ]
         },
         premium: {
             price: 5000,
+            benefits: [
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality',
+                'Good Video Quality'
+            ]
+        },
+        main: {
+            price: 9000,
             benefits: [
                 'Good Video Quality',
                 'Good Video Quality',

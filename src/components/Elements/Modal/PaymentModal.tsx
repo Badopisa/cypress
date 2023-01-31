@@ -16,7 +16,7 @@ const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent w="xs" h="auto" bg="black" color="white" py={{ base: 4, md: 8 }}>
+            <ModalContent w="xs" h="auto" bg="white" color="black" py={{ base: 4, md: 8 }}>
                 <Center my={6}>
                     {' '}
                     <Spinner

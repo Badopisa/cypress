@@ -15,11 +15,12 @@ const FaceCapture = () => {
             <FormDetails
                 hasFormFooter={false}
                 buttonText="TAKE PICTURE"
-                coloredTitle="Face"
+                // coloredTitle="Face"
                 title="Your Potential"
-                subTitle="2 of 2"
+                subtitle="2 of 2"
                 mt="1"
-                hasArror={true}>
+                // hasArror={true}
+            >
                 <>
                     <Center>
                         <Box boxSize="xs" bg="grey" rounded={18} />

@@ -89,6 +89,25 @@ class HttpService {
             data: { source: formData }
         });
     };
+
+    postFile = async (payload: any, url: string, secure: boolean) => {
+        let AuthStr = '';
+
+        if (secure) {
+            verifyToken(this.token);
+        }
+
+        if (typeof this.token === 'string') {
+            AuthStr = 'Bearer '.concat(this.token);
+        }
+
+        // return axios.post(`${this.daprHost}:${this.daprHTTPPort}/${url}`, payload, {
+        //     headers: { Authorization: AuthStr, 'dapr-app-id': 'sonalysis-service' } // eslint-disable-line
+        // });
+        return axios.post(this.baseUrl + url, payload, {
+            headers: { 'Authorization': AuthStr, 'Content-Type': 'multipart/form-data' }
+        });
+    };
 }
 
 export default HttpService;

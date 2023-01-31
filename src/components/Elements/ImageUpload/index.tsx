@@ -15,7 +15,7 @@ const ImageUpload = ({
     defaultImage,
     setSelectedImage,
     selectedImage,
-    title = 'Upload Your Logo',
+    title = 'Select picture from files',
     ...rest
 }: Omit<ImageUploadProps, 'src'>) => {
     const dispatch = useDispatch();
@@ -62,13 +62,14 @@ const ImageUpload = ({
                 ref={imageRef}
                 style={{ display: 'none' }}
                 onChange={handleChange}
-                name="demo"
+                name="picture"
             />
             <Image
                 {...rest}
                 cursor="pointer"
                 overflow="hidden"
-                bgColor="#000000"
+                bgColor="grey6"
+                objectFit={'contain'}
                 position="relative"
                 _hover={{
                     _after: {
@@ -96,7 +97,9 @@ const ImageUpload = ({
                 <Text
                     onClick={removeImage}
                     cursor="pointer"
-                    color="#5597FF"
+                    color="red"
+                    fontSize="16px"
+                    fontWeight={'400'}
                     decoration="underline"
                     textAlign="center">
                     Remove Logo
@@ -105,7 +108,9 @@ const ImageUpload = ({
                 <Text
                     onClick={() => imageRef.current?.click()}
                     cursor="pointer"
-                    color="#5597FF"
+                    color="green"
+                    fontSize="16px"
+                    fontWeight={'400'}
                     // decoration="underline"
                     textAlign="center">
                     {title}

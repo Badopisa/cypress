@@ -10,7 +10,8 @@ const NavBar: React.FC<NavBarProps> = ({ login }) => {
     const [isHamburgerOpen] = useState<boolean>(false);
     return (
         <Box
-            position="fixed"
+            position="sticky"
+            top={0}
             zIndex={1500}
             w="full"
             h={isHamburgerOpen ? '100%' : '20'}
@@ -30,7 +31,7 @@ const NavBar: React.FC<NavBarProps> = ({ login }) => {
                         <Text fontWeight="400">Login</Text>
                     </Link>
                 ) : (
-                    <Link href="/registation">
+                    <Link href="/registration">
                         <Text fontWeight="400">Get Started</Text>
                     </Link>
                 )}

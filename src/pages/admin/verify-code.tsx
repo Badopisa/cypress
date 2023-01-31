@@ -3,10 +3,10 @@ import { FormDetails } from '@/components/Form';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import NavBar from '@/components/Layout/NavBar';
-import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { verifyToken } from '@/store/actions/authActions';
-import {UserDataType} from "@/types/AuthDataType";
+import {verifyEmailToken, verifyToken } from '@/store/actions/authActions';
+import { UserDataType } from '@/types/AuthDataType';
 
 let currentPinIndex = 0;
 const VerifyCode = () => {
@@ -34,9 +34,11 @@ const VerifyCode = () => {
             setLoading(true);
             setPinPassed(true);
             const payload = {
+                email: forgotPasswordEmail,
                 token: pin.join('')
             };
-            dispatch(verifyToken(payload, toast, router, setPinPassed, setError, setLoading));
+            dispatch(verifyEmailToken(payload, toast, router, setPinPassed, setError, setLoading));
+            // router.push('/admin/registration');
             // setTimeout(() => {
             //     if (pin.join('') === '3333') {
             //         setError('');
@@ -60,9 +62,12 @@ const VerifyCode = () => {
             setLoading(true);
             setPinPassed(true);
             const payload = {
+                email: forgotPasswordEmail,
                 token: pin.join('')
             };
-            dispatch(verifyToken(payload, toast, router, setPinPassed, setError, setLoading));
+            dispatch(verifyEmailToken(payload, toast, router, setPinPassed, setError, setLoading));
+            // router.push('/admin/registration');
+            // dispatch(verifyToken(payload, toast, router, setPinPassed, setError, setLoading));
             // setTimeout(() => {
             //     if (pin.join('') === '3333') {
             //         setError('');
@@ -128,10 +133,10 @@ const VerifyCode = () => {
                                                 fontSize: '16px',
                                                 fontWeight: '400'
                                             }}
-                                            type='number'
                                             placeholder="-"
                                             borderRadius="6px"
                                             pl="25px"
+                                            type="number"
                                             w="87"
                                             h="60px"
                                             onKeyDown={(e) => handleOnKeyDown(e, index)}

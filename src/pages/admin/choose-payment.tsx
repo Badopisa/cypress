@@ -1,11 +1,13 @@
 import PaymentCard from '@/components/Elements/Card/PaymentCard';
 import PaymentModal from '@/components/Elements/Modal/PaymentModal';
 import SuccessModal from '@/components/Elements/Modal/SuccessModal';
-import { Flex, HStack, useRadioGroup } from '@chakra-ui/react';
-import { FormImage, FormDetails } from '../../components/Form/index';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { PaystackButton } from 'react-paystack';
+import {Box, Flex, HStack, Spacer, Text, useRadio, useRadioGroup, VStack} from '@chakra-ui/react';
+import {FormImage, FormDetails} from '../../components/Form/index';
+import React, {useState} from 'react';
+import {useRouter} from 'next/router';
+import {PaystackButton} from 'react-paystack';
+import NavBar from "@/components/Layout/NavBar";
+import AvatarIcon from "@/assets/avatarIcon";
 
 const PaymentMethod = () => {
     const [paymentLoading, setPaymentIsLoading] = useState<boolean>(false);
@@ -59,7 +61,7 @@ const PaymentMethod = () => {
         '/images/image/visa.png'
     ];
 
-    const { getRootProps, getRadioProps } = useRadioGroup({
+    const {getRootProps, getRadioProps} = useRadioGroup({
         name: 'framework',
         defaultValue: 'react',
         onChange: console.log
@@ -81,51 +83,109 @@ const PaymentMethod = () => {
     };
 
     return (
-        <Flex h="100vh" direction={{ base: 'column-reverse', md: 'row' }}>
-            <FormImage
-                image="/images/image/hero-bg.jpg"
-                title="Club Admin Platform"
-                body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut purus rhoncus lectus."
-            />
-
-            <FormDetails
-                hasFormFooter={false}
-                // buttonText='MAKE YOUR PAYMENT'
-                coloredTitle="Choose"
-                title="Payment method"
-                subTitle="Please fill in the following details to bring your dream to life"
-                hasArror={true}
-                hasOtherLinks={false}
-                // handleButtonClick={handleButtonClick}
-                hasFooter={false}>
-                <>
-                    <HStack spacing="24px" mb="32px">
-                        {option.map((value, index) => {
-                            const radio = getRadioProps({ value });
-                            return (
-                                <PaymentCard
-                                    key={value}
-                                    picture={image[index]}
-                                    value={value}
-                                    radio={radio}
-                                />
-                            );
-                        })}
-                    </HStack>
-                    <PaystackButton {...componentProps} />
-                </>
-            </FormDetails>
-            <PaymentModal isOpen={paymentLoading} onClose={() => setPaymentIsLoading(false)} />
-            <SuccessModal
-                isOpen={paymentSuccess}
-                onClose={handleRedirection}
-                selectedBenefits={benefits?.split(',')}
-                selectedPrice={Number(query.price)}
-                selectedTitle={query.title?.toString()}
-                selectedTime={query.time?.toString()}
-            />
-        </Flex>
+        <>
+            <NavBar />
+            <Flex
+                direction={'column'}
+                bg="white"
+                color={'black'}
+                minHeight="completeY"
+                alignItems="center"
+                justifyContent="center">
+                <FormDetails
+                    hasFormFooter={false}
+                    // buttonText='MAKE YOUR PAYMENT'
+                    // coloredTitle="Choose"
+                    title="Choose payment method"
+                    // subtitle="Please fill in the following details to bring your dream to life"
+                    // hasArror={true}
+                    // hasOtherLinks={false}
+                    // handleButtonClick={handleButtonClick}
+                    hasFooter={false}>
+                    <>
+                        <HStack spacing="24px" mb="32px">
+                            {option.map((value, index) => {
+                                const radio = getRadioProps({value});
+                                return (
+                                    <PaymentCard
+                                        key={value}
+                                        picture={image[index]}
+                                        value={value}
+                                        radio={radio}
+                                    />
+                                );
+                            })}
+                        </HStack>
+                        <PaystackButton {...componentProps} />
+                    </>
+                </FormDetails>
+                <PaymentModal isOpen={paymentLoading} onClose={() => setPaymentIsLoading(false)} />
+                <SuccessModal
+                    isOpen={paymentSuccess}
+                    onClose={handleRedirection}
+                    selectedBenefits={benefits?.split(',')}
+                    selectedPrice={Number(query.price)}
+                    selectedTitle={query.title?.toString()}
+                    selectedTime={query.time?.toString()}
+                />
+            </Flex>
+        </>
     );
 };
 
+function RadioCard(props: any) {
+    const { getInputProps, getCheckboxProps } = useRadio(props);
+
+    const input: any = getInputProps();
+    const checkbox = getCheckboxProps();
+
+    return (
+        <Box as="label">
+            <input {...input} />
+            <VStack
+                {...checkbox}
+                w={'310px'}
+                h={'256px'}
+                mb={'40px'}
+                alignItems={'flex-start'}
+                cursor="pointer"
+                borderWidth="1px"
+                position="relative"
+                borderRadius="8px"
+                borderColor={'grey5'}
+                _checked={{
+                    bg: 'white',
+                    borderWidth: '3px',
+                    borderColor: 'slateBlue'
+                }}
+                px={'42px'}
+                py={'42px'}>
+                {input?.checked && (
+                    <Box position={'absolute'} top={0} left={0} w={'100%'} h={'100%'} bg={'primary'} opacity={0.1} />
+                )}
+                <Box
+                    {...checkbox}
+                    w={'20px'}
+                    h={'20px'}
+                    _checked={{
+                        bg: 'slateBlue'
+                    }}
+                    borderRadius="100%"
+                    background={'grey6'}
+                    borderColor={'grey5'}
+                    position="absolute"
+                    top={'20px'}
+                    right={'20px'}
+                />
+                <AvatarIcon size={'25px'} stroke={input?.checked ? 'slateBlue' : ''} />
+                <Spacer h={'22px'} />
+                <Text fontSize={'20px'}>{props?.title}</Text>
+                <Spacer h={'20px'} />
+                <Text w={'110%'} color={'grey3'} fontSize={'16px'}>
+                    {props?.subtitle}
+                </Text>
+            </VStack>
+        </Box>
+    );
+}
 export default PaymentMethod;
