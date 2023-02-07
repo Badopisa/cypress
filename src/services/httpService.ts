@@ -4,12 +4,15 @@ import axios from 'axios';
 
 class HttpService {
     token: string | null | undefined;
+    userData: any;
     baseUrl: string | undefined;
     daprHost: string | undefined;
     daprHTTPPort: string | undefined;
 
     constructor() {
         this.token = retrieveAccessToken();
+
+        this.userData = retrieveAccessToken();
 
         this.baseUrl = process.env.NEXT_PUBLIC_API_URL;
 

@@ -18,21 +18,21 @@ const TeamCard = ({
             gap={3}
             direction="column"
             align="center"
-            bg="dark"
+            bg="grey6"
             rounded={10}
             py={{ base: 6, md: 6 }}
             onClick={click}
             cursor={'pointer'}>
             <Center>
-                <Avatar src={image} boxSize="10" />
+                <Avatar name={name} src={image} w={'66px'} h={'66px'} />
             </Center>
-            <Text fontSize="sm" fontWeight="semibold">
+            <Text fontSize="14px" color={'black2'} fontWeight="semibold">
                 {name}
             </Text>
-            <Text fontSize="xs" fontWeight="medium">
+            <Text fontSize="12px" color={'black2'} fontWeight="medium">
                 {noOfPlayers} Players
             </Text>
-            <Text fontSize="xs" color="muted" fontWeight="normal">
+            <Text fontSize="xs" color="black5" fontWeight="normal">
                 {noOfStaff} Staff
             </Text>
         </Flex>

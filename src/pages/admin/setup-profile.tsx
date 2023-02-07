@@ -44,9 +44,11 @@ const ClubAdminRegistration = () => {
             password: values.password,
             first_name: values.firstname,
             last_name: values.lastname,
-            country: values.country
+            country: values.country,
+            phone: '324237'
         };
-        dispatch(adminRegistration(payload, toast, router));
+        const photo: any = '';
+        dispatch(adminRegistration(payload, photo, toast, router));
     };
 
     return (

@@ -30,7 +30,7 @@ import useUploadToS3 from '@/hooks/useUploadToS3';
 
 const ClubAdminRegistration = ({ countries }: any) => {
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
-    const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
+    const [profilePicture, setProfilePicture] = React.useState<any>(null);
     const [show, setShow] = React.useState<boolean>(false);
     const handleClick = () => setShow(!show);
     const { s3URL, s3Error } = useUploadToS3(profilePicture);
@@ -67,7 +67,7 @@ const ClubAdminRegistration = ({ countries }: any) => {
             country: values.country
         };
 
-        dispatch(adminRegistration(payload, toast, router));
+        dispatch(adminRegistration(payload, profilePicture, toast, router));
     };
 
     return (

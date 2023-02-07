@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { coachRegistration } from '@/store/actions/authActions';
+import {adminLogin, coachRegistration} from '@/store/actions/authActions';
 import { useRouter } from 'next/router';
 import React from 'react';
 import NavBar from '@/components/Layout/NavBar';
@@ -37,11 +37,10 @@ const Registration = () => {
 
     const onSubmit = (value: any) => {
         const payload = {
-            role: 'coach',
             email: value.email,
             password: value.password
         };
-        dispatch(coachRegistration(payload, toast, router));
+        dispatch(adminLogin(payload, toast, router));
     };
     return (
         <main>

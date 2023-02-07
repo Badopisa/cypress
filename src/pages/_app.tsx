@@ -5,9 +5,10 @@ import Fonts from '../fonts';
 import NextNprogress from 'nextjs-progressbar';
 import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
-import store from '@/store';
+import { persistedStore, store } from '@/store';
 
 import { colors } from '@/theme/foundations/colors';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -20,10 +21,12 @@ function MyApp({ Component, pageProps }: AppProps) {
                 height={8}
             />
             <Provider store={store}>
-                <ChakraProvider resetCSS theme={chakraTheme}>
-                    <Fonts />
-                    <Component {...pageProps} />
-                </ChakraProvider>
+                <PersistGate persistor={persistedStore} loading={null}>
+                    <ChakraProvider resetCSS theme={chakraTheme}>
+                        <Fonts />
+                        <Component {...pageProps} />
+                    </ChakraProvider>
+                </PersistGate>
             </Provider>
         </>
     );

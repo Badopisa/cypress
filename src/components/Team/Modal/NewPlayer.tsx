@@ -22,10 +22,14 @@ import {
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { createAndAddPlayerToTeam } from '@/store/actions/playerActions';
+import {
+    createAndAddPlayerToTeam,
+    uploadPictureAndCreateAndAddPlayerToTeam
+} from '@/store/actions/playerActions';
 import { UserDataType } from '@/types/AuthDataType';
 import Confirmation from './Confirmation';
 import useUploadToS3 from '@/hooks/useUploadToS3';
+import { uploadPictureAndCreateTeam } from '@/store/actions/teamActions';
 
 type NewPlayerType = {
     isOpen: boolean;
@@ -40,7 +44,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
     );
     const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
     const [select, setSelected] = useState<boolean>(false);
-    const { s3URL, s3Error } = useUploadToS3(profilePicture);
+    const [playerName, setPlayerName] = useState('');
 
     const {
         handleSubmit,
@@ -52,47 +56,55 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
     const toast = useToast();
 
     const onSubmit = (value: any) => {
-        if (s3Error) {
-            return toast({
-                title: 'Upload Error',
-                description: 'Error uploading image, please try again or remove image',
-                status: 'error',
-                duration: 9000,
-                isClosable: true
-            });
-        }
-
         const teamId = currentTeam?.id;
 
         const payload = {
-            photo: s3URL,
+            photo: '',
             first_name: value.firstName,
             last_name: value.lastName,
             position: value.position,
-            jersey_no: value.jerseyNo,
+            jersey_number: value.jerseyNo,
             club_id: user?.clubs[0]?.id,
             email: value.email
         };
         console.log('pre submit payload', payload);
-        dispatch(createAndAddPlayerToTeam(payload, teamId, toast, onClose, setSelected));
+        setPlayerName(`${value.firstName} ${value.lastName}`);
+        dispatch(
+            uploadPictureAndCreateAndAddPlayerToTeam(
+                payload,
+                profilePicture,
+                teamId,
+                toast,
+                onClose,
+                setSelected
+            )
+        );
     };
     return (
         <>
-            <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+            <Modal isCentered size={'xl'} isOpen={isOpen} onClose={() => onClose(false)}>
                 <ModalOverlay />
-                <ModalContent px={6} w="auto" h="auto" bg="grey" color="white" borderRadius="3xl">
-                    <ModalHeader py={8} textAlign="center" fontSize="lg" fontWeight="bold">
-                        Create New Player
-                        <Text fontSize="sm" fontWeight="light">
-                            Fill in a player’s details and send an invite
+                <ModalContent
+                    px={'43px'}
+                    pt={'20px'}
+                    pb={'40px'}
+                    w="auto"
+                    h="auto"
+                    bg="white"
+                    color="black2"
+                    borderRadius="3xl">
+                    <ModalHeader py={8} textAlign="center" fontSize="40px" fontWeight="700">
+                        Add new player
+                        <Text fontSize="16px" color="grey4" fontWeight={'400'}>
+                            Fill in the details to send an invite to the player
                         </Text>
                     </ModalHeader>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <ModalBody>
                             <Center>
-                                <VStack mb={6} mt={2}>
+                                <VStack mb={'40px'} mt={2}>
                                     <ImageUpload
-                                        defaultImage="/images/image/default-user-avatar3.svg"
+                                        defaultImage="/images/image/Avatar.png"
                                         w="100px"
                                         h="100px"
                                         rounded="full"
@@ -106,33 +118,46 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                     <GridItem colSpan={1}>
                                         <FormControl isInvalid={!!errors.firstName}>
                                             <FormLabel fontSize="sm" htmlFor="firstName">
-                                                FIRST NAME
+                                                First name
                                             </FormLabel>
                                             <Input
                                                 {...register('firstName', {
-                                                    required: 'First Name is required',
+                                                    required: 'First name is required',
                                                     minLength: {
                                                         value: 2,
-                                                        message: 'First Name is too short'
+                                                        message: 'First name is too short'
                                                     }
                                                 })}
                                                 id="firstName"
                                                 placeholder="John"
+                                                focusBorderColor="purple"
+                                                borderColor={'grey5'}
+                                                size={'lg'}
+                                                borderRadius={'6px'}
+                                                _placeholder={{
+                                                    opacity: 1,
+                                                    color: 'grey4',
+                                                    fontSize: '16px',
+                                                    fontWeight: '400'
+                                                }}
                                             />
 
                                             <FormErrorMessage>
                                                 {errors.firstName && (
-                                                    <span>{`${errors.firstName.message}`}</span>
+                                                    <Text
+                                                        color={
+                                                            'red'
+                                                        }>{`${errors.firstName.message}`}</Text>
                                                 )}
                                             </FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                     <GridItem colSpan={1}>
                                         <FormControl isInvalid={!!errors.lastName}>
-                                            <FormLabel htmlFor="lastName">LAST NAME</FormLabel>
+                                            <FormLabel htmlFor="lastName">Last name</FormLabel>
                                             <Input
                                                 {...register('lastName', {
-                                                    required: 'Last Name is required',
+                                                    required: 'Last name is required',
                                                     minLength: {
                                                         value: 2,
                                                         message: 'Last Name is too short'
@@ -140,10 +165,23 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                                 })}
                                                 id="lastname"
                                                 placeholder="Doe"
+                                                focusBorderColor="purple"
+                                                borderColor={'grey5'}
+                                                size={'lg'}
+                                                borderRadius={'6px'}
+                                                _placeholder={{
+                                                    opacity: 1,
+                                                    color: 'grey4',
+                                                    fontSize: '16px',
+                                                    fontWeight: '400'
+                                                }}
                                             />
                                             <FormErrorMessage>
                                                 {errors.lastName && (
-                                                    <span>{`${errors.lastName.message}`}</span>
+                                                    <Text
+                                                        color={
+                                                            'red'
+                                                        }>{`${errors.lastName.message}`}</Text>
                                                 )}
                                             </FormErrorMessage>
                                         </FormControl>
@@ -152,12 +190,22 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                 <HStack spacing={6} w="full">
                                     <GridItem w="full">
                                         <FormControl mb={5} isInvalid={!!errors.position}>
-                                            <FormLabel htmlFor="position">POSITION</FormLabel>
+                                            <FormLabel htmlFor="position">Position</FormLabel>
                                             <Select
                                                 {...register('position', {
                                                     required: 'Position is required'
                                                 })}
                                                 variant="outline"
+                                                focusBorderColor="purple"
+                                                borderColor={'grey5'}
+                                                size={'lg'}
+                                                borderRadius={'6px'}
+                                                _placeholder={{
+                                                    opacity: 1,
+                                                    color: 'grey4',
+                                                    fontSize: '16px',
+                                                    fontWeight: '400'
+                                                }}
                                                 placeholder="Select Position">
                                                 <option value="1">1– Goalkeeper</option>
                                                 <option value="2">2– Right Fullback</option>
@@ -183,14 +231,17 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                             </Select>
                                             <FormErrorMessage>
                                                 {errors.position && (
-                                                    <span>{`${errors.position.message}`}</span>
+                                                    <Text
+                                                        color={
+                                                            'red'
+                                                        }>{`${errors.position.message}`}</Text>
                                                 )}
                                             </FormErrorMessage>
                                         </FormControl>
                                     </GridItem>
                                     <GridItem w="full">
                                         <FormControl mb={5} isInvalid={!!errors.jerseyNo}>
-                                            <FormLabel htmlFor="jerseyNo">JERSY NUMBER</FormLabel>
+                                            <FormLabel htmlFor="jerseyNo">Jersey number</FormLabel>
                                             <Input
                                                 {...register('jerseyNo', {
                                                     required: 'Jersey number is required',
@@ -202,10 +253,23 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                                 id="jerseyNo"
                                                 type="number"
                                                 placeholder="9"
+                                                focusBorderColor="purple"
+                                                borderColor={'grey5'}
+                                                size={'lg'}
+                                                borderRadius={'6px'}
+                                                _placeholder={{
+                                                    opacity: 1,
+                                                    color: 'grey4',
+                                                    fontSize: '16px',
+                                                    fontWeight: '400'
+                                                }}
                                             />
                                             <FormErrorMessage>
                                                 {errors.jerseyNo && (
-                                                    <span>{`${errors.jerseyNo.message}`}</span>
+                                                    <Text
+                                                        color={
+                                                            'red'
+                                                        }>{`${errors.jerseyNo.message}`}</Text>
                                                 )}
                                             </FormErrorMessage>
                                         </FormControl>
@@ -213,7 +277,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                 </HStack>
                                 <GridItem colSpan={1} w="full">
                                     <FormControl mb={5} isInvalid={!!errors.email}>
-                                        <FormLabel htmlFor="email">EMAIL</FormLabel>
+                                        <FormLabel htmlFor="email">Email</FormLabel>
                                         <Input
                                             {...register('email', {
                                                 required: 'Email is required'
@@ -221,10 +285,21 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                             id="email"
                                             type="email"
                                             placeholder="example@gmail.com"
+                                            focusBorderColor="purple"
+                                            borderColor={'grey5'}
+                                            size={'lg'}
+                                            borderRadius={'6px'}
+                                            _placeholder={{
+                                                opacity: 1,
+                                                color: 'grey4',
+                                                fontSize: '16px',
+                                                fontWeight: '400'
+                                            }}
                                         />
                                         <FormErrorMessage>
                                             {errors.email && (
-                                                <span>{`${errors.email.message}`}</span>
+                                                <Text
+                                                    color={'red'}>{`${errors.email.message}`}</Text>
                                             )}
                                         </FormErrorMessage>
                                     </FormControl>
@@ -234,18 +309,9 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
 
                         <ModalFooter w="100%">
                             <VStack spacing={4} w="100%" mb="12px">
-                                <Button
-                                    isLoading={isLoading}
-                                    type="submit"
-                                    variant="action"
-                                    w="full">
-                                    ADD PLAYER
+                                <Button isLoading={isLoading} type="submit" size={'lg'} w="full">
+                                    Continue
                                 </Button>
-                                <Center>
-                                    <Text w="full" onClick={() => onClose(false)} cursor="pointer">
-                                        BACK
-                                    </Text>
-                                </Center>
                             </VStack>
                         </ModalFooter>
                     </form>
@@ -253,6 +319,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
             </Modal>
             <Confirmation
                 jersyPng={'/images/image/contfirmation.gif'}
+                playerName={playerName}
                 isOpen={select}
                 onClose={setSelected}
                 body={'Sonalysis will notify this player of the changes made'}

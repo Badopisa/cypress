@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Text, Center, Image, VStack, useRadio, UseRadioProps } from '@chakra-ui/react';
 import { AiFillCheckCircle } from 'react-icons/ai';
 
+
 const PaymentCard = ({
     radio,
     value,

@@ -78,7 +78,7 @@ const PlayerVsPlayer = () => {
     };
 
     const handleSelectedTeam = (e: any) => {
-        const currentTeam = filteredData.filter((team) => team.name === e.target.value)[0];
+        const currentTeam = filteredData.filter((team) => team.team_name === e.target.value)[0];
         setCurrentTeamPlayers(currentTeam?.players);
         setSelectedTeamImage(currentTeam?.photo);
         console.log('current team', currentTeamPlayers);

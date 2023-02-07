@@ -45,8 +45,8 @@ const SetNewPassword = () => {
 
     const onSubmit = (value: any) => {
         const payload = {
-            newPassword: value.newPassword,
-            confirmPassword: value.confirmPassword
+            password: value.newPassword,
+            old_password: value.confirmPassword
         };
         if (value.newPassword !== value.confirmPassword) {
             return updateAlertMsg(toast, { type: 'error', message: 'Passwords do not match' });

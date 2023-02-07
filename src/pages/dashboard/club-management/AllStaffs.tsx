@@ -1,15 +1,23 @@
 import BlankTeam from '@/components/Team/BlankTeam';
 import PlayerCard from '@/components/Team/PlayerCard';
-import { Box, Button, Center, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Center,
+    Flex, Input,
+    InputGroup,
+    InputLeftElement,
+    SimpleGrid,
+    Spinner
+} from '@chakra-ui/react';
 import React, { useState } from 'react';
 import EditStaffDetails from '@/components/Team/Modal/EditStaffDetails';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import { saveNewStaffData } from '@/store/actions/staffActions';
 import { useDispatch } from 'react-redux';
-import NewStaff from '@/components/Team/Modal/NewStaff';
+import {BsSearch} from "react-icons/bs";
 
-const AllStaffs = ({ allStaffs, isLoading }: any) => {
-    const [createStaff, setCreateStaff] = useState<boolean>(false);
+const AllStaffs = ({ allStaffs, isLoading, setCreateStaff }: any) => {
     const [editStaff, setEditStaff] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false);
     const dispatch = useDispatch();
@@ -25,58 +33,56 @@ const AllStaffs = ({ allStaffs, isLoading }: any) => {
 
     return (
         <>
-            <Flex direction="row">
-                <Button
-                    w="116px"
-                    fontSize="xs"
-                    fontWeight="semibold"
-                    variant="outline"
-                    _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
-                    onClick={handleCreateStaff}>
-                    CREATE A STAFF
-                </Button>
-                <Button
-                    bg="grey"
-                    color="white"
-                    fontSize="sm"
-                    ml="8"
-                    w="83"
-                    _hover={{
-                        bg: 'primary',
-                        color: 'white',
-                        fontWeight: 'bold'
-                    }}>
-                    {allStaffs?.length}/100
-                </Button>
-            </Flex>
             <Box>
                 {isLoading ? (
                     <Center my="16">
                         <Spinner size="xl" />
                     </Center>
                 ) : allStaffs?.length > 0 ? (
-                    <SimpleGrid
-                        columns={{ base: 1, sm: 2, lg: 4 }}
-                        width="min(90%, 1200px)"
-                        spacing={{ base: '14px', md: '40px' }}
-                        mt={8}
-                        mb={8}>
-                        {allStaffs.map((staff: any) => (
-                            <PlayerCard
-                                image={staff?.user?.photo}
-                                key={staff.id}
-                                name={`${staff?.user.first_name} ${staff?.user.last_name}`}
-                                position={staff?.role}
-                                team={staff?.user.team}
-                                click={() => handleEditStaff(staff)}
+                    <>
+                        <InputGroup w="279px">
+                            <InputLeftElement pointerEvents="none">
+                                <BsSearch color="grey" />
+                            </InputLeftElement>
+                            <Input
+                                type="text"
+                                placeholder="Search for your team"
+                                // value={searchText}
+                                // onChange={handleTeamSearch}
+                                focusBorderColor="purple"
+                                borderColor={'grey5'}
+                                size={'lg'}
+                                borderRadius={'6px'}
+                                _placeholder={{
+                                    opacity: 1,
+                                    color: 'inputText',
+                                    fontSize: '16px',
+                                    fontWeight: '400'
+                                }}
                             />
-                        ))}
-                    </SimpleGrid>
+                        </InputGroup>
+                        <SimpleGrid
+                            columns={{ base: 1, sm: 2, lg: 4 }}
+                            width="min(90%, 1200px)"
+                            spacing={{ base: '14px', md: '40px' }}
+                            mt={8}
+                            mb={8}>
+                            {allStaffs.map((staff: any) => (
+                                <PlayerCard
+                                    image={staff?.user?.photo}
+                                    key={staff.id}
+                                    name={`${staff?.user.first_name} ${staff?.user.last_name}`}
+                                    position={staff?.role}
+                                    team={staff?.user.team}
+                                    click={() => handleEditStaff(staff)}
+                                />
+                            ))}
+                        </SimpleGrid>
+                    </>
                 ) : (
                     <BlankTeam image="/images/image/jersy.png" title="No staff created yet" />
                 )}
             </Box>
-            <NewStaff isOpen={createStaff} onClose={setCreateStaff} useCurrentTeamID={false} />
             <EditStaffDetails isOpen={editStaff} onClose={setEditStaff} setSelected={setSelected} />
             <Confirmation
                 jersyPng={'/images/imgs/success.svg'}

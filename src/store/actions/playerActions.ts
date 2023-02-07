@@ -9,16 +9,48 @@ import {
     UpdatePlayer
 } from '@/services/playerManagementService';
 import * as actionTypes from '@/store/actions/actionTypes';
-import { fetchTeams, getAllPlayers, getTeamDetails } from '@/store/actions/teamActions';
+import { createTeam, fetchTeams, getAllPlayers, getTeamDetails } from '@/store/actions/teamActions';
+import { TeamFormType } from '@/types/TeamDataType';
+import { UploadImage } from '@/services/uploadService';
 
 type Dispatch = Redux.Dispatch<any>;
 
+export const uploadPictureAndCreateAndAddPlayerToTeam = (
+    payload: PlayerFormType,
+    profilePicture: any,
+    teamId: string,
+    toast: any,
+    onClose: any,
+    setSelected: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        if (!profilePicture)
+            return dispatch(createAndAddPlayerToTeam(payload, teamId, toast, onClose, setSelected));
+
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                payload.photo = result.data.data.uploadUrl;
+                console.log('new payload', payload);
+                dispatch(createAndAddPlayerToTeam(payload, teamId, toast, onClose, setSelected));
+            })
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: 'Upload error' });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
 export const createAndAddPlayerToTeam = (
     payload: PlayerFormType,
     teamId: string,
     toast: any,
     onClose: any,
-    setSeleced: any
+    setSelected: any
 ) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
@@ -55,7 +87,7 @@ export const createAndAddPlayerToTeam = (
                         dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast));
                         dispatch(fetchTeams(data?.data?.club_id));
                         onClose(false);
-                        setSeleced(true);
+                        setSelected(true);
                         dispatch(updateIsLoading(false));
                     })
                     .catch((err) => {
