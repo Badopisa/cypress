@@ -6,6 +6,7 @@ export const colors = {
     babyBlue: '#007DB3',
     green: '#00B853',
     red: '#FF7077',
+    grey100: '#EDF2F7',
     grey1: '#333333',
     grey2: '#4F4F4F',
     grey3: '#828282',
@@ -16,6 +17,8 @@ export const colors = {
     black2: '#131313',
     black3: '#1D1D1D',
     black4: '#27282C',
+    black5: '#969696',
+    lightWhite: '#F6F6F7',
     // New era above
     secondary: '#A257FF',
     success: '#82b340',

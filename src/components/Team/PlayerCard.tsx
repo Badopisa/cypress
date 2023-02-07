@@ -16,25 +16,29 @@ const PlayerCard = ({
 }) => {
     return (
         <Box
-            bg="dark"
-            borderRadius="lg"
+            bg="grey6"
+            borderRadius="10px"
+            position={'relative'}
             // key={index}
+            // maxW={'250px'}
+            px={'33px'}
+            pt={'19px'}
             onClick={click}
             cursor={'pointer'}>
-            <Stack py={4} position={'relative'}>
+            <Stack py={4}>
                 <Center>
-                    <Avatar src={image} size={'xl'} />
+                    <Avatar name={name} src={image} size={'xl'} />
                 </Center>
 
-                <Box p={2}>
+                <Box color={'black2'} p={2}>
                     <Stack spacing={3} align={'center'} mb={5}>
-                        <Text fontSize="sm" fontWeight="semibold">
+                        <Text fontSize="20px" fontWeight="500">
                             {name}
                         </Text>
-                        <Text fontSize="xs" fontWeight="medium">
-                            {position}
+                        <Text color={'grey2'} fontSize="20px" fontWeight="500">
+                            No. {position}
                         </Text>
-                        <Text fontSize="xs" fontWeight="medium">
+                        <Text fontSize="20px" fontWeight="500">
                             {team}
                         </Text>
                     </Stack>

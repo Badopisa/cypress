@@ -12,7 +12,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     return (
         <Box
             transition="3s ease"
-            bg="grey"
+            bg="lightWhite"
             w={{ base: 'full', md: 60 }}
             pos="fixed"
             h="full"
@@ -22,11 +22,13 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             <Divider mb="5" color="divider" />
-            {LinkItems.map((link) => (
-                <DashboardNavItem link={link.link} key={link.name} icon={link.icon}>
-                    {link.name}
-                </DashboardNavItem>
-            ))}
+            <Box px={'30px'}>
+                {LinkItems.map((link) => (
+                    <DashboardNavItem link={link.link} key={link.name} icon={link.icon}>
+                        {link.name}
+                    </DashboardNavItem>
+                ))}
+            </Box>
         </Box>
     );
 };

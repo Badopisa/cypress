@@ -15,7 +15,9 @@ import {
     Image,
     Stack,
     FormControl,
-    useToast
+    useToast,
+    InputGroup,
+    InputLeftElement
 } from '@chakra-ui/react';
 
 import { SearchIcon } from '@chakra-ui/icons';
@@ -87,9 +89,9 @@ const ExistingPlayer = ({
 
     return (
         <>
-            <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+            <Modal isCentered isOpen={isOpen} onClose={() => onClose(false)}>
                 <ModalOverlay />
-                <ModalContent w="xl" px={8} h="auto" bg="grey" color="white" borderRadius="18px">
+                <ModalContent w="xl" px={8} h="auto" bg="white" color="black2" borderRadius="18px">
                     <ModalHeader
                         p="24px 24px 4px"
                         textAlign="center"
@@ -99,21 +101,32 @@ const ExistingPlayer = ({
                     </ModalHeader>
                     <ModalBody mt={5}>
                         <VStack spacing={4}>
-                            <Flex direction="row" w="100%">
-                                <FormControl p="0.2em" bg="black" display="flex" borderRadius="lg">
-                                    <SearchIcon alignSelf="center" ml={2} color="grey" />
-                                    <Input
-                                        variant={'solid'}
-                                        bg="transparent"
-                                        value={searchText}
-                                        onChange={handlePlayerSearch}
-                                        id={'text'}
-                                        type={'text'}
-                                        placeholder={'Search for players'}
-                                        aria-label={'Search for Players'}
-                                    />
-                                </FormControl>
-                            </Flex>
+                            <InputGroup>
+                                <InputLeftElement
+                                    pointerEvents="none"
+                                    /* eslint-disable-next-line react/no-children-prop */
+                                    children={<SearchIcon alignSelf="center" ml={2} color="grey" />}
+                                />
+                                <Input
+                                    variant={'solid'}
+                                    value={searchText}
+                                    onChange={handlePlayerSearch}
+                                    id={'text'}
+                                    type={'text'}
+                                    placeholder={'Search for players'}
+                                    aria-label={'Search for Players'}
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
+                                />
+                            </InputGroup>
                         </VStack>
 
                         <Stack w="100%" spacing={8}>

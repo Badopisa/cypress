@@ -11,17 +11,16 @@ import {
     InputGroup,
     InputRightElement,
     useToast,
-    Box,
     Img
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { AiFillEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import Link from '@/components/Elements/Link/Link';
-import { adminLogin } from '@/store/actions/authActions';
+import {adminLogin, logout, saveAdminData} from '@/store/actions/authActions';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, {useEffect} from 'react';
 import NavBar from '@/components/Layout/NavBar';
+import {retrieveAccessToken, retrieveAdminData} from "@/utils/locaStorageActions";
 
 const Login = () => {
     const {
@@ -44,6 +43,14 @@ const Login = () => {
         };
         dispatch(adminLogin(payload, toast, router));
     };
+
+    useEffect(() => {
+        const token = retrieveAccessToken();
+        if (token) {
+            router.push('/dashboard');
+        }
+    }, []);
+
     return (
         <main>
             <NavBar />
@@ -121,25 +128,25 @@ const Login = () => {
                                             fontWeight: '400'
                                         }}
                                     />
-                                    <InputRightElement>
-                                        <Button
-                                            mr="10px"
-                                            padding={0}
-                                            variant={'text'}
-                                            onClick={handleClick}>
-                                            {!show ? (
-                                                <Img
-                                                    alt="hide"
-                                                    src="/images/icons/Password=Hide.svg"
-                                                />
-                                            ) : (
-                                                <Img
-                                                    alt="show"
-                                                    src="/images/icons/Password=Visible.svg"
-                                                />
-                                            )}
-                                        </Button>
-                                    </InputRightElement>
+                                    {/*<InputRightElement>*/}
+                                    {/*    <Button*/}
+                                    {/*        mr="10px"*/}
+                                    {/*        padding={0}*/}
+                                    {/*        variant={'text'}*/}
+                                    {/*        onClick={handleClick}>*/}
+                                    {/*        {!show ? (*/}
+                                    {/*            <Img*/}
+                                    {/*                alt="hide"*/}
+                                    {/*                src="/images/icons/Password=Hide.svg"*/}
+                                    {/*            />*/}
+                                    {/*        ) : (*/}
+                                    {/*            <Img*/}
+                                    {/*                alt="show"*/}
+                                    {/*                src="/images/icons/Password=Visible.svg"*/}
+                                    {/*            />*/}
+                                    {/*        )}*/}
+                                    {/*    </Button>*/}
+                                    {/*</InputRightElement>*/}
                                 </InputGroup>
                                 <FormErrorMessage>
                                     {errors.password && (

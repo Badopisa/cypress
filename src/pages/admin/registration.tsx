@@ -24,7 +24,7 @@ import { CountriesSelector } from '@/components/Form/CountriesSelector';
 import { fetchCountries } from '@/services/countriesService';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 import ImageUpload from '@/components/Elements/ImageUpload';
-import { adminRegistration } from '@/store/actions/authActions';
+import { adminRegistration, adminRegistrationNoPhoto } from '@/store/actions/authActions';
 
 const AdminRegistration = ({ countries }: any) => {
     const { forgotPasswordEmail }: any = useSelector((state: RootStateOrAny) => state.auth);
@@ -65,7 +65,11 @@ const AdminRegistration = ({ countries }: any) => {
             photo: ''
         };
         console.log('payload', payload);
-        dispatch(adminRegistration(payload, profilePicture, toast, router));
+        if (profilePicture) {
+            dispatch(adminRegistration(payload, profilePicture, toast, router));
+        } else {
+            dispatch(adminRegistrationNoPhoto(payload, toast, router));
+        }
     };
 
     return (
@@ -323,7 +327,6 @@ const AdminRegistration = ({ countries }: any) => {
                             <Button
                                 isLoading={isLoading}
                                 disabled={
-                                    !profilePicture ||
                                     !touchedFields.phone ||
                                     !touchedFields.clubName ||
                                     !touchedFields.country ||

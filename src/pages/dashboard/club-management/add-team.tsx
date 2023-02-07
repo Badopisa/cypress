@@ -10,7 +10,8 @@ import {
     Button,
     SimpleGrid,
     useToast,
-    Spinner
+    Spinner,
+    HStack
 } from '@chakra-ui/react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { useRouter } from 'next/router';
@@ -78,36 +79,43 @@ const AddTeam = () => {
     return (
         <>
             <DashboardDesktopNav hasArrow />
-            <Box color="white" py={{ base: 8, md: 8 }} px={{ base: 4, md: 8 }}>
-                <Text fontSize="3xl" fontWeight="medium">
-                    Create Team
+            <HStack
+                color="black2"
+                alignItems={'baseline'}
+                py={{ base: 8, md: 8 }}
+                px={{ base: 4, md: 8 }}>
+                <Text fontSize="40px" fontWeight="700">
+                    Add players
                 </Text>
-                <Steps current={2} />
-            </Box>
-            <Box px={{ base: 8, md: 8 }} color="white">
-                <Text fontSize="md" fontWeight="medium">
-                    Create or add existing players
+                <Text
+                    onClick={() => router.push('/dashboard/club-management/add-staff')}
+                    cursor={'pointer'}
+                    as={'u'}
+                    color="green">
+                    Skip this step
                 </Text>
+            </HStack>
+            <Box mx={'auto'} color="black2" maxW={{ base: 4, md: '1200px' }}>
+                <Box mx={'auto'} maxW={'320px'} mb={'38px'}>
+                    <Steps current={2} />
+                </Box>
                 <Stack
                     direction={{ base: 'column', md: 'row' }}
                     py={{ base: 8, md: 8 }}
                     w="100%"
                     spacing={{ base: 1, md: 4 }}>
-                    <Button fontSize="xs" variant="action" onClick={handleCreate} w="full">
-                        ADD A PLAYER
+                    <Button size="lg" onClick={handleCreate} w="full">
+                        Create new player
                     </Button>
                     <Spacer />
-                    <Button fontSize="xs" variant="outline" onClick={handleExist} w="full">
-                        ADD EXISTING PLAYER
+                    <Button size="lg" variant="action2" onClick={handleExist} w="full">
+                        Add existion player
                     </Button>
                     <Spacer />
-                    <Button px={6} bg="grey" color="white" fontSize="xs" ml="8" w="83">
-                        {currentTeam?.players?.length}/100
-                    </Button>
                     <Spacer />
                     <>
-                        <Button fontSize="xs" onClick={handleClick} variant="outline" w="full">
-                            UPLOAD CSV FILE
+                        <Button size="lg" onClick={handleClick} variant="action2" w="full">
+                            Upload CSV
                         </Button>
                         <input
                             type="file"
@@ -120,8 +128,9 @@ const AddTeam = () => {
                     </>
                 </Stack>
                 <SimpleGrid
-                    minChildWidth={{ base: '100%', md: '166px' }}
+                    // minChildWidth={{ base: '100%', md: '250px' }}
                     spacing={{ base: '14px', md: '40px' }}
+                    columns={{ base: 1, md: 3 }}
                     mt={8}
                     mb={8}>
                     {isLoading ? (
@@ -139,7 +148,10 @@ const AddTeam = () => {
                             />
                         ))
                     ) : (
-                        <BlankTeam image="/images/image/jersy.png" title="No player created yet" />
+                        <BlankTeam
+                            image="/images/image/jersy.png"
+                            title="Added players will appear here"
+                        />
                     )}
                 </SimpleGrid>
                 <Center>
@@ -149,15 +161,12 @@ const AddTeam = () => {
                         spacing={4}
                         mx={{ base: 8, md: 12 }}>
                         <Button
-                            fontSize="sm"
-                            variant="action"
+                            size="lg"
                             px={{ base: '80%', md: '50%' }}
+                            disabled={!currentTeam?.players?.length}
                             onClick={() => router.push('/dashboard/club-management/add-staff')}>
-                            NEXT
+                            Continue
                         </Button>
-                        <Text fontSize="sm" onClick={() => router.back()} cursor="pointer">
-                            PREVIOUS STEP
-                        </Text>
                     </VStack>
                 </Center>
 

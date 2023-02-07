@@ -21,7 +21,7 @@ import Steps from '@/components/Team/Steps';
 import ImageUpload from '@/components/Elements/ImageUpload';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { createTeam } from '@/store/actions/teamActions';
+import {createTeam, uploadPictureAndCreateTeam} from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
 import { CategoryDataType } from '@/types/CategoryDataType';
 import { fetchCategories } from '@/store/actions/ categoryAction';
@@ -29,15 +29,12 @@ import useUploadToS3 from '@/hooks/useUploadToS3';
 import useUploadToSpaces from '@/hooks/useUploadToSpaces';
 
 const CreateTeam = () => {
-    const [profilePicture, setProfilePicture] = React.useState<null | File>(null);
-    const { file } = useSelector((state: RootStateOrAny) => state.auth);
+    const [profilePicture, setProfilePicture] = React.useState<any>(null);
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
     const { category }: { category: CategoryDataType[] } = useSelector(
         (state: RootStateOrAny) => state.category
     );
-    const { s3URL, s3Error } = useUploadToS3(file);
-    const { spaceURL } = useUploadToSpaces(file);
     const dispatch = useDispatch();
     const toast = useToast();
 
@@ -53,135 +50,191 @@ const CreateTeam = () => {
         if (category.length < 1) {
             dispatch(fetchCategories());
         }
-    }, []);
-
-    useEffect(() => {
-        console.log('space url', spaceURL);
-    }, [spaceURL]);
+    }, [category.length, dispatch]);
 
     const onSubmit = async (values: any) => {
-        if (s3Error) {
-            return toast({
-                title: 'Upload Error',
-                description: 'Error uploading image, please try again or remove image',
-                status: 'error',
-                duration: 9000,
-                isClosable: true
-            });
-        }
-
         const club_id = user?.clubs[0]?.id;
         const payload = {
-            photo: s3URL,
+            photo: '',
             club_id,
+            location: values.location,
             category_id: values.category,
-            name: values.name
+            team_name: values.name
         };
-        dispatch(createTeam(payload, toast, router));
+        dispatch(uploadPictureAndCreateTeam(payload, profilePicture, toast, router));
     };
 
     return (
         <>
             <DashboardDesktopNav hasArrow />
-            <Box color="white" py={{ base: 12, md: 12 }} px={{ base: 4, md: 8 }}>
-                <Text fontSize="3xl" fontWeight="medium">
-                    Create Team
+            <Box color="black2" py={{ base: 12, md: 0 }} px={{ base: 4, md: 0 }}>
+                <Text fontSize="40px" fontWeight="700">
+                    Create new team
                 </Text>
-                <Steps current={1} />
             </Box>
-            <Box color="white" px={{ base: 4, md: 8 }}>
-                <Stack spacing={24} direction={{ base: 'column', md: 'row' }}>
-                    <VStack>
-                        <ImageUpload
-                            defaultImage="/images/image/default-user-avatar3.svg"
-                            w="100px"
-                            h="100px"
-                            rounded="full"
-                            setSelectedImage={setProfilePicture}
-                            selectedImage={profilePicture}
-                        />
-                    </VStack>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <VStack spacing={10}>
-                            <HStack spacing={8}>
-                                <GridItem>
-                                    <FormControl isInvalid={!!errors.name}>
-                                        <FormLabel htmlFor="name">TEAM NAME</FormLabel>
-                                        <Input
-                                            {...register('name', {
-                                                required: 'Team name is required',
-                                                minLength: {
-                                                    value: 2,
-                                                    message: 'Team name is too short'
-                                                }
-                                            })}
-                                            id="name"
-                                            type="text"
-                                            placeholder="eg.TeamFC"
-                                        />
-                                        <FormErrorMessage>
-                                            {errors.name && <span>{`${errors.name.message}`}</span>}
-                                        </FormErrorMessage>
-                                    </FormControl>
-                                </GridItem>
-                                <GridItem>
-                                    <FormControl isInvalid={!!errors.abbrv}>
-                                        <FormLabel htmlFor="abbrv">ABBREVIATION</FormLabel>
-                                        <Input
-                                            {...register('abbrv', {
-                                                required: 'Abreviation is required',
-                                                minLength: {
-                                                    value: 2,
-                                                    message: 'Abreviation is too short'
-                                                }
-                                            })}
-                                            id="abbrv"
-                                            type="text"
-                                            placeholder="eg.ClubFC"
-                                        />
-                                        <FormErrorMessage>
-                                            {errors.abbrv && (
-                                                <span>{`${errors.abbrv.message}`}</span>
-                                            )}
-                                        </FormErrorMessage>
-                                    </FormControl>
-                                </GridItem>
-                            </HStack>
-                            <GridItem colSpan={2} w="full">
-                                <FormControl mb={5} isInvalid={!!errors.category}>
-                                    <FormLabel htmlFor="category">Category</FormLabel>
-                                    <Select
-                                        {...register('category', {
-                                            required: 'Category is required',
-                                            minLength: { value: 5, message: 'Category is Required' }
-                                        })}
-                                        variant="outline"
-                                        placeholder="Select Category">
-                                        {category.map((cat) => (
-                                            <option key={cat.id} value={cat.id}>
-                                                {cat.name}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                    <FormErrorMessage>
-                                        {errors.category && (
-                                            <span>{`${errors.category.message}`}</span>
-                                        )}
-                                    </FormErrorMessage>
-                                </FormControl>
-                            </GridItem>
-                            <Button
-                                type="submit"
-                                isLoading={isLoading}
-                                variant="action"
-                                w="full"
-                                fontSize="sm"
-                                fontWeight="normal">
-                                NEXT
-                            </Button>
+            <Box mx={'auto'} color="black2" w={{ base: 4, md: '400px' }}>
+                <Box mx={'auto'} w={'320px'} mb={'38px'}>
+                    <Steps current={1} />
+                </Box>
+                <VStack mb={'40px'}>
+                    <ImageUpload
+                        defaultImage="/images/image/defaultImage.svg"
+                        w="100px"
+                        h="100px"
+                        rounded="full"
+                        setSelectedImage={setProfilePicture}
+                        selectedImage={profilePicture}
+                    />
+                </VStack>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <VStack w={'100%'}>
+                        <VStack w={'100%'}>
+                            <FormControl isInvalid={!!errors.name}>
+                                <FormLabel mb={'8px'} htmlFor="name">
+                                    Team name
+                                </FormLabel>
+                                <Input
+                                    {...register('name', {
+                                        required: 'Team name is required',
+                                        minLength: {
+                                            value: 2,
+                                            message: 'Team name is too short'
+                                        }
+                                    })}
+                                    id="name"
+                                    type="text"
+                                    placeholder="eg.TeamFC"
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
+                                />
+                                <FormErrorMessage>
+                                    {errors.name && (
+                                        <Text color={'red'}>{`${errors.name.message}`}</Text>
+                                    )}
+                                </FormErrorMessage>
+                                <Box h={'20px'} />
+                            </FormControl>
+                            <FormControl mb={'20px'} isInvalid={!!errors.abbrv}>
+                                <FormLabel mb={'8px'} htmlFor="abbrv">
+                                    Name abbreviation
+                                </FormLabel>
+                                <Input
+                                    {...register('abbrv', {
+                                        required: 'Abbreviation is required',
+                                        minLength: {
+                                            value: 2,
+                                            message: 'Abbreviation is too short'
+                                        }
+                                    })}
+                                    id="abbrv"
+                                    type="text"
+                                    placeholder="eg.TeamFC"
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
+                                />
+                                <FormErrorMessage>
+                                    {errors.abbrv && (
+                                        <Text color={'red'}>{`${errors.abbrv.message}`}</Text>
+                                    )}
+                                </FormErrorMessage>
+                                <Box h={'20px'} />
+                            </FormControl>
                         </VStack>
-                    </form>
-                </Stack>
+                        <FormControl mb={'20px'} isInvalid={!!errors.category}>
+                            <FormLabel mb={'8px'} htmlFor="category">
+                                Team category
+                            </FormLabel>
+                            <Select
+                                {...register('category', {
+                                    required: 'Category is required',
+                                    minLength: { value: 5, message: 'Category is Required' }
+                                })}
+                                variant="outline"
+                                placeholder="Select Category"
+                                focusBorderColor="purple"
+                                borderColor={'grey5'}
+                                size={'lg'}
+                                borderRadius={'6px'}
+                                _placeholder={{
+                                    opacity: 1,
+                                    color: 'inputText',
+                                    fontSize: '16px',
+                                    fontWeight: '400'
+                                }}>
+                                {category.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {cat.name}
+                                    </option>
+                                ))}
+                            </Select>
+                            <FormErrorMessage>
+                                {errors.category && (
+                                    <Text color={'red'}>{`${errors.category.message}`}</Text>
+                                )}
+                            </FormErrorMessage>
+                            <Box h={'20px'} />
+                        </FormControl>
+                        <FormControl mb={'20px'} isInvalid={!!errors.location}>
+                            <FormLabel mb={'8px'} htmlFor="location">
+                                Location
+                            </FormLabel>
+                            <Input
+                                {...register('location', {
+                                    required: 'Location is required',
+                                    minLength: {
+                                        value: 2,
+                                        message: 'Abbreviation is too short'
+                                    }
+                                })}
+                                id="location"
+                                type="text"
+                                placeholder="eg.London"
+                                focusBorderColor="purple"
+                                borderColor={'grey5'}
+                                size={'lg'}
+                                borderRadius={'6px'}
+                                _placeholder={{
+                                    opacity: 1,
+                                    color: 'inputText',
+                                    fontSize: '16px',
+                                    fontWeight: '400'
+                                }}
+                            />
+                            <FormErrorMessage>
+                                {errors.location && (
+                                    <Text color={'red'}>{`${errors.location.message}`}</Text>
+                                )}
+                            </FormErrorMessage>
+                            <Box h={'20px'} />
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            isLoading={isLoading}
+                            variant="action"
+                            w="full"
+                            size={'lg'}
+                            fontWeight="normal">
+                            Continue
+                        </Button>
+                    </VStack>
+                </form>
+                {/*</Stack>*/}
             </Box>
         </>
     );

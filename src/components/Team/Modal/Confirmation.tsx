@@ -31,9 +31,9 @@ const Confirmation = ({
     buttonTitle = 'CONTINUE'
 }: ConfirmationType) => {
     return (
-        <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+        <Modal isCentered isOpen={isOpen} onClose={() => onClose(false)}>
             <ModalOverlay />
-            <ModalContent w="xs" py={5} h="auto" bg="ash" color="white" rounded="1.125rem">
+            <ModalContent w="xs" py={5} h="auto" bg="white" color="black2" rounded="1.125rem">
                 <ModalBody>
                     <Center>
                         <VStack>
@@ -43,12 +43,12 @@ const Confirmation = ({
                                 alt="confirmation"
                             />
 
-                            <Text fontSize="lg" fontWeight="semibold" color="white">
+                            <Text fontSize="lg" fontWeight="500" color="black2">
                                 {playerName}
                             </Text>
                             {title && (
                                 <Text
-                                    fontSize="sm"
+                                    fontSize="20px"
                                     fontWeight="medium"
                                     color="white"
                                     mt={0}
@@ -65,7 +65,7 @@ const Confirmation = ({
 
                 <ModalFooter w="full">
                     <VStack w="full" py={{ base: 4, md: 4 }}>
-                        <Button variant="action" w="full" onClick={() => onClose(false)}>
+                        <Button variant="action" w="full" size={'lg'} onClick={() => onClose(false)}>
                             {buttonTitle}
                         </Button>
                     </VStack>

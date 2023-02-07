@@ -22,7 +22,7 @@ import {
 } from '@/services/clubAdminService';
 import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
-import { clearLocalStorage, saveAccessToken } from '@/utils/locaStorageActions';
+import { clearLocalStorage, saveAccessToken, storeAdminData } from '@/utils/locaStorageActions';
 import { UploadImage } from '@/services/uploadService';
 import Swal from 'sweetalert2';
 
@@ -49,6 +49,7 @@ export const adminRegistration = (
                         console.log('admin token is', data.data);
                         window.localStorage.setItem('user', JSON.stringify(data.data.user));
                         dispatch(saveAdminData(data.data.user));
+                        storeAdminData(data.data.user);
 
                         updateAlertMsg(toast, {
                             type: 'success',
@@ -97,6 +98,61 @@ export const adminRegistration = (
     };
 };
 
+export const adminRegistrationNoPhoto = (
+    payload: RegisterAdminFormDataType,
+    toast: any,
+    router: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        AdminRegistration(payload)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('admin token is', data.data);
+                window.localStorage.setItem('user', JSON.stringify(data.data.user));
+                dispatch(saveAdminData(data.data.user));
+                storeAdminData(data.data.user);
+
+                updateAlertMsg(toast, {
+                    type: 'success',
+                    message: 'Congratulations, Account successfully created'
+                });
+                Swal.fire({
+                    title: 'Account created!',
+                    text: 'Choose to proceed to dashboard or to select a subscription plan',
+                    icon: 'success',
+                    backdrop: false,
+                    showDenyButton: true,
+                    confirmButtonColor: '#645EFD',
+                    denyButtonColor: '#131313',
+                    confirmButtonText: 'Dashboard',
+                    denyButtonText: 'Subscription'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        router.push('/dashboard');
+                    } else if (result.isDenied) {
+                        router.push('/admin/subscription');
+                    }
+                });
+
+                saveAccessToken(data.data.auth_token);
+
+                dispatch(updateIsLoading(false));
+            })
+
+            .catch((err) => {
+                updateAlertMsg(toast, {
+                    type: 'error',
+                    message: err.response.data.message
+                });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
 export const coachRegistration = (payload: RegisterCoachFormDataType, toast: any, router: any) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
@@ -107,6 +163,7 @@ export const coachRegistration = (payload: RegisterCoachFormDataType, toast: any
                 console.log('token is', data.data);
                 window.localStorage.setItem('user', JSON.stringify(data.data.user));
                 dispatch(saveAdminData(data.data.user));
+                storeAdminData(data.data.user);
 
                 updateAlertMsg(toast, {
                     type: 'success',
@@ -137,6 +194,7 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
                 console.log('token is', data.data);
                 window.localStorage.setItem('user', JSON.stringify(data.data.user));
                 dispatch(saveAdminData(data.data.user));
+                storeAdminData(data.data.user);
 
                 updateAlertMsg(toast, {
                     type: 'success',
@@ -390,7 +448,7 @@ export const logout = () => {
     window.location.href = process.env.NEXT_PUBLIC_APP_BASE_URL + 'login';
 };
 
-const saveAdminData = (data: UserDataType) => {
+export const saveAdminData = (data: UserDataType) => {
     return {
         type: actionTypes.SAVE_USER_DETAILS,
 

@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Flex, Spacer, Text } from '@chakra-ui/react';
 import Link from '@/components/Elements/Link/Link';
 import Logo from '@/components/Elements/Logo/Logo';
+import { retrieveAccessToken } from '@/utils/locaStorageActions';
+import { useRouter } from 'next/router';
 
 export interface NavBarProps {
     login?: boolean;
 }
 const NavBar: React.FC<NavBarProps> = ({ login }) => {
     const [isHamburgerOpen] = useState<boolean>(false);
+    const router = useRouter();
+    useEffect(() => {
+        const token = retrieveAccessToken();
+        if (token) {
+            router.push('/dashboard');
+        }
+    }, []);
     return (
         <Box
             position="sticky"
@@ -32,7 +41,9 @@ const NavBar: React.FC<NavBarProps> = ({ login }) => {
                     </Link>
                 ) : (
                     <Link href="/registration">
-                        <Text fontWeight="400">Get Started</Text>
+                        <Text color="primary" fontWeight="400">
+                            Get Started
+                        </Text>
                     </Link>
                 )}
             </Flex>

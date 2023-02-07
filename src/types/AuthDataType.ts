@@ -56,13 +56,13 @@ export type RegisterAdminFormDataType = {
     last_name: string;
     country: string;
     phone: string;
-    photo: string;
+    photo?: string;
     role: string;
 };
 
 export type SetNewPasswordFormDataType = {
-    newPassword: string;
-    confirmPassword: string;
+    password: string;
+    old_password: string;
 };
 
 export type ForgotPasswordFormDataType = {

@@ -13,7 +13,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             px={{ base: 4, md: 20 }}
             py={4}
             alignItems="center"
-            bg="black"
+            bg="white"
             // justifyContent={{ base: 'space-between' }}
             {...rest}>
             {/* <Box>

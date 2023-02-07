@@ -29,48 +29,45 @@ const DashboardDesktopNav = ({ hasArrow = false, ...rest }: { hasArrow?: boolean
         <Flex
             py={6}
             alignItems="center"
-            bg="black"
+            bg="white"
+            color={'black2'}
             justifyContent={{ base: 'space-between' }}
             {...rest}>
             <Box>
-                {!hasArrow ? (
-                    <VStack color="white" align="start">
-                        <Text>Hi {user?.first_name},</Text>
-                        <Text>Welcome 👋</Text>
-                    </VStack>
-                ) : (
+                {hasArrow && (
                     <Button
                         size="md"
-                        bg="black"
-                        color="white"
+                        bg="white"
+                        color="black2"
                         onClick={() => router.back()}
                         _hover={{ border: '1px solid #131313' }}
-                        leftIcon={<FaArrowLeft color="white" size="20px" />}>
-                        Back
+                        leftIcon={<FaArrowLeft color="black" size="20px" />}>
+                        Go back
                     </Button>
                 )}
             </Box>
 
             <HStack spacing={{ base: '0', md: '6' }}>
                 <IconButton
-                    _hover={{ bg: 'black' }}
-                    bg="black"
+                    _hover={{ bg: 'white' }}
+                    bg="white"
+                    color="black2"
                     aria-label="open menu"
-                    icon={<FiBell size="25" color="#818181" />}
+                    icon={<FiBell size="25" color="black2" />}
                 />
                 <Flex alignItems={'center'}>
                     <Menu>
                         <MenuButton transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                             <HStack>
-                                <Avatar size={'sm'} src={user?.photo} />
+                                <Avatar name={user?.first_name} size={'sm'} src={user?.photo} />
                                 <VStack
                                     display={{ base: 'none', md: 'flex' }}
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2"
-                                    color="white">
+                                    color="black2">
                                     <Text fontSize="sm">{`${user?.first_name} ${user?.last_name}`}</Text>
-                                    <Text fontSize="xs" color="gray.600">
+                                    <Text fontSize="xs" color="grey4">
                                         {user?.role}
                                     </Text>
                                 </VStack>

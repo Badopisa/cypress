@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Flex, Icon, FlexProps } from '@chakra-ui/react';
+import {Flex, Icon, FlexProps, Box} from '@chakra-ui/react';
 
 import Link from '@/components/Elements/Link/Link';
 
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { logout } from '@/store/actions/authActions';
+import {useRouter} from "next/router";
 
 interface NavItemProps extends FlexProps {
     icon: IconType;
@@ -14,7 +15,13 @@ interface NavItemProps extends FlexProps {
 }
 const DashboardNavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
     const [linkSelected, setLinkSelected] = useState<boolean>(false);
+    const router = useRouter();
     const handleNav = (e: React.FormEvent<HTMLAnchorElement>) => {
+        setLinkSelected(router.pathname === link);
+        console.log('link selected bool', linkSelected);
+        console.log('link selected link', link);
+        console.log('link selected path', router.pathname);
+
         if (children === 'Logout') {
             e.preventDefault();
             logout();
@@ -28,23 +35,30 @@ const DashboardNavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
             _focus={{ boxShadow: 'none' }}>
             <Flex
                 align="center"
-                p="8"
+                py="10px"
+                px="15px"
+                borderRadius="5px"
                 role="group"
                 cursor="pointer"
-                bg={linkSelected ? 'active' : 'transparent'}
+                fontSize="12px"
+                borderColor={router.pathname === link ? 'purple' : ''}
+                color={router.pathname === link ? 'purple' : 'black2'}
+                // bg={linkSelected ? 'purlp' : 'transparent'}
+                borderWidth={'1px'}
                 _hover={{
-                    bg: 'active',
-                    color: 'white'
+                    color: 'purple',
+                    borderWidth: '1px',
+                    borderColor: 'purple'
                 }}
-                color="white"
                 onClick={() => setLinkSelected(true)}
                 {...rest}>
                 {icon && (
                     <Icon
                         mr="4"
                         fontSize="20"
+                        color={router.pathname === link ? 'purple' : ''}
                         _groupHover={{
-                            color: 'white'
+                            color: 'purple'
                         }}
                         as={icon}
                     />

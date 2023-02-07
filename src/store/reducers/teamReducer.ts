@@ -115,7 +115,7 @@ export const teamReducer = (state = initialState, action: IAction) => {
             const filteredData = state.teams.filter((team) => {
                 if (
                     typeof action.payload === 'string' &&
-                    team.name.toLowerCase().includes(action.payload.toLowerCase())
+                    team.team_name.toLowerCase().includes(action.payload.toLowerCase())
                 ) {
                     return team;
                 }

@@ -4,17 +4,24 @@ import * as Redux from 'redux';
 import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
 import { GetPlayersForClub } from '@/services/playerManagementService';
+import { RegisterAdminFormDataType } from '@/types/AuthDataType';
+import { UploadImage } from '@/services/uploadService';
+import { AdminRegistration } from '@/services/clubAdminService';
+import { saveAccessToken, storeAdminData } from '@/utils/locaStorageActions';
+import Swal from 'sweetalert2';
+import { saveAdminData } from '@/store/actions/authActions';
 
 type Dispatch = Redux.Dispatch<any>;
 
 export const fetchTeams = (clubId: string) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
+        console.log('idddd', clubId);
 
         FetchTeamDetails(clubId)
             .then(async (result) => {
                 const { data } = result;
-                console.log('fetchTeams', data);
+                console.log('fetchTeams', result);
                 console.log('Dapr ran too');
 
                 dispatch(saveTeamData(data.data));
@@ -24,6 +31,34 @@ export const fetchTeams = (clubId: string) => {
 
             .catch((err) => {
                 console.log('fetch teams error', err);
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+export const uploadPictureAndCreateTeam = (
+    payload: TeamFormType,
+    profilePicture: File,
+    toast: any,
+    router: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        if (!profilePicture) return dispatch(createTeam(payload, toast, router));
+
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                payload.photo = result.data.data.uploadUrl;
+                console.log('new payload', payload);
+                dispatch(createTeam(payload, toast, router));
+            })
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: err.response.data.message });
+
                 dispatch(updateIsLoading(false));
             });
     };

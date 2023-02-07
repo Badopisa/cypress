@@ -1,6 +1,16 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import React, { useState } from 'react';
-import { Text, Box, Spacer, VStack, Stack, Center, Button, SimpleGrid } from '@chakra-ui/react';
+import {
+    Text,
+    Box,
+    Spacer,
+    VStack,
+    Stack,
+    Center,
+    Button,
+    SimpleGrid,
+    HStack
+} from '@chakra-ui/react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { useRouter } from 'next/router';
 import Steps from '@/components/Team/Steps';
@@ -10,6 +20,7 @@ import PlayerCard from '@/components/Team/PlayerCard';
 import NewStaff from '@/components/Team/Modal/NewStaff';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
+import Swal from 'sweetalert2';
 
 const AddStaff = () => {
     const { currentTeam }: { currentTeam: any } = useSelector(
@@ -37,13 +48,20 @@ const AddStaff = () => {
     return (
         <>
             <DashboardDesktopNav hasArrow />
-            <Box color="white" py={{ base: 8, md: 8 }} px={{ base: 4, md: 8 }}>
-                <Text fontSize="3xl" fontWeight="medium">
-                    Create Team
+            <HStack
+                color="black2"
+                alignItems={'baseline'}
+                py={{ base: 8, md: 8 }}
+                px={{ base: 4, md: 8 }}>
+                <Text fontSize="40px" fontWeight="700">
+                    Add staff
                 </Text>
-                <Steps current={3} />
-            </Box>
+                <Text onClick={() => setFinish(true)} cursor={'pointer'} as={'u'} color="green">
+                    Skip this step
+                </Text>
+            </HStack>
             <Box px={{ base: 8, md: 8 }} color="white">
+                <Steps current={3} />
                 <Text fontSize="md" fontWeight="medium">
                     Create or add existing Staffs
                 </Text>
