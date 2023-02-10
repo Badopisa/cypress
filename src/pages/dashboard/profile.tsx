@@ -28,6 +28,15 @@ const Profile = () => {
          <DashboardDesktopNav hasArrow />
          <Text p="40px" color="black2" fontSize="40px" fontWeight="700">Profile</Text>
          <Text p="40px">Personal information settings</Text>
+            <VStack width="200%" justifyContent="space-aside">
+                <Box>
+                    <FormControl p="10px">
+                       <FormLabel >Last name</FormLabel>
+                       <Input type="Text" name="Title" />
+                       <FormHelperText></FormHelperText>
+                     </FormControl>
+                </Box>
+            </VStack>
             <HStack width="400%" justifyContent="space-between">
                 <Spacer>
                 <Box maxW="480px">
@@ -35,7 +44,7 @@ const Profile = () => {
                        <FormLabel >First name</FormLabel>
                        <Input type="Text" name="Title" />
                        <FormHelperText></FormHelperText>
-                   </FormControl>
+                     </FormControl>
               
                  </Box>
                   <Box maxW="480px">
