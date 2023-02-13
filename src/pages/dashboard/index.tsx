@@ -32,9 +32,6 @@ useEffect(
     },
     [user?.clubs[0]?.id]
 )
-
-
-// set currentDetails
     
     return <main>
          <DashboardDesktopNav hasArrow />
