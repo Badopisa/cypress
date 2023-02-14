@@ -5,7 +5,8 @@ const initialState = {
     user: null,
     file: null,
     fileName: null,
-    forgotPasswordEmail: null
+    forgotPasswordEmail: null,
+    clubDetails: null
 };
 
 type IAction = {
@@ -34,6 +35,11 @@ export const authReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 fileName: action.payload
+            };
+        case types.CLUB_DETAILS:
+            return {
+                ...state,
+                clubDetails: action.payload
             };
         default:
             return state;

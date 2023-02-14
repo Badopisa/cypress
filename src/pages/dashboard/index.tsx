@@ -1,27 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-no-undef */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import {
     Text,
     Box,
-    SimpleGrid,
-    VStack,
-    Flex,
-    Spacer,
-    Center,
-    Button,
-    Tabs,
-    Tab,
-    TabList,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Spinner,
     HStack,
-    Img
+    useToast,
+    Img,
+    Spacer
 } from '@chakra-ui/react';
+import {UserDataType} from "@/types/AuthDataType";
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { getClubDetails } from '@/store/actions/authActions';
+
+
 
 const Dashboard = () => {
+    const { user, clubDetails }: { user: UserDataType, clubDetails:any } = useSelector((state: RootStateOrAny) => state.auth);
+    const dispatch = useDispatch();
+    const toast = useToast();
+useEffect(
+    () => {
+        if (user?.clubs[0]?.id) {
+            dispatch(getClubDetails(user?.clubs[0]?.id, toast));
+        }
+    },
+    [user?.clubs[0]?.id]
+)
+    
     return <main>
          <DashboardDesktopNav hasArrow />
          <Text color="black2" fontSize="40px" fontWeight="700">Dashboard</Text>
@@ -34,7 +45,7 @@ const Dashboard = () => {
                 <Text>Total teams</Text>
                 <Img src='images/icons/totalteams.svg' w="24px"></Img>
             </HStack>
-            <Text fontSize="40px"color="White" fontWeight="700" p="18px">0</Text>
+            <Text fontSize="40px"color="White" fontWeight="700" p="18px">{clubDetails.teams.length}</Text>
             <Text><i>No activity this week</i></Text>
          </Box>
             <Box p="40px" w="341px" h="213px" 
@@ -43,7 +54,7 @@ const Dashboard = () => {
                     <Text>Total players</Text>
                    <Img src='images/icons/people.svg' w="30px"></Img>
                 </HStack >
-                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">0</Text>
+                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">{clubDetails.players.length}</Text>
                 <Text><i>No activity this week</i></Text>
                 </Box>
             <Box p="40px" w="341px" h="213px" bg="babyBlue"
@@ -52,7 +63,7 @@ const Dashboard = () => {
                   <Text>Total staff</Text>
                   <Img src='images/icons/totalstaff.svg' w="30px"></Img>
                 </HStack>
-                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">0</Text>
+                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">{clubDetails.staff.length}</Text>
                 <Text><i>No activity this week</i></Text>
                </Box>
          </HStack>

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import HttpService from '@/services/httpService';
 import { AdminRegFormData } from '@/types/AuthDataType';
 
@@ -71,3 +72,11 @@ export const VerifyEmailToken = (payload: any) => {
 
     return http.postData(payload, url, false);
 };
+
+export const ClubDetails = (club_id: any) => {
+    const http = new HttpService();
+
+    const url = `clubs/${club_id}`;
+
+    return http.getData(url, true);
+}
