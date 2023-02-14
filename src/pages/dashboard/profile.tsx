@@ -32,8 +32,10 @@ const Profile = () => {
          <DashboardDesktopNav hasArrow />
          <Text p="40px" color="black2" fontSize="40px" fontWeight="700">Profile</Text>
          <Text p="40px">Personal information settings</Text>
-         <Box width="1000px">
-         <ImageUpload
+         <Box>
+            <HStack width="800px"justifyContent="space-between">
+                <Box>
+            <ImageUpload
                         defaultImage="/images/image/defaultImage.svg"
                         w="100px"
                         h="100px"
@@ -41,10 +43,11 @@ const Profile = () => {
                         setSelectedImage={setProfilePicture}
                         selectedImage={profilePicture}
                     />
-                    <HStack>
-                    <Button type="submit"> Save changes</Button>
-                    </HStack>
-                    </Box>
+                     </Box>
+                    <Button bg="lightWhite" color="lightwhite" type="submit"> Change picture</Button>
+                   
+            </HStack>
+            </Box>
             <VStack width="700%" justifyContent="space-between">
                 <Spacer>
                 <HStack maxW="1000px">
@@ -83,7 +86,9 @@ const Profile = () => {
                     </Box>
                  </Spacer>
             </VStack>
+            <Spacer>
             <Button type="submit"> Save changes</Button>
+            </Spacer>
           
         </>  
     )
