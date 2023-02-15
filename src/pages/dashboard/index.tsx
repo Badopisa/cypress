@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import {
     Text,
@@ -45,7 +45,8 @@ useEffect(
                 <Text>Total teams</Text>
                 <Img src='images/icons/totalteams.svg' w="24px"></Img>
             </HStack>
-            <Text fontSize="40px"color="White" fontWeight="700" p="18px">{clubDetails.teams.length}</Text>
+            <Text fontSize="40px"color="White" fontWeight="700" p="18px">{clubDetails?.teams ? clubDetails.teams.length :0}
+            </Text>
             <Text><i>No activity this week</i></Text>
          </Box>
             <Box p="40px" w="341px" h="213px" 
@@ -54,7 +55,8 @@ useEffect(
                     <Text>Total players</Text>
                    <Img src='images/icons/people.svg' w="30px"></Img>
                 </HStack >
-                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">{clubDetails.players.length}</Text>
+                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">{clubDetails?.players ? clubDetails.players.length :0}
+                </Text>
                 <Text><i>No activity this week</i></Text>
                 </Box>
             <Box p="40px" w="341px" h="213px" bg="babyBlue"
@@ -63,7 +65,8 @@ useEffect(
                   <Text>Total staff</Text>
                   <Img src='images/icons/totalstaff.svg' w="30px"></Img>
                 </HStack>
-                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">{clubDetails.staff.length}</Text>
+                <Text fontSize="40px"color="White" fontWeight="700" p="9.5px">{clubDetails?.staff ? clubDetails.staff.length :0}
+                </Text>
                 <Text><i>No activity this week</i></Text>
                </Box>
          </HStack>

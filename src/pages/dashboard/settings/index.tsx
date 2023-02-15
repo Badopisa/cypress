@@ -1,63 +1,95 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
-import { Tabs, TabList, Tab, Spacer, Box } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import Language from './Language';
-import Notifications from './Notifications';
-import PersonalInformation from './PersonalInformation';
-import Security from './Security';
+import {
+    Text,
+    Box,
+    SimpleGrid,
+    VStack,
+    Flex,
+    Spacer,
+    Center,
+    Button,
+    Tabs,
+    Tab,
+    TabList,
+    InputGroup,
+    InputLeftElement,
+    Input,
+    Spinner,
+    HStack,
+    Img,
+    FormControl,
+    FormLabel,
+    FormHelperText,
+    Container
+} from '@chakra-ui/react';
 
-const TabSelectedStyle = {
-    color: 'white',
-    bg: 'primary',
-    rounded: '5px'
-};
+
+
+
 
 const Settings = () => {
     const [tab, setTab] = useState<number>(1);
 
     return (
-        <Box>
-            <DashboardDesktopNav />
-            <Tabs
-                variant="unstyled"
-                my={{ base: 8, md: 4 }}
-                alignContent="center"
-                w={{ base: '100%', md: '90%', lg: '80%' }}>
-                <TabList
-                    bg="dark"
-                    color="white"
-                    w={{ base: '100%', md: '100%' }}
-                    rounded={5}
-                    p={{ base: '0', md: '8px 16px' }}>
-                    <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
-                        Peronal Information
-                    </Tab>
-                    <Spacer />
-                    <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
-                        Language
-                    </Tab>
-                    <Spacer />
-                    <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
-                        Notifications
-                    </Tab>
-                    <Spacer />
-                    <Tab _selected={TabSelectedStyle} onClick={() => setTab(4)}>
-                        Security
-                    </Tab>
-                    <Spacer />
-                    <Tab _selected={TabSelectedStyle} onClick={() => setTab(5)}>
-                        Help
-                    </Tab>
-                </TabList>
-            </Tabs>
-            {tab === 1 && <PersonalInformation />}
-            {tab === 2 && <Language />}
+        <><><></><DashboardDesktopNav hasArrow />
+            <Text p="40px" color="black2" fontSize="40px" fontWeight="700">Setteings</Text></>
+            <Box>
+                <VStack width="600%" justifyContent="space-between">
+                  <Spacer>
+                    <HStack maxW="900px">
+                    <FormControl p="10px">
+                       <FormLabel >Change password</FormLabel>
+                       <Input type="Text" name="Title" />
+                       <FormHelperText></FormHelperText>
+                     </FormControl>
+                     <Button bg="lightWhite" color="Black">Change password</Button>
+                    </HStack>
+                    
+                    <HStack maxW="900px">
+                    <FormControl p="10px">
+                       <FormLabel >Change email</FormLabel>
+                       <Input type="Text" name="Title" />
+                       <FormHelperText></FormHelperText>
+                     </FormControl>
+                     <Button  bg="lightWhite" color="Black">Change email</Button>
+                    </HStack>
 
-            {tab === 3 && <Notifications />}
-            {tab === 4 && <Security />}
-        </Box>
+                       <HStack maxW="800px" justifyContent="space-between">
+                       <FormControl p="10px">
+                       <FormLabel >Notifications</FormLabel>
+                       <Input type="Text" name="Title" />
+                       <FormHelperText></FormHelperText>
+                     </FormControl>
+                     <Button></Button>
+                        </HStack> 
+
+                        <HStack maxW="800px">
+                        <FormControl p="10px">
+                       <FormLabel >Appearance</FormLabel>
+                       <Input type="Text" name="Title" />
+                       <FormHelperText></FormHelperText>
+                     </FormControl>
+                  
+                        </HStack>
+
+                        <HStack maxW="800px">
+                        <FormControl p="10px">
+                       <FormLabel >Language</FormLabel>
+                       <Input type="Text" name="Title" />
+                       <FormHelperText></FormHelperText>
+                     </FormControl>
+                        </HStack>
+                   
+                  </Spacer>
+
+                </VStack>
+
+                </Box></>
+
+           
     );
 };
 
-export default authenticatedRoute(Settings);
+export default authenticatedRoute(Settings)
