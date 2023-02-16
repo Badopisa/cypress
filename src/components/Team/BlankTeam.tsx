@@ -1,9 +1,17 @@
 import React from 'react';
-import { Text, Box, Center, Flex, Image } from '@chakra-ui/react';
+import { Text, Box, Center, Flex, Image, HStack } from '@chakra-ui/react';
 
 const BlankTeam = ({ title, image }: { title: string; image: string }) => {
     return (
-        <Box mt={6} w="100%" bg="white" borderRadius="10px" p="18px" mb={12}>
+        <HStack
+            mt={6}
+            w="calc(100vw - 450px)"
+            justifyContent={'center'}
+            bg="white"
+            color={'black2'}
+            borderRadius="10px"
+            p="18px"
+            mb={12}>
             <Flex textAlign="center" mt="auto" direction="column">
                 <Center mt="24px" mb="24px">
                     <Image src={image} alt="jersy" h="66px" />
@@ -18,7 +26,7 @@ const BlankTeam = ({ title, image }: { title: string; image: string }) => {
                 {/*    </Text>*/}
                 {/*</Center>*/}
             </Flex>
-        </Box>
+        </HStack>
     );
 };
 

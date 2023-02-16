@@ -48,12 +48,8 @@ const AddStaff = () => {
     return (
         <>
             <DashboardDesktopNav hasArrow />
-            <HStack
-                color="black2"
-                alignItems={'baseline'}
-                py={{ base: 8, md: 8 }}
-                px={{ base: 4, md: 8 }}>
-                <Text fontSize="40px" fontWeight="700">
+            <HStack mb={'40px'} color="black2" alignItems={'baseline'}>
+                <Text mr={'20px'} fontSize="40px" fontWeight="700">
                     Add staff
                 </Text>
                 <Text onClick={() => setFinish(true)} cursor={'pointer'} as={'u'} color="green">
@@ -61,49 +57,80 @@ const AddStaff = () => {
                 </Text>
             </HStack>
             <Box px={{ base: 8, md: 8 }} color="white">
-                <Steps current={3} />
-                <Text fontSize="md" fontWeight="medium">
-                    Create or add existing Staffs
-                </Text>
+                <Box mx={'auto'} maxW={'320px'} mb={'38px'}>
+                    <Steps current={3} />
+                </Box>
                 <Stack
                     direction={{ base: 'column', md: 'row' }}
+                    mx={'auto'}
                     py={{ base: 8, md: 8 }}
-                    w="80%"
-                    spacing={{ base: 1, md: 4 }}>
-                    <Button fontSize="xs" variant="action" onClick={handleCreate} w="full">
-                        ADD A STAFF
+                    w="640px"
+                    spacing={{ base: 1, md: '20px' }}>
+                    <Button
+                        fontSize={'16px'}
+                        fontWeight={'400'}
+                        size="lg"
+                        onClick={handleCreate}
+                        w="full">
+                        Create new staff
                     </Button>
                     <Spacer />
-                    <Button fontSize="xs" variant="outline" onClick={handleExist} w="full">
-                        ADD EXISTING STAFF
+                    <Button
+                        fontSize={'16px'}
+                        fontWeight={'400'}
+                        size="lg"
+                        variant="action2"
+                        onClick={handleExist}
+                        w="full">
+                        Add existing staff
                     </Button>
                     <Spacer />
-                    <Button px={6} bg="grey" color="white" fontSize="xs" ml="8" w="83">
-                        {currentTeam?.staff?.length}/5
-                    </Button>
+                    <Spacer />
+                    <>
+                        <Button
+                            fontSize={'16px'}
+                            fontWeight={'400'}
+                            disabled
+                            size="lg"
+                            variant="action2"
+                            w="full">
+                            Upload CSV
+                        </Button>
+                        <input
+                            type="file"
+                            id="file"
+                            // ref={hiddenFileInput}
+                            accept=".csv"
+                            style={{ display: 'none' }}
+                            // onChange={handleChange}
+                        />
+                    </>
                 </Stack>
 
                 {currentTeam?.staff?.length > 0 ? (
                     <SimpleGrid
                         // minChildWidth={{ base: '100%', md: '166px' }}
-                        columns={{ base: 1, sm: 2, lg: 4 }}
-                        width="min(90%, 1200px)"
-                        spacing={{ base: '14px', md: '40px' }}
+                        columns={{ base: 1, sm: 2, lg: 6 }}
+                        // width="min(90%, 1200px)"
+                        spacingX={{ base: '14px', md: '10px' }}
+                        spacingY={{ base: '14px', md: '20px' }}
                         mt={8}
                         mb={8}>
                         {currentTeam?.staff?.map((staff: any) => (
                             <PlayerCard
                                 key={staff?.user_id}
-                                position={staff?.position}
+                                position={staff?.role}
                                 image={staff?.user?.photo}
                                 status="Pending Invite"
+                                hasMenu
+                                player={staff}
                                 name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
                                 team={staff?.team}
                             />
                         ))}
                     </SimpleGrid>
                 ) : (
-                    <BlankTeam image="/images/image/jersy.png" title="No Players created yet" />
+                    <BlankTeam image="/images/image/jersy.png" title="No Staffs created yet" />
                 )}
 
                 <Center>
@@ -112,26 +139,13 @@ const AddStaff = () => {
                         w={{ base: '40%', md: '40%' }}
                         spacing={4}
                         mx={{ base: 8, md: 12 }}>
-                        <Button
-                            fontSize="sm"
-                            variant="action"
-                            px={{ base: '80%', md: '50%' }}
-                            onClick={handleFinish}>
-                            Finish Team Creation
+                        <Button size="lg" px={{ base: '80%', md: '50%' }} onClick={handleFinish}>
+                            Finish team creation
                         </Button>
-                        <Text fontSize="sm" onClick={() => router.back()} cursor="pointer">
-                            PREVIOUS STEP
-                        </Text>
                     </VStack>
                 </Center>
 
-                <ExistingStaff
-                    title="Add Existing Staff"
-                    buttonTitle="Add Staff"
-                    isOpen={existing}
-                    onClose={setExisting}
-                    setSelected={setSelected}
-                />
+                <ExistingStaff isOpen={existing} onClose={setExisting} setSelected={setSelected} />
 
                 <NewStaff isOpen={create} onClose={setCreate} />
 
@@ -147,9 +161,9 @@ const AddStaff = () => {
                     jersyPng="/images/image/confirmation.png"
                     isOpen={finish}
                     onClose={continueToTeamList}
-                    playerName="Team Created!"
+                    playerName="Team created!"
                     body="Sonalysis will notify those that you have newly invited via email"
-                    buttonTitle="GO TO TEAM LIST"
+                    buttonTitle="Go to team list"
                 />
             </Box>
         </>

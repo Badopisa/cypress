@@ -18,3 +18,11 @@ export const updateIsLoading = (data: boolean) => {
         payload: data
     };
 };
+
+export const updateMessage = (data: string) => {
+    return {
+        type: actionTypes.UPDATE_MESSAGE_STATE,
+
+        payload: data
+    };
+};

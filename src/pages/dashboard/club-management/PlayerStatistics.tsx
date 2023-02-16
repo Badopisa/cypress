@@ -13,7 +13,9 @@ import {
     SimpleGrid,
     Stack,
     CircularProgressLabel,
-    Text
+    Text,
+    VStack,
+    HStack
 } from '@chakra-ui/react';
 
 type displayType = {
@@ -35,29 +37,49 @@ const PlayerStatistics = ({ stats, setDisplay }: displayType) => {
         };
     }, []);
     return (
-        <Box w={'80%'}>
+        <Box w={'100%'}>
             <Table>
                 <Tbody>
                     <Tr
                         onClick={() => setDisplay(1)}
                         cursor={'pointer'}
-                        bg="dark"
-                        borderRadius="lg">
-                        <Td border={'none'} w={''}>
+                        bg="lightWhite"
+                        mb={'20px'}
+                        borderRadius="10px"
+                        p={'20px'}
+                        color={'black2'}
+                        position={'relative'}
+                        _hover={{
+                            backgroundColor: 'grey5'
+                        }}>
+                        <Td border={'none'} w={'100px'}>
                             <Video data={stats?.video?.full_video} />
                         </Td>
                         <Td border={'none'} fontSize={'xs'}>
-                            {stats?.team_name}
+                            <VStack alignItems={'flex-start'}>
+                                <Text fontSize={'16px'} fontWeight={'400'} color={'black2'}>
+                                    {stats?.team_name}
+                                </Text>
+                                <Text fontSize={'12px'} fontWeight={'400'} color={'grey3'}>
+                                    Uploaded 3hrs ago
+                                </Text>
+                            </VStack>
                         </Td>
-                        <Td border="none" fontSize={'xs'}>
-                            {stats?.video?.video_length}
-                        </Td>
-
                         <Td border={'none'}>
-                            <Img src="/icons/share.svg" alt="share a video" />
+                            <HStack cursor={'pointer'}>
+                                <Text fontSize={'12px'} fontWeight={'400'} color={'grey2'}>
+                                    Share
+                                </Text>
+                                <Img src="/icons/share.svg" alt="share a video" />
+                            </HStack>
                         </Td>
                         <Td border={'none'}>
-                            <Img src="/icons/delete.svg" alt="delete a video" />
+                            <HStack cursor={'pointer'}>
+                                <Text fontSize={'12px'} fontWeight={'400'} color={'#EC000C'}>
+                                    Delete
+                                </Text>
+                                <Img src="/icons/trash.svg" alt="delete a video" />
+                            </HStack>
                         </Td>
                     </Tr>
                 </Tbody>
@@ -65,40 +87,40 @@ const PlayerStatistics = ({ stats, setDisplay }: displayType) => {
             <Flex
                 direction={{ base: 'column', md: 'row' }}
                 justifyContent={'space-between'}
-                w="90%"
+                w="100%"
                 mt={4}>
-                <Box bg="dark" borderRadius={'lg'} p={8}>
+                <Box bg="lightWhite" borderRadius={'lg'} p={8}>
                     <Flex justifyContent={'space-between'} mb={8}>
                         <Text fontSize={'sm'}>Video Analytics</Text>
-                        <Button variant={'outline'} alignSelf={'self-end'} px={8} fontSize={'sm'}>
+                        <Button variant={'text'} alignSelf={'self-end'} px={8} fontSize={'sm'}>
                             SHARE STATS
                         </Button>
                     </Flex>
                     <SimpleGrid columns={3} spacing={4}>
-                        <Box bg="ash" borderRadius={'lg'} textAlign={'center'} p={2}>
+                        <Box bg="white" borderRadius={'lg'} textAlign={'center'} p={2}>
                             <Text>{stats?.analysis?.analysis?.goals}</Text>
                             <Text>Goals</Text>
                         </Box>
-                        <Box bg="ash" borderRadius={'lg'} textAlign={'center'} p={2}>
+                        <Box bg="white" borderRadius={'lg'} textAlign={'center'} p={2}>
                             <Text>{stats?.analysis?.analysis?.free_kick}</Text>
                             <Text>F.Kicks</Text>
                         </Box>
-                        <Box bg="ash" borderRadius={'lg'} textAlign={'center'} p={2}>
+                        <Box bg="white" borderRadius={'lg'} textAlign={'center'} p={2}>
                             <Text>{stats?.analysis?.analysis?.penalty}</Text>
                             <Text>Penalty</Text>
                         </Box>
-                        <Box bg="ash" borderRadius={'lg'} textAlign={'center'} p={2}>
+                        <Box bg="white" borderRadius={'lg'} textAlign={'center'} p={2}>
                             <Text>2</Text>
                             <Text>Goals Att.</Text>
                         </Box>
-                        <Box bg="ash" borderRadius={'lg'} textAlign={'center'} p={2}>
+                        <Box bg="white" borderRadius={'lg'} textAlign={'center'} p={2}>
                             <Flex justify="center">
                                 <Text>{stats?.analysis?.analysis?.yellow_card}</Text>
                                 <Img src="/icons/yellow-card.svg" alt="yellow card" />
                             </Flex>
                             <Text>Yellow Card</Text>
                         </Box>
-                        <Box bg="ash" borderRadius={'lg'} textAlign={'center'} p={2}>
+                        <Box bg="white" borderRadius={'lg'} textAlign={'center'} p={2}>
                             <Flex justify="center">
                                 <Text>{stats?.analysis?.analysis?.red_card}</Text>
                                 <Img src="/icons/red-card.svg" alt="red card" />

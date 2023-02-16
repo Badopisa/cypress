@@ -5,11 +5,13 @@ import {
     ModalOverlay,
     ModalContent,
     Divider,
-    useToast
+    useToast,
+    ModalHeader,
+    Text
 } from '@chakra-ui/react';
 import { MdMode, MdDelete, MdShare, MdPersonAddAlt1, MdPeople } from 'react-icons/md';
 
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import Confirmation from './Confirmation';
 import EditStaffDetails from './EditStaffDetails';
 import { removeStaffFromTeam } from '@/store/actions/staffActions';
@@ -22,6 +24,7 @@ type ManageStaffType = {
     setCreateExistingStaff?: any;
     create?: string;
     existing?: string;
+    newStaffButton?: boolean;
     edit?: string;
     share?: string;
     remove?: string;
@@ -32,6 +35,7 @@ const ManageStaffModal = ({
     onClose,
     create,
     existing,
+    newStaffButton = false,
     setCreateStaff,
     setCreateExistingStaff,
     edit,
@@ -46,6 +50,10 @@ const ManageStaffModal = ({
     );
     const dispatch = useDispatch();
     const toast = useToast();
+
+    useEffect(() => {
+    }, [newStaff]);
+
 
     const handleCreateStaff = () => {
         setCreateStaff?.(true);
@@ -72,17 +80,38 @@ const ManageStaffModal = ({
             )
         );
     };
+
     return (
         <>
-            <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+            <Modal isCentered isOpen={isOpen} onClose={() => onClose(false)}>
                 <ModalOverlay />
-                <ModalContent w="xs" py={5} h="auto" bg="ash" color="white" rounded="1.125rem">
+                <ModalContent
+                    px={'40px'}
+                    py={newStaffButton ? '40px' : '104px'}
+                    h="auto"
+                    bg="white"
+                    color="black2"
+                    rounded="1.125rem">
+                    {newStaffButton && (
+                        <ModalHeader
+                            mb={'20px'}
+                            textAlign="center"
+                            fontSize="40px"
+                            fontWeight="700">
+                            Add new staff
+                            <Text mt={'10px'} fontSize="16px" color="grey4" fontWeight={'400'}>
+                                Select one
+                            </Text>
+                        </ModalHeader>
+                    )}
+
                     <VStack alignItems={'flex-start'}>
                         {create && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdPersonAddAlt1 color="white" />}
+                                    mb={'12px'}
+                                    size={'lg'}
+                                    w={'100%'}
                                     onClick={handleCreateStaff}
                                     px={8}>
                                     {create}
@@ -93,8 +122,10 @@ const ManageStaffModal = ({
                         {existing && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdPeople color="white" />}
+                                    size={'lg'}
+                                    bg={'lightWhite'}
+                                    w={'100%'}
+                                    color={'black2'}
                                     onClick={handleCreateExistingStaff}
                                     px={8}>
                                     {existing}
@@ -105,8 +136,12 @@ const ManageStaffModal = ({
                         {edit && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdMode color="white" />}
+                                    size={'lg'}
+                                    w={'100%'}
+                                    _hover={{
+                                        backgroundColor: 'black',
+                                        color: 'white'
+                                    }}
                                     onClick={handleEditStaff}
                                     px={8}>
                                     {edit}
@@ -117,8 +152,15 @@ const ManageStaffModal = ({
                         {share && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdShare color="white" />}
+                                    variant={'text'}
+                                    size={'lg'}
+                                    borderRadius={'0px'}
+                                    w={'100%'}
+                                    _hover={{
+                                        backgroundColor: 'black',
+                                        color: 'white'
+                                    }}
+                                    leftIcon={<MdShare color="black" />}
                                     onClick={handleShareStaff}
                                     px={8}>
                                     Share Staff
@@ -129,8 +171,11 @@ const ManageStaffModal = ({
                         {remove && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdDelete color="white" />}
+                                    variant={'text'}
+                                    size={'lg'}
+                                    borderRadius={'0px'}
+                                    w={'100%'}
+                                    color={'red'}
                                     onClick={handleDeleteStaff}
                                     px={8}>
                                     {remove}
@@ -138,10 +183,20 @@ const ManageStaffModal = ({
                                 <Divider color="primary" />
                             </>
                         )}{' '}
-                        <Button variant={'bare'} onClick={() => onClose(false)} px={12}>
-                            Close
-                        </Button>
-                        <Divider color="primary" orientation="horizontal" />
+                        {/*<Button*/}
+                        {/*    variant={'text'}*/}
+                        {/*    size={'lg'}*/}
+                        {/*    borderRadius={'0px'}*/}
+                        {/*    w={'100%'}*/}
+                        {/*    _hover={{*/}
+                        {/*        backgroundColor: 'black',*/}
+                        {/*        color: 'white'*/}
+                        {/*    }}*/}
+                        {/*    onClick={() => onClose(false)}*/}
+                        {/*    px={12}>*/}
+                        {/*    Close*/}
+                        {/*</Button>*/}
+                        {/*<Divider color="primary" orientation="horizontal" />*/}
                     </VStack>
                 </ModalContent>
             </Modal>

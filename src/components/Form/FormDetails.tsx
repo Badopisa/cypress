@@ -49,11 +49,11 @@ const FormDetails = ({
                 <Text fontSize={{ base: '20px', md: '40px' }} fontWeight="700">
                     {title}
                 </Text>
-                <Text color={'grey3'} fontSize={{ base: '8px', md: '16px' }} fontWeight="400">
+                <Text color={'grey3'} fontSize={{ base: '12px', md: '16px' }} fontWeight="400">
                     {subtitle}
                 </Text>
             </VStack>
-            <SimpleGrid minW={'110%'} columns={1} rowGap={5}>
+            <SimpleGrid minW={{ base: '80%', md: '110%' }} columns={1} rowGap={5}>
                 {children}
                 {hasFooter && (
                     <>
@@ -61,7 +61,7 @@ const FormDetails = ({
                             <Button
                                 onClick={() => (handleButtonClick ? handleButtonClick() : null)}
                                 size="lg"
-                                disabled={disableButton}
+                                // disabled={disableButton}
                                 isLoading={loading}
                                 mb={'20px'}
                                 w="full">

@@ -70,7 +70,7 @@ const ForgotPassword = () => {
                                 borderRadius={'6px'}
                                 _placeholder={{
                                     opacity: 1,
-                                    color: 'inputText',
+                                    color: 'grey4',
                                     fontSize: '16px',
                                     fontWeight: '400'
                                 }}

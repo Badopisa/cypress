@@ -23,6 +23,11 @@ export const msgReducer = (state = initialState, action: IAction) => {
                 ...state,
                 isLoading: action.payload
             };
+        case types.UPDATE_MESSAGE_STATE:
+            return {
+                ...state,
+                msg: action.payload
+            };
         default:
             return state;
     }

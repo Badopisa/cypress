@@ -13,7 +13,7 @@ import {
     useToast,
     Stack,
     HStack,
-    Img
+    Img, Box
 } from '@chakra-ui/react';
 import React from 'react';
 import NavBar from '@/components/Layout/NavBar';
@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import { setNewPassword } from '@/store/actions/authActions';
 import { updateAlertMsg } from '@/store/actions/msgAction';
 import { UserDataType } from '@/types/AuthDataType';
+import Steps from "@/components/Team/Steps";
 
 const SetNewPassword = () => {
     const {
@@ -66,6 +67,9 @@ const SetNewPassword = () => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} mt={'40px'} w={'320px'} mb={'38px'}>
+                    <Steps current={2} />
+                </Box>
                 <VStack
                     justifyContent={'center'}
                     alignItems={'center'}
@@ -188,9 +192,9 @@ const SetNewPassword = () => {
                             </FormControl>
                             <Button
                                 isLoading={isLoading}
-                                disabled={
-                                    !touchedFields.newPassword || !touchedFields.confirmPassword
-                                }
+                                // disabled={
+                                //     !touchedFields.newPassword || !touchedFields.confirmPassword
+                                // }
                                 type="submit"
                                 size="lg"
                                 w="full">

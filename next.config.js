@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        domains: ['sonalysis-asset.s3.amazonaws.com']
+        domains: ['sonalysis-asset.s3.amazonaws.com', 'sonalysis-media.nyc3.digitaloceanspaces.com']
     },
     webpack5: true,
     webpack(config) {

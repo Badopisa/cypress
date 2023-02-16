@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import {Flex, Icon, FlexProps, Box} from '@chakra-ui/react';
+import { Flex, Icon, FlexProps, Box, Text } from '@chakra-ui/react';
 
 import Link from '@/components/Elements/Link/Link';
 
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { logout } from '@/store/actions/authActions';
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
 
 interface NavItemProps extends FlexProps {
     icon: IconType;
@@ -14,13 +14,12 @@ interface NavItemProps extends FlexProps {
     link: string;
 }
 const DashboardNavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
-    const [linkSelected, setLinkSelected] = useState<boolean>(false);
+    const [iconColor, setIconColor] = useState<string>('');
     const router = useRouter();
+    const IconItem = icon;
     const handleNav = (e: React.FormEvent<HTMLAnchorElement>) => {
-        setLinkSelected(router.pathname === link);
-        console.log('link selected bool', linkSelected);
-        console.log('link selected link', link);
-        console.log('link selected path', router.pathname);
+        // console.log('link selected link', link);
+        // console.log('link selected path', router.pathname);
 
         if (children === 'Logout') {
             e.preventDefault();
@@ -35,35 +34,63 @@ const DashboardNavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
             _focus={{ boxShadow: 'none' }}>
             <Flex
                 align="center"
+                mb={'10px'}
+                onMouseEnter={() => setIconColor('white')}
+                onMouseLeave={() => setIconColor('')}
                 py="10px"
                 px="15px"
                 borderRadius="5px"
                 role="group"
                 cursor="pointer"
+                color={'black2'}
                 fontSize="12px"
-                borderColor={router.pathname === link ? 'purple' : ''}
-                color={router.pathname === link ? 'purple' : 'black2'}
+                position="relative"
+                borderColor={router.pathname === link ? 'slateBlue' : 'lightWhite'}
                 // bg={linkSelected ? 'purlp' : 'transparent'}
                 borderWidth={'1px'}
                 _hover={{
-                    color: 'purple',
-                    borderWidth: '1px',
-                    borderColor: 'purple'
+                    color: 'white',
+                    backgroundColor: 'black2'
                 }}
-                onClick={() => setLinkSelected(true)}
+                // onClick={() => setLinkSelected(true)}
                 {...rest}>
-                {icon && (
-                    <Icon
-                        mr="4"
-                        fontSize="20"
-                        color={router.pathname === link ? 'purple' : ''}
-                        _groupHover={{
-                            color: 'purple'
-                        }}
-                        as={icon}
+                {router.pathname === link && (
+                    <Box
+                        position={'absolute'}
+                        top={'0'}
+                        opacity={0.05}
+                        left={'0'}
+                        h={'full'}
+                        w={'full'}
+                        bg={'primary'}
                     />
                 )}
-                {children}
+                {/*{icon && (*/}
+                {/*    <Box*/}
+                {/*        mr="4px"*/}
+                {/*        size="20"*/}
+                {/*        stroke={router.pathname === link ? 'purple' : ''}*/}
+                {/*        _groupHover={{*/}
+                {/*            color: 'purple'*/}
+                {/*        }}*/}
+                {/*        as={icon}*/}
+                {/*    />*/}
+                {/*)}*/}
+                <IconItem stroke={router.pathname === link ? 'slateBlue' : iconColor} />
+                {router.pathname === link ? (
+                    <Text
+                        fontSize={'14px'}
+                        ml={'8px'}
+                        fontWeight={'400'}
+                        bgGradient={'linear-gradient(to right, #9741FF, #645EFD, #007DB3)'}
+                        bgClip={'text'}>
+                        {children}
+                    </Text>
+                ) : (
+                    <Text ml={'8px'} fontSize={'14px'} fontWeight={'400'}>
+                        {children}
+                    </Text>
+                )}
             </Flex>
         </Link>
     );

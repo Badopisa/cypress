@@ -56,7 +56,12 @@ const Registration = () => {
                     disableButton={!selected}
                     // loading={loading}
                     handleButtonClick={handleContinue}>
-                    <HStack justifyContent={'space-between'} w={'full'} {...group}>
+                    <Flex
+                        direction={{ base: 'column', md: 'row' }}
+                        alignItems={'center'}
+                        justifyContent={'space-between'}
+                        w={'full'}
+                        {...group}>
                         {options.map((value: any) => {
                             const radio = getRadioProps({ value: value.title });
                             return (
@@ -68,7 +73,7 @@ const Registration = () => {
                                 />
                             );
                         })}
-                    </HStack>
+                    </Flex>
                 </FormDetails>
             </Flex>
         </>
@@ -105,7 +110,15 @@ function RadioCard(props: any) {
                 px={'42px'}
                 py={'42px'}>
                 {input?.checked && (
-                    <Box position={'absolute'} top={0} left={0} w={'100%'} h={'100%'} bg={'primary'} opacity={0.1} />
+                    <Box
+                        position={'absolute'}
+                        top={0}
+                        left={0}
+                        w={'100%'}
+                        h={'100%'}
+                        bg={'primary'}
+                        opacity={0.1}
+                    />
                 )}
                 <Box
                     {...checkbox}
@@ -114,13 +127,27 @@ function RadioCard(props: any) {
                     _checked={{
                         bg: 'slateBlue'
                     }}
+                    display={'flex'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
                     borderRadius="100%"
                     background={'grey6'}
                     borderColor={'grey5'}
                     position="absolute"
                     top={'20px'}
-                    right={'20px'}
-                />
+                    right={'20px'}>
+                    <Box
+                        {...checkbox}
+                        w={'10px'}
+                        h={'10px'}
+                        _checked={{
+                            bg: 'white'
+                        }}
+                        borderRadius="100%"
+                        background={'grey6'}
+                        borderColor={'grey5'}
+                    />
+                </Box>
                 <AvatarIcon size={'25px'} stroke={input?.checked ? 'slateBlue' : ''} />
                 <Spacer h={'22px'} />
                 <Text fontSize={'20px'}>{props?.title}</Text>

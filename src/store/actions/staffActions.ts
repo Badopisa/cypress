@@ -5,8 +5,63 @@ import { fetchTeams, getTeamDetails } from '@/store/actions/teamActions';
 import { StaffFormType } from '@/types/StaffDataType';
 import { CreateStaff, GetStaffForAClub, UpdateStaff } from '@/services/staffManagementService';
 import { AddStaffToTeam, RemoveStaffFromTeam } from '@/services/teamManagementService';
+import { UploadImage } from '@/services/uploadService';
+import {updatePlayer} from "@/store/actions/playerActions";
 
 type Dispatch = Redux.Dispatch<any>;
+
+export const uploadPictureAndCreateAndAddStaffToTeam = (
+    payload: StaffFormType,
+    profilePicture: File,
+    teamId: string,
+    club_id: string,
+    toast: any,
+    onClose: any,
+    setSelected: any,
+    useCurrentTeamID: boolean
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        if (!profilePicture)
+            return dispatch(
+                createAndAddStaffToTeam(
+                    payload,
+                    teamId,
+                    club_id,
+                    toast,
+                    onClose,
+                    setSelected,
+                    useCurrentTeamID
+                )
+            );
+
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                payload.photo = result.data.data.uploadUrl;
+                console.log('new payload', payload);
+                dispatch(
+                    createAndAddStaffToTeam(
+                        payload,
+                        teamId,
+                        club_id,
+                        toast,
+                        onClose,
+                        setSelected,
+                        useCurrentTeamID
+                    )
+                );
+            })
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: 'Upload error' });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
 
 export const createAndAddStaffToTeam = (
     payload: StaffFormType,
@@ -14,7 +69,7 @@ export const createAndAddStaffToTeam = (
     club_id: string,
     toast: any,
     onClose: any,
-    setSeleced: any,
+    setSelected: any,
     useCurrentTeamID: boolean
 ) => {
     return async (dispatch: Dispatch) => {
@@ -55,13 +110,13 @@ export const createAndAddStaffToTeam = (
                         dispatch(getTeamDetails(newResult?.data?.data[0]?.team_id, toast));
                         dispatch(fetchTeams(data?.data?.club_id));
                         onClose(false);
-                        setSeleced(true);
+                        setSelected(true);
                         dispatch(updateIsLoading(false));
                     })
                     .catch((err) => {
                         console.log('add staff to team error', err);
                         onClose(useCurrentTeamID);
-                        setSeleced(!useCurrentTeamID);
+                        setSelected(!useCurrentTeamID);
                         handleError(err, toast, dispatch);
                     });
             })
@@ -121,6 +176,41 @@ export const addSelectedStaffsToTeam = (
     };
 };
 
+export const uploadPictureAndUpdateStaff = (
+    payload: StaffFormType,
+    profilePicture: string | File | null,
+    team_id: string,
+    club_id: string,
+    toast: any,
+    onClose: any,
+    setSelected: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        if (!profilePicture)
+            return dispatch(updateStaff(payload, team_id, club_id, toast, onClose, setSelected));
+
+        if (typeof profilePicture === 'string')
+            return dispatch(updateStaff(payload, team_id, club_id, toast, onClose, setSelected));
+
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                payload.photo = result.data.data.uploadUrl;
+                console.log('new payload', payload);
+                dispatch(updateStaff(payload, team_id, club_id, toast, onClose, setSelected));
+            })
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: 'Upload error' });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
 export const updateStaff = (
     payload: StaffFormType,
     team_id: string,
@@ -166,6 +256,7 @@ export const getAllStaffs = (clubId: string) => {
             })
             .catch((err) => {
                 console.log('get all staffs error', err);
+                dispatch(updateIsLoading(false));
             });
     };
 };

@@ -13,7 +13,7 @@ import {
     useToast,
     Img,
     HStack,
-    Spacer
+    Spacer, Box
 } from '@chakra-ui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
@@ -25,6 +25,7 @@ import { fetchCountries } from '@/services/countriesService';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 import ImageUpload from '@/components/Elements/ImageUpload';
 import { adminRegistration, adminRegistrationNoPhoto } from '@/store/actions/authActions';
+import Steps4 from "@/components/Team/Steps4";
 
 const AdminRegistration = ({ countries }: any) => {
     const { forgotPasswordEmail }: any = useSelector((state: RootStateOrAny) => state.auth);
@@ -82,6 +83,9 @@ const AdminRegistration = ({ countries }: any) => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} mt={'40px'} w={'320px'} mb={'38px'}>
+                    <Steps4 current={3} />
+                </Box>
                 <VStack
                     justifyContent={'center'}
                     alignItems={'center'}
@@ -111,8 +115,8 @@ const AdminRegistration = ({ countries }: any) => {
                                     {...register('clubName', {
                                         required: 'Club name is required',
                                         minLength: {
-                                            value: 2,
-                                            message: 'At least more than 2 letters'
+                                            value: 3,
+                                            message: 'At least 4 letters'
                                         }
                                     })}
                                     id="clubName"
@@ -148,7 +152,11 @@ const AdminRegistration = ({ countries }: any) => {
                                     </FormLabel>
                                     <Input
                                         {...register('firstName', {
-                                            required: 'First name is required'
+                                            required: 'First name is required',
+                                            minLength: {
+                                                value: 3,
+                                                message: 'At least 3 letters required'
+                                            }
                                         })}
                                         id="firstName"
                                         type="text"
@@ -179,7 +187,11 @@ const AdminRegistration = ({ countries }: any) => {
                                     </FormLabel>
                                     <Input
                                         {...register('lastName', {
-                                            required: 'Last name is required'
+                                            required: 'Last name is required',
+                                            minLength: {
+                                                value: 3,
+                                                message: 'At least 3 letters required'
+                                            }
                                         })}
                                         id="lastName"
                                         type="text"
@@ -260,7 +272,7 @@ const AdminRegistration = ({ countries }: any) => {
                                     )}
                                 />
                                 <FormErrorMessage>
-                                    {errors.phone && <span>{`${errors.phone.message}`}</span>}
+                                    {errors.phone && <Text color={'red'}>{`${errors.phone.message}`}</Text>}
                                 </FormErrorMessage>
                             </FormControl>
 
@@ -324,19 +336,7 @@ const AdminRegistration = ({ countries }: any) => {
                             {/*lastName: '',*/}
                             {/*country: '',*/}
                             {/*phone: ''*/}
-                            <Button
-                                isLoading={isLoading}
-                                disabled={
-                                    !touchedFields.phone ||
-                                    !touchedFields.clubName ||
-                                    !touchedFields.country ||
-                                    !touchedFields.lastName ||
-                                    !touchedFields.firstName ||
-                                    !touchedFields.password
-                                }
-                                type="submit"
-                                size="lg"
-                                w="full">
+                            <Button isLoading={isLoading} type="submit" size="lg" w="full">
                                 Continue
                             </Button>
                         </form>

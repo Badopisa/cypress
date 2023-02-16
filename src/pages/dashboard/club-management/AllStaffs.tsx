@@ -2,9 +2,9 @@ import BlankTeam from '@/components/Team/BlankTeam';
 import PlayerCard from '@/components/Team/PlayerCard';
 import {
     Box,
-    Button,
     Center,
-    Flex, Input,
+    Img,
+    Input,
     InputGroup,
     InputLeftElement,
     SimpleGrid,
@@ -15,7 +15,6 @@ import EditStaffDetails from '@/components/Team/Modal/EditStaffDetails';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import { saveNewStaffData } from '@/store/actions/staffActions';
 import { useDispatch } from 'react-redux';
-import {BsSearch} from "react-icons/bs";
 
 const AllStaffs = ({ allStaffs, isLoading, setCreateStaff }: any) => {
     const [editStaff, setEditStaff] = useState<boolean>(false);
@@ -42,11 +41,15 @@ const AllStaffs = ({ allStaffs, isLoading, setCreateStaff }: any) => {
                     <>
                         <InputGroup w="279px">
                             <InputLeftElement pointerEvents="none">
-                                <BsSearch color="grey" />
+                                <Img
+                                    mt={'10px'}
+                                    src={'/images/icons/search-normal.svg'}
+                                    alt={'search'}
+                                />
                             </InputLeftElement>
                             <Input
                                 type="text"
-                                placeholder="Search for your team"
+                                placeholder="Search staff"
                                 // value={searchText}
                                 // onChange={handleTeamSearch}
                                 focusBorderColor="purple"
@@ -62,9 +65,10 @@ const AllStaffs = ({ allStaffs, isLoading, setCreateStaff }: any) => {
                             />
                         </InputGroup>
                         <SimpleGrid
-                            columns={{ base: 1, sm: 2, lg: 4 }}
-                            width="min(90%, 1200px)"
-                            spacing={{ base: '14px', md: '40px' }}
+                            columns={{ base: 1, sm: 2, lg: 6 }}
+                            // width="min(90%, 1200px)"
+                            spacingX={{ base: '14px', md: '10px' }}
+                            spacingY={{ base: '14px', md: '20px' }}
                             mt={8}
                             mb={8}>
                             {allStaffs.map((staff: any) => (

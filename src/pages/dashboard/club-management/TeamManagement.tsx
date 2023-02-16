@@ -6,13 +6,18 @@ import {
     Box,
     Button,
     Flex,
+    HStack,
+    Img,
+    Input,
+    InputGroup,
+    InputLeftElement,
     SimpleGrid,
     Spacer,
     Tab,
     TabList,
     Tabs,
     Tag,
-    Text,
+    Text, useToast,
     VStack,
     Wrap
 } from '@chakra-ui/react';
@@ -26,8 +31,9 @@ import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
 import GlobalErrorModal from '@/components/Team/Modal/GlobalErrorModal';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { saveNewPlayerData } from '@/store/actions/playerActions';
+import {getPlayerDetails, saveNewPlayerData} from '@/store/actions/playerActions';
 import { saveNewStaffData } from '@/store/actions/staffActions';
+import {useRouter} from "next/router";
 
 const TeamManagement = () => {
     const { currentTeam }: { currentTeam: any } = useSelector(
@@ -45,6 +51,8 @@ const TeamManagement = () => {
     const [openPlayerModal, setOpenPlayerModal] = useState<boolean>(false);
     const [globalError, setGlobalError] = useState<boolean>(false);
     const dispatch = useDispatch();
+    const router = useRouter();
+    const toast = useToast();
 
     const [openTeam, setOpenTeam] = useState<boolean>(false);
 
@@ -63,81 +71,117 @@ const TeamManagement = () => {
         setOpenStaff(true);
     };
     const handlePlayerModal1 = (player: any) => {
-        dispatch(saveNewPlayerData(player));
-        setOpenPlayerModal(true);
+        // dispatch(saveNewPlayerData(player));
+        dispatch(getPlayerDetails(player?.id, router, toast));
     };
     const handlePlayerModal = () => {
         setOpenPlayer(true);
     };
 
     const TabSelectedStyle = {
-        color: 'white',
-        bg: 'primary',
-        rounded: '5px'
+        color: 'purple',
+        bg: '',
+        fontWeight: '400',
+        fontSize: '16px',
+        borderBottom: '2px solid',
+        borderBottomColor: 'purple'
     };
     return (
         <>
-            <DashboardDesktopNav hasArrow />
-            <Box>
-                <Text fontSize={'xl'} fontWeight="semibold">
+            <Box h={'100%'} overflowY={'auto'}>
+                <Text fontSize={'40px'} fontWeight="700">
                     Club management
                 </Text>
                 <Flex
                     justify="space-between"
-                    w={'70%'}
+                    w={'100%'}
                     my={8}
+                    alignItems={'center'}
                     direction={{ base: 'column', md: 'row' }}>
-                    <VStack>
+                    {/*<HStack w={'100%'} alignItems={'center'}>*/}
+                    <HStack>
                         <Avatar
-                            bg="ash"
+                            name={currentTeam?.team_name}
                             boxSize={{ base: '5rem', md: '7.5rem' }}
+                            mr={'20px'}
                             src={currentTeam?.photo}
                         />
-                        <Text fontSize={'xl'} fontWeight="semibold">
-                            {currentTeam?.name}
+                        <Text fontSize={'16px'} fontWeight="400" color={'black2'}>
+                            {currentTeam?.team_name}
                         </Text>
-                    </VStack>
+                    </HStack>
+                    <HStack>
+                        <VStack mr={'40px'}>
+                            <Text fontSize={'14px'} color={'grey3'}>
+                                Players
+                            </Text>
+                            <Text color={'black2'} fontSize={'20px'} fontWeight={'400'}>
+                                {currentTeam?.players?.length}
+                            </Text>
+                        </VStack>
+                        <VStack>
+                            <Text fontSize={'14px'} color={'grey3'}>
+                                Staff
+                            </Text>
+                            <Text color={'black2'} fontSize={'20px'} fontWeight={'400'}>
+                                {currentTeam?.staff?.length}
+                            </Text>
+                        </VStack>
+                    </HStack>
+                    <HStack>
+                        <Button
+                            onClick={handleEditTeam}
+                            size={'lg'}
+                            mr={'40px'}
+                            w={'200px'}
+                            fontSize={'16px'}>
+                            Edit team info
+                        </Button>
+                        <Button
+                            onClick={handleEditTeam}
+                            size={'lg'}
+                            color={'red'}
+                            w={'200px'}
+                            fontSize={'16px'}
+                            variant={'text'}>
+                            Delete team
+                        </Button>
+                    </HStack>
+                    {/*</HStack>*/}
 
-                    <Wrap w={'45%'} alignSelf={{ base: 'self-start', md: 'self-end' }}>
-                        <Tag fontSize={'sm'} p={1} color="white" bg="dark">
-                            {currentTeam?.players?.length} Players
-                        </Tag>
-                        <Tag fontSize={'sm'} p={1} color="white" bg="dark">
-                            {currentTeam?.staff?.length} Backroom Staffs
-                        </Tag>
-                        <Tag p={1} color="white" bg="dark">
-                            United Kingdom
-                        </Tag>
-                        <Tag fontSize={'sm'} p={1} color="white" bg="dark">
-                            1920-2022
-                        </Tag>
-                    </Wrap>
-
-                    <Button
-                        variant={'action'}
-                        onClick={handleEditTeam}
-                        alignSelf={'self-end'}
-                        px={8}>
-                        EDIT TEAM INFO
-                    </Button>
+                    {/*<Wrap w={'45%'} alignSelf={{ base: 'self-start', md: 'self-end' }}>*/}
+                    {/*    <Tag fontSize={'sm'} p={1} color="white" bg="dark">*/}
+                    {/*        {currentTeam?.players?.length} Players*/}
+                    {/*    </Tag>*/}
+                    {/*    <Tag fontSize={'sm'} p={1} color="white" bg="dark">*/}
+                    {/*        {currentTeam?.staff?.length} Backroom Staffs*/}
+                    {/*    </Tag>*/}
+                    {/*    <Tag p={1} color="white" bg="dark">*/}
+                    {/*        United Kingdom*/}
+                    {/*    </Tag>*/}
+                    {/*    <Tag fontSize={'sm'} p={1} color="white" bg="dark">*/}
+                    {/*        1920-2022*/}
+                    {/*    </Tag>*/}
+                    {/*</Wrap>*/}
                 </Flex>
 
-                <Tabs variant="unstyled" my={{ base: 8, md: 4 }} alignContent="center" w={'50%'}>
-                    <TabList
-                        bg="dark"
-                        color="white"
-                        w={{ base: '100%', md: '100%' }}
-                        rounded={5}
-                        p={{ base: '0', md: '8px 16px' }}>
+                <Tabs
+                    mt={{ base: 8, md: 4 }}
+                    // borderBottomColor={'grey6'}
+                    alignContent="center"
+                    w={{ base: '100%', md: '50%' }}>
+                    <TabList w={{ base: '100%', md: '371px' }} p={{ base: '0', md: '0 16px' }}>
                         <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
-                            All Players
+                            Players
                         </Tab>
-                        <Spacer />
+                        <Box w={'60px'} />
                         <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
                             Staff
                         </Tab>
                     </TabList>
                 </Tabs>
+                <Box mb={'20px'} w={'100%'} borderColor={'grey6'} borderWidth={'1px'} h={'1px'} />
+                <Spacer />
                 {/*<Button onClick={() => setGlobalError(true)}>Error</Button>*/}
                 {/*<Input*/}
                 {/*    id='search'*/}
@@ -150,37 +194,59 @@ const TeamManagement = () => {
                 {/*/>*/}
                 {tab === 1 && (
                     <>
-                        <Flex direction="row">
+                        <HStack w={'100%'} justifyContent="space-between">
+                            <InputGroup w="379px">
+                                <InputLeftElement pointerEvents="none">
+                                    <Img
+                                        mt={'10px'}
+                                        src={'/images/icons/search-normal.svg'}
+                                        alt={'search'}
+                                    />
+                                </InputLeftElement>
+                                <Input
+                                    type="text"
+                                    placeholder="Search player"
+                                    // value={searchText}
+                                    // onChange={handleTeamSearch}
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
+                                />
+                            </InputGroup>
                             <Button
-                                w="116px"
-                                fontSize="xs"
-                                fontWeight="semibold"
-                                variant="outline"
-                                _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
+                                w="200px"
+                                fontSize="16px"
+                                fontWeight="400"
+                                color={'black2'}
+                                size={'lg'}
+                                py={'13px'}
+                                bg={'lightWhite'}
                                 onClick={handlePlayerModal}>
-                                ADD NEW PLAYER
+                                Add new player
                             </Button>
-                            <Button
-                                bg="grey"
-                                color="white"
-                                fontSize="sm"
-                                ml="8"
-                                w="83"
-                                _hover={{
-                                    bg: 'primary',
-                                    color: 'white',
-                                    fontWeight: 'bold'
-                                }}>
-                                {currentTeam?.players?.length}/150
-                            </Button>
-                        </Flex>
-                        <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} mt={8} spacing={8}>
+                        </HStack>
+                        <SimpleGrid
+                            columns={{ base: 1, sm: 2, lg: 6 }}
+                            // width="min(90%, 1200px)"
+                            spacingX={{ base: '14px', md: '10px' }}
+                            spacingY={{ base: '14px', md: '20px' }}
+                            mt={8}
+                            mb={8}>
                             {currentTeam?.players?.map((player: any) => (
                                 <PlayerCard
                                     image={player?.photo}
                                     key={player.id}
+                                    number={player.jersey_number}
                                     name={`${player?.first_name} ${player?.last_name}`}
-                                    team={currentTeam?.name}
+                                    position={player?.position}
+                                    team={player?.team_name}
                                     click={() => handlePlayerModal1(player)}
                                 />
                             ))}
@@ -189,37 +255,58 @@ const TeamManagement = () => {
                 )}
                 {tab === 2 && (
                     <>
-                        <Flex direction="row">
+                        <HStack w={'100%'} justifyContent="space-between">
+                            <InputGroup w="379px">
+                                <InputLeftElement pointerEvents="none">
+                                    <Img
+                                        mt={'10px'}
+                                        src={'/images/icons/search-normal.svg'}
+                                        alt={'search'}
+                                    />
+                                </InputLeftElement>
+                                <Input
+                                    type="text"
+                                    placeholder="Search staff"
+                                    // value={searchText}
+                                    // onChange={handleTeamSearch}
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
+                                />
+                            </InputGroup>
                             <Button
-                                w="116px"
-                                fontSize="xs"
-                                fontWeight="semibold"
-                                variant="outline"
-                                _hover={{ bg: 'white', color: 'dark', fontWeight: 'bold' }}
+                                w="200px"
+                                fontSize="16px"
+                                fontWeight="400"
+                                color={'black2'}
+                                size={'lg'}
+                                py={'13px'}
+                                bg={'lightWhite'}
                                 onClick={handleStaffModal}>
-                                ADD NEW STAFF
+                                Add new staff
                             </Button>
-                            <Button
-                                bg="grey"
-                                color="white"
-                                fontSize="sm"
-                                ml="8"
-                                w="83"
-                                _hover={{
-                                    bg: 'primary',
-                                    color: 'white',
-                                    fontWeight: 'bold'
-                                }}>
-                                {currentTeam?.staff?.length}/150
-                            </Button>
-                        </Flex>
-                        <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} mt={8} spacing={8}>
+                        </HStack>
+                        <SimpleGrid
+                            columns={{ base: 1, sm: 2, lg: 6 }}
+                            // width="min(90%, 1200px)"
+                            spacingX={{ base: '14px', md: '10px' }}
+                            spacingY={{ base: '14px', md: '20px' }}
+                            mt={8}
+                            mb={8}>
                             {currentTeam?.staff?.map((staff: any) => (
                                 <PlayerCard
                                     image={staff?.user?.photo}
                                     key={staff.id}
-                                    name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
+                                    name={`${staff?.user.first_name} ${staff?.user.last_name}`}
                                     position={staff?.role}
+                                    team={staff?.user.team}
                                     click={() => handleStaffModal1(staff)}
                                 />
                             ))}
@@ -233,29 +320,31 @@ const TeamManagement = () => {
                     isOpen={openPlayerModal}
                     onClose={setOpenPlayerModal}
                     edit="Edit Player"
-                    share="Share Player"
+                    // share="Share Player"
                     remove="Remove Player"
                 />
                 <EditPlayerModal
                     isOpen={openPlayer}
                     onClose={setOpenPlayer}
-                    create="Add New Player"
-                    existing="Add Existing Player"
+                    create="Create new player"
+                    newPlayerButton
+                    existing="Add existing player"
                     setCreatePlayer={setCreatePlayer}
                     setCreateExistingPlayer={setCreateExistingPlayer}
                 />
                 <EditStaffModal
                     isOpen={openStaffModal}
                     onClose={setOpenStaffModal}
-                    edit="Edit Staff"
-                    share="Share Staff"
-                    remove="Remove Staff"
+                    edit="Edit staff"
+                    // share="Share Staff"
+                    remove="Remove staff"
                 />
                 <EditStaffModal
                     isOpen={openStaff}
                     onClose={setOpenStaff}
-                    create="Add New Staff"
-                    existing="Add Existing Staff"
+                    create="Create new staff"
+                    newStaffButton
+                    existing="Add existing staff"
                     setCreateStaff={setCreateStaff}
                     setCreateExistingStaff={setCreateExistingStaff}
                 />

@@ -5,7 +5,7 @@ import {
     Box,
     Button,
     Center,
-    Flex,
+    Flex, Img,
     Input,
     InputGroup,
     InputLeftElement,
@@ -38,13 +38,17 @@ const AllPlayers = ({ allPlayers, isLoading, setCreate }: any) => {
                     </Center>
                 ) : allPlayers?.length > 0 ? (
                     <>
-                        <InputGroup w="279px">
+                        <InputGroup w="379px">
                             <InputLeftElement pointerEvents="none">
-                                <BsSearch color="grey" />
+                                <Img
+                                    mt={'10px'}
+                                    src={'/images/icons/search-normal.svg'}
+                                    alt={'search'}
+                                />
                             </InputLeftElement>
                             <Input
                                 type="text"
-                                placeholder="Search for your team"
+                                placeholder="Search player"
                                 // value={searchText}
                                 // onChange={handleTeamSearch}
                                 focusBorderColor="purple"
@@ -60,15 +64,17 @@ const AllPlayers = ({ allPlayers, isLoading, setCreate }: any) => {
                             />
                         </InputGroup>
                         <SimpleGrid
-                            columns={{ base: 1, sm: 2, lg: 4 }}
-                            width="min(90%, 1200px)"
-                            spacing={{ base: '14px', md: '40px' }}
+                            columns={{ base: 1, sm: 2, lg: 6 }}
+                            // width="min(90%, 1200px)"
+                            spacingX={{ base: '14px', md: '10px' }}
+                            spacingY={{ base: '14px', md: '20px' }}
                             mt={8}
                             mb={8}>
                             {allPlayers.map((player: any) => (
                                 <PlayerCard
                                     image={player?.photo}
                                     key={player.id}
+                                    number={player.jersey_number}
                                     name={`${player?.first_name} ${player?.last_name}`}
                                     position={player?.position}
                                     team={player?.team_name}

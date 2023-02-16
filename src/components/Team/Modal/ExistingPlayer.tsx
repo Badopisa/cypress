@@ -17,7 +17,9 @@ import {
     FormControl,
     useToast,
     InputGroup,
-    InputLeftElement
+    InputLeftElement,
+    HStack,
+    Checkbox
 } from '@chakra-ui/react';
 
 import { SearchIcon } from '@chakra-ui/icons';
@@ -27,6 +29,7 @@ import { addSelectedPlayersToTeam, checkSelectedPlayer } from '@/store/actions/p
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { filterPlayers, getAllPlayers } from '@/store/actions/teamActions';
 import { UserDataType } from '@/types/AuthDataType';
+import { BsSearch } from 'react-icons/bs';
 
 type ExistingPlayerType = {
     isOpen: boolean;
@@ -40,7 +43,7 @@ const ExistingPlayer = ({
     isOpen,
     onClose,
     title = 'Add Existing Player',
-    buttonTitle = 'ADD PLAYER'
+    buttonTitle = 'Continue'
 }: ExistingPlayerType) => {
     const { selectedPlayers }: { selectedPlayers: any } = useSelector(
         (state: RootStateOrAny) => state.player
@@ -49,6 +52,7 @@ const ExistingPlayer = ({
         useSelector((state: RootStateOrAny) => state.team);
     const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
     const [searchText, setSearchText] = useState('');
+    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const toast = useToast();
     const dispatch = useDispatch();
 
@@ -89,32 +93,35 @@ const ExistingPlayer = ({
 
     return (
         <>
-            <Modal isCentered isOpen={isOpen} onClose={() => onClose(false)}>
+            <Modal
+                scrollBehavior={'inside'}
+                size={'lg'}
+                isCentered
+                isOpen={isOpen}
+                onClose={() => onClose(false)}>
                 <ModalOverlay />
                 <ModalContent w="xl" px={8} h="auto" bg="white" color="black2" borderRadius="18px">
                     <ModalHeader
                         p="24px 24px 4px"
                         textAlign="center"
-                        fontSize="18px"
-                        fontWeight="600">
+                        color={'black2'}
+                        fontSize="40px"
+                        fontWeight="700">
                         {title}
                     </ModalHeader>
                     <ModalBody mt={5}>
-                        <VStack spacing={4}>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    /* eslint-disable-next-line react/no-children-prop */
-                                    children={<SearchIcon alignSelf="center" ml={2} color="grey" />}
-                                />
+                        <VStack mb={'35px'} spacing={4}>
+                            <InputGroup w="100%">
+                                <InputLeftElement pointerEvents="none">
+                                    <BsSearch color="grey" />
+                                </InputLeftElement>
                                 <Input
-                                    variant={'solid'}
+                                    type="text"
+                                    placeholder="Search player"
                                     value={searchText}
                                     onChange={handlePlayerSearch}
-                                    id={'text'}
-                                    type={'text'}
-                                    placeholder={'Search for players'}
-                                    aria-label={'Search for Players'}
+                                    // value={searchText}
+                                    // onChange={handleTeamSearch}
                                     focusBorderColor="purple"
                                     borderColor={'grey5'}
                                     size={'lg'}
@@ -130,52 +137,80 @@ const ExistingPlayer = ({
                         </VStack>
 
                         <Stack w="100%" spacing={8}>
-                            <SimpleGrid
-                                columns={{ base: 1, sm: 2, lg: 3 }}
-                                mt={8}
-                                spacing={8}
-                                overflowY="auto">
+                            <VStack overflowY="auto">
                                 {filteredPlayers?.map((player: any) => (
-                                    <VStack
+                                    <HStack
                                         key={player.id}
-                                        onClick={() => handleSelectExistingPlayer(player.id)}
-                                        cursor={'pointer'}>
-                                        <Avatar
-                                            bg="ash"
-                                            boxSize={{ base: '2rem', md: '4rem' }}
-                                            src={player.photo}
-                                            position={'relative'}
-                                            top={0}
-                                            zIndex={1}
-                                        />
-                                        {selectedPlayers.includes(player.id) && (
-                                            <Image
-                                                src={'/icons/checked.svg'}
-                                                alt="checked"
-                                                w={8}
-                                                h={8}
-                                                color="primary"
-                                                position={'absolute'}
-                                                zIndex={3}
+                                        w={'100%'}
+                                        justifyContent={'space-between'}>
+                                        <HStack cursor={'pointer'}>
+                                            <Avatar
+                                                name={`${player.first_name} ${player.last_name}`}
+                                                w={'40px'}
+                                                h={'40px'}
+                                                mr={'10px'}
+                                                src={player.photo}
+                                                top={0}
+                                                zIndex={1}
                                             />
-                                        )}
-                                        <Text fontSize={'xxs'} fontWeight="semibold">
-                                            {`${player.first_name} ${player.last_name}`}
-                                        </Text>
-                                        <Text fontSize={'xxs'}>{player.position}</Text>
-                                    </VStack>
+                                            {/*{selectedPlayers.includes(player.id) && (*/}
+                                            {/*    <Image*/}
+                                            {/*        src={'/icons/checked.svg'}*/}
+                                            {/*        alt="checked"*/}
+                                            {/*        w={8}*/}
+                                            {/*        h={8}*/}
+                                            {/*        color="primary"*/}
+                                            {/*        position={'absolute'}*/}
+                                            {/*        zIndex={3}*/}
+                                            {/*    />*/}
+                                            {/*)}*/}
+                                            <VStack alignItems={'flex-start'}>
+                                                <Text
+                                                    fontSize={'16px'}
+                                                    fontWeight="400"
+                                                    color={'black2'}>
+                                                    {`${player.first_name} ${player.last_name}`}
+                                                </Text>
+                                                <Text
+                                                    fontSize={'12px'}
+                                                    color={'grey3'}
+                                                    fontWeight={'400'}>
+                                                    No. {player.position}
+                                                </Text>
+                                            </VStack>
+                                        </HStack>
+                                        <Checkbox
+                                            size={'lg'}
+                                            onChange={() => handleSelectExistingPlayer(player.id)}
+                                            iconColor={'white'}
+                                            borderColor={'grey6'}
+                                            _checked={{
+                                                background: 'primary',
+                                                color: 'white',
+                                                borderColor: 'slateBlue'
+                                            }}
+                                            isChecked={selectedPlayers.includes(player.id)}
+                                        />
+                                    </HStack>
                                 ))}
-                            </SimpleGrid>
+                            </VStack>
                         </Stack>
                     </ModalBody>
 
                     <ModalFooter w="full" py={{ base: 4, md: 8 }}>
                         <VStack spacing={4} w="full">
-                            {selectedPlayers?.length > 0 && (
-                                <Button variant="action" w="full" onClick={handleSelect}>
-                                    {buttonTitle}
-                                </Button>
-                            )}
+                            {/*{selectedPlayers?.length > 0 && (*/}
+                            <Button
+                                isLoading={isLoading}
+                                size={'lg'}
+                                mb={'20px'}
+                                w="full"
+                                loadingText={'Adding players'}
+                                isDisabled={selectedPlayers?.length < 1}
+                                onClick={handleSelect}>
+                                {buttonTitle}
+                            </Button>
+                            {/*)}*/}
                         </VStack>
                     </ModalFooter>
                 </ModalContent>
@@ -184,8 +219,8 @@ const ExistingPlayer = ({
                 jersyPng={'/images/imgs/success.svg'}
                 isOpen={selectConfirmation}
                 onClose={setSelectedConfirmation}
-                body={'Sonalysis will notify this player of the changes made'}
-                title="New Player Added"
+                body={'Sonalysis will notify these players of the changes made'}
+                title="New Players Added"
                 buttonTitle={'OKAY, THANK YOU'}
             />
         </>

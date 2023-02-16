@@ -5,6 +5,7 @@ import MobileNav from './MobileNav';
 import { retrieveAccessToken, retrieveAdminData } from '@/utils/locaStorageActions';
 import { logout, saveAdminData } from '@/store/actions/authActions';
 import { useDispatch } from 'react-redux';
+import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 
 export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
     return (props: P) => {
@@ -38,8 +39,12 @@ export const authenticatedRoute = <P extends object>(WrappedComponent: any) => {
                     </DrawerContent>
                 </Drawer>
                 <MobileNav onOpen={onOpen} />
-                <Box ml={{ base: 0, md: 60 }} px={{ base: 4, md: 20 }}>
-                    <WrappedComponent {...props} />
+                <Box ml={{ base: 0, md: '250px' }} px={{ base: 4, md: '40px' }}>
+                    <>
+                        <DashboardDesktopNav hasArrow />
+                        <Box h={'100px'} />
+                        <WrappedComponent {...props} />
+                    </>
                 </Box>
             </Box>
         );

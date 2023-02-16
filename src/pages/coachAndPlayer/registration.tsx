@@ -12,14 +12,16 @@ import {
     InputRightElement,
     useToast,
     Img,
-    HStack
+    HStack,
+    Box
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import {adminLogin, coachRegistration} from '@/store/actions/authActions';
+import { adminLogin, coachRegistration } from '@/store/actions/authActions';
 import { useRouter } from 'next/router';
 import React from 'react';
 import NavBar from '@/components/Layout/NavBar';
+import Steps from '@/components/Team/Steps';
 
 const Registration = () => {
     const {
@@ -40,7 +42,7 @@ const Registration = () => {
             email: value.email,
             password: value.password
         };
-        dispatch(adminLogin(payload, toast, router));
+        dispatch(adminLogin(payload, toast, router, true));
     };
     return (
         <main>
@@ -52,6 +54,9 @@ const Registration = () => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} mt={'40px'} w={'320px'} mb={'38px'}>
+                    <Steps current={1} />
+                </Box>
                 <VStack
                     justifyContent={'center'}
                     alignItems={'center'}

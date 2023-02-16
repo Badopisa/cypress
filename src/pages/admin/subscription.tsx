@@ -10,12 +10,13 @@ import {
     Stack,
     HStack,
     Img,
-    Text
+    Text, Box
 } from '@chakra-ui/react';
 import PlanCard from '@/components/Elements/Card/PlanCard';
 import { PlanData } from '@/data/PlanData';
 import { useRouter } from 'next/router';
 import NavBar from '@/components/Layout/NavBar';
+import Steps4 from "@/components/Team/Steps4";
 
 const Subscription = () => {
     const { monthly, yearly } = PlanData;
@@ -41,6 +42,9 @@ const Subscription = () => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} w={'320px'} mb={'38px'}>
+                    <Steps4 current={4} />
+                </Box>
                 <FormDetails
                     mt="0"
                     hasFooter={false}
@@ -66,7 +70,7 @@ const Subscription = () => {
                                 <Stack
                                     justifyContent={'space-between'}
                                     spacing={8}
-                                    direction={['column', 'row']}>
+                                    direction={{ base: 'column', md: 'row' }}>
                                     <PlanCard
                                         handleSubscription={(
                                             title: any,
@@ -110,7 +114,7 @@ const Subscription = () => {
                                 <Stack
                                     justifyContent={'space-between'}
                                     spacing={8}
-                                    direction={['column', 'row']}>
+                                    direction={{ base: 'column', md: 'row' }}>
                                     <PlanCard
                                         handleSubscription={(
                                             title: any,

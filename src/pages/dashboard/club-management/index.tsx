@@ -12,17 +12,24 @@ import {
     Tabs,
     Tab,
     TabList,
+    Img,
     InputGroup,
     InputLeftElement,
     Input,
-    Spinner
+    Spinner, useToast
 } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
 import { useRouter } from 'next/router';
 import BlankTeam from '@/components/Team/BlankTeam';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { fetchTeams, filterTeam, getAllPlayers, setCurrentTeam } from '@/store/actions/teamActions';
+import {
+    fetchTeams,
+    filterTeam,
+    getAllPlayers,
+    getTeamDetails,
+    setCurrentTeam
+} from '@/store/actions/teamActions';
 import { TeamDataType } from '@/types/TeamDataType';
 import TeamCard from '@/components/Team/TeamCard';
 import { UserDataType } from '@/types/AuthDataType';
@@ -82,6 +89,7 @@ const ClubManagement = () => {
     const [tab, setTab] = useState(1);
     const dispatch = useDispatch();
     const router = useRouter();
+    const toast = useToast();
 
     const handleCreateTeam = () => {
         router.push('/dashboard/club-management/create-team');
@@ -111,7 +119,8 @@ const ClubManagement = () => {
         console.log('called');
         dispatch(getAllPlayers(user?.clubs[0]?.id));
         dispatch(getAllStaffs(user?.clubs[0]?.id));
-    }, []);
+        dispatch(fetchTeams(user?.clubs[0]?.id));
+    }, [dispatch, user?.clubs]);
 
     useEffect(() => {
         if (filteredData.length < 1) {
@@ -131,21 +140,36 @@ const ClubManagement = () => {
         }
     };
     const handleTeamSelect = (team: TeamDataType) => {
-        dispatch(setCurrentTeam(team));
         router.push('/dashboard/club-management/TeamManagement');
+        dispatch(getTeamDetails(team.id, toast));
     };
     const createButton = () => {
-        if (tab === 1) return <Button onClick={handleCreateTeam}>Create new team</Button>;
-        if (tab === 2) return <Button onClick={() => setCreatePlayer(true)}>Add new player</Button>;
-        if (tab === 3) return <Button onClick={() => setCreateStaff(true)}>Add new staff</Button>;
+        if (tab === 1)
+            return (
+                <Button size={'lg'} onClick={handleCreateTeam}>
+                    Create new team
+                </Button>
+            );
+        if (tab === 2)
+            return (
+                <Button size={'lg'} onClick={() => setCreatePlayer(true)}>
+                    Add new player
+                </Button>
+            );
+        if (tab === 3)
+            return (
+                <Button size={'lg'} onClick={() => setCreateStaff(true)}>
+                    Add new staff
+                </Button>
+            );
     };
 
     return (
         <>
-            <DashboardDesktopNav hasArrow />
-            <Box color="black2" mt={6} w={{ base: '100%', md: '90%' }} p={{ base: '4px' }}>
+            <DashboardDesktopNav />
+            <Box color="black2" w={'100%'} p={{ base: '4px' }}>
                 <Text fontSize={'40px'} fontWeight="semibold">
-                    Club Management
+                    Club management
                 </Text>
                 <Flex alignItems={'center'} direction={{ base: 'column-reverse', md: 'row' }}>
                     <Tabs
@@ -153,9 +177,7 @@ const ClubManagement = () => {
                         // borderBottomColor={'grey6'}
                         alignContent="center"
                         w={{ base: '100%', md: '50%' }}>
-                        <TabList
-                            w={{ base: '100%', md: '371px' }}
-                            p={{ base: '0', md: '8px 16px' }}>
+                        <TabList w={{ base: '100%', md: '371px' }} p={{ base: '0', md: '0 16px' }}>
                             <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
                                 Teams
                             </Tab>
@@ -175,7 +197,7 @@ const ClubManagement = () => {
                     <Spacer />
                     {createButton()}
                 </Flex>
-                <Box mb={12} w={'100%'} borderColor={'grey6'} borderWidth={'1px'} h={'1px'} />
+                <Box mb={'20px'} w={'100%'} borderColor={'grey6'} borderWidth={'1px'} h={'1px'} />
                 <Spacer />
                 {tab === 1 && (
                     <>
@@ -188,12 +210,17 @@ const ClubManagement = () => {
                                 <>
                                     <Flex direction="row" mt={6}>
                                         <InputGroup w="279px">
-                                            <InputLeftElement pointerEvents="none">
-                                                <BsSearch color="grey" />
+                                            <InputLeftElement p={0} pointerEvents="none">
+                                                {/*<BsSearch color="grey" />*/}
+                                                <Img
+                                                    mt={'10px'}
+                                                    src={'/images/icons/search-normal.svg'}
+                                                    alt={'search'}
+                                                />
                                             </InputLeftElement>
                                             <Input
                                                 type="text"
-                                                placeholder="Search for your team"
+                                                placeholder="Search"
                                                 value={searchText}
                                                 onChange={handleTeamSearch}
                                                 focusBorderColor="purple"
@@ -210,9 +237,10 @@ const ClubManagement = () => {
                                         </InputGroup>
                                     </Flex>
                                     <SimpleGrid
-                                        columns={{ base: 1, sm: 2, lg: 4 }}
-                                        width="min(90%, 1200px)"
-                                        spacing={{ base: '14px', md: '40px' }}
+                                        columns={{ base: 1, sm: 2, lg: 6 }}
+                                        // width="min(90%, 1200px)"
+                                        spacingX={{ base: '14px', md: '10px' }}
+                                        spacingY={{ base: '14px', md: '20px' }}
                                         mt={8}
                                         mb={8}>
                                         {filteredData.map((team: TeamDataType) => (

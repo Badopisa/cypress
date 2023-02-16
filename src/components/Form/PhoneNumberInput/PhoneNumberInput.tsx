@@ -21,7 +21,7 @@ export const PhoneNumberInput = ({
 }: PhoneNumberInputProps) => {
     const ref = useRef(null);
     const [number, setNumber] = useState('');
-    const [country, setCountry] = useState('');
+    const [country, setCountry] = useState('+234');
     const [countryFlag, setCountryFlag] = useState(`NG`);
     const { isOpen, onToggle, onClose } = useDisclosure();
 
@@ -94,7 +94,7 @@ export const PhoneNumberInput = ({
                         borderRadius={'6px'}
                         _placeholder={{
                             opacity: 1,
-                            color: 'inputText',
+                            color: 'grey5',
                             fontSize: '16px',
                             fontWeight: '400'
                         }}

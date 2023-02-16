@@ -6,7 +6,7 @@ import {
     Input,
     FormErrorMessage,
     Text,
-    useToast
+    useToast, Box
 } from '@chakra-ui/react';
 import { FormDetails } from '@/components/Form';
 import React from 'react';
@@ -15,6 +15,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import NavBar from '@/components/Layout/NavBar';
 import { useRouter } from 'next/router';
 import { verifyEmail } from '@/store/actions/authActions';
+import Steps4 from "@/components/Team/Steps4";
 
 const VerifyEmail = () => {
     const {
@@ -45,6 +46,9 @@ const VerifyEmail = () => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} w={'320px'} mb={'38px'}>
+                    <Steps4 current={1} />
+                </Box>
                 <FormDetails
                     hasAccount={true}
                     buttonText="Continue"

@@ -1,5 +1,5 @@
 export type PlayerFormType = {
-    photo?: string;
+    photo?: any;
     id?: string;
     first_name?: string;
     last_name?: string;

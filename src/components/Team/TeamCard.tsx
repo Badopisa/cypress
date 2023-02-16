@@ -18,7 +18,13 @@ const TeamCard = ({
             gap={3}
             direction="column"
             align="center"
-            bg="grey6"
+            bg="lightWhite"
+            borderWidth={'1px'}
+            _hover={{
+                // transform: 'scale(1.05)'
+                borderColor: 'slateBlue',
+                borderWidth: '1px'
+            }}
             rounded={10}
             py={{ base: 6, md: 6 }}
             onClick={click}

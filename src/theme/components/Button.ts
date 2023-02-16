@@ -31,7 +31,7 @@ export const Button = {
         },
         text: {
             _hover: {
-                color: 'linear-gradient(to right, #9741FF, #645EFD, #007DB3)',
+                color: 'slateBlue',
                 bg: 'transparent'
             },
             transitionDuration: '200ms',

@@ -184,7 +184,12 @@ export const coachRegistration = (payload: RegisterCoachFormDataType, toast: any
     };
 };
 
-export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) => {
+export const adminLogin = (
+    payload: LoginFormDataType,
+    toast: any,
+    router: any,
+    player: any = false
+) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
 
@@ -192,7 +197,6 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
             .then(async (result) => {
                 const { data } = result;
                 console.log('token is', data.data);
-                window.localStorage.setItem('user', JSON.stringify(data.data.user));
                 dispatch(saveAdminData(data.data.user));
                 storeAdminData(data.data.user);
 
@@ -201,11 +205,16 @@ export const adminLogin = (payload: LoginFormDataType, toast: any, router: any) 
                     message: 'Login Successful'
                 });
 
-                saveAccessToken(data.data.auth_token);
 
                 dispatch(updateIsLoading(false));
 
-                router.push('/dashboard/club-management');
+                if (player) {
+                    router.push('/coachAndPlayer/setNewPassword');
+                } else {
+                    saveAccessToken(data.data.auth_token);
+                    window.localStorage.setItem('user', JSON.stringify(data.data.user));
+                    router.push('/dashboard/club-management');
+                }
             })
 
             .catch((err) => {

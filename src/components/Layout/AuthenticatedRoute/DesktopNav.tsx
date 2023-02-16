@@ -18,18 +18,23 @@ import {
 
 import { FiBell, FiChevronDown } from 'react-icons/fi';
 
-import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import BackIcon from '@/assets/backIcon';
 
 const DashboardDesktopNav = ({ hasArrow = false, ...rest }: { hasArrow?: boolean }) => {
     const { user } = useSelector((state: RootStateOrAny) => state.auth);
     const router = useRouter();
     return (
         <Flex
-            py={6}
+            pt={'60px'}
+            pb={'16px'}
             alignItems="center"
             bg="white"
+            top={0}
+            zIndex={'9'}
+            position="fixed"
+            w={'calc(100vw - 340px)'}
             color={'black2'}
             justifyContent={{ base: 'space-between' }}
             {...rest}>
@@ -41,7 +46,7 @@ const DashboardDesktopNav = ({ hasArrow = false, ...rest }: { hasArrow?: boolean
                         color="black2"
                         onClick={() => router.back()}
                         _hover={{ border: '1px solid #131313' }}
-                        leftIcon={<FaArrowLeft color="black" size="20px" />}>
+                        leftIcon={<BackIcon />}>
                         Go back
                     </Button>
                 )}

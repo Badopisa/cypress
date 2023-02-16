@@ -2,14 +2,10 @@ import { CreateTeam, FetchTeamDetails, GetTeamDetails } from '@/services/teamMan
 import { TeamDataType, TeamFormType } from '@/types/TeamDataType';
 import * as Redux from 'redux';
 import * as actionTypes from './actionTypes';
-import { updateAlertMsg, updateIsLoading } from './msgAction';
+import {updateAlertMsg, updateIsLoading, updateMessage} from './msgAction';
 import { GetPlayersForClub } from '@/services/playerManagementService';
-import { RegisterAdminFormDataType } from '@/types/AuthDataType';
 import { UploadImage } from '@/services/uploadService';
-import { AdminRegistration } from '@/services/clubAdminService';
-import { saveAccessToken, storeAdminData } from '@/utils/locaStorageActions';
-import Swal from 'sweetalert2';
-import { saveAdminData } from '@/store/actions/authActions';
+import { createMultiplePlayers } from '@/store/actions/playerActions';
 
 type Dispatch = Redux.Dispatch<any>;
 
@@ -25,12 +21,51 @@ export const fetchTeams = (clubId: string) => {
                 console.log('Dapr ran too');
 
                 dispatch(saveTeamData(data.data));
+                dispatch(filterTeam(''));
 
                 dispatch(updateIsLoading(false));
             })
 
             .catch((err) => {
                 console.log('fetch teams error', err);
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+export const uploadFileAndCreateMultiplePlayers = (
+    profilePicture: File,
+    toast: any,
+    clubId: any,
+    setExisting: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+        dispatch(updateMessage('Uploading CSV...'));
+
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                console.log('result', result.data.data.uploadUrl);
+                console.log('new payload', result);
+                // updateAlertMsg(toast, { type: 'success', message: result.data.data.uploadUrl });
+                // dispatch(createTeam(payload, toast, router));
+                dispatch(updateMessage('Creating players...'));
+                dispatch(
+                    createMultiplePlayers(
+                        'https://sonalysis-asset.s3.amazonaws.com/players-sol (1).csv',
+                        // result.data.data.uploadUrl,
+                        'PLAYER',
+                        clubId,
+                        toast,
+                        setExisting
+                    )
+                );
+            })
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: err.response.data.message });
+
                 dispatch(updateIsLoading(false));
             });
     };

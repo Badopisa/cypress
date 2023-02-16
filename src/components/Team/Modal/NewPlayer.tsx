@@ -207,27 +207,10 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                                                     fontWeight: '400'
                                                 }}
                                                 placeholder="Select Position">
-                                                <option value="1">1– Goalkeeper</option>
-                                                <option value="2">2– Right Fullback</option>
-                                                <option value="3">3– Left Fullback</option>
-                                                <option value="4">4– Center Back</option>
-                                                <option value="5">5– Center Back (Sweeper)</option>
-                                                <option value="6">
-                                                    6– Defending/Holding Midfielder
-                                                </option>
-                                                <option value="7">
-                                                    7– Right Midfielder/Winger
-                                                </option>
-                                                <option value="8">
-                                                    8– Central/Box-to-Box Midfielder
-                                                </option>
-                                                <option value="9">9– Striker</option>
-                                                <option value="10">
-                                                    10– Attacking Midfielder/Playmaker
-                                                </option>
-                                                <option value="11">
-                                                    11– Left Midfielder/Wingers
-                                                </option>
+                                                <option value="forward">Forward</option>
+                                                <option value="midfield">Midfield</option>
+                                                <option value="defense">Defense</option>
+                                                <option value="keepers">Keeper</option>
                                             </Select>
                                             <FormErrorMessage>
                                                 {errors.position && (
@@ -323,8 +306,8 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                 isOpen={select}
                 onClose={setSelected}
                 body={'Sonalysis will notify this player of the changes made'}
-                title="Changes Saved"
-                buttonTitle={'OKAY, THANK YOU'}
+                // title="Changes saved"
+                buttonTitle={'Okay, thank you'}
             />
         </>
     );

@@ -1,4 +1,4 @@
-import { updateAlertMsg, updateIsLoading } from '@/store/actions/msgAction';
+import { updateAlertMsg, updateIsLoading, updateMessage } from '@/store/actions/msgAction';
 import { AddPlayersToTeam, RemovePlayerFromTeam } from '@/services/teamManagementService';
 import { PlayerFormType } from '@/types/PlayerDataType';
 import * as Redux from 'redux';
@@ -103,13 +103,13 @@ export const createAndAddPlayerToTeam = (
 
 export const getPlayerDetails = (player_id: string, router: any, toast: any) => {
     return async (dispatch: Dispatch) => {
-        router.push('/dashboard/club-management/PlayerDetails');
         FetchPlayerDetails(player_id)
             .then((result) => {
                 const { data } = result;
                 console.log('gotten player', data);
-                dispatch(saveNewPlayerData(data?.data));
+                dispatch(saveNewPlayerData(data?.data.player));
                 dispatch(updateIsLoading(false));
+                router.push('/dashboard/club-management/PlayerDetails');
             })
             .catch((err) => {
                 handleError(err, toast, dispatch);
@@ -118,6 +118,39 @@ export const getPlayerDetails = (player_id: string, router: any, toast: any) => 
     };
 };
 
+export const uploadPictureAndUpdatePlayer = (
+    payload: PlayerFormType,
+    profilePicture: null | string | File,
+    team_id: string,
+    toast: any,
+    onClose: any,
+    setSelected: any
+) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        if (!profilePicture)
+            return dispatch(updatePlayer(payload, team_id, toast, onClose, setSelected));
+
+        if (typeof profilePicture === 'string')
+            return dispatch(updatePlayer(payload, team_id, toast, onClose, setSelected));
+
+        const formData = new FormData();
+        formData.append('photo', profilePicture);
+        UploadImage(formData)
+            .then(async (result) => {
+                payload.photo = result.data.data.uploadUrl;
+                console.log('new payload', payload);
+                dispatch(updatePlayer(payload, team_id, toast, onClose, setSelected));
+            })
+            .catch((err) => {
+                console.log('Upload error', err);
+                updateAlertMsg(toast, { type: 'error', message: 'Upload error' });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
 export const updatePlayer = (
     payload: PlayerFormType,
     team_id: string,
@@ -208,6 +241,7 @@ export const createMultiplePlayers = (
                         type: 'success',
                         message: 'Congratulations, Players successfully created'
                     });
+                    dispatch(updateMessage('Fetching players...'));
                     dispatch(getAllPlayers(club_id));
                     setSelected(true);
                     console.log('CSV result', result);
@@ -217,6 +251,10 @@ export const createMultiplePlayers = (
                 // setSeleced(true)
             })
             .catch((err) => {
+                updateAlertMsg(toast, {
+                    type: 'error',
+                    message: 'Oops! a problem has occurred'
+                });
                 handleError(err, toast, dispatch);
                 dispatch(updateIsLoading(false));
             });
@@ -267,12 +305,16 @@ export const addSelectedPlayersToTeam = (
             .catch((err) => {
                 console.log('add player to team error', err);
                 handleError(err, toast, dispatch);
+                dispatch(updateIsLoading(false));
             });
     };
 };
 
 const handleError = (err: any, toast: any, dispatch: Dispatch) => {
-    updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
+    updateAlertMsg(toast, {
+        type: 'error',
+        message: err?.response?.data?.message || 'Something went wrong, try again!'
+    });
     dispatch(updateIsLoading(false));
 };
 

@@ -1,5 +1,5 @@
 import { authenticatedRoute } from '@/components/Layout/AuthenticatedRoute';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     Box,
@@ -23,16 +23,13 @@ import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
 
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import useUploadToS3 from '@/hooks/useUploadToS3';
-import { createMultiplePlayers } from '@/store/actions/playerActions';
+import { uploadFileAndCreateMultiplePlayers } from '@/store/actions/teamActions';
 
 const AddTeam = () => {
     const { currentTeam }: { currentTeam: any } = useSelector(
         (state: RootStateOrAny) => state.team
     );
-    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
-    const [csv, setCSV] = React.useState<null | File>(null);
-    const { s3URL, s3Error } = useUploadToS3(csv, false);
+    const { msg, isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const [create, setCreate] = useState<boolean>(false);
     const [existing, setExisting] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false);
@@ -45,27 +42,11 @@ const AddTeam = () => {
         setExisting(true);
     };
 
-    useEffect(() => {
-        if (s3Error) {
-            toast({
-                title: 'Error',
-                description: 'Error uploading image, please try again or remove image',
-                status: 'error',
-                duration: 9000,
-                isClosable: true
-            });
-        }
-        if (s3URL !== '') {
-            dispatch(
-                createMultiplePlayers(s3URL, 'PLAYER', currentTeam?.club_id, toast, setExisting)
-            );
-        }
-    }, [s3URL]);
-
     const handleChange = (event: any) => {
         const file = event.target.files[0];
-        setCSV(file);
-        console.log('file', file);
+        dispatch(
+            uploadFileAndCreateMultiplePlayers(file, toast, currentTeam?.club_id, setExisting)
+        );
     };
 
     const hiddenFileInput: any = React.useRef(null);
@@ -79,12 +60,8 @@ const AddTeam = () => {
     return (
         <>
             <DashboardDesktopNav hasArrow />
-            <HStack
-                color="black2"
-                alignItems={'baseline'}
-                py={{ base: 8, md: 8 }}
-                px={{ base: 4, md: 8 }}>
-                <Text fontSize="40px" fontWeight="700">
+            <HStack mb={'40px'} color="black2" alignItems={'baseline'}>
+                <Text mr={'20px'} fontSize="40px" fontWeight="700">
                     Add players
                 </Text>
                 <Text
@@ -95,26 +72,45 @@ const AddTeam = () => {
                     Skip this step
                 </Text>
             </HStack>
-            <Box mx={'auto'} color="black2" maxW={{ base: 4, md: '1200px' }}>
-                <Box mx={'auto'} maxW={'320px'} mb={'38px'}>
+            <Box px={{ base: 8, md: 8 }} color="white">
+                <Box mx={'auto'} maxW={'320px'} mb={'20px'}>
                     <Steps current={2} />
                 </Box>
                 <Stack
                     direction={{ base: 'column', md: 'row' }}
+                    mx={'auto'}
                     py={{ base: 8, md: 8 }}
-                    w="100%"
-                    spacing={{ base: 1, md: 4 }}>
-                    <Button size="lg" onClick={handleCreate} w="full">
+                    w="640px"
+                    spacing={{ base: 1, md: '20px' }}>
+                    <Button
+                        fontSize={'16px'}
+                        fontWeight={'400'}
+                        size={'lg'}
+                        onClick={handleCreate}
+                        w="full">
                         Create new player
                     </Button>
                     <Spacer />
-                    <Button size="lg" variant="action2" onClick={handleExist} w="full">
-                        Add existion player
+                    <Button
+                        fontSize={'16px'}
+                        fontWeight={'400'}
+                        size="lg"
+                        variant="action2"
+                        onClick={handleExist}
+                        w="full">
+                        Add existing player
                     </Button>
                     <Spacer />
                     <Spacer />
                     <>
-                        <Button size="lg" onClick={handleClick} variant="action2" w="full">
+                        <Button
+                            fontSize={'16px'}
+                            fontWeight={'400'}
+                            disabled
+                            size="lg"
+                            onClick={handleClick}
+                            variant="action2"
+                            w="full">
                             Upload CSV
                         </Button>
                         <input
@@ -127,33 +123,46 @@ const AddTeam = () => {
                         />
                     </>
                 </Stack>
-                <SimpleGrid
-                    // minChildWidth={{ base: '100%', md: '250px' }}
-                    spacing={{ base: '14px', md: '40px' }}
-                    columns={{ base: 1, md: 3 }}
-                    mt={8}
-                    mb={8}>
-                    {isLoading ? (
-                        <Center my="16">
-                            <Spinner size="xl" />
-                        </Center>
-                    ) : currentTeam?.players?.length > 0 ? (
-                        currentTeam?.players?.map((player: any) => (
-                            <PlayerCard
-                                key={player?.id}
-                                position={player?.position}
-                                image={player?.photo}
-                                status="Pending Invite"
-                                name={`${player.first_name} ${player.last_name}`}
+                {isLoading ? (
+                    <Center h={'340px'} w={'100%'}>
+                        <Spinner size="xl" />
+                        <Text ml={4} fontSize={'20px'}>
+                            {msg}
+                        </Text>
+                    </Center>
+                ) : (
+                    <SimpleGrid
+                        // minChildWidth={{ base: '100%', md: '250px' }}
+                        columns={{ base: 1, sm: 2, lg: 6 }}
+                        // width="min(90%, 1200px)"
+                        spacingX={{ base: '14px', md: '10px' }}
+                        spacingY={{ base: '14px', md: '20px' }}
+                        mt={8}
+                        mb={8}>
+                        {currentTeam?.players?.length > 0 ? (
+                            currentTeam?.players?.map((player: any) => (
+                                <PlayerCard
+                                    key={player?.id}
+                                    id={player?.id}
+                                    hasMenu
+                                    player={player}
+                                    teamId={currentTeam?.id}
+                                    clubId={currentTeam?.club_id}
+                                    position={player?.position}
+                                    number={player?.jersey_number}
+                                    image={player?.photo}
+                                    status="Pending Invite"
+                                    name={`${player.first_name} ${player.last_name}`}
+                                />
+                            ))
+                        ) : (
+                            <BlankTeam
+                                image="/images/image/jersy.png"
+                                title="Added players will appear here"
                             />
-                        ))
-                    ) : (
-                        <BlankTeam
-                            image="/images/image/jersy.png"
-                            title="Added players will appear here"
-                        />
-                    )}
-                </SimpleGrid>
+                        )}
+                    </SimpleGrid>
+                )}
                 <Center>
                     <VStack
                         mb={10}

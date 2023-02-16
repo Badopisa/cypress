@@ -10,7 +10,7 @@ import {
     Text,
     useToast,
     HStack,
-    Spacer
+    Spacer, Box
 } from '@chakra-ui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
@@ -22,6 +22,7 @@ import { CountriesSelector } from '@/components/Form/CountriesSelector';
 import { fetchCountries } from '@/services/countriesService';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 import {UserDataType} from "@/types/AuthDataType";
+import Steps from "@/components/Team/Steps";
 
 const Profile = ({ countries }: any) => {
     const {
@@ -64,6 +65,9 @@ const Profile = ({ countries }: any) => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} mt={'40px'} w={'320px'} mb={'38px'}>
+                    <Steps current={3} />
+                </Box>
                 <VStack
                     justifyContent={'center'}
                     alignItems={'center'}
@@ -88,7 +92,11 @@ const Profile = ({ countries }: any) => {
                                     </FormLabel>
                                     <Input
                                         {...register('firstName', {
-                                            required: 'First name is required'
+                                            required: 'First name is required',
+                                            minLength: {
+                                                value: 3,
+                                                message: 'At least 3 letters required'
+                                            }
                                         })}
                                         id="firstName"
                                         type="text"
@@ -119,7 +127,11 @@ const Profile = ({ countries }: any) => {
                                     </FormLabel>
                                     <Input
                                         {...register('lastName', {
-                                            required: 'Last name is required'
+                                            required: 'Last name is required',
+                                            minLength: {
+                                                value: 3,
+                                                message: 'At least 3 letters required'
+                                            }
                                         })}
                                         id="lastName"
                                         type="text"
@@ -179,18 +191,18 @@ const Profile = ({ countries }: any) => {
                                     )}
                                 />
                                 <FormErrorMessage>
-                                    {errors.phone && <span>{`${errors.phone.message}`}</span>}
+                                    {errors.phone && <Text color={'red'}>{`${errors.phone.message}`}</Text>}
                                 </FormErrorMessage>
                             </FormControl>
 
                             <Button
                                 isLoading={isLoading}
-                                disabled={
-                                    !touchedFields.firstName ||
-                                    !touchedFields.lastName ||
-                                    !touchedFields.country ||
-                                    !touchedFields.phone
-                                }
+                                // disabled={
+                                //     !touchedFields.firstName ||
+                                //     !touchedFields.lastName ||
+                                //     !touchedFields.country ||
+                                //     !touchedFields.phone
+                                // }
                                 type="submit"
                                 size="lg"
                                 w="full">

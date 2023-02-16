@@ -44,7 +44,7 @@ const Hero = ({
                         {subHeading}
                     </Text>
                     <Button
-                        onClick={() => router.push('/admin/ClubAdminRegistration')}
+                        onClick={() => router.push('/registration')}
                         variant="action">
                         Get Started
                     </Button>

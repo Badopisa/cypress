@@ -1,5 +1,5 @@
 export type StaffFormType = {
-    photo?: string;
+    photo?: string | File | null;
     id?: string;
     first_name?: string;
     last_name?: string;

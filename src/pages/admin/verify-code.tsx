@@ -5,8 +5,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import NavBar from '@/components/Layout/NavBar';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import {verifyEmailToken, verifyToken } from '@/store/actions/authActions';
+import { verifyEmail, verifyEmailToken, verifyToken } from '@/store/actions/authActions';
 import { UserDataType } from '@/types/AuthDataType';
+import Steps from "@/components/Team/Steps";
+import Steps4 from '@/components/Team/Steps4';
 
 let currentPinIndex = 0;
 const VerifyCode = () => {
@@ -110,6 +112,9 @@ const VerifyCode = () => {
                 minHeight="completeY"
                 alignItems="center"
                 justifyContent="center">
+                <Box mx={'auto'} w={'320px'} mb={'38px'}>
+                    <Steps4 current={2} />
+                </Box>
                 <FormDetails
                     hasAccount={true}
                     buttonText="Continue"
@@ -118,44 +123,63 @@ const VerifyCode = () => {
                     disableButton={!pinPassed}
                     loading={loading}
                     handleButtonClick={submitPin}>
-                    <GridItem w={'400px'} colSpan={1}>
-                        <HStack w={'110%'} justifyContent={'space-between'}>
-                            {pin.map((_, index) => {
-                                return (
-                                    <React.Fragment key={`key${index}`}>
-                                        <Input
-                                            ref={index === activePinIndex ? inputRef : null}
-                                            focusBorderColor={error ? 'red' : 'purple'}
-                                            borderColor={error ? 'red' : 'grey5'}
-                                            _placeholder={{
-                                                opacity: 1,
-                                                color: 'grey3',
-                                                fontSize: '16px',
-                                                fontWeight: '400'
-                                            }}
-                                            placeholder="-"
-                                            borderRadius="6px"
-                                            pl="25px"
-                                            type="number"
-                                            w="87"
-                                            h="60px"
-                                            onKeyDown={(e) => handleOnKeyDown(e, index)}
-                                            value={pin[index]}
-                                            onChange={handleOnChange}
-                                        />
-                                        {index === pin.length - 1 ? null : (
-                                            <Box as="span" w="16px" />
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })}
-                        </HStack>
-                        {!!error && (
-                            <Text color="#F87171" fontSize="11px" fontWeight="400">
-                                {error}
+                    <>
+                        <GridItem mx={'auto'} w={'400px'} colSpan={1}>
+                            <HStack w={'100%'} justifyContent={'space-between'}>
+                                {pin.map((_, index) => {
+                                    return (
+                                        <React.Fragment key={`key${index}`}>
+                                            <Input
+                                                ref={index === activePinIndex ? inputRef : null}
+                                                focusBorderColor={error ? 'red' : 'purple'}
+                                                borderColor={error ? 'red' : 'grey5'}
+                                                _placeholder={{
+                                                    opacity: 1,
+                                                    color: 'grey3',
+                                                    fontSize: '16px',
+                                                    fontWeight: '400'
+                                                }}
+                                                placeholder="-"
+                                                borderRadius="6px"
+                                                pl="25px"
+                                                type="number"
+                                                w="87"
+                                                h="60px"
+                                                onKeyDown={(e) => handleOnKeyDown(e, index)}
+                                                value={pin[index]}
+                                                onChange={handleOnChange}
+                                            />
+                                            {index === pin.length - 1 ? null : (
+                                                <Box as="span" w="16px" />
+                                            )}
+                                        </React.Fragment>
+                                    );
+                                })}
+                            </HStack>
+                            {!!error && (
+                                <Text color="#F87171" fontSize="11px" fontWeight="400">
+                                    {error}
+                                </Text>
+                            )}
+                        </GridItem>
+                        <HStack w={'100%'} justifyContent={'center'} my={'20px'}>
+                            <Text
+                                ml={2}
+                                cursor={'pointer'}
+                                bgGradient={'linear-gradient(to right, #9741FF, #645EFD, #007DB3)'}
+                                bgClip={'text'}
+                                onClick={() => {
+                                    const payload = {
+                                        email: forgotPasswordEmail
+                                    };
+                                    dispatch(verifyEmail(payload, toast, router));
+                                }}
+                                as={'u'}
+                                fontWeight="400">
+                                Resend OTP
                             </Text>
-                        )}
-                    </GridItem>
+                        </HStack>
+                    </>
                 </FormDetails>
             </Flex>
         </>

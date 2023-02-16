@@ -50,7 +50,7 @@ const Confirmation = ({
                                 <Text
                                     fontSize="20px"
                                     fontWeight="medium"
-                                    color="white"
+                                    color="black2"
                                     mt={0}
                                     display={'flex'}>
                                     {title}

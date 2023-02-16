@@ -67,7 +67,7 @@ const CreateTeam = () => {
     return (
         <>
             <DashboardDesktopNav hasArrow />
-            <Box color="black2" py={{ base: 12, md: 0 }} px={{ base: 4, md: 0 }}>
+            <Box mb={'40px'} color="black2" py={{ base: 0, md: 0 }} px={{ base: 4, md: 0 }}>
                 <Text fontSize="40px" fontWeight="700">
                     Create new team
                 </Text>
@@ -232,6 +232,7 @@ const CreateTeam = () => {
                             fontWeight="normal">
                             Continue
                         </Button>
+                        <Box h={'40px'} />
                     </VStack>
                 </form>
                 {/*</Stack>*/}

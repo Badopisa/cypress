@@ -41,7 +41,7 @@ const Login = () => {
             email: value.email,
             password: value.password
         };
-        dispatch(adminLogin(payload, toast, router));
+        dispatch(adminLogin(payload, toast, router, false));
     };
 
     useEffect(() => {
@@ -158,7 +158,7 @@ const Login = () => {
                             </FormControl>
                             <Button
                                 isLoading={isLoading}
-                                disabled={!touchedFields.email || !touchedFields.password}
+                                // disabled={!touchedFields.email || !touchedFields.password}
                                 type="submit"
                                 size="lg"
                                 w="full">

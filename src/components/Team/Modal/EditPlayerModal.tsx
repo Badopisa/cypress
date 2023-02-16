@@ -5,7 +5,9 @@ import {
     ModalOverlay,
     ModalContent,
     Divider,
-    useToast
+    useToast,
+    ModalHeader,
+    Text
 } from '@chakra-ui/react';
 import { MdMode, MdDelete, MdShare, MdPeople, MdPersonAddAlt1 } from 'react-icons/md';
 
@@ -23,6 +25,7 @@ type ManagePlayerType = {
 
     create?: string;
     existing?: string;
+    newPlayerButton?: boolean;
     edit?: string;
     share?: string;
     remove?: string;
@@ -34,6 +37,7 @@ const ManagePlayerModal = ({
     create,
     existing,
     setCreatePlayer,
+    newPlayerButton,
     setCreateExistingPlayer,
 
     edit,
@@ -67,18 +71,38 @@ const ManagePlayerModal = ({
             removePlayerFromTeam(newPlayer.id, currentTeam.id, newPlayer.club_id, toast, onClose)
         );
     };
+
     return (
         <>
-            <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+            <Modal isCentered isOpen={isOpen} onClose={() => onClose(false)}>
                 <ModalOverlay />
-                <ModalContent w="xs" py={5} h="auto" bg="ash" color="white" rounded="1.125rem">
+                <ModalContent
+                    px={'40px'}
+                    py={newPlayerButton ? '40px' : '104px'}
+                    h="auto"
+                    bg="white"
+                    color="black2"
+                    rounded="1.125rem">
+                    {newPlayerButton && (
+                        <ModalHeader
+                            mb={'20px'}
+                            textAlign="center"
+                            fontSize="40px"
+                            fontWeight="700">
+                            Add new player
+                            <Text mt={'10px'} fontSize="16px" color="grey4" fontWeight={'400'}>
+                                Select one
+                            </Text>
+                        </ModalHeader>
+                    )}
                     <VStack alignItems={'flex-start'}>
                         {create && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdPersonAddAlt1 color="white" />}
+                                    size={'lg'}
+                                    w={'100%'}
                                     onClick={handleCreatePlayer}
+                                    mb={'12px'}
                                     px={8}>
                                     {create}
                                 </Button>
@@ -88,8 +112,10 @@ const ManagePlayerModal = ({
                         {existing && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdPeople color="white" />}
+                                    size={'lg'}
+                                    w={'100%'}
+                                    color={'black2'}
+                                    bg={'lightWhite'}
                                     onClick={handleCreateExistingPlayer}
                                     px={8}>
                                     {existing}
@@ -100,8 +126,8 @@ const ManagePlayerModal = ({
                         {edit && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdMode color="white" />}
+                                    size={'lg'}
+                                    w={'100%'}
                                     onClick={handleEditPlayer}
                                     px={8}>
                                     {edit}
@@ -112,8 +138,11 @@ const ManagePlayerModal = ({
                         {share && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdShare color="white" />}
+                                    size={'lg'}
+                                    w={'100%'}
+                                    bg={'lightWhite'}
+                                    color={'black2'}
+                                    disabled
                                     onClick={handleSharePlayer}
                                     px={8}>
                                     Share Player
@@ -124,8 +153,10 @@ const ManagePlayerModal = ({
                         {remove && (
                             <>
                                 <Button
-                                    variant={'bare'}
-                                    leftIcon={<MdDelete color="white" />}
+                                    variant={'text'}
+                                    size={'lg'}
+                                    w={'100%'}
+                                    color={'red'}
                                     onClick={handleDeletePlayer}
                                     px={8}>
                                     {remove}
@@ -133,18 +164,24 @@ const ManagePlayerModal = ({
                                 <Divider color="primary" />
                             </>
                         )}{' '}
-                        <Button variant={'bare'} onClick={() => onClose(false)} px={12}>
-                            Close
-                        </Button>
-                        <Divider color="primary" orientation="horizontal" />
+                        {/*<Button*/}
+                        {/*    size={'lg'}*/}
+                        {/*    borderRadius={'0px'}*/}
+                        {/*    w={'100%'}*/}
+                        {/*    _hover={{*/}
+                        {/*        backgroundColor: 'black',*/}
+                        {/*        color: 'white'*/}
+                        {/*    }}*/}
+                        {/*    variant={'text'}*/}
+                        {/*    onClick={() => onClose(false)}*/}
+                        {/*    px={12}>*/}
+                        {/*    Close*/}
+                        {/*</Button>*/}
+                        {/*<Divider color="primary" orientation="horizontal" />*/}
                     </VStack>
                 </ModalContent>
             </Modal>
-            <EditPlayerDetails
-                isOpen={editPlayer}
-                onClose={setEditPlayer}
-                setSelected={setSelected}
-            />
+            <EditPlayerDetails isOpen={editPlayer} onClose={setEditPlayer} />
             <Confirmation
                 jersyPng={'/images/imgs/success.svg'}
                 isOpen={select}

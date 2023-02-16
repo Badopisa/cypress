@@ -15,7 +15,11 @@ import {
     Image,
     Stack,
     FormControl,
-    useToast
+    useToast,
+    InputGroup,
+    InputLeftElement,
+    HStack,
+    Checkbox
 } from '@chakra-ui/react';
 
 import { SearchIcon } from '@chakra-ui/icons';
@@ -29,6 +33,7 @@ import {
     checkSelectedStaff,
     getAllStaffs
 } from '@/store/actions/staffActions';
+import { BsSearch } from 'react-icons/bs';
 
 type ExistingStaffType = {
     isOpen: boolean;
@@ -41,8 +46,8 @@ type ExistingStaffType = {
 const ExistingStaff = ({
     isOpen,
     onClose,
-    title = 'Add Existing Staffs',
-    buttonTitle = 'ADD STAFF'
+    title = 'Add existing staffs',
+    buttonTitle = 'Continue'
 }: ExistingStaffType) => {
     const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
     const { filteredStaffs, currentTeam }: { filteredStaffs: any; currentTeam: any } = useSelector(
@@ -52,6 +57,7 @@ const ExistingStaff = ({
         (state: RootStateOrAny) => state.staff
     );
     const [searchText, setSearchText] = useState('');
+    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const toast = useToast();
     const dispatch = useDispatch();
 
@@ -76,7 +82,7 @@ const ExistingStaff = ({
     useEffect(() => {
         console.log('called');
         dispatch(getAllStaffs(user?.clubs[0]?.id));
-    }, []);
+    }, [dispatch, user?.clubs]);
 
     const handleStaffSearch = (e: React.FormEvent<HTMLInputElement>) => {
         const text = e.currentTarget.value;
@@ -87,80 +93,115 @@ const ExistingStaff = ({
     };
     return (
         <>
-            <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+            <Modal
+                scrollBehavior={'inside'}
+                size={'lg'}
+                isCentered
+                isOpen={isOpen}
+                onClose={() => onClose(false)}>
                 <ModalOverlay />
-                <ModalContent w="xl" px={8} h="auto" bg="grey" color="white" borderRadius="18px">
+                <ModalContent w="xl" px={8} h="auto" bg="white" color="black2" borderRadius="18px">
                     <ModalHeader
                         p="24px 24px 4px"
                         textAlign="center"
-                        fontSize="18px"
-                        fontWeight="600">
+                        color={'black2'}
+                        fontSize="40px"
+                        fontWeight="700">
                         {title}
                     </ModalHeader>
                     <ModalBody mt={5}>
-                        <VStack spacing={4}>
-                            <Flex direction="row" w="100%">
-                                <FormControl p="0.2em" bg="black" display="flex" borderRadius="lg">
-                                    <SearchIcon alignSelf="center" ml={2} color="grey" />
-                                    <Input
-                                        variant={'solid'}
-                                        bg="transparent"
-                                        id={'text'}
-                                        type={'text'}
-                                        onChange={handleStaffSearch}
-                                        value={searchText}
-                                        placeholder={'Search for players'}
-                                        aria-label={'Search for Players'}
-                                    />
-                                </FormControl>
-                            </Flex>
+                        <VStack mb={'35px'} spacing={4}>
+                            <InputGroup w="100%">
+                                <InputLeftElement pointerEvents="none">
+                                    <BsSearch color="grey" />
+                                </InputLeftElement>
+                                <Input
+                                    type="text"
+                                    placeholder="Search player"
+                                    value={searchText}
+                                    onChange={handleStaffSearch}
+                                    // value={searchText}
+                                    // onChange={handleTeamSearch}
+                                    focusBorderColor="purple"
+                                    borderColor={'grey5'}
+                                    size={'lg'}
+                                    borderRadius={'6px'}
+                                    _placeholder={{
+                                        opacity: 1,
+                                        color: 'inputText',
+                                        fontSize: '16px',
+                                        fontWeight: '400'
+                                    }}
+                                />
+                            </InputGroup>
                         </VStack>
 
                         <Stack w="100%" spacing={8}>
-                            <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} mt={8} spacing={8}>
+                            <VStack overflowY="auto">
                                 {filteredStaffs?.map((staff: any) => (
-                                    <VStack
-                                        key={staff.id}
-                                        onClick={() => handleSelectStaff(staff?.id, staff?.role)}
-                                        cursor={'pointer'}>
-                                        <Avatar
-                                            bg="ash"
-                                            boxSize={{ base: '2rem', md: '4rem' }}
-                                            src={staff?.user?.photo}
-                                            position={'relative'}
-                                            top={0}
-                                            zIndex={1}
-                                        />
-                                        {selectedStaffs.some(
-                                            (contStaff: any) => contStaff['id'] === staff?.id
-                                        ) && (
-                                            <Image
-                                                src={'/icons/checked.svg'}
-                                                alt="checked"
-                                                w={8}
-                                                h={8}
-                                                color="primary"
-                                                position={'absolute'}
-                                                zIndex={3}
+                                    <HStack
+                                        key={staff?.user?.id}
+                                        w={'100%'}
+                                        justifyContent={'space-between'}>
+                                        <HStack key={staff.id} cursor={'pointer'}>
+                                            <Avatar
+                                                name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
+                                                src={staff?.user?.photo}
+                                                w={'40px'}
+                                                h={'40px'}
+                                                mr={'10px'}
+                                                top={0}
+                                                zIndex={1}
                                             />
-                                        )}
-                                        <Text fontSize={'xxs'} fontWeight="semibold">
-                                            {`${staff?.user?.first_name} ${staff?.user?.last_name}`}
-                                        </Text>
-                                        <Text fontSize={'xxs'}>{staff?.user?.position}</Text>
-                                    </VStack>
+                                            <VStack alignItems={'flex-start'}>
+                                                <Text
+                                                    fontSize={'16px'}
+                                                    fontWeight="400"
+                                                    color={'black2'}>
+                                                    {`${staff?.user?.first_name} ${staff?.user?.last_name}`}
+                                                </Text>
+                                                <Text
+                                                    fontSize={'12px'}
+                                                    color={'grey3'}
+                                                    fontWeight={'400'}>
+                                                    {staff?.user?.role} ~ {staff?.user?.country}
+                                                </Text>
+                                            </VStack>
+                                        </HStack>
+                                        <Checkbox
+                                            size={'lg'}
+                                            onChange={() =>
+                                                handleSelectStaff(staff?.id, staff?.role)
+                                            }
+                                            iconColor={'white'}
+                                            borderColor={'grey6'}
+                                            _checked={{
+                                                background: 'primary',
+                                                color: 'white',
+                                                borderColor: 'slateBlue'
+                                            }}
+                                            isChecked={selectedStaffs.some(
+                                                (contStaff: any) => contStaff['id'] === staff?.id
+                                            )}
+                                        />
+                                    </HStack>
                                 ))}
-                            </SimpleGrid>
+                            </VStack>
                         </Stack>
                     </ModalBody>
 
                     <ModalFooter w="full" py={{ base: 4, md: 8 }}>
                         <VStack spacing={4} w="full">
-                            {selectedStaffs?.length > 0 && (
-                                <Button variant="action" w="full" onClick={handleSelect}>
-                                    {buttonTitle}
-                                </Button>
-                            )}
+                            <Button
+                                isLoading={isLoading}
+                                size={'lg'}
+                                mb={'20px'}
+                                w="full"
+                                loadingText={'Adding staff'}
+                                isDisabled={selectedStaffs?.length < 1}
+                                onClick={handleSelect}>
+                                {buttonTitle}
+                            </Button>
                         </VStack>
                     </ModalFooter>
                 </ModalContent>
@@ -169,9 +210,9 @@ const ExistingStaff = ({
                 jersyPng={'/images/imgs/success.svg'}
                 isOpen={selectConfirmation}
                 onClose={setSelectedConfirmation}
-                body={'Sonalysis will notify this player of the changes made'}
-                title="New Player Added"
-                buttonTitle={'OKAY, THANK YOU'}
+                body={'Sonalysis will notify these staffs of the changes made'}
+                title="New staffs added"
+                buttonTitle={'Okay, thank you'}
             />
         </>
     );
