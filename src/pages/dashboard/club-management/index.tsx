@@ -4,7 +4,6 @@ import {
     Text,
     Box,
     SimpleGrid,
-    VStack,
     Flex,
     Spacer,
     Center,

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
     Flex,
     FormControl,
@@ -21,8 +22,7 @@ import NavBar from '@/components/Layout/NavBar';
 import { CountriesSelector } from '@/components/Form/CountriesSelector';
 import { fetchCountries } from '@/services/countriesService';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
-import {UserDataType} from "@/types/AuthDataType";
-import Steps from "@/components/Team/Steps";
+import { UserDataType } from '@/types/AuthDataType';
 
 const Profile = ({ countries }: any) => {
     const {

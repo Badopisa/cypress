@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as Redux from 'redux';
 import {
     ForgotPasswordFormDataType,
@@ -18,7 +19,8 @@ import {
     UpdateProfile,
     VerifyEmail,
     VerifyEmailToken,
-    VerifyToken
+    VerifyToken,
+    ClubDetails,
 } from '@/services/clubAdminService';
 import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
@@ -451,6 +453,26 @@ export const verifyEmailToken = (
     };
 };
 
+export const getClubDetails = (club_id:string, toast: any) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+        ClubDetails(club_id)
+            .then(async (result) => {
+            const { data } = result;
+            dispatch(saveClubDetails(data.data));
+                updateAlertMsg(toast, {
+                    type: 'success',
+                    message: data?.message
+                });
+                dispatch(updateIsLoading(false));
+            })
+            .catch((err) => {
+                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
+                dispatch(updateIsLoading(false));
+            });
+        }
+    }
+
 export const logout = () => {
     clearLocalStorage();
 
@@ -486,4 +508,14 @@ export const updateFileName = (data: string) => {
 
         payload: data
     };
+}
+
+export const saveClubDetails = (data: any) => {
+    return {
+        type: actionTypes.CLUB_DETAILS,
+
+        payload: data
+    };
 };
+
+

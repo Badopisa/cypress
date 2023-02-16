@@ -33,7 +33,7 @@ export const LinkItems1: Array<LinkItemProps> = [
 ];
 
 export const LinkItems2: Array<LinkItemProps> = [
-    { name: 'Profile', icon: ProfileIcon, link: '/dashboard' },
+    { name: 'Profile', icon: FaUserAlt, link: '/dashboard/profile' },
     { name: 'Settings', icon: SettingsIcon, link: '/dashboard/settings' },
     { name: 'Logout', icon: LogoutIcon, link: '/login' }
 ];
