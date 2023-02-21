@@ -51,6 +51,7 @@ const EditStaff = ({ isOpen, onClose, setSelected }: EditStaffType) => {
     const [lastName, setLastName] = useState<any>('');
     const [role, setRole] = useState<any>('');
     const [email, setEmail] = useState<any>('');
+    const [country, setCountry] = useState<any>('');
 
     const dispatch = useDispatch();
     const toast = useToast();
@@ -61,7 +62,8 @@ const EditStaff = ({ isOpen, onClose, setSelected }: EditStaffType) => {
         setLastName(newStaff?.user?.last_name);
         setEmail(newStaff?.user?.email);
         setRole(newStaff?.user?.role);
-    }, [newStaff.user.first_name]);
+        setCountry(newStaff?.user?.country);
+    }, [newStaff?.user?.first_name]);
 
     // const handleSelect = () => {
     //     const teamId = currentTeam?.id;
@@ -265,6 +267,7 @@ const EditStaff = ({ isOpen, onClose, setSelected }: EditStaffType) => {
                                     <GridItem w="full">
                                         <CountriesSelector
                                             errors={errors}
+                                            country={country}
                                             useFormRegisterReturn={register('country', {
                                                 required: 'Country is required',
                                                 minLength: {

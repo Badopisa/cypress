@@ -9,18 +9,17 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    Button,
     useToast,
     Spinner,
     HStack,
     VStack
 } from '@chakra-ui/react';
-import EditPlayerDetails from '@/components/Team/Modal/EditPlayerDetails';
 import React, { useState } from 'react';
 import { removePlayerFromTeam, saveNewPlayerData } from '@/store/actions/playerActions';
-import newPlayer from '@/components/Team/Modal/NewPlayer';
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import Confirmation from '@/components/Team/Modal/Confirmation';
+import { removeStaffFromTeam, saveNewStaffData } from '@/store/actions/staffActions';
+import EditStaffDetails from '@/components/Team/Modal/EditStaffDetails';
 
 const PlayerCard = ({
     id,
@@ -30,6 +29,7 @@ const PlayerCard = ({
     position,
     image,
     number,
+    job,
     team,
     click,
     hasMenu = false,
@@ -37,25 +37,43 @@ const PlayerCard = ({
 }: {
     id?: any;
     player?: any;
+    job?: string;
     teamId?: any;
     clubId?: any;
     hasMenu?: boolean;
     name?: string;
-    position?: string;
+    position: string;
     number?: any;
     status?: string;
     image?: string;
     team?: string;
-    click?: () => void;
+    click: () => void;
 }) => {
     const [editPlayer, setEditPlayer] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const { newStaff }: { newStaff: any } = useSelector((state: RootStateOrAny) => state.staff);
+    const { currentTeam }: { currentTeam: any } = useSelector(
+        (state: RootStateOrAny) => state.team
+    );
     const toast = useToast();
     const dispatch = useDispatch();
 
     const handleDeletePlayer = () => {
         setLoading(true);
+        if (job === 'staff') {
+            dispatch(
+                removeStaffFromTeam(
+                    newStaff.id,
+                    newStaff.role,
+                    currentTeam.id,
+                    newStaff.club_id,
+                    toast,
+                    setLoading
+                )
+            );
+            return;
+        }
         dispatch(removePlayerFromTeam(id, teamId, clubId, toast, setLoading));
     };
 
@@ -75,7 +93,12 @@ const PlayerCard = ({
                 }}
                 rounded={10}
                 py={{ base: 6, md: '20px' }}
-                onClick={click}
+                onClick={() => {
+                    click();
+                    if (job === 'staff') {
+                        setEditPlayer(true);
+                    }
+                }}
                 cursor={'pointer'}>
                 <Stack>
                     <Center>
@@ -131,7 +154,11 @@ const PlayerCard = ({
                     )}
                 </Stack>
             </Box>
-            <EditPlayerDetails isOpen={editPlayer} onClose={setEditPlayer} />
+            <EditStaffDetails
+                isOpen={editPlayer}
+                onClose={setEditPlayer}
+                setSelected={setSelected}
+            />
             <Confirmation
                 jersyPng={'/images/imgs/success.svg'}
                 isOpen={select}

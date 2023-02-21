@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 export const SAVE_USER_DETAILS = 'SAVE_USER_DETAILS';
 export const FORGOT_PASSWORD_EMAIL = 'FORGOT_PASSWORD_EMAIL';
+export const OLD_PASSWORD = 'OLD_PASSWORD';
 export const UPDATE_ALERT_MSG = 'UPDATE_ALERT_MSG';
 export const UPDATE_LOADING_STATE = 'UPDATE_LOADING_STATE';
 export const UPDATE_MESSAGE_STATE = 'UPDATE_MESSAGE_STATE';

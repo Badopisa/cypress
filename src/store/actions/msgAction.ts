@@ -7,6 +7,9 @@ export const updateAlertMsg = (toast: any, message: MsgDataType, position = 'top
         status: message.type,
         position: position,
         duration: 3000,
+        containerStyle: {
+            color: 'black'
+        },
         isClosable: true
     });
 };

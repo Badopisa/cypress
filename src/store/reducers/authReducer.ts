@@ -6,6 +6,7 @@ const initialState = {
     file: null,
     fileName: null,
     forgotPasswordEmail: null,
+    oldPassword: null,
     clubDetails: null
 };
 
@@ -20,6 +21,11 @@ export const authReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 user: action.payload
+            };
+        case types.OLD_PASSWORD:
+            return {
+                ...state,
+                oldPassword: action.payload
             };
         case types.FORGOT_PASSWORD_EMAIL:
             return {

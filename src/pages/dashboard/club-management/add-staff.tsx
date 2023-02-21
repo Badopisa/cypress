@@ -18,9 +18,10 @@ import BlankTeam from '@/components/Team/BlankTeam';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import PlayerCard from '@/components/Team/PlayerCard';
 import NewStaff from '@/components/Team/Modal/NewStaff';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
 import Swal from 'sweetalert2';
+import { saveNewStaffData } from '@/store/actions/staffActions';
 
 const AddStaff = () => {
     const { currentTeam }: { currentTeam: any } = useSelector(
@@ -31,6 +32,7 @@ const AddStaff = () => {
     const [select, setSelected] = useState<boolean>(false);
     const [finish, setFinish] = useState<boolean>(false);
     const router = useRouter();
+    const dispatch = useDispatch();
     const handleCreate = () => {
         setCreate(true);
     };
@@ -119,13 +121,19 @@ const AddStaff = () => {
                         {currentTeam?.staff?.map((staff: any) => (
                             <PlayerCard
                                 key={staff?.user_id}
+                                id={staff?.user_id}
                                 position={staff?.role}
                                 image={staff?.user?.photo}
                                 status="Pending Invite"
+                                job="staff"
                                 hasMenu
                                 player={staff}
                                 name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
-                                team={staff?.team}
+                                teamId={currentTeam.id}
+                                clubId={currentTeam.club_id}
+                                click={() => {
+                                    dispatch(saveNewStaffData(staff));
+                                }}
                             />
                         ))}
                     </SimpleGrid>

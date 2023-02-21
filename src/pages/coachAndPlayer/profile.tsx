@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
     Flex,
     FormControl,
@@ -11,11 +10,12 @@ import {
     Text,
     useToast,
     HStack,
-    Spacer, Box
+    Spacer,
+    Box
 } from '@chakra-ui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import {adminLogin, updateProfile} from '@/store/actions/authActions';
+import { updateProfile } from '@/store/actions/authActions';
 import { useRouter } from 'next/router';
 import React from 'react';
 import NavBar from '@/components/Layout/NavBar';
@@ -23,13 +23,15 @@ import { CountriesSelector } from '@/components/Form/CountriesSelector';
 import { fetchCountries } from '@/services/countriesService';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 import { UserDataType } from '@/types/AuthDataType';
+import Steps from '@/components/Team/Steps';
 
 const Profile = ({ countries }: any) => {
+    const [countryCode, setCountryCode] = React.useState<any>('');
     const {
         handleSubmit,
         register,
         control,
-        formState: { errors, touchedFields }
+        formState: { errors }
     } = useForm({
         defaultValues: {
             firstName: '',
@@ -46,6 +48,12 @@ const Profile = ({ countries }: any) => {
     const toast = useToast();
 
     const onSubmit = (value: any) => {
+        if (Number.isInteger(value.phone)) {
+            setCountryCode('Please re-select your country code');
+            return;
+        }
+        setCountryCode('');
+
         const payload = {
             id: user?.id,
             first_name: value.firstName,
@@ -176,7 +184,10 @@ const Profile = ({ countries }: any) => {
                                     render={({ field: { onChange } }) => (
                                         <PhoneNumberInput
                                             id="phone"
-                                            onChange={onChange}
+                                            onChange={(e: any) => {
+                                                setCountryCode('');
+                                                onChange(e);
+                                            }}
                                             useFormRegisterReturn={register('phone', {
                                                 valueAsNumber: true,
                                                 validate: (value) =>
@@ -191,8 +202,11 @@ const Profile = ({ countries }: any) => {
                                     )}
                                 />
                                 <FormErrorMessage>
-                                    {errors.phone && <Text color={'red'}>{`${errors.phone.message}`}</Text>}
+                                    {errors.phone && (
+                                        <Text color={'red'}>{`${errors.phone.message}`}</Text>
+                                    )}
                                 </FormErrorMessage>
+                                {countryCode && <Text color={'red'}>{countryCode}</Text>}
                             </FormControl>
 
                             <Button

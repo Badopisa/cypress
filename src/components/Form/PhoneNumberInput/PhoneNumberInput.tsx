@@ -21,7 +21,7 @@ export const PhoneNumberInput = ({
 }: PhoneNumberInputProps) => {
     const ref = useRef(null);
     const [number, setNumber] = useState('');
-    const [country, setCountry] = useState('+234');
+    const [country, setCountry] = useState('');
     const [countryFlag, setCountryFlag] = useState(`NG`);
     const { isOpen, onToggle, onClose } = useDisclosure();
 
@@ -29,6 +29,9 @@ export const PhoneNumberInput = ({
         ref: ref,
         handler: () => onClose()
     });
+    useEffect(() => {
+        setCountry('+234');
+    }, []);
 
     useEffect(() => {
         if (country !== '' || number !== '') {
@@ -48,6 +51,7 @@ export const PhoneNumberInput = ({
     const onPhoneNumberChange = (event: any) => {
         const value = event.target.value;
         const parsedNumber = new AsYouType().input(`${country}${number}`);
+        console.log('parsed1', parsedNumber);
 
         setNumber(value);
         onChange(parsedNumber);

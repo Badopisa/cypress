@@ -147,7 +147,7 @@ export const adminRegistrationNoPhoto = (
             .catch((err) => {
                 updateAlertMsg(toast, {
                     type: 'error',
-                    message: err.response.data.message
+                    message: err?.response?.data?.message
                 });
 
                 dispatch(updateIsLoading(false));
@@ -194,6 +194,9 @@ export const adminLogin = (
 ) => {
     return async (dispatch: Dispatch) => {
         dispatch(updateIsLoading(true));
+        if (player) {
+            dispatch(oldPassword(payload?.password));
+        }
 
         ClubAdminLogin(payload)
             .then(async (result) => {
@@ -215,7 +218,7 @@ export const adminLogin = (
                 } else {
                     saveAccessToken(data.data.auth_token);
                     window.localStorage.setItem('user', JSON.stringify(data.data.user));
-                    router.push('/dashboard/club-management');
+                    router.push('/dashboard');
                 }
             })
 
@@ -460,10 +463,10 @@ export const getClubDetails = (club_id:string, toast: any) => {
             .then(async (result) => {
             const { data } = result;
             dispatch(saveClubDetails(data.data));
-                updateAlertMsg(toast, {
-                    type: 'success',
-                    message: data?.message
-                });
+                // updateAlertMsg(toast, {
+                //     type: 'success',
+                //     message: data?.message
+                // });
                 dispatch(updateIsLoading(false));
             })
             .catch((err) => {
@@ -482,6 +485,14 @@ export const logout = () => {
 export const saveAdminData = (data: UserDataType) => {
     return {
         type: actionTypes.SAVE_USER_DETAILS,
+
+        payload: data
+    };
+};
+
+const oldPassword = (data: string) => {
+    return {
+        type: actionTypes.OLD_PASSWORD,
 
         payload: data
     };
@@ -517,5 +528,3 @@ export const saveClubDetails = (data: any) => {
         payload: data
     };
 };
-
-

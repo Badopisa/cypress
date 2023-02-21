@@ -13,7 +13,8 @@ import {
     useToast,
     Stack,
     HStack,
-    Img, Box
+    Img,
+    Box
 } from '@chakra-ui/react';
 import React from 'react';
 import NavBar from '@/components/Layout/NavBar';
@@ -24,17 +25,18 @@ import { useRouter } from 'next/router';
 import { setNewPassword } from '@/store/actions/authActions';
 import { updateAlertMsg } from '@/store/actions/msgAction';
 import { UserDataType } from '@/types/AuthDataType';
-import Steps from "@/components/Team/Steps";
+import Steps from '@/components/Team/Steps';
 
 const SetNewPassword = () => {
     const {
         handleSubmit,
         register,
-        formState: { errors, touchedFields }
+        formState: { errors }
     } = useForm({ defaultValues: { newPassword: '', confirmPassword: '' } });
 
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
+    const { oldPassword }: any = useSelector((state: RootStateOrAny) => state.auth);
     const dispatch = useDispatch();
     const router = useRouter();
     const toast = useToast();
@@ -45,13 +47,14 @@ const SetNewPassword = () => {
     const handleClick2 = () => setShow2(!show2);
 
     const onSubmit = (value: any) => {
-        const payload = {
-            password: value.newPassword,
-            old_password: value.confirmPassword
-        };
         if (value.newPassword !== value.confirmPassword) {
             return updateAlertMsg(toast, { type: 'error', message: 'Passwords do not match' });
         }
+
+        const payload = {
+            password: value.newPassword,
+            old_password: oldPassword
+        };
 
         const coach = true;
 

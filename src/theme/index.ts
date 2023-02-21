@@ -9,7 +9,8 @@ let colorModeInLocalStorage;
 if (typeof window !== 'undefined') {
     colorModeInLocalStorage = localStorage.getItem(storageKey) as ColorMode;
 }
-const useSystemColorMode = !colorModeInLocalStorage;
+// const useSystemColorMode = !!colorModeInLocalStorage;
+const useSystemColorMode = true;
 
 const config: ThemeConfig = {
     useSystemColorMode,

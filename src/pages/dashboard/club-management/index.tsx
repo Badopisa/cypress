@@ -15,7 +15,8 @@ import {
     InputGroup,
     InputLeftElement,
     Input,
-    Spinner, useToast
+    Spinner,
+    useToast
 } from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 import DashboardDesktopNav from '@/components/Layout/AuthenticatedRoute/DesktopNav';
@@ -177,16 +178,31 @@ const ClubManagement = () => {
                         alignContent="center"
                         w={{ base: '100%', md: '50%' }}>
                         <TabList w={{ base: '100%', md: '371px' }} p={{ base: '0', md: '0 16px' }}>
-                            <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
+                            <Tab
+                                _focus={{
+                                    border: 'none'
+                                }}
+                                _selected={TabSelectedStyle}
+                                onClick={() => setTab(1)}>
                                 Teams
                             </Tab>
                             <Spacer />
-                            <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
+                            <Tab
+                                _focus={{
+                                    border: 'none'
+                                }}
+                                _selected={TabSelectedStyle}
+                                onClick={() => setTab(2)}>
                                 Players
                             </Tab>
                             <Spacer />
                             {role !== 'staff' && (
-                                <Tab _selected={TabSelectedStyle} onClick={() => setTab(3)}>
+                                <Tab
+                                    _focus={{
+                                        border: 'none'
+                                    }}
+                                    _selected={TabSelectedStyle}
+                                    onClick={() => setTab(3)}>
                                     Staff
                                 </Tab>
                             )}

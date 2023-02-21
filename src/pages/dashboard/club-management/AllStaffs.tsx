@@ -15,6 +15,7 @@ import EditStaffDetails from '@/components/Team/Modal/EditStaffDetails';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import { saveNewStaffData } from '@/store/actions/staffActions';
 import { useDispatch } from 'react-redux';
+import { saveNewPlayerData } from '@/store/actions/playerActions';
 
 const AllStaffs = ({ allStaffs, isLoading, setCreateStaff }: any) => {
     const [editStaff, setEditStaff] = useState<boolean>(false);
@@ -78,7 +79,10 @@ const AllStaffs = ({ allStaffs, isLoading, setCreateStaff }: any) => {
                                     name={`${staff?.user.first_name} ${staff?.user.last_name}`}
                                     position={staff?.role}
                                     team={staff?.user.team}
-                                    click={() => handleEditStaff(staff)}
+                                    click={() => {
+                                        dispatch(saveNewStaffData(staff));
+                                        // handleEditStaff(staff);
+                                    }}
                                 />
                             ))}
                         </SimpleGrid>

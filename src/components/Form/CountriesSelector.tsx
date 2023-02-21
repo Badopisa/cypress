@@ -1,9 +1,10 @@
 import React from 'react';
-import {FormControl, FormErrorMessage, FormLabel, Select, Text} from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Select, Text } from '@chakra-ui/react';
 import { FieldErrors, FieldValues, UseFormRegisterReturn } from 'react-hook-form';
 
 export function CountriesSelector(props: {
     errors: any;
+    country?: string;
     useFormRegisterReturn: UseFormRegisterReturn;
     map: any;
 }) {
@@ -20,6 +21,7 @@ export function CountriesSelector(props: {
                 focusBorderColor="purple"
                 borderColor={'grey5'}
                 size={'lg'}
+                defaultValue={props.country || ''}
                 borderRadius={'6px'}
                 _placeholder={{
                     opacity: 1,

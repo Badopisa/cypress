@@ -13,7 +13,8 @@ import {
     useToast,
     Img,
     HStack,
-    Spacer, Box
+    Spacer,
+    Box
 } from '@chakra-ui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
@@ -25,16 +26,17 @@ import { fetchCountries } from '@/services/countriesService';
 import { PhoneNumberInput } from '@/components/Form/PhoneNumberInput/PhoneNumberInput';
 import ImageUpload from '@/components/Elements/ImageUpload';
 import { adminRegistration, adminRegistrationNoPhoto } from '@/store/actions/authActions';
-import Steps4 from "@/components/Team/Steps4";
+import Steps4 from '@/components/Team/Steps4';
 
 const AdminRegistration = ({ countries }: any) => {
     const { forgotPasswordEmail }: any = useSelector((state: RootStateOrAny) => state.auth);
     const [profilePicture, setProfilePicture] = React.useState<any>(null);
+    const [countryCode, setCountryCode] = React.useState<any>('');
     const {
         handleSubmit,
         register,
         control,
-        formState: { errors, touchedFields }
+        formState: { errors }
     } = useForm({
         defaultValues: {
             password: '',
@@ -54,6 +56,12 @@ const AdminRegistration = ({ countries }: any) => {
     const toast = useToast();
 
     const onSubmit = (value: any) => {
+        if (Number.isInteger(value.phone)) {
+            setCountryCode('Please re-select your country code');
+            return;
+        }
+        setCountryCode('');
+
         const payload = {
             email: forgotPasswordEmail,
             password: value.password,
@@ -87,6 +95,7 @@ const AdminRegistration = ({ countries }: any) => {
                     <Steps4 current={3} />
                 </Box>
                 <VStack
+                    mb={'40px'}
                     justifyContent={'center'}
                     alignItems={'center'}
                     w={{ base: 'full', md: 'lg' }}>
@@ -257,7 +266,10 @@ const AdminRegistration = ({ countries }: any) => {
                                     render={({ field: { onChange } }) => (
                                         <PhoneNumberInput
                                             id="phone"
-                                            onChange={onChange}
+                                            onChange={(e: any) => {
+                                                setCountryCode('');
+                                                onChange(e);
+                                            }}
                                             useFormRegisterReturn={register('phone', {
                                                 valueAsNumber: true,
                                                 validate: (value) =>
@@ -272,8 +284,11 @@ const AdminRegistration = ({ countries }: any) => {
                                     )}
                                 />
                                 <FormErrorMessage>
-                                    {errors.phone && <Text color={'red'}>{`${errors.phone.message}`}</Text>}
+                                    {errors.phone && (
+                                        <Text color={'red'}>{`${errors.phone.message}`}</Text>
+                                    )}
                                 </FormErrorMessage>
+                                {countryCode && <Text color={'red'}>{countryCode}</Text>}
                             </FormControl>
 
                             <FormControl isInvalid={!!errors.password} mb={'52px'}>

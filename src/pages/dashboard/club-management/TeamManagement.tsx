@@ -17,7 +17,8 @@ import {
     TabList,
     Tabs,
     Tag,
-    Text, useToast,
+    Text,
+    useToast,
     VStack,
     Wrap
 } from '@chakra-ui/react';
@@ -31,9 +32,9 @@ import ExistingPlayer from '@/components/Team/Modal/ExistingPlayer';
 import ExistingStaff from '@/components/Team/Modal/ExistingStaff';
 import GlobalErrorModal from '@/components/Team/Modal/GlobalErrorModal';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import {getPlayerDetails, saveNewPlayerData} from '@/store/actions/playerActions';
+import { getPlayerDetails, saveNewPlayerData } from '@/store/actions/playerActions';
 import { saveNewStaffData } from '@/store/actions/staffActions';
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
 
 const TeamManagement = () => {
     const { currentTeam }: { currentTeam: any } = useSelector(
@@ -171,11 +172,21 @@ const TeamManagement = () => {
                     alignContent="center"
                     w={{ base: '100%', md: '50%' }}>
                     <TabList w={{ base: '100%', md: '371px' }} p={{ base: '0', md: '0 16px' }}>
-                        <Tab _selected={TabSelectedStyle} onClick={() => setTab(1)}>
+                        <Tab
+                            _focus={{
+                                border: 'none'
+                            }}
+                            _selected={TabSelectedStyle}
+                            onClick={() => setTab(1)}>
                             Players
                         </Tab>
                         <Box w={'60px'} />
-                        <Tab _selected={TabSelectedStyle} onClick={() => setTab(2)}>
+                        <Tab
+                            _focus={{
+                                border: 'none'
+                            }}
+                            _selected={TabSelectedStyle}
+                            onClick={() => setTab(2)}>
                             Staff
                         </Tab>
                     </TabList>
@@ -303,10 +314,10 @@ const TeamManagement = () => {
                             {currentTeam?.staff?.map((staff: any) => (
                                 <PlayerCard
                                     image={staff?.user?.photo}
-                                    key={staff.id}
-                                    name={`${staff?.user.first_name} ${staff?.user.last_name}`}
+                                    key={staff?.id}
+                                    name={`${staff?.user?.first_name} ${staff?.user?.last_name}`}
                                     position={staff?.role}
-                                    team={staff?.user.team}
+                                    team={staff?.user?.team}
                                     click={() => handleStaffModal1(staff)}
                                 />
                             ))}
