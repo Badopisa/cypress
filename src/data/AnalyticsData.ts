@@ -34,10 +34,10 @@ interface playerStatsType {
 }
 
 export const matchAnalyticsType: string[] = [
-    'Full Match',
+    'Full match',
     'Goals',
-    'Shot Attempts',
-    'Free Kicks',
+    'Shot attempts',
+    'Free kicks',
     'Penalties',
     'Overtime',
     'Long passes',

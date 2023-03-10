@@ -3,7 +3,7 @@ import { Box, VStack, Flex, Img, Spacer, Text } from '@chakra-ui/react';
 
 const MatchStats = () => {
     return (
-        <Box bg="dark" borderRadius="lg" p={8}>
+        <Box bg="lightWhite" borderRadius="lg" p={8}>
             <VStack w="100%" alignItems="left">
                 <Flex>
                     <Box p="4">
@@ -26,7 +26,7 @@ const MatchStats = () => {
                 </Flex>
                 {matchStatsData.map((data, index) => (
                     <>
-                        <Flex key={index} bg="black" borderRadius="lg" px={3}>
+                        <Flex key={index} borderRadius="lg" px={3}>
                             <Box p="2">
                                 <Text>{data.team1Stats}</Text>
                             </Box>

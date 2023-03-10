@@ -6,6 +6,7 @@ import { teamReducer } from './teamReducer';
 import { playerReducer } from '@/store/reducers/playerReducer';
 import { staffReducer } from '@/store/reducers/staffReducer';
 import { playerStatisticReducer } from '@/store/reducers/playerStatisticsReducer';
+import { analyticsReducer } from './analyticsReducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     staff: staffReducer,
     player: playerReducer,
     team: teamReducer,
+    analytics: analyticsReducer,
     category: categoryReducer,
     playersStatistics: playerStatisticReducer
 });
