@@ -15,44 +15,43 @@ import {
     Stack,
     Text,
     VStack,
-    useToast
+    useToast,
+    useDisclosure
 } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { FileDrop } from 'react-file-drop';
 import useUploadToSpaces from '@/hooks/useUploadToSpaces';
+import AnalysisProgressModal from '@/components/Analytics/AnalysisProgressModal';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { saveUploadUrl, sendToKafka, uploadVideo } from '@/store/actions/analyticsAction';
+import { UserDataType } from '@/types/AuthDataType';
 
 const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+    const { uploadUrl, uploadProgress } = useSelector((state: RootStateOrAny) => state.analytics);
+    const { user }: { user: UserDataType } = useSelector((state: RootStateOrAny) => state.auth);
+    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const [video, setVideo] = useState<File | null>(null);
+    const { isOpen: open, onOpen: willOpen, onClose: willClose } = useDisclosure();
     const [fileName, setName] = useState<string>('');
-    const [homeTeam, setHomeTeam] = useState<string | null>(null);
-    const [awayTeam, setAwayTeam] = useState<string | null>(null);
-    const { spaceURL, spaceError, spaceIsLoading, progress, isSuccess } = useUploadToSpaces(video);
+    const [season, setSeason] = useState<number | null>(null);
+    const [league, setLeague] = useState<number | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const toast = useToast();
+    const dispatch = useDispatch();
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    useEffect(() => {
-        if (spaceError) {
-            return toast({
-                title: 'Upload Error',
-                description: 'Error uploading image, please try again or remove image',
-                status: 'error',
-                duration: 9000,
-                isClosable: true
-            });
-        }
-        if (isSuccess) {
-            return toast({
-                title: 'Upload Success',
-                description: 'Video uploaded successfully',
-                status: 'success',
-                duration: 9000,
-                isClosable: true
-            });
-        }
-    }, [spaceError, isSuccess]);
+    const handleSubmit = () => {
+        const payload = {
+            last_media_url: uploadUrl,
+            filename: fileName,
+            club_id: user?.clubs[0]?.id,
+            league: Number(league),
+            season: Number(season)
+        };
+        dispatch(sendToKafka(payload, toast, user?.id, onClose));
+    };
 
     const fileHandler = (file: any) => {
         const extension = file[0].name.split('.')[1]?.toLowerCase();
@@ -66,6 +65,7 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             });
             setName(fName[0].name);
             setVideo(file[0]);
+            dispatch(uploadVideo(file[0], toast));
 
             console.log('file name is', fName);
             console.log('files name is', fName[0].name);
@@ -82,194 +82,184 @@ const UploadVideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     };
 
     return (
-        <Modal isCentered size={'xl'} isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-                <Grid
-                    textAlign="center"
-                    placeContent="center"
-                    p="3em"
-                    bg="white"
-                    color="black2"
-                    borderRadius="10px"
-                    gap="2em">
-                    {(isSuccess && (
-                        <Text fontSize="40px" fontWeight={'700'}>
-                            Video has been uploaded
-                        </Text>
-                    )) ||
-                        (spaceIsLoading && (
-                            <Text fontSize="40px" fontWeight={'700'}>
-                                Video is Uploading...
-                            </Text>
-                        )) ||
-                        (spaceError && (
-                            <Text fontSize="40px" fontWeight={'700'}>
-                                Error uploading video
-                            </Text>
-                        )) || (
-                            <Text fontSize="40px" fontWeight={'700'}>
-                                Upload video
-                            </Text>
-                        )}
-                    <Text mt={'-20px'} color={'grey3'} fontSize={'16px'} fontWeight={'400'}>
-                        It helps if the video is a high quality video as it gives a more precise
-                        analysis
-                    </Text>
+        <>
+            <Modal isCentered size={'xl'} isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
                     <Grid
                         textAlign="center"
                         placeContent="center"
-                        border={'1px dashed'}
-                        borderColor={'grey3'}
+                        p="3em"
+                        bg="white"
+                        color="black2"
                         borderRadius="10px"
-                        p="2rem">
-                        <VStack cursor={'pointer'} spacing={-2} px="4">
-                            {video ? (
-                                <Box style={{ width: '50%' }}>
-                                    <CircularProgress
-                                        value={progress}
-                                        size="120px"
-                                        color={progress < 100 ? '#A257FF' : '#00BB4C'}
-                                        thickness={'5px'}>
-                                        <CircularProgressLabel fontSize="20px">{`${progress}%`}</CircularProgressLabel>
-                                    </CircularProgress>
-                                </Box>
-                            ) : (
-                                <Img
-                                    src="/icons/video-upload.svg"
-                                    alt="upload file"
-                                    onClick={() => inputRef.current?.click()}
-                                />
-                            )}
-                            <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
-                                <input
-                                    accept=".mp4"
-                                    value=""
-                                    style={{ visibility: 'hidden', opacity: 0 }}
-                                    ref={inputRef}
-                                    type="file"
-                                    onChange={(e) => fileHandler(e.target.files)}
-                                />
-                                {fileName ? (
-                                    <Flex bg={'lightAsh'} p={3} justify={'center'} gap={3}>
-                                        {' '}
-                                        <Img src="/icons/file-icon.svg" alt="file icon" />
-                                        <Text>{fileName}</Text>{' '}
-                                        <Img src="/icons/edit-pen.svg" alt="edit" />{' '}
-                                    </Flex>
+                        gap="2em">
+                        <Text fontSize="40px" fontWeight={'700'}>
+                            Upload video
+                        </Text>
+                        <Text mt={'-20px'} color={'grey3'} fontSize={'16px'} fontWeight={'400'}>
+                            It helps if the video is a high quality video as it gives a more precise
+                            analysis
+                        </Text>
+                        <Grid
+                            textAlign="center"
+                            placeContent="center"
+                            border={'1px dashed'}
+                            borderColor={'grey3'}
+                            borderRadius="10px"
+                            p="2rem">
+                            <VStack cursor={'pointer'} spacing={-2} px="4">
+                                {video ? (
+                                    <Box style={{ width: '50%' }}>
+                                        <CircularProgress
+                                            value={uploadProgress}
+                                            size="120px"
+                                            color={uploadProgress < 100 ? 'purple' : 'green'}
+                                            thickness={'5px'}>
+                                            <CircularProgressLabel fontSize="20px">
+                                                {uploadProgress && `${uploadProgress}%`}
+                                            </CircularProgressLabel>
+                                        </CircularProgress>
+                                    </Box>
                                 ) : (
-                                    <Text>Upload video from your device</Text>
+                                    <Img
+                                        src="/icons/video-upload.svg"
+                                        alt="upload file"
+                                        onClick={() => inputRef.current?.click()}
+                                    />
                                 )}
-                            </FileDrop>
-                        </VStack>
-                    </Grid>
-                    <HStack my={'30px'} justifyContent={'space-between'}>
-                        <Box w={'full'} border={'1px solid'} borderColor={'grey5'} />
-                        <Text color={'grey2'} fontWeight={'400'} fontSize={'16px'}>
-                            OR
-                        </Text>
-                        <Box w={'full'} border={'1px solid'} borderColor={'grey5'} />
-                    </HStack>
-                    <Stack spacing={4}>
-                        <Text
-                            textAlign={'left'}
-                            color={'black2'}
-                            fontSize={'16px'}
-                            fontWeight={'400'}>
-                            Paste Link
-                        </Text>
-                        <Input
-                            type="text"
-                            disabled={!!spaceURL}
-                            onChange={(e: any) => setVideo(e.target.value)}
-                            placeholder="Insert Google doc link"
-                            focusBorderColor="purple"
-                            borderColor={'grey5'}
-                            size={'lg'}
-                            borderRadius={'6px'}
-                            _placeholder={{
-                                opacity: 1,
-                                color: 'inputText',
-                                fontSize: '16px',
-                                fontWeight: '400'
-                            }}
-                        />
-                        <Box h={'30px'} />
-                        <HStack justifyContent={'space-between'}>
+                                <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
+                                    <input
+                                        accept=".mp4"
+                                        value=""
+                                        // disabled={!!uploadUrl}
+                                        style={{ visibility: 'hidden', opacity: 0 }}
+                                        ref={inputRef}
+                                        type="file"
+                                        onChange={(e) => fileHandler(e.target.files)}
+                                    />
+                                    {fileName ? (
+                                        <Flex bg={'lightWhite'} p={3} justify={'center'} gap={3}>
+                                            {' '}
+                                            <Img src="/icons/file-icon.svg" alt="file icon" />
+                                            <Text>{fileName}</Text>{' '}
+                                            <Img src="/icons/edit-pen.svg" alt="edit" />{' '}
+                                        </Flex>
+                                    ) : (
+                                        <Text>Upload video from your device</Text>
+                                    )}
+                                </FileDrop>
+                            </VStack>
+                        </Grid>
+                        <HStack my={'20px'} justifyContent={'space-between'}>
                             <Box w={'full'} border={'1px solid'} borderColor={'grey5'} />
                             <Text color={'grey2'} fontWeight={'400'} fontSize={'16px'}>
-                                AND
+                                OR
                             </Text>
                             <Box w={'full'} border={'1px solid'} borderColor={'grey5'} />
                         </HStack>
-                        <Box h={'30px'} />
-                        <HStack>
-                            <VStack alignItems={'flex-start'}>
-                                <Text
-                                    textAlign={'left'}
-                                    color={'black2'}
-                                    fontSize={'16px'}
-                                    fontWeight={'400'}>
-                                    Season
+                        <Stack spacing={4}>
+                            <Text
+                                textAlign={'left'}
+                                color={'black2'}
+                                fontSize={'16px'}
+                                fontWeight={'400'}>
+                                Paste Link
+                            </Text>
+                            <Input
+                                type="text"
+                                // disabled={!!uploadUrl}
+                                onChange={(e: any) => dispatch(saveUploadUrl(e.target.value))}
+                                placeholder="Insert Google doc link"
+                                focusBorderColor="purple"
+                                borderColor={'grey5'}
+                                size={'lg'}
+                                borderRadius={'6px'}
+                                _placeholder={{
+                                    opacity: 1,
+                                    color: 'inputText',
+                                    fontSize: '16px',
+                                    fontWeight: '400'
+                                }}
+                            />
+                            <Box h={'10px'} />
+                            <HStack justifyContent={'space-between'}>
+                                <Box w={'full'} border={'1px solid'} borderColor={'grey5'} />
+                                <Text color={'grey2'} fontWeight={'400'} fontSize={'16px'}>
+                                    AND
                                 </Text>
-                                <Input
-                                    type="text"
-                                    onChange={(e: any) => setHomeTeam(e.target.value)}
-                                    placeholder="Type here"
-                                    focusBorderColor="purple"
-                                    borderColor={'grey5'}
-                                    size={'lg'}
-                                    borderRadius={'6px'}
-                                    _placeholder={{
-                                        opacity: 1,
-                                        color: 'inputText',
-                                        fontSize: '16px',
-                                        fontWeight: '400'
-                                    }}
-                                />
-                            </VStack>
-                            <VStack alignItems={'flex-start'}>
-                                <Text
-                                    textAlign={'left'}
-                                    color={'black2'}
-                                    fontSize={'16px'}
-                                    fontWeight={'400'}>
-                                    League
-                                </Text>
-                                <Input
-                                    type="text"
-                                    onChange={(e: any) => setAwayTeam(e.target.value)}
-                                    placeholder="Type here"
-                                    focusBorderColor="purple"
-                                    borderColor={'grey5'}
-                                    size={'lg'}
-                                    borderRadius={'6px'}
-                                    _placeholder={{
-                                        opacity: 1,
-                                        color: 'inputText',
-                                        fontSize: '16px',
-                                        fontWeight: '400'
-                                    }}
-                                />
-                            </VStack>
-                        </HStack>
-                        <Box h={'40px'} />
+                                <Box w={'full'} border={'1px solid'} borderColor={'grey5'} />
+                            </HStack>
+                            <Box h={'20px'} />
+                            <HStack>
+                                <VStack alignItems={'flex-start'}>
+                                    <Text
+                                        textAlign={'left'}
+                                        color={'black2'}
+                                        fontSize={'16px'}
+                                        fontWeight={'400'}>
+                                        Season
+                                    </Text>
+                                    <Input
+                                        type="number"
+                                        onChange={(e: any) => setSeason(e.target.value)}
+                                        placeholder="Type here"
+                                        focusBorderColor="purple"
+                                        borderColor={'grey5'}
+                                        size={'lg'}
+                                        borderRadius={'6px'}
+                                        _placeholder={{
+                                            opacity: 1,
+                                            color: 'inputText',
+                                            fontSize: '16px',
+                                            fontWeight: '400'
+                                        }}
+                                    />
+                                </VStack>
+                                <VStack alignItems={'flex-start'}>
+                                    <Text
+                                        textAlign={'left'}
+                                        color={'black2'}
+                                        fontSize={'16px'}
+                                        fontWeight={'400'}>
+                                        League
+                                    </Text>
+                                    <Input
+                                        type="number"
+                                        onChange={(e: any) => setLeague(e.target.value)}
+                                        placeholder="Type here"
+                                        focusBorderColor="purple"
+                                        borderColor={'grey5'}
+                                        size={'lg'}
+                                        borderRadius={'6px'}
+                                        _placeholder={{
+                                            opacity: 1,
+                                            color: 'inputText',
+                                            fontSize: '16px',
+                                            fontWeight: '400'
+                                        }}
+                                    />
+                                </VStack>
+                            </HStack>
+                            <Box h={'40px'} />
 
-                        <Button
-                            onClick={onClose}
-                            size="lg"
-                            isLoading={spaceIsLoading}
-                            disabled={!homeTeam || !awayTeam || spaceURL === ''}
-                            color={'white'}>
-                            Submit
-                        </Button>
-                        {/*<Button size="lg" bg="transparent" color={'white'} variant="action">*/}
-                        {/*    Cancel*/}
-                        {/*</Button>*/}
-                    </Stack>
-                </Grid>
-            </ModalContent>
-        </Modal>
+                            <Button
+                                onClick={handleSubmit}
+                                size="lg"
+                                isLoading={isLoading}
+                                disabled={!season || !league || uploadUrl === ''}
+                                color={'white'}>
+                                Submit
+                            </Button>
+                            {/*<Button size="lg" bg="transparent" color={'white'} variant="action">*/}
+                            {/*    Cancel*/}
+                            {/*</Button>*/}
+                        </Stack>
+                    </Grid>
+                </ModalContent>
+            </Modal>
+            {/*<AnalysisProgressModal isOpen={!!video} onClose={willClose} />*/}
+        </>
     );
 };
 

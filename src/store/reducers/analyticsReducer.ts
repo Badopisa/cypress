@@ -1,7 +1,11 @@
 import * as types from '@/store/actions/actionTypes';
 
 const initialState = {
-    allVideoAnalytics: []
+    allVideoAnalytics: [],
+    videoAnalyticsDetails: [],
+    analyticsId: '',
+    uploadUrl: '',
+    uploadProgress: 0
 };
 
 type IAction = {
@@ -15,6 +19,26 @@ export const analyticsReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 allVideoAnalytics: action.payload
+            };
+        case types.SAVE_VIDEO_ANALYTICS_DETAILS:
+            return {
+                ...state,
+                videoAnalyticsDetails: action.payload
+            };
+        case types.SAVE_ANALYTICS_ID:
+            return {
+                ...state,
+                analyticsId: action.payload
+            };
+        case types.SAVE_UPLOAD_URL:
+            return {
+                ...state,
+                uploadUrl: action.payload
+            };
+        case types.SAVE_UPLOAD_PROGRESS:
+            return {
+                ...state,
+                uploadProgress: action.payload
             };
         default:
             return state;

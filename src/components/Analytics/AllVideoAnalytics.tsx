@@ -24,7 +24,7 @@ import {
 import Video from '@/components/Analytics/Video';
 import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { getAnalytics } from '@/store/actions/analyticsAction';
+import { getAnalytics, getVideoAnalytics } from '@/store/actions/analyticsAction';
 import moment from 'moment';
 import BlankTeam from '@/components/Team/BlankTeam';
 import { useRouter } from 'next/router';
@@ -37,12 +37,15 @@ const AllVideoAnalytics = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen: open, onOpen: willOpen, onClose: willClose } = useDisclosure();
     const router = useRouter();
+    const toast = useToast();
+    const dispatch = useDispatch();
 
     const handleOpenVideoAnalytics = (data: any) => {
         if (data?.first_view < 1) {
             onOpen();
             return;
         }
+        dispatch(getVideoAnalytics(data?.id, toast));
         router.push('/dashboard/analytics/highlights');
     };
 

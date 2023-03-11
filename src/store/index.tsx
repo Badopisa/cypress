@@ -12,7 +12,15 @@ import storage from 'redux-persist/lib/storage';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['auth', 'staff', 'player', 'team', 'category', 'playersStatistics']
+    whitelist: [
+        'auth',
+        'staff',
+        'player',
+        'team',
+        'category',
+        'playersStatistics',
+        'analytics'
+    ]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

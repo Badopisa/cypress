@@ -72,7 +72,7 @@ const Analytics = () => {
             league: 4,
             season: 4
         };
-        dispatch(getAnalytics(payload, toast));
+        dispatch(getAnalytics(user.id, toast));
     }, [dispatch, toast]);
 
     return (

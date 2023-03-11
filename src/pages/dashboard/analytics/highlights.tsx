@@ -24,13 +24,17 @@ import {
     VStack,
     Wrap,
     WrapItem,
-    HStack
+    HStack,
+    Spinner,
+    useToast
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import AllVideoAnalytics from '@/components/Analytics/AllVideoAnalytics';
 import CompletedVideoAnalytics from '@/components/Analytics/CompletedAnalytics';
 import IncompleteVideoAnalytics from '@/components/Analytics/IncompleteAnalytics';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { getVideoAnalytics } from '@/store/actions/analyticsAction';
 
 const TabSelectedStyle = {
     color: 'purple',
@@ -44,10 +48,38 @@ const TabSelectedStyle = {
 const Highlights = () => {
     const [tab, setTab] = useState<number>(1);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [isPlayingMini, setIsPlayingMini] = useState<boolean>(false);
     const [showControl, setShowControl] = useState<boolean>(false);
-    const [selectedHighlight, setSelectedHighlight] = useState<string>('Full match');
+    const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
+    const { videoAnalyticsDetails, analyticsId } = useSelector(
+        (state: RootStateOrAny) => state.analytics
+    );
+    const [selectedHighlight, setSelectedHighlight] = useState<string>('');
+    const [videoUrl, setVideoUrl] = useState<string>('');
     const [check] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const toast = useToast();
     console.log(check);
+
+    useEffect(() => {
+        console.log('vid');
+    }, [videoUrl]);
+
+    useEffect(() => {
+        if (videoAnalyticsDetails) {
+            setSelectedHighlight(videoAnalyticsDetails?.actions_urls[0]?.name);
+        }
+        dispatch(getVideoAnalytics(analyticsId, toast));
+    }, [analyticsId]);
+
+    if (isLoading) {
+        return (
+            <Center my="16">
+                <Spinner size="xl" />
+            </Center>
+        );
+    }
+
     return (
         <>
             <DashboardDesktopNav hasArrow />
@@ -70,24 +102,24 @@ const Highlights = () => {
                                 onClick={() => setTab(1)}>
                                 Highlights
                             </Tab>
-                            <Spacer />
-                            <Tab
-                                _focus={{
-                                    border: 'none'
-                                }}
-                                _selected={TabSelectedStyle}
-                                onClick={() => setTab(2)}>
-                                Match stats
-                            </Tab>
-                            <Spacer />
-                            <Tab
-                                _focus={{
-                                    border: 'none'
-                                }}
-                                _selected={TabSelectedStyle}
-                                onClick={() => setTab(3)}>
-                                Line up
-                            </Tab>
+                            {/*<Spacer />*/}
+                            {/*<Tab*/}
+                            {/*    _focus={{*/}
+                            {/*        border: 'none'*/}
+                            {/*    }}*/}
+                            {/*    _selected={TabSelectedStyle}*/}
+                            {/*    onClick={() => setTab(2)}>*/}
+                            {/*    Match stats*/}
+                            {/*</Tab>*/}
+                            {/*<Spacer />*/}
+                            {/*<Tab*/}
+                            {/*    _focus={{*/}
+                            {/*        border: 'none'*/}
+                            {/*    }}*/}
+                            {/*    _selected={TabSelectedStyle}*/}
+                            {/*    onClick={() => setTab(3)}>*/}
+                            {/*    Line up*/}
+                            {/*</Tab>*/}
                         </TabList>
                     </Tabs>
                 </Flex>
@@ -96,18 +128,19 @@ const Highlights = () => {
                 {tab === 1 && (
                     <>
                         <Wrap spacingX={2} w="100%">
-                            {matchAnalyticsType.map((data, index) => (
-                                <WrapItem key={index}>
+                            {videoAnalyticsDetails.actions_urls?.map((data: any, index: any) => (
+                                <WrapItem key={data.name}>
                                     <Button
                                         onClick={() => {
-                                            setSelectedHighlight(data);
+                                            setSelectedHighlight(data.name);
+                                            setVideoUrl(data.video_url);
                                             // setShowControl(true);
                                         }}
-                                        bg={selectedHighlight === data ? 'black2' : 'white'}
-                                        color={selectedHighlight === data ? 'white' : 'black2'}
+                                        bg={selectedHighlight === data.name ? 'black2' : 'white'}
+                                        color={selectedHighlight === data.name ? 'white' : 'black2'}
                                         borderRadius={'40px'}
                                         fontSize="xs">
-                                        {data}
+                                        {data?.name}
                                     </Button>
                                 </WrapItem>
                             ))}
@@ -130,7 +163,8 @@ const Highlights = () => {
                                         borderRadius={'10px'}
                                         width={'100%'}
                                         height={'850px'}
-                                        url="/manu-match.mp4"
+                                        // url="/manu-match.mp4"
+                                        url={videoUrl || videoAnalyticsDetails.full_video}
                                         playing={isPlaying}
                                     />
                                     <Box
@@ -153,14 +187,19 @@ const Highlights = () => {
                         </VStack>
 
                         <Text color="black2" fontSize={'16px'} fontWeight={'400'}>
-                            Manchester vs Chelsea
+                            {videoAnalyticsDetails.filename}
                         </Text>
 
                         <Text color={'grey3'} fontSize={'14px'} fontWeight={'400'}>
-                            Premier League ~ June 6, 2022
+                            {videoAnalyticsDetails.league}
                         </Text>
 
-                        <Box w={'100%'} border={'1px solid'} my={'40px'} borderColor={'lightWhite'} />
+                        <Box
+                            w={'100%'}
+                            border={'1px solid'}
+                            my={'40px'}
+                            borderColor={'lightWhite'}
+                        />
 
                         <HStack justifyContent={'flex-start'} alignItems={'flex-start'} w={'100%'}>
                             <VStack
@@ -168,17 +207,55 @@ const Highlights = () => {
                                 alignItems={'flex-start'}
                                 justifyContent={'flex-start'}>
                                 <Text>Minimap</Text>
-                                <Box>
-                                    <Img src="/images/imgs/mini-map.svg" w="700px" h={'100%'} />
-                                </Box>
+                                {/*<Box>*/}
+                                {/*    <Img src="/images/imgs/mini-map.svg" w="700px" h={'100%'} />*/}
+                                {/*</Box>*/}
+                                <AspectRatio
+                                    w="100%"
+                                    borderRadius={'10px'}
+                                    // ratio={3 / 2}
+                                    onMouseEnter={() => setShowControl(!showControl)}>
+                                    <>
+                                        {' '}
+                                        <ReactPlayer
+                                            className="react-player"
+                                            borderRadius={'10px'}
+                                            width={'100%'}
+                                            height={'550px'}
+                                            url={videoAnalyticsDetails.minimap}
+                                            // url="https://sonalysis-asset.s3.amazonaws.com/1b091553-463a-4344-b19a-0ff86c77e9c3.mp4"
+                                            playing={isPlayingMini}
+                                        />
+                                        <Box
+                                            position={'absolute'}
+                                            top={0}
+                                            bottom={0}
+                                            right={0}
+                                            left={0}
+                                            visibility={showControl ? 'visible' : 'hidden'}>
+                                            {' '}
+                                            <Button
+                                                bg={'transparent'}
+                                                _hover={{ bg: 'transparent', border: 'none' }}
+                                                onClick={() => setIsPlayingMini(!isPlaying)}>
+                                                <Img src={'/icons/play.svg'} alt={'play button'} />
+                                            </Button>
+                                        </Box>
+                                    </>
+                                </AspectRatio>
                             </VStack>
                             <VStack
-                                w={'100%'}
+                                w={'45%'}
                                 alignItems={'flex-start'}
                                 justifyContent={'flex-start'}>
                                 <Text>All events</Text>
-                                {allEventsData
-                                    .map((data: any, key) => (
+                                <VStack
+                                    w={'100%'}
+                                    alignItems={'flex-start'}
+                                    h={'500px'}
+                                    overflowY={'scroll'}
+                                    justifyContent={'flex-start'}>
+                                    {videoAnalyticsDetails.actions?.map((data: any) => (
                                         <Stack
                                             borderRadius="lg"
                                             w={'100%'}
@@ -187,12 +264,13 @@ const Highlights = () => {
                                             bg="lightWhite"
                                             justifyContent={'flex-start'}
                                             p={'20px'}
-                                            key={key}>
+                                            key={data?.id}>
                                             {/*<Flex flex={1} w="100px">*/}
                                             <Box w={'150px'}>
                                                 <ReactPlayer
                                                     className="react-player"
-                                                    url={data.file}
+                                                    // url={data.file}
+                                                    url="https://sonalysis-asset.s3.amazonaws.com/1b091553-463a-4344-b19a-0ff86c77e9c3.mp4"
                                                     width={'100%'}
                                                     height={'100%'}
                                                     // playing={isPlaying}
@@ -201,7 +279,7 @@ const Highlights = () => {
                                             {/*</Flex>*/}
                                             <Stack flex={1} flexDirection="column" p={1} pt={2}>
                                                 <Text fontSize={'md'} fontFamily={'body'}>
-                                                    36 {data.playerName}
+                                                    {data.time_seconds}' {data.player}
                                                 </Text>
                                                 <Stack
                                                     direction={'row'}
@@ -209,13 +287,13 @@ const Highlights = () => {
                                                     fontSize={'sm'}
                                                     alignItems="center">
                                                     <Text borderRadius="lg" p={1}>
-                                                        (1-0) {data.eventType}
+                                                        {data.actiontype}
                                                     </Text>
                                                 </Stack>
                                             </Stack>
                                         </Stack>
-                                    ))
-                                    .slice(0, 4)}
+                                    ))}
+                                </VStack>
                             </VStack>
                         </HStack>
                     </>
