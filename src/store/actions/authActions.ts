@@ -20,7 +20,7 @@ import {
     VerifyEmail,
     VerifyEmailToken,
     VerifyToken,
-    ClubDetails,
+    ClubDetails, EmailExist
 } from '@/services/clubAdminService';
 import * as actionTypes from './actionTypes';
 import { updateAlertMsg, updateIsLoading } from './msgAction';
@@ -396,24 +396,41 @@ export const verifyEmail = (payload: ForgotPasswordFormDataType, toast: any, rou
         dispatch(updateIsLoading(true));
         dispatch(forgotPasswordEmail(payload?.email));
 
-        VerifyEmail(payload)
-            .then(async (result) => {
-                const { data } = result;
-                console.log('token is', data);
-                updateAlertMsg(toast, {
-                    type: 'success',
-                    message: data?.message
-                });
+        EmailExist(payload).then((reponse) => {
+            const { data } = reponse;
+            // console.log('data res is', data);
+            if (data.data?.user) {
+                updateAlertMsg(toast, { type: 'error', message: 'Email already exist' });
                 dispatch(updateIsLoading(false));
+                return
+            }
 
-                router.push('/admin/verify-code');
-            })
+                VerifyEmail(payload)
+                    .then(async (result) => {
+                        const { data } = result;
+                        console.log('token is', data);
+                        updateAlertMsg(toast, {
+                            type: 'success',
+                            message: data?.message
+                        });
+                        dispatch(updateIsLoading(false));
 
+                        router.push('/admin/verify-code');
+                    })
+
+                    .catch((err) => {
+                        updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message || 'Something went wrong, try again' });
+
+                        dispatch(updateIsLoading(false));
+                    });
+
+        })
             .catch((err) => {
-                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message });
+                updateAlertMsg(toast, { type: 'error', message: err?.response?.data?.message || 'Something went wrong, try again' });
 
                 dispatch(updateIsLoading(false));
             });
+
     };
 };
 

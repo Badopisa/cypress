@@ -274,38 +274,38 @@ export const chatData: chatType[] = [
 
 export const matchStatsData: matchStatsType[] = [
     {
-        statsType: 'Goals Scored',
+        statsType: 'Shot Attempts',
         team1Stats: 2,
         team2Stats: 0
     },
     {
-        statsType: 'Shots Attempts',
+        statsType: 'Ball Possession',
         team1Stats: 6,
         team2Stats: 4
     },
     {
-        statsType: 'Ball Possession',
+        statsType: 'Free Kicks',
         team1Stats: 60,
         team2Stats: 40
     },
     {
-        statsType: 'Free Kicks',
+        statsType: 'Penalties',
         team1Stats: 10,
         team2Stats: 8
     },
     {
-        statsType: 'Penalties',
+        statsType: 'Fouls',
+        team1Stats: 0,
+        team2Stats: 1
+    },
+    {
+        statsType: 'Yellow cards',
         team1Stats: 0,
         team2Stats: 0
     },
     {
-        statsType: 'Yellow Cards',
+        statsType: 'Red cards',
         team1Stats: 2,
-        team2Stats: 1
-    },
-    {
-        statsType: 'Red Cards',
-        team1Stats: 0,
         team2Stats: 1
     }
 ];

@@ -5,7 +5,8 @@ const initialState = {
     videoAnalyticsDetails: [],
     analyticsId: '',
     uploadUrl: '',
-    uploadProgress: 0
+    uploadProgress: 0,
+    teamLogos: []
 };
 
 type IAction = {
@@ -34,6 +35,11 @@ export const analyticsReducer = (state = initialState, action: IAction) => {
             return {
                 ...state,
                 uploadUrl: action.payload
+            };
+        case types.SAVE_TEAM_LOGOS:
+            return {
+                ...state,
+                teamLogos: action.payload
             };
         case types.SAVE_UPLOAD_PROGRESS:
             return {

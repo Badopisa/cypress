@@ -9,7 +9,7 @@ export const CreatePlayer = (payload: PlayerFormType) => {
     return http.postData(payload, url, true);
 };
 
-export const GetPlayersForClub = (id: string) => {
+export const GetPlayersForClub = (id: string | undefined) => {
     const http = new HttpService();
 
     const url = `players?club_id=${id}`;

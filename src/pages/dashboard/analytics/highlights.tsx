@@ -48,7 +48,7 @@ const TabSelectedStyle = {
 const Highlights = () => {
     const [tab, setTab] = useState<number>(1);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [isPlayingMini, setIsPlayingMini] = useState<boolean>(false);
+    // const [isPlayingMini, setIsPlayingMini] = useState<boolean>(false);
     const [showControl, setShowControl] = useState<boolean>(false);
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
     const { videoAnalyticsDetails, analyticsId } = useSelector(
@@ -72,13 +72,13 @@ const Highlights = () => {
         dispatch(getVideoAnalytics(analyticsId, toast));
     }, [analyticsId]);
 
-    if (isLoading) {
-        return (
-            <Center my="16">
-                <Spinner size="xl" />
-            </Center>
-        );
-    }
+    // if (isLoading) {
+    //     return (
+    //         <Center my="16">
+    //             <Spinner size="xl" />
+    //         </Center>
+    //     );
+    // }
 
     return (
         <>
@@ -102,15 +102,15 @@ const Highlights = () => {
                                 onClick={() => setTab(1)}>
                                 Highlights
                             </Tab>
-                            {/*<Spacer />*/}
-                            {/*<Tab*/}
-                            {/*    _focus={{*/}
-                            {/*        border: 'none'*/}
-                            {/*    }}*/}
-                            {/*    _selected={TabSelectedStyle}*/}
-                            {/*    onClick={() => setTab(2)}>*/}
-                            {/*    Match stats*/}
-                            {/*</Tab>*/}
+                            <Spacer />
+                            <Tab
+                                _focus={{
+                                    border: 'none'
+                                }}
+                                _selected={TabSelectedStyle}
+                                onClick={() => setTab(2)}>
+                                Match stats
+                            </Tab>
                             {/*<Spacer />*/}
                             {/*<Tab*/}
                             {/*    _focus={{*/}
@@ -127,91 +127,50 @@ const Highlights = () => {
                 <Spacer />
                 {tab === 1 && (
                     <>
-                        <Wrap spacingX={2} w="100%">
-                            {videoAnalyticsDetails.actions_urls?.map((data: any, index: any) => (
-                                <WrapItem key={data.name}>
-                                    <Button
-                                        onClick={() => {
-                                            setSelectedHighlight(data.name);
-                                            setVideoUrl(data.video_url);
-                                            // setShowControl(true);
-                                        }}
-                                        bg={selectedHighlight === data.name ? 'black2' : 'white'}
-                                        color={selectedHighlight === data.name ? 'white' : 'black2'}
-                                        borderRadius={'40px'}
-                                        fontSize="xs">
-                                        {data?.name}
-                                    </Button>
-                                </WrapItem>
-                            ))}
-                        </Wrap>
-                        <VStack
-                            h={'850px'}
-                            justifyContent={'flex-start'}
-                            borderRadius={'20px'}
-                            objectFit="cover"
-                            position={'relative'}>
-                            <AspectRatio
-                                w="100%"
-                                borderRadius={'10px'}
-                                // ratio={3 / 2}
-                                onMouseEnter={() => setShowControl(!showControl)}>
-                                <>
-                                    {' '}
-                                    <ReactPlayer
-                                        className="react-player"
-                                        borderRadius={'10px'}
-                                        width={'100%'}
-                                        height={'850px'}
-                                        // url="/manu-match.mp4"
-                                        url={videoUrl || videoAnalyticsDetails.full_video}
-                                        playing={isPlaying}
-                                    />
-                                    <Box
-                                        position={'absolute'}
-                                        top={0}
-                                        bottom={0}
-                                        right={0}
-                                        left={0}
-                                        visibility={showControl ? 'visible' : 'hidden'}>
-                                        {' '}
-                                        <Button
-                                            bg={'transparent'}
-                                            _hover={{ bg: 'transparent', border: 'none' }}
-                                            onClick={() => setIsPlaying(!isPlaying)}>
-                                            <Img src={'/icons/play.svg'} alt={'play button'} />
-                                        </Button>
-                                    </Box>
-                                </>
-                            </AspectRatio>
-                        </VStack>
-
-                        <Text color="black2" fontSize={'16px'} fontWeight={'400'}>
-                            {videoAnalyticsDetails.filename}
-                        </Text>
-
-                        <Text color={'grey3'} fontSize={'14px'} fontWeight={'400'}>
-                            {videoAnalyticsDetails.league}
-                        </Text>
-
-                        <Box
-                            w={'100%'}
-                            border={'1px solid'}
-                            my={'40px'}
-                            borderColor={'lightWhite'}
-                        />
-
-                        <HStack justifyContent={'flex-start'} alignItems={'flex-start'} w={'100%'}>
-                            <VStack
-                                w={'100%'}
-                                alignItems={'flex-start'}
-                                justifyContent={'flex-start'}>
-                                <Text>Minimap</Text>
-                                {/*<Box>*/}
-                                {/*    <Img src="/images/imgs/mini-map.svg" w="700px" h={'100%'} />*/}
-                                {/*</Box>*/}
+                        {isLoading ? (
+                            <Center my="16">
+                                <Spinner size="xl" />
+                            </Center>
+                        ) : (
+                            <>
+                                <Wrap spacingX={2} w="100%">
+                                    {videoAnalyticsDetails.actions_urls?.map(
+                                        (data: any, index: any) => (
+                                            <WrapItem key={data.name}>
+                                                <Button
+                                                    onClick={() => {
+                                                        setSelectedHighlight(data.name);
+                                                        setVideoUrl(data.video_url);
+                                                        // setShowControl(true);
+                                                    }}
+                                                    bg={
+                                                        selectedHighlight === data.name
+                                                            ? 'black2'
+                                                            : 'white'
+                                                    }
+                                                    color={
+                                                        selectedHighlight === data.name
+                                                            ? 'white'
+                                                            : 'black2'
+                                                    }
+                                                    borderRadius={'40px'}
+                                                    fontSize="xs">
+                                                    {data?.name}
+                                                </Button>
+                                            </WrapItem>
+                                        )
+                                    )}
+                                </Wrap>
+                                {/*<VStack*/}
+                                {/*    h={'850px'}*/}
+                                {/*    justifyContent={'flex-start'}*/}
+                                {/*    borderRadius={'20px'}*/}
+                                {/*    objectFit="cover"*/}
+                                {/*    bg={'red'}*/}
+                                {/*    position={'relative'}>*/}
                                 <AspectRatio
                                     w="100%"
+                                    h={'850px'}
                                     borderRadius={'10px'}
                                     // ratio={3 / 2}
                                     onMouseEnter={() => setShowControl(!showControl)}>
@@ -221,10 +180,11 @@ const Highlights = () => {
                                             className="react-player"
                                             borderRadius={'10px'}
                                             width={'100%'}
-                                            height={'550px'}
-                                            url={videoAnalyticsDetails.minimap}
-                                            // url="https://sonalysis-asset.s3.amazonaws.com/1b091553-463a-4344-b19a-0ff86c77e9c3.mp4"
-                                            playing={isPlayingMini}
+                                            height={'100%'}
+                                            // height={'850px'}
+                                            // url="/manu-match.mp4"
+                                            url={videoUrl || videoAnalyticsDetails.full_video}
+                                            playing={isPlaying}
                                         />
                                         <Box
                                             position={'absolute'}
@@ -237,65 +197,137 @@ const Highlights = () => {
                                             <Button
                                                 bg={'transparent'}
                                                 _hover={{ bg: 'transparent', border: 'none' }}
-                                                onClick={() => setIsPlayingMini(!isPlaying)}>
-                                                <Img src={'/icons/play.svg'} alt={'play button'} />
+                                                onClick={() => setIsPlaying(!isPlaying)}>
+                                                <Img
+                                                    src={'/icons/play-circle.svg'}
+                                                    alt={'play button'}
+                                                />
                                             </Button>
                                         </Box>
                                     </>
                                 </AspectRatio>
-                            </VStack>
-                            <VStack
-                                w={'45%'}
-                                alignItems={'flex-start'}
-                                justifyContent={'flex-start'}>
-                                <Text>All events</Text>
-                                <VStack
+                                {/*</VStack>*/}
+
+                                <Text color="black2" fontSize={'16px'} fontWeight={'400'}>
+                                    {videoAnalyticsDetails.filename}
+                                </Text>
+
+                                <Text color={'grey3'} fontSize={'14px'} fontWeight={'400'}>
+                                    {videoAnalyticsDetails.league}
+                                </Text>
+
+                                <Box
                                     w={'100%'}
+                                    border={'1px solid'}
+                                    my={'40px'}
+                                    borderColor={'lightWhite'}
+                                />
+
+                                <HStack
+                                    flexDirection={{ sm: 'column', md: 'row' }}
+                                    justifyContent={'flex-start'}
                                     alignItems={'flex-start'}
-                                    h={'500px'}
-                                    overflowY={'scroll'}
-                                    justifyContent={'flex-start'}>
-                                    {videoAnalyticsDetails.actions?.map((data: any) => (
-                                        <Stack
-                                            borderRadius="lg"
-                                            w={'100%'}
-                                            // h={{ sm: '10rem', md: '10rem' }}
-                                            direction={{ base: 'row', md: 'row' }}
-                                            bg="lightWhite"
-                                            justifyContent={'flex-start'}
-                                            p={'20px'}
-                                            key={data?.id}>
-                                            {/*<Flex flex={1} w="100px">*/}
-                                            <Box w={'150px'}>
+                                    w={'100%'}>
+                                    <VStack
+                                        w={'100%'}
+                                        alignItems={'flex-start'}
+                                        justifyContent={'flex-start'}>
+                                        <Text>Minimap</Text>
+                                        {/*<Box>*/}
+                                        {/*    <Img src="/images/imgs/mini-map.svg" w="700px" h={'100%'} />*/}
+                                        {/*</Box>*/}
+                                        <AspectRatio
+                                            w="100%"
+                                            borderRadius={'10px'}
+                                            // ratio={3 / 2}
+                                            onMouseEnter={() => setShowControl(!showControl)}>
+                                            <>
+                                                {' '}
                                                 <ReactPlayer
                                                     className="react-player"
-                                                    // url={data.file}
-                                                    url="https://sonalysis-asset.s3.amazonaws.com/1b091553-463a-4344-b19a-0ff86c77e9c3.mp4"
+                                                    borderRadius={'10px'}
                                                     width={'100%'}
-                                                    height={'100%'}
-                                                    // playing={isPlaying}
+                                                    height={'550px'}
+                                                    url={videoAnalyticsDetails.minimap}
+                                                    // url="https://sonalysis-asset.s3.amazonaws.com/1b091553-463a-4344-b19a-0ff86c77e9c3.mp4"
+                                                    playing={isPlaying}
                                                 />
-                                            </Box>
-                                            {/*</Flex>*/}
-                                            <Stack flex={1} flexDirection="column" p={1} pt={2}>
-                                                <Text fontSize={'md'} fontFamily={'body'}>
-                                                    {data.time_seconds}' {data.player}
-                                                </Text>
+                                                {/*<Box*/}
+                                                {/*    position={'absolute'}*/}
+                                                {/*    top={0}*/}
+                                                {/*    bottom={0}*/}
+                                                {/*    right={0}*/}
+                                                {/*    left={0}*/}
+                                                {/*    visibility={showControl ? 'visible' : 'hidden'}>*/}
+                                                {/*    {' '}*/}
+                                                {/*    <Button*/}
+                                                {/*        bg={'transparent'}*/}
+                                                {/*        _hover={{ bg: 'transparent', border: 'none' }}*/}
+                                                {/*        onClick={() => setIsPlaying(!isPlaying)}>*/}
+                                                {/*        <Img src={'/icons/play.svg'} alt={'play button'} />*/}
+                                                {/*    </Button>*/}
+                                                {/*</Box>*/}
+                                            </>
+                                        </AspectRatio>
+                                    </VStack>
+                                    <VStack
+                                        w={{ sm: '100%', md: '45%' }}
+                                        alignItems={'flex-start'}
+                                        justifyContent={'flex-start'}>
+                                        <Text>All events</Text>
+                                        <VStack
+                                            w={'100%'}
+                                            alignItems={'flex-start'}
+                                            h={'500px'}
+                                            overflowY={'scroll'}
+                                            justifyContent={'flex-start'}>
+                                            {videoAnalyticsDetails.actions?.map((data: any) => (
                                                 <Stack
-                                                    direction={'row'}
-                                                    spacing={2}
-                                                    fontSize={'sm'}
-                                                    alignItems="center">
-                                                    <Text borderRadius="lg" p={1}>
-                                                        {data.actiontype}
-                                                    </Text>
+                                                    borderRadius="lg"
+                                                    w={'100%'}
+                                                    // h={{ sm: '10rem', md: '10rem' }}
+                                                    direction={{ base: 'row', md: 'row' }}
+                                                    bg="lightWhite"
+                                                    justifyContent={'flex-start'}
+                                                    p={'20px'}
+                                                    key={data?.id}>
+                                                    {/*<Flex flex={1} w="100px">*/}
+                                                    <Box w={'150px'}>
+                                                        <ReactPlayer
+                                                            className="react-player"
+                                                            // url={data.file}
+                                                            url="https://sonalysis-asset.s3.amazonaws.com/1b091553-463a-4344-b19a-0ff86c77e9c3.mp4"
+                                                            width={'100%'}
+                                                            height={'100%'}
+                                                            // playing={isPlaying}
+                                                        />
+                                                    </Box>
+                                                    {/*</Flex>*/}
+                                                    <Stack
+                                                        flex={1}
+                                                        flexDirection="column"
+                                                        p={1}
+                                                        pt={2}>
+                                                        <Text fontSize={'md'} fontFamily={'body'}>
+                                                            {data.time_seconds}' {data.player}
+                                                        </Text>
+                                                        <Stack
+                                                            direction={'row'}
+                                                            spacing={2}
+                                                            fontSize={'sm'}
+                                                            alignItems="center">
+                                                            <Text borderRadius="lg" p={1}>
+                                                                {data.actiontype}
+                                                            </Text>
+                                                        </Stack>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </Stack>
-                                    ))}
-                                </VStack>
-                            </VStack>
-                        </HStack>
+                                            ))}
+                                        </VStack>
+                                    </VStack>
+                                </HStack>
+                            </>
+                        )}
                     </>
                 )}
                 {tab === 2 && <MatchStats />}

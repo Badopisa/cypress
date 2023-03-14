@@ -24,12 +24,13 @@ import {
 import Video from '@/components/Analytics/Video';
 import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { getAnalytics, getVideoAnalytics } from '@/store/actions/analyticsAction';
+import { getAnalytics, getTeamLogos, getVideoAnalytics } from '@/store/actions/analyticsAction';
 import moment from 'moment';
 import BlankTeam from '@/components/Team/BlankTeam';
 import { useRouter } from 'next/router';
 import VerifyTeam from '@/components/Analytics/VerifyTeam';
 import AnalysisProgressModal from '@/components/Analytics/AnalysisProgressModal';
+
 
 const AllVideoAnalytics = () => {
     const { allVideoAnalytics } = useSelector((state: RootStateOrAny) => state.analytics);
@@ -42,9 +43,14 @@ const AllVideoAnalytics = () => {
 
     const handleOpenVideoAnalytics = (data: any) => {
         if (data?.first_view < 1) {
+            console.log('video analysed', data);
             onOpen();
+            dispatch(getTeamLogos(data?.id, toast));
+            dispatch(getVideoAnalytics(data?.id, toast));
             return;
         }
+        console.log('video analysed', data);
+        dispatch(getTeamLogos(data?.id, toast));
         dispatch(getVideoAnalytics(data?.id, toast));
         router.push('/dashboard/analytics/highlights');
     };

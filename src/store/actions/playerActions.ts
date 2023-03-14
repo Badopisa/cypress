@@ -74,6 +74,7 @@ export const createAndAddPlayerToTeam = (
                     type: 'success',
                     message: 'Congratulations, Player successfully created'
                 });
+                dispatch(getAllPlayers(payload.club_id));
 
                 console.log('addPlayerToClubPayload', addPlayerToClubPayload);
                 AddPlayersToTeam(addPlayerToClubPayload)
@@ -187,7 +188,9 @@ export const removePlayerFromTeam = (
     team_id: string,
     club_id: any,
     toast: any,
-    onClose: any
+    onClose: any,
+    screen: any = false,
+    router: any
 ) => {
     return async (dispatch: Dispatch) => {
         const removePlayerFromClubPayload = {
@@ -210,6 +213,9 @@ export const removePlayerFromTeam = (
                 dispatch(fetchTeams(club_id));
                 onClose(false);
                 // setSeleced(true)
+                if (screen) {
+                    router.back();
+                }
                 dispatch(updateIsLoading(false));
             })
             .catch((err) => {

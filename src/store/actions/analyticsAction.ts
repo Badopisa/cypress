@@ -1,7 +1,12 @@
 import { updateAlertMsg, updateIsLoading, updateMessage } from '@/store/actions/msgAction';
 import * as Redux from 'redux';
 import { AnalyticsDataType } from '@/types/analyticsDataType';
-import { AllUserAnalytics, VideoAnalyticsDetails } from '@/services/analyticsService';
+import {
+    AllUserAnalytics,
+    TeamLogos,
+    VerifyTeam,
+    VideoAnalyticsDetails
+} from '@/services/analyticsService';
 import * as actionTypes from '@/store/actions/actionTypes';
 import { UploadImage, UploadLink, UploadVideo } from '@/services/uploadService';
 import { createMultiplePlayers } from '@/store/actions/playerActions';
@@ -56,6 +61,63 @@ export const getVideoAnalytics = (payload: string, toast: any) => {
                 });
 
                 dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+export const getTeamLogos = (payload: string, toast: any) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(updateIsLoading(true));
+
+        TeamLogos(payload)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('analytics details', data);
+                // updateAlertMsg(toast, { type: 'success', message: 'Success' });
+                dispatch(updateIsLoading(false));
+                // dispatch(saveAnalytics(data.data));
+                dispatch(saveTeamLogos(data.data));
+            })
+            .catch((err) => {
+                updateAlertMsg(toast, {
+                    type: 'error',
+                    message: err?.message || 'Something went wrong, try again'
+                });
+
+                dispatch(updateIsLoading(false));
+            });
+    };
+};
+
+export const sendTeamVerification = (
+    payload: any,
+    id: string,
+    router: any,
+    toast: any,
+    close: any,
+    setLoading: any
+) => {
+    return async (dispatch: Dispatch) => {
+        setLoading(true);
+
+        VerifyTeam(payload, id)
+            .then(async (result) => {
+                const { data } = result;
+                console.log('analytics details', data);
+                // updateAlertMsg(toast, { type: 'success', message: 'Success' });
+                setLoading(false);
+                router.push('/dashboard/analytics/highlights');
+                close();
+                // dispatch(saveAnalytics(data.data));
+                // dispatch(saveTeamLogos(data.data));
+            })
+            .catch((err) => {
+                updateAlertMsg(toast, {
+                    type: 'error',
+                    message: err?.message || 'Something went wrong, try again'
+                });
+
+                setLoading(false);
             });
     };
 };
@@ -160,6 +222,13 @@ export function saveUploadUrl(data: any): any {
 function saveAnalyticsDetails(data: any): any {
     return {
         type: actionTypes.SAVE_VIDEO_ANALYTICS_DETAILS,
+        payload: data
+    };
+}
+
+function saveTeamLogos(data: any): any {
+    return {
+        type: actionTypes.SAVE_TEAM_LOGOS,
         payload: data
     };
 }

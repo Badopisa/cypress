@@ -76,7 +76,7 @@ const NewPlayer = ({ isOpen, onClose }: NewPlayerType) => {
                 teamId,
                 toast,
                 onClose,
-                setSelected
+                setSelected,
             )
         );
     };

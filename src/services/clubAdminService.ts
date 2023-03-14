@@ -65,6 +65,14 @@ export const VerifyEmail = (payload: any) => {
     return http.postData(payload, url, false);
 };
 
+export const EmailExist = (payload: any) => {
+    const http = new HttpService();
+
+    const url = `users/email-exist`;
+
+    return http.postData(payload, url, false);
+};
+
 export const VerifyEmailToken = (payload: any) => {
     const http = new HttpService();
 

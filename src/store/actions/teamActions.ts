@@ -73,7 +73,7 @@ export const uploadFileAndCreateMultiplePlayers = (
 
 export const uploadPictureAndCreateTeam = (
     payload: TeamFormType,
-    profilePicture: File,
+    profilePicture: File | null,
     toast: any,
     router: any
 ) => {
@@ -176,7 +176,7 @@ export const getTeamDetails = (teamID: string, toast: any) => {
     };
 };
 
-export const getAllPlayers = (clubId: string) => {
+export const getAllPlayers = (clubId: string | undefined) => {
     return async (dispatch: Dispatch) => {
         GetPlayersForClub(clubId)
             .then((result) => {

@@ -18,22 +18,39 @@ import {
     useToast,
     Center,
     Spinner,
-    Grid
+    Grid,
+    useDisclosure
 } from '@chakra-ui/react';
 import Video from '@/components/Analytics/Video';
 import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { getAnalytics } from '@/store/actions/analyticsAction';
+import { getAnalytics, getTeamLogos, getVideoAnalytics } from '@/store/actions/analyticsAction';
 import moment from 'moment';
 import BlankTeam from '@/components/Team/BlankTeam';
 import { useRouter } from 'next/router';
+import VerifyTeam from '@/components/Analytics/VerifyTeam';
+import AnalysisProgressModal from '@/components/Analytics/AnalysisProgressModal';
 
 const CompletedVideoAnalytics = () => {
     const { allVideoAnalytics } = useSelector((state: RootStateOrAny) => state.analytics);
     const { isLoading } = useSelector((state: RootStateOrAny) => state.msg);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen: open, onOpen: willOpen, onClose: willClose } = useDisclosure();
     const router = useRouter();
+    const toast = useToast();
+    const dispatch = useDispatch();
 
-    const handleOpenVideoAnalytics = () => {
+    const handleOpenVideoAnalytics = (data: any) => {
+        if (data?.first_view < 1) {
+            console.log('video analysed', data);
+            onOpen();
+            dispatch(getTeamLogos(data?.id, toast));
+            dispatch(getVideoAnalytics(data?.id, toast));
+            return;
+        }
+        console.log('video analysed', data);
+        dispatch(getTeamLogos(data?.id, toast));
+        dispatch(getVideoAnalytics(data?.id, toast));
         router.push('/dashboard/analytics/highlights');
     };
 
@@ -119,14 +136,19 @@ const CompletedVideoAnalytics = () => {
                                                 <Td border={'none'}>
                                                     {data?.analysed > 0 ? (
                                                         <Button
-                                                            onClick={handleOpenVideoAnalytics}
+                                                            onClick={() =>
+                                                                handleOpenVideoAnalytics(data)
+                                                            }
                                                             variant="text"
                                                             fontSize={'16px'}
                                                             fontWeight={'400'}>
                                                             View analytics
                                                         </Button>
                                                     ) : (
-                                                        <VStack w={'70%'}>
+                                                        <VStack
+                                                            onClick={willOpen}
+                                                            cursor={'pointer'}
+                                                            w={'70%'}>
                                                             <HStack
                                                                 justifyContent={'space-between'}
                                                                 w={'full'}>
@@ -207,11 +229,15 @@ const CompletedVideoAnalytics = () => {
                     bg="white">
                     <VStack spacing={6} px={{ base: 4, md: 8 }}>
                         <Img src="/images/icons/empty-file.svg" alt="empty file" />
-                        <Text fontWeight={'700'} fontSize={'20px'}>No videos uploaded yet</Text>
-                        <Text mt="1rem">Completely analysed videos will appear here</Text>
+                        <Text fontWeight={'700'} fontSize={'20px'}>
+                            No videos uploaded yet
+                        </Text>
+                        <Text mt="1rem">Analysed videos will appear here</Text>
                     </VStack>
                 </Grid>
             )}
+            <VerifyTeam isOpen={isOpen} onClose={onClose} />
+            <AnalysisProgressModal isOpen={open} onClose={willClose} />
         </>
     );
 };

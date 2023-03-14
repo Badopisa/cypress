@@ -20,6 +20,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import Confirmation from '@/components/Team/Modal/Confirmation';
 import { removeStaffFromTeam, saveNewStaffData } from '@/store/actions/staffActions';
 import EditStaffDetails from '@/components/Team/Modal/EditStaffDetails';
+import { useRouter } from 'next/router';
 
 const PlayerCard = ({
     id,
@@ -47,7 +48,7 @@ const PlayerCard = ({
     status?: string;
     image?: string;
     team?: string;
-    click: () => void;
+    click?: () => void;
 }) => {
     const [editPlayer, setEditPlayer] = useState<boolean>(false);
     const [select, setSelected] = useState<boolean>(false);
@@ -58,6 +59,7 @@ const PlayerCard = ({
     );
     const toast = useToast();
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const handleDeletePlayer = () => {
         setLoading(true);
@@ -74,7 +76,7 @@ const PlayerCard = ({
             );
             return;
         }
-        dispatch(removePlayerFromTeam(id, teamId, clubId, toast, setLoading));
+        dispatch(removePlayerFromTeam(id, teamId, clubId, toast, setLoading, false, router));
     };
 
     return (
@@ -94,7 +96,9 @@ const PlayerCard = ({
                 rounded={10}
                 py={{ base: 6, md: '20px' }}
                 onClick={() => {
-                    click();
+                    if (click) {
+                        click();
+                    }
                     if (job === 'staff') {
                         setEditPlayer(true);
                     }

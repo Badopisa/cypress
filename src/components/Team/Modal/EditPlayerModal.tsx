@@ -16,6 +16,7 @@ import EditPlayerDetails from './EditPlayerDetails';
 import Confirmation from './Confirmation';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { removePlayerFromTeam } from '@/store/actions/playerActions';
+import { useRouter } from 'next/router';
 
 type ManagePlayerType = {
     isOpen: boolean;
@@ -52,6 +53,7 @@ const ManagePlayerModal = ({
     );
     const dispatch = useDispatch();
     const toast = useToast();
+    const router = useRouter();
 
     const handleCreatePlayer = () => {
         setCreatePlayer?.(true);
@@ -68,7 +70,7 @@ const ManagePlayerModal = ({
     };
     const handleDeletePlayer = () => {
         dispatch(
-            removePlayerFromTeam(newPlayer.id, currentTeam.id, newPlayer.club_id, toast, onClose)
+            removePlayerFromTeam(newPlayer.id, currentTeam.id, newPlayer.club_id, toast, onClose, true, router)
         );
     };
 
